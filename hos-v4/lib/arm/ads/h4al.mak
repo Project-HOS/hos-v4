@@ -79,7 +79,8 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
        madd_que.o madf_que.o madp_que.o mrmv_que.o \
-       mrot_que.o mtic_tmo.o madd_tmo.o mrmv_tmo.o \
+       mrot_que.o mclr_que.o \
+       mtic_tmo.o madd_tmo.o mrmv_tmo.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
        ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
        act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
@@ -114,7 +115,8 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
 
 # ライブラリ生成
 $(TARGET): $(OBJS)
-	$(LIBR) -c $(TARGET) $(OBJS)
+	$(LIBR) -create $(TARGET) $(OBJS)
+	del $(OBJS)
 
 
 # プロセッサ依存
@@ -204,6 +206,9 @@ mrmv_que.o: $(MKNLQUEDIR)\mrmv_que.c $(INCS)
 
 mrot_que.o: $(MKNLQUEDIR)\mrot_que.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mrot_que.c
+
+mclr_que.o: $(MKNLQUEDIR)\mclr_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mclr_que.c
 
 
 # μカーネル タイムアウトキュー管理

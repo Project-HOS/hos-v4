@@ -1,5 +1,5 @@
 INPUT   crt0,vector,sample,ostimer,h8_sci,kernel_cfg
-LIBRARY ..\..\lib\h83\htc\h4h83aki
+LIBRARY ..\..\lib\h83\htc\h4h83akiC:\Hew2\Tools\Hitachi\H8\5_0_0\bin
 FORM    STYPE
 DEFINE  STACK=220000
 OUTPUT  sample.mot
