@@ -19,18 +19,19 @@
 # ご使用ください。
 
 
-
+# パス定義
 INCH8DIR   = \akih8c
-INCDIR     = ..\..\include
-
-PACDIR     = ..\..\src\h83
-PACASMDIR  = ..\..\src\h83\htc
-MKNLDIR    = ..\..\src\mknl
+HOSROOT    = ..\..\..
+INCDIR     = $(HOSROOT)\include
+SRCDIR     = $(HOSROOT)\src
+PACDIR     = $(SRCDIR)\h83
+PACASMDIR  = $(SRCDIR)\h83\htc
+KERNELDIR  = $(SRCDIR)\kernel
+MKNLDIR    = $(SRCDIR)\mknl
 MKNLSYSDIR = $(MKNLDIR)\sys
 MKNLTSKDIR = $(MKNLDIR)\tsk
 MKNLQUEDIR = $(MKNLDIR)\que
 MKNLTMODIR = $(MKNLDIR)\tmout
-KERNELDIR  = ..\..\src\kernel
 KNLHOSDIR  = $(KERNELDIR)\hos
 KNLMEMDIR  = $(KERNELDIR)\mem
 KNLTSKDIR  = $(KERNELDIR)\tsk

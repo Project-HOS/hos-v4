@@ -15,8 +15,9 @@
 
 # パス
 INCH8DIR = \akih8c			# Cコンパイラの設定にあわせて書き換えてください
-INCDIR   = ..\..\include
-LIBDIR   = ..\..\lib\h8
+HOSROOT  = ..\..
+INCDIR   = $(HOSROOT)\include
+LIBDIR   = $(HOSROOT)\lib\h83\akih8
 
 
 # ツール
