@@ -40,8 +40,9 @@ OBJS = hos4cfg.o \
        defercd.o \
        defexc.o \
        deftex.o \
+       idlstk.o \
+       intstk.o \
        knlheap.o \
-       maxtmout.o \
        maxtpri.o \
        parpack.o \
        read.o \
@@ -51,7 +52,7 @@ OBJS = hos4cfg.o \
 
 # ターゲット生成
 $(TARGET): $(OBJS)
-	$(LINK) $(OBJS) -o hos4cfg
+	$(LINK) $(OBJS) -o $(TARGET)
 
 clean:
 	rm -f $(TARGET) $(TARGET).exe $(OBJS)
