@@ -98,6 +98,8 @@ void CApiCreMbx::WriteId(FILE* fp)
 // cfgファイル定義部書き出し
 void  CApiCreMbx::WriteCfgDef(FILE* fp)
 {
+	const char* pszParam;
+	bool blOutput;
 	int  i, j;
 
 	// コメント出力
@@ -107,6 +109,27 @@ void  CApiCreMbx::WriteCfgDef(FILE* fp)
 		"/*         create mail box objects            */\n"
 		"/* ------------------------------------------ */\n"
 		, fp);
+
+	// 優先度別のメッセージキューヘッダの領域
+	blOutput = false;
+	for ( i = 0; i < m_iObjs; i++ )
+	{
+		pszParam = m_pParamPacks[i]->GetParam(CREMBX_MPRIHD);
+		if ( strcmp(pszParam, "NULL") == 0 )
+		{
+			if ( !blOutput )
+			{
+				fputs("\n/* message priority que header area */\n", fp);
+				blOutput = true;
+			}
+
+			fprintf(
+				fp,
+				"static UB kernel_mbx%d_mprihd[TSZ_MPRIHD(%s)];\n",
+				m_iId[i],
+				m_pParamPacks[i]->GetParam(CREMBX_MAXPRI));
+		}
+	}
 
 	if ( m_iObjs > 0 )
 	{
@@ -122,8 +145,26 @@ void  CApiCreMbx::WriteCfgDef(FILE* fp)
 		{
 			fprintf(
 				fp,
-				"\t\t{(ATR)(%s)},",
-				m_pParamPacks[i]->GetParam(CREMBX_MBXATR));
+				"\t\t{(ATR)(%s), (PRI)(%s), ",
+				m_pParamPacks[i]->GetParam(CREMBX_MBXATR),
+				m_pParamPacks[i]->GetParam(CREMBX_MAXPRI));
+			
+			pszParam = m_pParamPacks[i]->GetParam(CREMBX_MPRIHD);
+			if ( strcmp(pszParam, "NULL") == 0 )
+			{
+				fprintf(
+					fp,
+					"(VP)kernel_mbx%d_mprihd},\n",
+					m_iId[i]);
+			}
+			else
+			{
+				fprintf(
+					fp,
+					"(VP)(%s)},\n",
+					m_pParamPacks[i]->GetParam(CREMBX_MAXPRI));
+			}
+
 		}
 		fprintf(fp, "\t};\n");
 	}

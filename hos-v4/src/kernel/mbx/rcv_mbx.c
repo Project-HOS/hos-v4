@@ -15,9 +15,12 @@ ER rcv_mbx(
 		ID    mbxid,		/* 受信対象のメールボックスのID番号 */
 		T_MSG **pk_msg)		/* メールボックスから受信したメッセージパケットの先頭番地 */
 {
-	T_KERNEL_MBXCB_RAM *mbxcb_ram;
+	const T_KERNEL_MBXCB_ROM *mbxcb_rom;
+	T_KERNEL_MBXCB_RAM       *mbxcb_ram;
 	T_MKNL_TCB *mtcb;
-	ER ercd;
+	T_MSG *msg;
+	PRI   msgpri;
+	ER    ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
@@ -49,11 +52,31 @@ ER rcv_mbx(
 	}
 #endif
 
-	if ( mbxcb_ram->msg != NULL )
+	mbxcb_rom = mbxcb_ram->mbxcb_rom;
+	
+	/* メッセージを優先度順に検索 */
+	for ( msgpri = 0; msgpri <= mbxcb_rom->maxmpri - TMIN_MPRI; msgpri++ )
+	{
+		if ( mbxcb_rom->mprihd[msgpri] != NULL )
+		{
+			break;
+		}
+	}
+
+	if ( msgpri <= mbxcb_rom->maxmpri - TMIN_MPRI )
 	{
 		/* メールボックスにデータがあれば取り出す */
-		*pk_msg = mbxcb_ram->msg;
-		mbxcb_ram->msg = mbxcb_ram->msg->next;
+		msg = mbxcb_rom->mprihd[msgpri];
+		if ( msg == msg->next )		/* 最後の１つなら */
+		{
+			*pk_msg                   = msg;
+			mbxcb_rom->mprihd[msgpri] = NULL;
+		}
+		else
+		{
+			*pk_msg   = msg->next;
+			msg->next = msg->next->next;
+		}
 		ercd = E_OK;	/* 成功 */
 	}
 	else

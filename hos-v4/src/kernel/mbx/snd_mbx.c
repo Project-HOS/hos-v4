@@ -15,10 +15,11 @@ ER snd_mbx(
 		ID    mbxid,		/* 送信対象のメールボックスのID番号 */
 		T_MSG *pk_msg)		/* メールボックスへ送信するメッセージパケットの先頭番地 */
 {
-	T_KERNEL_MBXCB_RAM *mbxcb_ram;
+	const T_KERNEL_MBXCB_ROM *mbxcb_rom;
+	T_KERNEL_MBXCB_RAM       *mbxcb_ram;
 	T_MKNL_TCB *mtcb;
 	T_MSG      *msg;
-	T_MSG      *msg_next;
+	PRI        msgpri;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
@@ -57,43 +58,29 @@ ER snd_mbx(
 	else
 	{
 		/* 待ちタスクがなければメールボックスに接続 */
-		if ( mbxcb_ram->msg == NULL )
+		mbxcb_rom = mbxcb_ram->mbxcb_rom;
+		if ( mbxcb_rom->mbxatr & TA_MPRI )	/* 優先度順なら */
 		{
-			/* メッセージが空なら先頭に接続 */
-			mbxcb_ram->msg = pk_msg;
-			pk_msg->next   = NULL;
+			msgpri = (PRI)(((T_MSG_PRI*)pk_msg)->msgpri - TMIN_MPRI);
 		}
 		else
 		{
-			msg = mbxcb_ram->msg;
-			if ( mbxcb_ram->mbxcb_rom->mbxatr & TA_MPRI )
-			{
-				/* 優先度位置を検索 */
-				for ( ; ; )
-				{
-					msg_next = msg->next;
-					if ( msg_next == NULL
-						|| ((T_MSG_PRI*)msg_next)->msgpri > ((T_MSG_PRI*)pk_msg)->msgpri )
-					{
-						/* 優先度位置に挿入 */
-						msg->next    = pk_msg;
-						pk_msg->next = msg_next;
-						break;
-					}
-					msg = msg_next;
-				}
-			}
-			else
-			{
-				/* 末尾を検索 */
-				while ( msg->next != NULL )
-				{
-					msg = msg->next;
-				}
-				/* 末尾に追加 */
-				msg->next    = pk_msg;
-				pk_msg->next = NULL;
-			}
+			msgpri = 0;
+		}
+
+		if ( mbxcb_rom->mprihd[msgpri] == NULL )
+		{
+			/* 最初の１個の登録 */
+			mbxcb_rom->mprihd[msgpri] = pk_msg;
+			pk_msg->next              = pk_msg;
+		}
+		else
+		{
+			/* 末尾に追加 */
+			msg                       = mbxcb_rom->mprihd[msgpri];
+			pk_msg->next              = msg->next;
+			msg->next                 = pk_msg;
+			mbxcb_rom->mprihd[msgpri] = pk_msg;
 		}
 	}
 

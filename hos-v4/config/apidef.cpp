@@ -92,7 +92,7 @@ int CApiDef::AddParams(const char* pszParams)
 
 			// ブロック内読み出し
 			const char* pszParamBlock = szParamBlock;
-			for ( j = 0; j < m_iParamSyntax[i]; j++ )
+			for ( j = 0; j < m_iParamSyntax[i] + 1; j++ )
 			{
 				// 単独パラメーター切り出し
 				iErr = CAnalize::GetParameter(szParam, pszParamBlock);
@@ -103,11 +103,20 @@ int CApiDef::AddParams(const char* pszParams)
 
 				// パラメーター追加
 				CAnalize::SpaceCut(szParam);
+				if ( szParam[0] == '\0')
+				{
+					break;
+				}
 				m_pParamPacks[m_iObjs]->SetParam(iIndex++, szParam);
+			}
+			if ( iErr != CFG_ERR_OK )
+			{
+				iErr = CFG_ERR_SYNTAX;
+				break;
 			}
 			if ( j != m_iParamSyntax[i] )
 			{
-				iErr = CFG_ERR_SYNTAX;
+				iErr = CFG_ERR_PARAM;
 				break;
 			}
 		}

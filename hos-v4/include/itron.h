@@ -50,10 +50,12 @@ typedef UW		RELTIM;		/* 相対時間 */
 typedef struct t_systim		/* システム時刻 */
 {
 	UW ltime;				/* 下位 32bit */
-	H  utime;				/* 上位 16bit */
+	UH utime;				/* 上位 16bit */
 } SYSTIM;
 
 typedef VP		VP_INT;		/* VP または INT */
+
+typedef ER		ER_BOOL;	/* ER または BOOL */
 
 typedef W		ER_UINT;	/* ER または UINT */
 

@@ -26,7 +26,11 @@
 
 /* 優先度の範囲 */
 #define TMIN_MPRI		1					/* メッセージ優先度の最小値 */
-#define TMAX_MPRI		65535				/* メッセージ優先度の最大値 */
+#define TMAX_MPRI		255					/* メッセージ優先度の最大値 */
+
+/* 必要なメモリ領域のサイズ */
+#define TSZ_MPRIHD(maxmpri)		(sizeof(PRI *) * ((maxmpri) - TMIN_MPRI + 1))
+											/* 優先度別キューヘッダのメモリ領域のサイズ */
 
 
 
@@ -53,7 +57,7 @@ typedef struct t_cmbx
 {
 	ATR   mbxatr;		/* メールボックス属性 */
 	PRI   maxmpri;		/* 送信されるメッセージの優先度の最大値 */
-	PRI   mprihd;		/* 優先度別のメッセージキューヘッダ領域の先頭番地 */
+	VP    mprihd;		/* 優先度別のメッセージキューヘッダ領域の先頭番地 */
 } T_CMBX;
 
 
@@ -61,13 +65,14 @@ typedef struct t_cmbx
 typedef struct t_kernel_mbxcb_rom
 {
 	ATR   mbxatr;		/* メールボックス属性 */
+	PRI   maxmpri;		/* 送信されるメッセージの優先度の最大値 */
+	T_MSG **mprihd;		/* 優先度別のメッセージキューヘッダ領域の先頭番地 */
 } T_KERNEL_MBXCB_ROM;
 
 /* メールボックスコントロールブロック(RAM部) */
 typedef struct t_kernel_mbxcb_ram
 {
-	T_MKNL_QUE que;			/* メールボックス待ちタスクキュー */
-	T_MSG      *msg;		/* メッセージの先頭番地 */
+	T_MKNL_QUE que;							/* メールボックス待ちタスクキュー */
 	const T_KERNEL_MBXCB_ROM *mbxcb_rom;	/* メールボックスコントロールブロックROM部へのポインタ */
 } T_KERNEL_MBXCB_RAM;
 
