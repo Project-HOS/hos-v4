@@ -71,7 +71,7 @@ void  CApiMaxTpri::WriteCfgDef(FILE* fp)
 		"/* ------------------------------------------ */\n"
 		"\n"
 		"T_MKNL_QUE mknl_rdq_tbl[%d];\n"
-		"const INT mknl_rdq_cnt = %d;\n",
+		"const INT  mknl_rdq_cnt = %d;\n",
 		m_iMaxPri,
 		m_iMaxPri);
 }

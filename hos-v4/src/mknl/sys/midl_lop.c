@@ -16,6 +16,7 @@ void mknl_idl_loop(void)
 {
 	for ( ; ; )
 	{
+		hospac_idle();
 	}
 }
 

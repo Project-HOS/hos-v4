@@ -32,7 +32,6 @@
 typedef struct t_hos_pac_ctxinf
 {
 	HANDLE hThread;			/* スレッドハンドル */
-	DWORD  dwThreadId;		/* スレッドID */
 } T_HOSPAC_CTXINF;
 
 

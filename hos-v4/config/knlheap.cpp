@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //  Hyper Operating System V4  コンフィギュレーター                           
-//    ATT_ISR API の処理                                                      
+//    HOS_KERNEL_HEAP API の処理                                              
 //                                                                            
 //                                    Copyright (C) 1998-2002 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     

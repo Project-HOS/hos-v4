@@ -91,9 +91,10 @@ extern "C" {
 extern STAT            mknl_ctx_stat;		/* システムのコンテキスト状態 */
 extern T_MKNL_TCB      *mknl_run_mtcb;		/* 実行中タスクコントロールブロック */
 
+/* アイドルループ管理 */
 extern T_HOSPAC_CTXINF mknl_idlctx;			/* アイドルループのコンテキスト */
 extern const VP        mknl_idl_stk;		/* アイドルループのスタック */
-extern const SIZE      mknl_idl_stksz;		/* アイドルループのスタック */
+extern const SIZE      mknl_idl_stksz;		/* アイドルループのスタックサイズ */
 
 /* タスク管理 */
 extern T_MKNL_QUE      mknl_rdq_tbl[];		/* レディーキューテーブル */

@@ -39,8 +39,9 @@ OBJS = hos4cfg.obj \
        defercd.obj \
        defexc.obj \
        deftex.obj \
+       idlstk.obj \
+       intstk.obj \
        knlheap.obj \
-       maxtmout.obj \
        maxtpri.obj \
        parpack.obj \
        read.obj \

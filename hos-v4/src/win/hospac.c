@@ -12,19 +12,14 @@
 #include "hospac.h"
 
 
-#define WM_RUN_TASK		(WM_USER + 1)
 
-
-DWORD WINAPI TaskEntry(LPVOID param);
-
-
-/* スレッド起動データ */
-typedef struct t_task_start
+/* タスク情報 */
+typedef struct t_TaskInfo
 {
-	HANDLE hEvent;
-	FP     task;
-	VP_INT exinf;
-} T_TASK_START;
+	VP_INT exinf;			/* タスクの実行時パラメータ */
+	FP     task;			/* タスクの起動番地 */
+} T_TaskInfo;
+
 
 /* スレッド削除用リスト */
 typedef struct t_hospac_dellist
@@ -32,6 +27,10 @@ typedef struct t_hospac_dellist
 	HANDLE hThread;					/* 削除するスレッドハンドル */
 	struct t_hospac_dellist *next;	/* 次の削除リスト */
 } T_HOSPAC_DELLIST;
+
+
+
+DWORD WINAPI TaskEntry(LPVOID param);	/* スレッドの開始関数 */
 
 
 
@@ -62,40 +61,38 @@ void hospac_dis_int(void)
 }
 
 
-
 /* 実行コンテキストの作成 */
 void hospac_cre_ctx(
 		T_HOSPAC_CTXINF *pk_ctxinf,		/* コンテキストを作成するアドレス */
-		VP_INT exinf,					/* タスクの実行時パラメータ */
-		FP    task,						/* タスクの起動番地 */
-		SIZE  stksz,					/* スタック領域のサイズ */
-		VP    stk)						/* スタック領域の先頭番地 */
+		VP_INT          exinf,			/* タスクの実行時パラメータ */
+		FP              task,			/* タスクの起動番地 */
+		SIZE            stksz,			/* スタック領域のサイズ */
+		VP              stk)			/* スタック領域の先頭番地 */
 {
-	T_TASK_START taskinf;
+	T_TaskInfo *pInfo;
+	DWORD      dwThreadId;
 
-	taskinf.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	taskinf.task   = task;
-	taskinf.exinf  = exinf;
+	/* タスク情報を格納 */
+	pInfo = (T_TaskInfo *)GlobalAlloc(GMEM_FIXED, sizeof(T_TaskInfo));
+	pInfo->task  = task;
+	pInfo->exinf = exinf;
 
+	/* スレッドをサスペンド状態で生成 */
 	pk_ctxinf->hThread = CreateThread(NULL, 0, TaskEntry,
-								(LPVOID)&taskinf, 0, &pk_ctxinf->dwThreadId);
-	WaitForSingleObject(taskinf.hEvent, INFINITE);
+								(LPVOID)&pInfo, CREATE_SUSPENDED, &dwThreadId);
 }
 
 
+/* スレッドの開始関数 */
 DWORD WINAPI TaskEntry(LPVOID param)
 {
-	T_TASK_START taskinf;
-	MSG msg;
+	T_TaskInfo Info;
 
-	taskinf = *(T_TASK_START *)param;
+	Info = *(T_TaskInfo *)param;
 
-	PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE);
-	SetEvent(taskinf.hEvent);
+	GlobalFree((HGLOBAL)param);
 
-	GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
-
-	taskinf.task(taskinf.exinf);
+	Info.task(Info.exinf);
 
 	return 0;
 }
@@ -130,24 +127,36 @@ void hospac_swi_ctx(
 {
 	T_HOSPAC_DELLIST *pDelList;
 	T_HOSPAC_DELLIST *pDelListTmp;
-	MSG msg;
-
-	/* 初回のアイドルからの起動ならスレッドハンドルを作成 */
-	if ( pk_pre_ctxinf->hThread == NULL )
-	{
-		HANDLE hProcess;
-		hProcess = GetCurrentProcess();
-		DuplicateHandle(hProcess, GetCurrentThread(), hProcess,
-					&pk_pre_ctxinf->hThread, 0, TRUE, DUPLICATE_SAME_ACCESS);
-		pk_pre_ctxinf->dwThreadId = GetCurrentThreadId();
-	}
+	DWORD dwCount;
 	
 	/* スレッドが異なれば切り替える */
 	if ( pk_nxt_ctxinf != pk_pre_ctxinf )
 	{
-		/* 新たなスレッドに実行を切り替える */
-		PostThreadMessage(pk_nxt_ctxinf->dwThreadId, WM_RUN_TASK, 0, 0);
-		GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
+		/* 切り替え対象がサスペンド中であることを確認 */
+		for ( ; ; )
+		{
+			/* サスペンドカウンタを得る為にサスペンドさせてみる */
+			while ( (dwCount = SuspendThread(pk_nxt_ctxinf->hThread)) == 0xffffffff )
+			{
+				Sleep(0);
+			}
+			ResumeThread(pk_nxt_ctxinf->hThread);
+			
+			/* カウンタが1でなければサスペンドしている */
+			if ( dwCount > 1 )
+			{
+				break;
+			}
+
+			/* サスペンド完了まで待つ */
+			Sleep(1);
+		}
+
+		/* 切り替え先のスレッドを起こす */
+		ResumeThread(pk_nxt_ctxinf->hThread);
+
+		/* 自分自身をサスペンドさせる */
+		SuspendThread( GetCurrendT
 	}
 
 	/* 削除リストにスレッドがあればこのタイミングで削除 */

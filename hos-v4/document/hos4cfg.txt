@@ -47,10 +47,10 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
     CRE_MPF, CRE_CYC, ATT_ISR, ATT_INI, INCLUDE
 
   HOS-V4 独自 API
-    HOS_KERNEL_HEAP, HOS_MAX_TPRI, HOS_TIM_TIC,  HOS_MIN_INTNO,
-    HOS_MAX_INTNO, HOS_MAX_TSKID, HOS_MAX_SEMID, HOS_MAX_FLGID,
-    HOS_MAX_DTQID, HOS_MAX_MBFID, HOS_MAX_MPFID, HOS_MAX_CYCID,
-    HOS_MAX_ISRID
+    HOS_IDL_STK, HOS_INT_STK, HOS_INT_SP, HOS_MAX_TPRI, HOS_KERNEL_HEAP,
+    HOS_TIM_TIC, HOS_MIN_INTNO, HOS_MAX_INTNO, HOS_MAX_TSKID,
+    HOS_MAX_SEMID, HOS_MAX_FLGID, HOS_MAX_DTQID, HOS_MAX_MBFID,
+    HOS_MAX_MPFID, HOS_MAX_CYCID, HOS_MAX_ISRID
 
 
 
@@ -60,22 +60,64 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
    ここでは HOS 独自 API についてのみ説明いたします。
 
 
-4.1 カーネルヒープサイズの指定
+4.1 アイドル時のスタックの指定
 
   【API】
-      HOS_KERNEL_HEAP(SIZE heapsize);
+      HOS_IDL_STK(SIZE idlstksz, VP idlstk);
 
   【パラメータ】
-      SIZE   heapsize     生成するカーネル用ヒープメモリのサイズ
+      SIZE   idlstksz     アイドル時のスタックのサイズ
+      VP     idlstk       アイドル時のスタック
 
   【機能】
-      cre_tsk、cre_sem などの、オブジェクトの動的生成を行う API を利用した
-    場合にカーネルが割り当てるヒープメモリのサイズを指定します。
-      オブジェクトの動的生成を利用しない場合には不要です。
-      指定しない場合デフォルトでサイズ0となります。
+      カーネルは実行するタスクがない場合、カーネル内部でアイドルループを
+    実行します。本APIではアイドルループ実行中のスタックを指定します。
+      idlstk に指定されたアドレスから、idlstksz で指定されたサイズ分の
+    メモリ領域をアイドル時のスタックに割り当てます。
+      idlstk に NULL を指定した場合、idlstksz で指定されたサイズをコンフィ
+    ギュレーターが自動的に確保します。
+      指定しない場合デフォルトでサイズは64となります。
+
+  【補足】
+      アイドル時の必要スタック量は、割込み時に割り込み用スタックに
+    切り替わるまでの最低限のワークとレジスタ退避分です。
+      必要な量はプロセッサやコンパイラなどの環境に依存する為、別途
+    最適な値を定義できる仕様になっております。
 
 
-4.2 最大タスク優先度の指定
+4.2 割込み時のスタックの指定
+
+  【API】
+      HOS_INT_STK(SIZE intstksz, VP intstk);
+      HOS_INT_SP(VP intsp);
+
+  【パラメータ】
+      SIZE   intstksz     割込み時のスタックのサイズ
+      VP     intstk       割込み時のスタック
+      VP     intsp        割込み時の初期スタックポインタ値
+
+  【機能】
+      割り込みが発生した場合、スタックは割込み用スタックに切り替わります。
+      本APIでは割込み時に切り替えるスタックを指定します。
+      HOS_INT_STK と HOS_INT_SP は同時には利用できず、どちらか片方を利用して
+    指定を行います。
+      HOS_INT_STK では、intstk に指定されたアドレスから、intstksz で指定
+    されたサイズ分のメモリ領域を割込み時のスタックに割り当てます。
+      intstk に NULL を指定した場合、intstksz で指定されたサイズをコンフィ
+    ギュレーターが自動的に確保します。
+      HOS_INT_SP では、intsp に割込み発生時のスタックポインタ値を直接指定
+    できます。
+      どちらのAPIも指定しない場合、コンフィギュレーターは割込み用スタック
+    ポインタを生成しません。別途割込み時の初期スタックポインタ値を格納した
+    const VP 型 の kernel_int_sp というグローバル変数を定義してください。
+
+  【補足】
+      割込み時のスタックは起動時の初期スタック値と共有できる為、スタート
+    アップルーチンにて、kernel_int_sp を定義する方が便利な場合が考えられます。
+      その為、デフォルトで kernel_int_sp を生成しない仕様にしております。
+
+
+4.3 最大タスク優先度の指定
 
   【API】
       HOS_MAX_TPRI(PRI maxpri);
@@ -90,7 +132,23 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
       指定しない場合デフォルトで 16 となります。
 
 
-4.3 タイムティックの周期の指定
+4.4 カーネルヒープサイズの指定
+
+  【API】
+      HOS_KERNEL_HEAP(SIZE heapsize);
+
+  【パラメータ】
+      SIZE   heapsize     生成するカーネル用ヒープメモリのサイズ
+
+  【機能】
+      cre_tsk、cre_sem などの、オブジェクトの動的生成を行う API を利用した
+    場合にカーネルが割り当てるヒープメモリのサイズを指定します。
+      オブジェクトの動的生成を利用しない場合には不要です。
+      指定しない場合デフォルトでサイズ0となり、オブジェクトの動的生成は
+    出来なくなります。
+
+
+4.5 タイムティックの周期の指定
 
   【API】
       HOS_TIM_TIC(UW nume, UW deno);
@@ -115,7 +173,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
     ようになります。
 
 
-4.4 割り込み番号の範囲の指定
+4.6 割り込み番号の範囲の指定
 
   【API】
       HOS_MIN_INTNO(INTNO minintno);
@@ -129,6 +187,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
       割り込み番号の最大値と最小値を指定します。
       プロセッサにより利用できる割り込み範囲が異なりますのでここで
     指定してください。
+      利用可能な値は、0を含む正の値となります。
       指定しない場合デフォルトで最大、最小共に 0 となります。
 
   【補足】
@@ -140,7 +199,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
     メモリの削減を行うことも可能です。
 
 
-4.5 オブジェクトの最大IDの指定
+4.7 オブジェクトの最大IDの指定
 
   【API】
       HOS_MAX_TSKID(ID maxtskid);

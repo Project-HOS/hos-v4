@@ -28,7 +28,6 @@ public:
 	void  WriteCfgIni(FILE* fp);	// cfgファイル初期化部書き出し
 
 protected:
-	int m_iIntStackSize;
 	int m_iMaxIntNo;
 	int m_iMinIntNo;
 	int m_iMaxIsrId;

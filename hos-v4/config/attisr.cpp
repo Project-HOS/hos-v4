@@ -28,7 +28,6 @@ CApiAttIsr::CApiAttIsr()
 	m_iParamSyntax[0] = 4;		// 4つのパラメーターブロック
 	m_iParams = 1;
 
-	m_iIntStackSize = 128;
 	m_iMaxIntNo = 0;
 	m_iMinIntNo = 0;
 	m_iMaxIsrId = 0;
@@ -108,16 +107,6 @@ void  CApiAttIsr::WriteCfgDef(FILE* fp)
 		"/*        interrupt control objects           */\n"
 		"/* ------------------------------------------ */\n"
 		, fp);
-
-	// 割り込み用スタック生成
-	fprintf(
-		fp,
-		"\n"
-		"/* interrupt stack */\n"
-		"VP       kernel_int_stk[(%d + sizeof(VP) - 1) / sizeof(VP)];\n"
-		"const VP kernel_int_sp = &kernel_int_stk[(%d + sizeof(VP) - 1) / sizeof(VP)];\n",
-		m_iIntStackSize,
-		m_iIntStackSize);
 
 	// 割り込み管理テーブル生成
 	fprintf(
