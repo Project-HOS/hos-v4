@@ -12,7 +12,7 @@
 
 
 
-#if defined(__CC_ARM) || defined(__arm)	/* ARMコンパイラ */
+#if defined(__CC_ARM) || defined(__arm__)	/* ARMコンパイラ */
 
 #include "arm/hospac.h"	
 
