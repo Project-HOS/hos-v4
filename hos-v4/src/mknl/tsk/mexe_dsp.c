@@ -66,7 +66,7 @@ ER_UINT mknl_exe_dsp(void)
 	{
 		/* 実行先のタスクを実行中タスクとして登録 */
 		mknl_run_mtcb     = mtcb_top;
-		mtcb_top->tskstat = TTS_RUN;
+		mtcb_top->tskstat = TTS_RDY;
 		
 		/* 実行先のコンテキストを設定 */
 		ctxinf_top = &mtcb_top->ctxinf;
