@@ -46,7 +46,6 @@ ER del_dtq(
 	mknl_clr_que(&dtqcb_ram->rcvque);	/* 受信待ちタスクの解除 */
 	
 	/* メモリの解放 */
-	kernel_fre_mem(dtqcb_rom->dtq);
 	kernel_fre_mem(dtqcb_ram);
 	KERNEL_DTQID_TO_DTQCB_RAM(dtqid) = NULL;
 	
