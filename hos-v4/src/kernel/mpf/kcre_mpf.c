@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル 固定長メモリプール                                      */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2003 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -18,6 +18,14 @@ typedef struct t_kernel_mpfcb
 	T_KERNEL_MPFCB_ROM mpfcb_rom;	/* 固定長メモリプール コントロールブロック(ROM部) */
 } T_KERNEL_MPFCB;
 
+/* 固定長メモリプール コントロールブロック(動的生成、カーネルメモリ用) */
+typedef struct t_kernel_mpfcb_with_blk
+{
+	T_KERNEL_MPFCB_RAM mpfcb_ram;	/* 固定長メモリプール コントロールブロック(RAM部) */
+	T_KERNEL_MPFCB_ROM mpfcb_rom;	/* 固定長メモリプール コントロールブロック(ROM部) */
+	VP	blk[1];			/* メモリブロックダミー */
+} T_KERNEL_MPFCB_WBLK;
+
 
 
 /* 固定長メモリプールの生成(カーネル内部関数) */
@@ -29,7 +37,6 @@ ER kernel_cre_mpf(
 	T_KERNEL_MPFCB_RAM *mpfcb_ram;
 	T_KERNEL_MPFCB_ROM *mpfcb_rom;
 	VP   mpf;
-	UB   *ptr;
 	UINT i;
 
 	/* パラメーターチェック */
@@ -40,22 +47,29 @@ ER kernel_cre_mpf(
 	}
 #endif
 
+        /* パラメータチェック */
+#ifdef HOS_ERCHK_E_PAR
+        if ( pk_cmpf->blkcnt == 0 || pk_cmpf->blksz == 0 )
+	{
+                return E_PAR;   /* パラメータ不正 */
+	}
+#endif
+
 	/* 固定長メモリプール用メモリの確保 */
-	mpfcb = (T_KERNEL_MPFCB *)kernel_alc_mem(sizeof(T_KERNEL_MPFCB));
+	mpfcb = (T_KERNEL_MPFCB *)kernel_alc_mem(
+		pk_cmpf->mpf != NULL ? 	sizeof(T_KERNEL_MPFCB) :
+		sizeof(T_KERNEL_MPFCB_WBLK) - sizeof(VP)
+		+ TSZ_MPF( pk_cmpf->blkcnt, pk_cmpf->blksz ) 
+		);
 	if ( mpfcb == NULL )
 	{
 		return E_NOMEM;		/* メモリ不足 */
 	}
 	
-	/* メモリプール用メモリ確保 */
+	/* メモリプール先頭番地セット */
 	if ( pk_cmpf->mpf == NULL )
 	{
-		mpf = kernel_alc_mem((SIZE)(pk_cmpf->blksz * pk_cmpf->blkcnt));
-		if ( mpf == NULL )
-		{
-			kernel_fre_mem(mpfcb);
-			return E_NOMEM;		/* メモリ不足 */
-		}
+		mpf = ((T_KERNEL_MPFCB_WBLK *)mpfcb)->blk;
 	}
 	else
 	{
@@ -70,17 +84,15 @@ ER kernel_cre_mpf(
 	mpfcb_ram->mpfcb_rom = mpfcb_rom;
 	mpfcb_rom->mpfatr    = pk_cmpf->mpfatr;
 	mpfcb_rom->blkcnt    = pk_cmpf->blkcnt;
-	mpfcb_rom->blksz     = pk_cmpf->blksz;
-	mpfcb_rom->mpf       = pk_cmpf->mpf;
+	mpfcb_rom->blksz     = TSZ_ALIGNED(pk_cmpf->blksz);
 
 	/* ブロックの初期化 */
-	ptr = (UB *)mpfcb_rom->mpf;
 	for ( i = 0; i < mpfcb_rom->blkcnt - 1; i++ )
 	{
-		*(VP *)ptr = (VP)(ptr + mpfcb_rom->blksz);
-		ptr += mpfcb_rom->blksz;
+		*(VP *)mpf = (VP)(mpf + mpfcb_rom->blksz);
+		mpf += mpfcb_rom->blksz;
 	}
-	*(VP *)ptr = NULL;	/* 最終ブロック */
+	*(VP *)mpf = NULL;	/* 最終ブロック */
 
 	/* 管理テーブルへ追加 */
 	KERNEL_MPFID_TO_MPFCB_RAM(mpfid) = mpfcb_ram;
@@ -90,5 +102,5 @@ ER kernel_cre_mpf(
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2003 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

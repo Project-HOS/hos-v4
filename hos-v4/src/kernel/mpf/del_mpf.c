@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル 固定長メモリプール                                      */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2003 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -45,7 +45,6 @@ ER del_mpf(
 	mknl_clr_que(&mpfcb_ram->que);
 	
 	/* メモリの解放 */
-	kernel_fre_mem(mpfcb_rom->mpf);	
 	kernel_fre_mem(mpfcb_ram);
 	KERNEL_MPFID_TO_MPFCB_RAM(mpfid) = NULL;
 	
@@ -59,5 +58,5 @@ ER del_mpf(
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2003 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

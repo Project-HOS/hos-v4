@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    カーネル メモリ管理                                                   */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2003 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -26,6 +26,13 @@
 
 
 
+/* --------------------------------------- */
+/*            マクロ定義                   */
+/* --------------------------------------- */
+/* サイズアライメント */
+#define TSZ_ALIGNED(size)	(((size) + MEMBLK_ALIGN - 1) & ~(MEMBLK_ALIGN - 1))
+
+
 /* ------------------------------------------ */
 /*                 型定義                     */
 /* ------------------------------------------ */
@@ -39,7 +46,7 @@ typedef struct t_kernel_mem_blk
 } T_KERNEL_MEM_BLK;
 
 /* カーネルメモリ管理ブロックサイズ */
-#define MEMBLKSIZE	((sizeof(T_KERNEL_MEM_BLK) + MEMBLK_ALIGN - 1) & ~(MEMBLK_ALIGN - 1))
+#define MEMBLKSIZE	TSZ_ALIGNED(sizeof(T_KERNEL_MEM_BLK))
 
 
 
@@ -76,5 +83,5 @@ void    kernel_fre_mem(VP ptr);						/* メモリの解放 */
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2003 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

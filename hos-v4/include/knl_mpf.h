@@ -12,6 +12,7 @@
 
 
 #include "knl_hos.h"
+#include "knl_mem.h"
 
 
 
@@ -75,9 +76,14 @@ typedef struct t_kernel_mpfcb_ram
 extern       T_KERNEL_MPFCB_RAM *kernel_mpfcb_ram_tbl[];	/* 固定長メモリプールコントロールブロックテーブル(RAM部) */
 extern const INT kernel_mpfcb_cnt;							/* 固定長メモリプールコントロールブロック個数 */
 
+/* ---------------------------------- */
+/*            マクロ定義              */
+/* ---------------------------------- */
 /* 固定長メモリプールコントロールブロック変換マクロ */
 #define KERNEL_MPFID_TO_MPFCB_RAM(mpfid)	(kernel_mpfcb_ram_tbl[(mpfid) - KERNEL_TMIN_MPFID])
 															/* 固定長メモリプールIDからMPFCB RAMアドレスを取得 */
+/* メモリプール領域のサイズ */
+#define TSZ_MPF(blkcnt,blksz)	((SIZE)((blkcnt) * TSZ_ALIGNED(blksz)))
 
 
 
