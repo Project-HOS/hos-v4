@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 #  HOS-V4                                                                      
-#   ライブラリメイクファイル ARM SDT用                                         
+#   ライブラリメイクファイル ARM ADS用                                         
 #   ARMモード リトルエンディアン                                               
 #                                                                              
 #                                      Copyright (C) 1998-2002 by Project HOS  
@@ -130,11 +130,8 @@ pacirq.o: $(PACASMDIR)\pacirq.s
 pacfiq.o: $(PACASMDIR)\pacfiq.s
 	$(ASM) $(AFLAGS) $(PACASMDIR)\pacfiq.s
 
-pacimsk.o: $(PACASMDIR)\pacimsk.c $(INCS)
-	$(CC) $(CFLAGS) $(PACASMDIR)\pacimsk.c
-
-mknlsys.o: $(MKNLDIR)\mknlsys.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknlsys.c
+pacimsk.o: $(PACDIR)\pacimsk.c $(INCS)
+	$(CC) $(CFLAGS) $(PACDIR)\pacimsk.c
 
 
 # μカーネル システム制御
