@@ -577,6 +577,18 @@ sta_cyc.o: $(KNLCYCDIR)/sta_cyc.c $(INCS)
 stp_cyc.o: $(KNLCYCDIR)/stp_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLCYCDIR)/stp_cyc.c
 
+cre_cyc.o: $(KNLCYCDIR)/cre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/cre_cyc.c
+
+acre_cyc.o: $(KNLCYCDIR)/acre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/acre_cyc.c
+
+kcre_cyc.o: $(KNLCYCDIR)/kcre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/kcre_cyc.c
+
+del_cyc.o: $(KNLCYCDIR)/del_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/del_cyc.c
+
 
 # アラームハンドラ
 ini_alm.o: $(KNLALMDIR)/ini_alm.c $(INCS)
