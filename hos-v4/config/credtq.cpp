@@ -41,6 +41,8 @@ CApiCreDtq::~CApiCreDtq()
 // API§Œ≤Ú¿œ
 int CApiCreDtq::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blExMid = false;
+
 	if ( strcmp(pszApiName, "CRE_DTQ") == 0 )
 	{
 		return AddParams(pszParams);
@@ -48,6 +50,14 @@ int CApiCreDtq::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_DTQID") == 0 )
 	{
 		int iId;
+
+		if ( blExMid == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMid = true;
+
 		if ( (iId = atoi(pszParams)) <= 0 )
 		{
 			return CFG_ERR_PARAM;

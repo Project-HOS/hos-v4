@@ -47,12 +47,24 @@ int CApiIntStack::AutoId(void)
 // API§Œ≤Ú¿œ
 int CApiIntStack::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+ 
 	if ( strcmp(pszApiName, "HOS_INT_STK") == 0 )
 	{
+		if ( blEx == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+		blEx = true;
 		return AddParams(pszParams);
 	}
 	else if ( strcmp(pszApiName, "HOS_INT_SP") == 0 )
 	{
+		if ( blEx == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+		blEx = true;
 		strcpy(m_szStackPointer, pszParams);
 		return CFG_ERR_OK;
 	}

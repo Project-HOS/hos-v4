@@ -49,6 +49,10 @@ int CApiAttIsr::AutoId(void)
 // API§Œ≤Ú¿œ
 int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blExMax = false;
+	static bool blExMin = false;
+	static bool blExMid = false;
+
 	if ( strcmp(pszApiName, "ATT_ISR") == 0 )
 	{
 		return AddParams(pszParams);
@@ -56,6 +60,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_INTNO") == 0 )
 	{
 		int iIntNo;
+
+		if ( blExMax == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMax = true;
+
 		if ( (iIntNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -69,6 +81,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MIN_INTNO") == 0 )
 	{
 		int iIntNo;
+
+		if ( blExMin == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMin = true;
+
 		if ( (iIntNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -82,6 +102,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_ISRID") == 0 )
 	{
 		int iId;
+
+		if ( blExMid == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMid = true;
+
 		if ( (iId = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;

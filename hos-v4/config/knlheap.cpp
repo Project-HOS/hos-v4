@@ -41,8 +41,17 @@ int CApiKernelHeap::AutoId(void)
 // API§Œ≤Ú¿œ
 int CApiKernelHeap::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+ 
 	if ( strcmp(pszApiName, "HOS_KERNEL_HEAP") == 0 )
 	{
+		if ( blEx == true )
+	  	{
+			return CFG_ERR_MULTIDEF;
+	  	}
+
+		blEx = true;
+
 		return AddParams(pszParams);
 	}
 

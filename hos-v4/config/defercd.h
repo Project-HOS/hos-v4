@@ -27,6 +27,7 @@
 #define CFG_ERR_TEXT			8		// 不正な文字列定数
 #define CFG_ERR_ID_CONFLICT		9		// ID衝突
 #define CFG_ERR_PARAM			10		// パラメーター不正
+#define CFG_ERR_MULTIDEF		11		// 唯一であるべき定義が複数
 
 
 const char* GetErrMessage(int iErr);
