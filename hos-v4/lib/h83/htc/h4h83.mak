@@ -29,6 +29,8 @@ KNLDTQDIR  = $(KERNELDIR)\dtq
 KNLMBXDIR  = $(KERNELDIR)\mbx
 KNLMPFDIR  = $(KERNELDIR)\mpf
 KNLTIMDIR  = $(KERNELDIR)\tim
+KNLCYCDIR  = $(KERNELDIR)\cyc
+KNLALMDIR  = $(KERNELDIR)\alm
 KNLSYSDIR  = $(KERNELDIR)\sys
 KNLINTDIR  = $(KERNELDIR)\int
 
@@ -67,7 +69,8 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
        mexe_dsp.obj mdly_dsp.obj msrh_top.obj \
        mras_tex.obj mexe_tex.obj \
        madd_que.obj madf_que.obj madp_que.obj mrmv_que.obj \
-       mrot_que.obj mtic_tmo.obj madd_tmo.obj mrmv_tmo.obj \
+       mrot_que.obj mclr_que.obj \
+       mtic_tmo.obj madd_tmo.obj mrmv_tmo.obj \
        sta_hos.obj ini_mem.obj alc_mem.obj fre_mem.obj \
        ini_tsk.obj cre_tsk.obj acre_tsk.obj kcre_tsk.obj del_tsk.obj \
        act_tsk.obj can_act.obj sta_tsk.obj ext_tsk.obj exd_tsk.obj \
@@ -79,16 +82,18 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
        sig_sem.obj wai_sem.obj pol_sem.obj twai_sem.obj ref_sem.obj \
        ini_flg.obj cre_flg.obj acre_flg.obj kcre_flg.obj del_flg.obj \
        set_flg.obj clr_flg.obj wai_flg.obj pol_flg.obj \
-       twai_flg.obj chk_flg.obj \
+       twai_flg.obj chk_flg.obj ref_flg.obj \
        cre_dtq.obj acre_dtq.obj kcre_dtq.obj del_dtq.obj \
        snd_dtq.obj psnd_dtq.obj tsnd_dtq.obj fsnd_dtq.obj \
-       rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj \
+       rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj ref_dtq.obj \
        cre_mbx.obj acre_mbx.obj kcre_mbx.obj del_mbx.obj \
-       snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj \
+       snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj ref_mbx.obj \
        ini_mpf.obj cre_mpf.obj acre_mpf.obj kcre_mpf.obj del_mpf.obj \
-       get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj \
+       get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj ref_mpf.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
-       ini_cyc.obj sta_cyc.obj stp_cyc.obj \
+       add_tml.obj rmv_tml.obj \
+       ini_cyc.obj cyc_hdr.obj sta_cyc.obj stp_cyc.obj \
+       ini_alm.obj alm_hdr.obj sta_alm.obj stp_alm.obj \
        ram_int.obj exe_int.obj \
        get_tid.obj kget_tid.obj rot_rdq.obj \
        loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
@@ -201,6 +206,9 @@ mrmv_que.obj: $(MKNLQUEDIR)\mrmv_que.c $(INCS)
 
 mrot_que.obj: $(MKNLQUEDIR)\mrot_que.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mrot_que.c
+
+mclr_que.obj: $(MKNLQUEDIR)\mclr_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mclr_que.c
 
 
 # μカーネル タイムアウトキュー管理
@@ -382,6 +390,9 @@ twai_flg.obj: $(KNLFLGDIR)\twai_flg.c $(INCS)
 chk_flg.obj: $(KNLFLGDIR)\chk_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)\chk_flg.c
 
+ref_flg.obj: $(KNLFLGDIR)\ref_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)\ref_flg.c
+
 
 # データキュー
 cre_dtq.obj: $(KNLDTQDIR)\cre_dtq.c $(INCS)
@@ -417,6 +428,9 @@ prcv_dtq.obj: $(KNLDTQDIR)\prcv_dtq.c $(INCS)
 trcv_dtq.obj: $(KNLDTQDIR)\trcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\trcv_dtq.c
 
+ref_dtq.obj: $(KNLDTQDIR)\ref_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\ref_dtq.c
+
 
 # メールボックス
 cre_mbx.obj: $(KNLMBXDIR)\cre_mbx.c $(INCS)
@@ -442,6 +456,9 @@ prcv_mbx.obj: $(KNLMBXDIR)\prcv_mbx.c $(INCS)
 
 trcv_mbx.obj: $(KNLMBXDIR)\trcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)\trcv_mbx.c
+
+ref_mbx.obj: $(KNLMBXDIR)\ref_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\ref_mbx.c
 
 
 # 固定長メモリプール
@@ -472,6 +489,9 @@ tget_mpf.obj: $(KNLMPFDIR)\tget_mpf.c $(INCS)
 rel_mpf.obj: $(KNLMPFDIR)\rel_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)\rel_mpf.c
 
+ref_mpf.obj: $(KNLMPFDIR)\ref_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\ref_mpf.c
+
 
 # 時間管理
 ini_tim.obj: $(KNLTIMDIR)\ini_tim.c $(INCS)
@@ -486,14 +506,39 @@ get_tim.obj: $(KNLTIMDIR)\get_tim.c $(INCS)
 isig_tim.obj: $(KNLTIMDIR)\isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\isig_tim.c
 
-ini_cyc.obj: $(KNLTIMDIR)\ini_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_cyc.c
+add_tml.obj: $(KNLTIMDIR)\add_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\add_tml.c
 
-sta_cyc.obj: $(KNLTIMDIR)\sta_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\sta_cyc.c
+rmv_tml.obj: $(KNLTIMDIR)\rmv_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\rmv_tml.c
 
-stp_cyc.obj: $(KNLTIMDIR)\stp_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\stp_cyc.c
+
+# 周期ハンドラ
+ini_cyc.obj: $(KNLCYCDIR)\ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\ini_cyc.c
+
+cyc_hdr.obj: $(KNLCYCDIR)\cyc_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\cyc_hdr.c
+
+sta_cyc.obj: $(KNLCYCDIR)\sta_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\sta_cyc.c
+
+stp_cyc.obj: $(KNLCYCDIR)\stp_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\stp_cyc.c
+
+
+# アラームハンドラ
+ini_alm.obj: $(KNLALMDIR)\ini_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\ini_alm.c
+
+alm_hdr.obj: $(KNLALMDIR)\alm_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\alm_hdr.c
+
+sta_alm.obj: $(KNLALMDIR)\sta_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\sta_alm.c
+
+stp_alm.obj: $(KNLALMDIR)\stp_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\stp_alm.c
 
 
 # 割り込み管理

@@ -89,12 +89,13 @@ void PhilosopherTask(VP_INT exinf)
 
 void OutputTask(VP_INT exinf)
 {
+	ER_UINT ercd;
 	char buf[128];
 
 	for ( ; ; )
 	{
-		rcv_mbf(MBFID_OUTPUT, buf);
-		printf("%s", buf);
+		ercd = rcv_mbf(MBFID_OUTPUT, buf);
+		printf("%d : %s", ercd, buf);
 	}
 }
 

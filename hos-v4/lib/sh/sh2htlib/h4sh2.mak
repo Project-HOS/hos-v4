@@ -77,8 +77,7 @@ INCS = $(INCDIR)\itron.h \
        $(INCDIR)\knl_alm.h \
        $(INCDIR)\knl_sys.h \
        $(INCDIR)\knl_int.h \
-       $(INCDIR)\knl_exc.h \
-       $(INCDIR)\arm\hospac.h
+       $(INCDIR)\knl_exc.h
 
 # オブジェクトファイル
 OBJS = pacint.obj pacctx.obj pacimsk.obj \
@@ -130,6 +129,7 @@ TARGET = h4sh2.lib
 # ライブラリ
 $(TARGET): $(OBJS)
 	$(LIBR) $(TARGET) $(OBJS)
+	del $(OBJS)
 
 
 
@@ -144,6 +144,8 @@ pacint.obj: $(PACASMDIR)\pacint.src
 
 pacimsk.obj: $(PACDIR)\pacimsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\pacimsk.c
+	move $(PACASMDIR)\pacimsk.obj .
+
 
 # μカーネル システム制御
 mini_sys.obj: $(MKNLSYSDIR)\mini_sys.c $(INCS)
@@ -641,9 +643,8 @@ ref_ver.obj: $(KNLSYSDIR)\ref_ver.c $(INCS)
 
 
 clean:
-	del *.lib
-	del *.lst
-	del *.obj
+	del $(TARGET)
+	del $(OBJS)
 
 
 # -----------------------------------------------------------------------------
