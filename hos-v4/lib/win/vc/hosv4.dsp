@@ -171,6 +171,10 @@ SOURCE=..\..\..\include\mknl.h
 
 SOURCE=..\..\..\src\win\hospac.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\win\pacint.c
+# End Source File
 # End Group
 # Begin Group "kernel"
 
@@ -741,6 +745,10 @@ SOURCE=..\..\..\src\mknl\tsk\mwup_tsk.c
 # Begin Source File
 
 SOURCE=..\..\..\src\mknl\sys\mext_stu.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\mknl\sys\midl_lop.c
 # End Source File
 # Begin Source File
 

@@ -23,8 +23,8 @@ CFG=hos4cfg - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""$/HOS/HOS_v4/config", MEAAAAAA"
-# PROP Scc_LocalPath "."
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -150,6 +150,22 @@ SOURCE=.\deftex.cpp
 # Begin Source File
 
 SOURCE=.\hos4cfg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\idlstk.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\idlstk.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\intstk.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\intstk.h
 # End Source File
 # Begin Source File
 
