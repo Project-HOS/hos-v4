@@ -38,7 +38,7 @@ RANLIB = h8300-hms-coff-ranlib
 
 
 # オプション
-CFLAGS = -c -mh -O2 -I$(INCDIR)
+CFLAGS = -c -mh -O2 -I$(INCDIR) -pipe
 AFLAGS = -c -mh
 LFLAGS = 
 
