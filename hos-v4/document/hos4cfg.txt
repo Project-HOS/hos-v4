@@ -50,7 +50,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
     HOS_IDL_STK, HOS_INT_STK, HOS_INT_SP, HOS_MAX_TPRI, HOS_KERNEL_HEAP,
     HOS_TIM_TIC, HOS_MIN_INTNO, HOS_MAX_INTNO, HOS_MAX_TSKID,
     HOS_MAX_SEMID, HOS_MAX_FLGID, HOS_MAX_DTQID, HOS_MAX_MBFID,
-    HOS_MAX_MPFID, HOS_MAX_CYCID, HOS_MAX_ISRID
+    HOS_MAX_MBXID,HOS_MAX_MPFID, HOS_MAX_CYCID, HOS_MAX_ISRID
 
 
 
@@ -206,6 +206,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
       HOS_MAX_SEMID(ID maxsemid);
       HOS_MAX_FLGID(ID maxflgid);
       HOS_MAX_DTQID(ID maxdtqid);
+      HOS_MAX_MBXID(ID maxmbxid);
       HOS_MAX_MBFID(ID maxmbfid);
       HOS_MAX_MPFID(ID maxmpfid);
       HOS_MAX_CYCID(ID maxcycid);
@@ -216,6 +217,7 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
       ID      maxsemid    セマフォIDの最大値
       ID      maxflgid    フラグIDの最大値
       ID      maxdtqid    データキューIDの最大値
+      ID      maxmbxid    メールボックスIDの最大値
       ID      maxmbfid    メッセージバッファIDの最大値
       ID      maxmpfid    固定長メモリプールIDの最大値
       ID      maxcycid    周期ハンドラIDの最大値
