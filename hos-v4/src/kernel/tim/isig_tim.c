@@ -20,8 +20,9 @@ T_KERNEL_TIM *kernel_tml_ptr;		/* タイマリストポインタ */
 /* タイムティックの供給 */
 ER isig_tim(void)
 {
-	UW     prev_tim;
-	RELTIM tic;
+	T_KERNEL_TIM* tim_ptr;
+	UW            prev_tim;
+	RELTIM        tic;
 
 	/* 加算するタイムティックを算出 */
 	/* 例えば 10/3 ms 周期なら 3, 3, 4, 3, 3, 4, ... とカウントしていく */
@@ -48,26 +49,27 @@ ER isig_tim(void)
 	{
 		kernel_systim.utime++;
 	}
-
+	
 	/* タイマオブジェクトのハンドラ呼び出し */
 	if ( kernel_tml_head != NULL )
 	{
 		/* 検索ポインタ設定 */
 		kernel_tml_ptr = kernel_tml_head;
-
+		
 		do /* リスト末尾まで繰り返し */
 		{
+			/* 次のポインタを事前に設定 */
+			tim_ptr        = kernel_tml_ptr;
+			kernel_tml_ptr = tim_ptr->next;
+			
 			/* タイマハンドラ呼び出し */
-			kernel_tml_ptr->timhdr(kernel_tml_ptr, tic);
+			tim_ptr->timhdr(tim_ptr, tic);
 			
 			/* ハンドラ内で削除された場合 */
 			if ( kernel_tml_ptr == NULL )
 			{
 				break;
 			}
-			
-			/* ポインタを先に進める */
-			kernel_tml_ptr = kernel_tml_ptr->next;
 		} while ( kernel_tml_ptr != kernel_tml_head );
 		
 		/* 検索ポインタのクリア */
@@ -78,7 +80,7 @@ ER isig_tim(void)
 	mknl_tic_tmout(tic);	/* タイムアウトキューにタイムティックを供給 */
 	
 	mknl_unl_sys();			/* システムのロック解除 */
-
+	
 	return E_OK;
 }
 
