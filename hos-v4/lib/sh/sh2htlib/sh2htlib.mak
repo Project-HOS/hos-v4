@@ -8,7 +8,7 @@
 
 
 
-# ライブラリアンには BLIBG ( https://sourceforge.jp/projects/hos/files/ )
+# ライブラリアンには BLIBG ( http://sourceforge.jp/projects/hos/files/ )
 # を採用しています。
 # 
 # メイクファイルは、なるべくいろんな make が利用できるように極力原始的な
