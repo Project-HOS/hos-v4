@@ -56,6 +56,7 @@ TARGET  = libh4sh2.a
 INCS = $(INCDIR)/itron.h \
        $(INCDIR)/hoserchk.h \
        $(INCDIR)/hosdenv.h \
+       $(INCDIR)/hoslib.h \
        $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
@@ -68,6 +69,8 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/knl_mpf.h \
        $(INCDIR)/knl_mbf.h \
        $(INCDIR)/knl_tim.h \
+       $(INCDIR)/knl_cyc.h \
+       $(INCDIR)/knl_alm.h \
        $(INCDIR)/knl_sys.h \
        $(INCDIR)/knl_int.h \
        $(INCDIR)/knl_exc.h \
