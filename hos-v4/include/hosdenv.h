@@ -18,7 +18,7 @@
 
 #elif defined(__CPU__)	/* 日立H8コンパイラ */
 
-#if (__CPU__ == 3)		/* H8/300H */
+#if (__CPU__ == 3) || (__CPU__ == 2)        /* H8/300H */
 #include "h83/hospac.h"
 #endif
 
