@@ -38,7 +38,7 @@ ER ras_tex(
 	{
 		/* ID 範囲チェック */
 #ifdef HOS_ERCHK_E_ID
-		if ( tskid < TMIN_TSKID || tskid > TMAX_TSKID )
+		if ( tskid < TMIN_TSKID || tskid > KERNEL_TMAX_TSKID )
 		{
 			return  E_ID;	/* 不正ID番号 */
 		}

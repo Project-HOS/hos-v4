@@ -105,6 +105,8 @@ void CApiCreCyc::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_CYCID\t\t%d\n", m_iMaxId );
 }
 
 

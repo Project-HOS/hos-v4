@@ -106,6 +106,8 @@ void CApiCreTsk::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_TSKID\t\t%d\n", m_iMaxId );
 }
 
 

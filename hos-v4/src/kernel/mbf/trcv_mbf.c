@@ -26,7 +26,7 @@ ER_UINT trcv_mbf(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > TMAX_MBFID )
+	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* ID不正 */
 	}

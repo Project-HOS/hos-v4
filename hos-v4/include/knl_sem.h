@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_SEMID		1					/* セマフォIDの最小値 */
-#define TMAX_SEMID		(TMIN_SEMID + kernel_semcb_cnt - 1)
+#define KERNEL_TMAX_SEMID		(TMIN_SEMID + kernel_semcb_cnt - 1)
 											/* セマフォIDの最大値 */
 
 

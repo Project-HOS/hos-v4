@@ -103,6 +103,8 @@ void CApiCreAlm::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_ALMID\t\t%d\n", m_iMaxId );
 }
 
 

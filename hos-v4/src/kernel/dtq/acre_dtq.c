@@ -21,7 +21,7 @@ ER_ID acre_dtq(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( dtqid = TMAX_DTQID; dtqid >= TMIN_DTQID; dtqid-- )
+	for ( dtqid = KERNEL_TMAX_DTQID; dtqid >= TMIN_DTQID; dtqid-- )
 	{
 		if ( kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] == NULL )
 		{

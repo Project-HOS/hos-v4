@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_FLGID		1					/* イベントフラグIDの最小値 */
-#define TMAX_FLGID		(TMIN_FLGID + kernel_flgcb_cnt - 1)
+#define KERNEL_TMAX_FLGID		(TMIN_FLGID + kernel_flgcb_cnt - 1)
 											/* イベントフラグIDの最大値 */
 
 /* ビットパターンのビット数 */

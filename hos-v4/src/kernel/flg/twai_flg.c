@@ -27,7 +27,7 @@ ER twai_flg(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( flgid < TMIN_FLGID || flgid > TMAX_FLGID )
+	if ( flgid < TMIN_FLGID || flgid > KERNEL_TMAX_FLGID )
 	{
 		return E_ID;	/* 不正ID番号 */
 	}

@@ -20,7 +20,7 @@ ER_ID acre_tsk(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 空きIDの検索 */
-	for ( tskid = kernel_tcb_cnt; tskid >= TMIN_TSKID; tskid++ )
+	for ( tskid = KERNEL_TMAX_TSKID; tskid >= TMIN_TSKID; tskid-- )
 	{
 		if ( KERNEL_TSKID_TO_TCB_RAM(tskid) == NULL )
 		{

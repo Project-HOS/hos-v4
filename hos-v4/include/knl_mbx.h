@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_MBXID		1					/* メールボックスIDの最小値 */
-#define TMAX_MBXID		(TMIN_MBXID + kernel_mbxcb_cnt - 1)
+#define KERNEL_TMAX_MBXID		(TMIN_MBXID + kernel_mbxcb_cnt - 1)
 											/* メールボックスIDの最大値 */
 
 

@@ -21,7 +21,7 @@ ER_ID acre_flg(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( flgid = TMAX_FLGID; flgid >= TMIN_FLGID; flgid-- )
+	for ( flgid = KERNEL_TMAX_FLGID; flgid >= TMIN_FLGID; flgid-- )
 	{
 		if ( kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] == NULL )
 		{

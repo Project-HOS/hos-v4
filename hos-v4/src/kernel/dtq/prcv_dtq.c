@@ -23,7 +23,7 @@ ER prcv_dtq(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( dtqid < TMIN_DTQID || dtqid > TMAX_DTQID )
+	if ( dtqid < TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
 	{
 		return E_ID;	/* ID不正 */
 	}

@@ -20,7 +20,7 @@ ER stp_alm(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( almid < TMIN_ALMID || almid > TMAX_ALMID )
+	if ( almid < TMIN_ALMID || almid > KERNEL_TMAX_ALMID )
 	{
 		return E_ID;
 	}

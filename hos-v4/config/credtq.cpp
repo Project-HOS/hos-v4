@@ -103,6 +103,8 @@ void CApiCreDtq::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_DTQID\t\t%d\n", m_iMaxId );
 }
 
 

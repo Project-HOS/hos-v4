@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_MBFID		1					/* メッセージバッファIDの最小値 */
-#define TMAX_MBFID		(TMIN_MBFID + kernel_mbfcb_cnt - 1)
+#define KERNEL_TMAX_MBFID		(TMIN_MBFID + kernel_mbfcb_cnt - 1)
 											/* メッセージバッファIDの最大値 */
 
 

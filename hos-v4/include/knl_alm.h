@@ -23,7 +23,7 @@
 
 /* IDの範囲 */
 #define TMIN_ALMID		1					/* アラームハンドラIDの最小値 */
-#define TMAX_ALMID		(TMIN_ALMID + kernel_almcb_cnt - 1)
+#define KERNEL_TMAX_ALMID		(TMIN_ALMID + kernel_almcb_cnt - 1)
 											/* アラームハンドラIDの最大値 */
 
 

@@ -23,7 +23,7 @@
 
 /* IDの範囲 */
 #define TMIN_CYCID		1					/* 周期ハンドラIDの最小値 */
-#define TMAX_CYCID		(TMIN_CYCID + kernel_cyccb_cnt - 1)
+#define KERNEL_TMAX_CYCID		(TMIN_CYCID + kernel_cyccb_cnt - 1)
 											/* 周期ハンドラIDの最大値 */
 
 

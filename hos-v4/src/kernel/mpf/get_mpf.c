@@ -23,7 +23,7 @@ ER get_mpf(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mpfid < TMIN_MPFID || mpfid > TMAX_MPFID )
+	if ( mpfid < TMIN_MPFID || mpfid > KERNEL_TMAX_MPFID )
 	{
 		return E_ID;	/* ID不正 */
 	}

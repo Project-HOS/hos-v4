@@ -21,7 +21,7 @@ ER_ID acre_mbf(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( mbfid = TMAX_MBFID; mbfid >= TMIN_MBFID; mbfid-- )
+	for ( mbfid = KERNEL_TMAX_MBFID; mbfid >= TMIN_MBFID; mbfid-- )
 	{
 		if ( kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID] == NULL )
 		{

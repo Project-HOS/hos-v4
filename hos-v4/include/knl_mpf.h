@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_MPFID		1					/* 固定長メモリプールIDの最小値 */
-#define TMAX_MPFID		(TMIN_MPFID + kernel_mpfcb_cnt - 1)
+#define KERNEL_TMAX_MPFID		(TMIN_MPFID + kernel_mpfcb_cnt - 1)
 											/* 固定長メモリプールIDの最大値 */
 
 

@@ -102,6 +102,8 @@ void CApiCreFlg::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_FLGID\t\t%d\n", m_iMaxId );
 }
 
 

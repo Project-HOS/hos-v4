@@ -102,6 +102,8 @@ void CApiCreSem::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_SEMID\t\t%d\n", m_iMaxId );
 }
 
 

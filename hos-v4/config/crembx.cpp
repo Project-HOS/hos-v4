@@ -102,6 +102,8 @@ void CApiCreMbx::WriteId(FILE* fp)
 				m_iId[i]);
 		}
 	}
+
+	fprintf( fp,"\n#define TMAX_MBXID\t\t%d\n", m_iMaxId );
 }
 
 

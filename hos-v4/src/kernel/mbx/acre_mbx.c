@@ -21,7 +21,7 @@ ER_ID acre_mbx(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( mbxid = TMAX_MBXID; mbxid >= TMIN_MBXID; mbxid-- )
+	for ( mbxid = KERNEL_TMAX_MBXID; mbxid >= TMIN_MBXID; mbxid-- )
 	{
 		if ( kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID] == NULL )
 		{

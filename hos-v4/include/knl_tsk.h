@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_TSKID		1					/* タスクIDの最小値 */
-#define TMAX_TSKID		(TMIN_TSKID + kernel_tcb_cnt - 1)
+#define KERNEL_TMAX_TSKID		(TMIN_TSKID + kernel_tcb_cnt - 1)
 
 /* ビットパターンのビット数 */
 #define TBIT_TEXPTN		16					/* タスク例外要因のビット数 */

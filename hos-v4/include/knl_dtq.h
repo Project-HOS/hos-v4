@@ -21,7 +21,7 @@
 
 /* IDの範囲 */
 #define TMIN_DTQID		1					/* データキューIDの最小値 */
-#define TMAX_DTQID		(TMIN_DTQID + kernel_dtqcb_cnt - 1)
+#define KERNEL_TMAX_DTQID		(TMIN_DTQID + kernel_dtqcb_cnt - 1)
 											/* データキューIDの最大値 */
 
 

@@ -19,7 +19,7 @@ ER del_sem(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( semid < TMIN_SEMID || semid > TMAX_SEMID )
+	if ( semid < TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
 	{
 		return E_ID;	/* 不正ID */
 	}
