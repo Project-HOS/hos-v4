@@ -59,7 +59,7 @@ INCS = $(INCDIR)\itron.h \
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimask.o \
-       mknlsys.o mknlint.o mknltsk.o mknlque.o mknltout.o \
+       mknlsys.o mknltsk.o mknlque.o mknltout.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
        ini_tsk.o cre_tsk.o acre_tsk.o act_tsk.o can_act.o \
        sta_tsk.o ext_tsk.o ter_tsk.o chg_pri.o get_pri.o \
