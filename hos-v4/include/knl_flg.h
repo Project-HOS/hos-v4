@@ -1,8 +1,9 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4                                                                  */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    カーネル依存情報定義ヘッダ イベントフラグ                             */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
@@ -115,5 +116,5 @@ BOOL    kernel_chk_flg(T_KERNEL_FLGCB_RAM *flgcb_ram, T_KERNEL_FLGINF *pk_flginf
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

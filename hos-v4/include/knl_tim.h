@@ -1,13 +1,15 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4                                                                  */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    カーネル依存情報定義ヘッダ 時間管理                                   */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
 #ifndef __HOS_V4__knl_tim_h__
 #define __HOS_V4__knl_tim_h__
+
 
 
 #include "knl_hos.h"
@@ -101,5 +103,5 @@ ER      stp_cyc(ID cycid);							/* 周期ハンドラの動作停止 */
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

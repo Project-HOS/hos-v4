@@ -2,9 +2,9 @@
 ;  HOS-V4                                                                     
 ;    プロセッサ抽象化コンポーネント (LSI-C86 スモールモデル用)                
 ;                                                                             
-;                                 Copyright (C) 1998-2002 by Ryuji Fuchikami  
+;                                     Copyright (C) 1998-2002 by Project HOS  
+;                                     http://sourceforge.jp/projects/hos/     
 ; --------------------------------------------------------------------------- 
-
 
 
 TEXT			CSEG
@@ -82,7 +82,6 @@ hospac_swi_ctx_::
 				ret
 
 
-
 ; --------------------------------------------------------------------------- 
-;  Copyright (C) 1998-2002 by Ryuji Fuchikami                                 
+;  Copyright (C) 1998-2002 by Project HOS                                     
 ; --------------------------------------------------------------------------- 

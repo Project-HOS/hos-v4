@@ -1,6 +1,5 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  サンプルプログラム                           */
-/*   Hitachi H8 用 サンプルプログラム                                       */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */

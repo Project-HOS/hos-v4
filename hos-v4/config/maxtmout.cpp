@@ -1,8 +1,9 @@
 // ---------------------------------------------------------------------------
-//  HOS-V4 コンフィギュレーター
-//    HOS_MAX_TIMOUT API の処理
-//
-//                                      Copyright (C) 2002 by Ryuji Fuchikami
+//  HOS-V4 コンフィギュレーター                                               
+//    HOS_MAX_TIMOUT API の処理                                               
+//                                                                            
+//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
 
@@ -77,5 +78,5 @@ void  CApiMaxTimout::WriteCfgDef(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 2002 by Ryuji Fuchikami                                     
+//  Copyright (C) 1998-2002 by Project HOS                                    
 // ---------------------------------------------------------------------------

@@ -1,8 +1,10 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4 サンプル                                                         */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
+/*   サンプルプログラム                                                     */
 /*   ARM用 Cライブラリ用関数                                                */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
@@ -72,7 +74,6 @@ __value_in_regs struct __initial_stackheap __user_initial_stackheap(
 }
 
 
-
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

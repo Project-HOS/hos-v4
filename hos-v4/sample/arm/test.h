@@ -1,13 +1,15 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4 サンプル                                                         */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
+/*   サンプルプログラム                                                     */
 /*   メインルーチン                                                         */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-#ifndef __Ryuz__test_h__
-#define __Ryuz__test_h__
+#ifndef __test_h__
+#define __test_h__
 
 
 
@@ -31,9 +33,9 @@ void IntHndler1(VP_INT exinf);	/* 割り込みハンドラサンプル */
 
 
 
-#endif	/* __Ryuz__test_h__ */
+#endif	/* __test_h__ */
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-  Hyper Operation System V4                                                   
+  Hyper Operating System V4                                                   
     μITRON4.0仕様 Real-Time OS                                               
                                                                               
                                        Copyright (C) 1998-2002 by Project HOS 
@@ -24,7 +24,7 @@
 
 
 1. はじめに
-  Hyper Operationg System V4(以下 HOS-V4)は μITRON4.0 仕様の組み込み
+  Hyper Operating System V4(以下 HOS-V4)は μITRON4.0 仕様の組み込み
 向けリアルタイムOSです。
   ITRONプロジェクトの概要や、仕様書については
   http://www.assoc.tron.org/itron/home-j.html

@@ -1,8 +1,9 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4                                                                  */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル データキュー                                            */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
@@ -13,7 +14,7 @@
 /* データキューからの受信 */
 ER trcv_dtq(
 		ID     dtqid,	/* 受信対象のデータキューのID番号 */
-		VP_INT *p_data,	/* データキューから受信したデータ */				
+		VP_INT *p_data,	/* データキューから受信したデータ */
 		TMO    tmout)	/* タイムアウト指定 */
 {
 	const T_KERNEL_DTQCB_ROM *dtqcb_rom;
@@ -156,7 +157,6 @@ ER trcv_dtq(
 }
 
 
-
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

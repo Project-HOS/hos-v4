@@ -1,10 +1,10 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4                                                                  */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    プロセッサ抽象化コンポーネント (Windows用)                            */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
-
 
 
 #ifndef __HOS4_hospac_win_h__
@@ -63,10 +63,10 @@ void hospac_idle(void);				/* アイドル時の処理 */
 #endif
 
 
+
 #endif	/* __HOS4_hospac_win_h__ */
 
 
-
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

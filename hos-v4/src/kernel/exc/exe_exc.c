@@ -1,10 +1,10 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4                                                                  */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル CPU例外ハンドラ管理                                     */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
-
 
 
 #include "knl_exc.h"
@@ -54,7 +54,6 @@ void kernel_exe_exc(
 }
 
 
-
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

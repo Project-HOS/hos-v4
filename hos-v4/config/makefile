@@ -2,7 +2,8 @@
 #  HOS-V4                                                                      
 #   コンフィギュレーターメイクファイル Borland-C++ 5.5用                       
 #                                                                              
-#                                   Copyright (C) 1998-2002 by Ryuji Fuchikami 
+#                                       Copyright (C) 1998-2002 by Project HOS 
+#                                       http://sourceforge.jp/projects/hos/    
 # -----------------------------------------------------------------------------
 
 

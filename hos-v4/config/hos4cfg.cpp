@@ -1,8 +1,9 @@
 // ---------------------------------------------------------------------------
-//  HOS-V4 コンフィギュレーター
-//    メインルーチン
-//
-//                                      Copyright (C) 2002 by Ryuji Fuchikami
+//  HOS-V4 コンフィギュレーター                                               
+//    メインルーチン                                                          
+//                                                                            
+//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
 
@@ -30,9 +31,11 @@
 #include "attini.h"
 #include "defexc.h"
 
+
 #define DEFAULT_INPUTFILE		"system.i"
 #define DEFAULT_IDFILE			"kernel_id.h"
 #define DEFAULT_CFGFILE			"kernel_cfg.c"
+
 
 int  ReadConfigFile(FILE* fpConfig);	// コンフィギュレーションファイル読み込み
 void WriteIdFile(FILE* fp);				// ID 定義ヘッダファイル出力
@@ -377,6 +380,7 @@ void PrintUsage(void)
                "input-file (default: " DEFAULT_INPUTFILE ")\n");
 }
 
+
 // ---------------------------------------------------------------------------
-//  Copyright (C) 2002 by Ryuji Fuchikami                                     
+//  Copyright (C) 1998-2002 by Project HOS                                    
 // ---------------------------------------------------------------------------

@@ -2,7 +2,8 @@
 //  HOS-V4 コンフィギュレーター                                               
 //    データ読み込みクラス                                                    
 //                                                                            
-//                                      Copyright (C) 2002 by Ryuji Fuchikami 
+//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
 
@@ -267,5 +268,5 @@ int CRead::ReadString(int cDelimiter, char* szText, int& iCount)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 2002 by Ryuji Fuchikami                                     
+//  Copyright (C) 1998-2002 by Project HOS                                    
 // ---------------------------------------------------------------------------
