@@ -17,7 +17,7 @@ void kernel_ini_alm(void)
 	T_KERNEL_ALMCB_RAM *almcb_ram;
 	int i;
 	
-	/* TA_STA 属性のものを開始する */
+	/* 静的生成されたアラームハンドラを初期化 */
 	for ( i = 0; i < kernel_almcb_cnt; i++ )
 	{
 		almcb_ram = kernel_almcb_ram_tbl[i];

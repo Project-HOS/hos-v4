@@ -17,7 +17,7 @@ void kernel_ini_cyc(void)
 	T_KERNEL_CYCCB_RAM *cyccb_ram;
 	int i;
 	
-	/* TA_STA 属性のものを開始する */
+	/* 静的生成された周期ハンドラを初期化 */
 	for ( i = 0; i < kernel_cyccb_cnt; i++ )
 	{
 		cyccb_ram = kernel_cyccb_ram_tbl[i];
@@ -27,7 +27,7 @@ void kernel_ini_cyc(void)
 			/* タイマハンドラ登録 */
 			cyccb_ram->timobj.timhdr = kernel_cyc_hdr;
 			
-			/* 初期スタート設定 */
+			/* TA_STA 属性のものを開始する */
 			if ( cyccb_ram->cyccb_rom->cycatr & TA_STA )
 			{
 				/* タイマリストに追加 */
