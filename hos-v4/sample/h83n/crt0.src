@@ -1,0 +1,79 @@
+; --------------------------------------------------------------------------- 
+;  Hyper Operating System V4  日立 H8 用 サンプルプログラム                   
+;    スタートアップルーチン                                                   
+;                                                                             
+;  1. 著作者は本ソースファイルの利用によって発生する如何なる損害にもその      
+;     責任を負いません。                                                      
+;  2. 再配布において著作権情報及び免責事項の情報改竄を固く禁じます。          
+;  3. 上記を守る限り、改版したものの再配布を含め、商用／非商用を問わず        
+;     あらゆる用途に自由に利用できます。                                      
+;  4. 改版物の再配布時は、改版者の著作情報と連絡先を必ず追記してください。    
+;                                                                             
+;                                   Copyright (C) 1998-2003 by Project HOS    
+;                                   http://sourceforge.jp/projects/hos/       
+; --------------------------------------------------------------------------- 
+
+
+
+				.CPU		300HN
+
+
+				.IMPORT		STACK
+				.IMPORT		_main
+				.EXPORT		_startup
+
+
+				.SECTION	D,DATA,ALIGN=2
+				.SECTION	X,DATA,ALIGN=2
+				.SECTION	B,DATA,ALIGN=2
+
+
+				.SECTION	P,CODE,ALIGN=2
+
+
+; -------------------------------------
+;  スタートアップルーチン
+; -------------------------------------
+_startup:		
+		; ----- スタック初期化
+				mov.w	#STACK, r7
+				
+		; ----- D セクションコピー （DATAが64kbyte以下と仮定）
+				mov.w	#(STARTOF D), r5
+				mov.w	#(STARTOF X), r6
+				mov.w	#(LWORD (SIZEOF X)), r4
+copy_dsec:		eepmov.w
+				mov.w	r4, r4
+				bne		copy_dsec
+				
+		; ----- B セクションクリア（BSSが64kbyte以下と仮定）
+                                mov.w   #(STARTOF B), r5
+                                mov.w   #((STARTOF B)+1), r6
+				mov.w	#((LWORD (SIZEOF B)) - 1), r4
+				mov.b	#0, r0l
+				mov.b	r0l, @er5
+clr_bsec:		eepmov.w
+				mov.w	r4, r4
+				bne		clr_bsec
+				
+		; ----- 初期化ルーチン呼び出し
+				jsr		@_main
+				bra		$
+
+
+
+				.SECTION	C,DATA,ALIGN=2
+
+				.EXPORT	_kernel_int_sp
+
+_kernel_int_sp:
+				.data.w	STACK
+
+
+				.END
+
+
+
+; --------------------------------------------------------------------------- 
+;  Copyright (C) 1998-2003 by Project HOS                                     
+; --------------------------------------------------------------------------- 

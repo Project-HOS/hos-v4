@@ -1,0 +1,216 @@
+; --------------------------------------------------------------------------- 
+;  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
+;    プロセッサ抽象化コンポーネント (日立 H8/300HN 用)                         
+;    割り込みハンドラ                                                         
+;                                                                             
+;                                   Copyright (C) 1998-2003 by Project HOS    
+;                                   http://sourceforge.jp/projects/hos/       
+; --------------------------------------------------------------------------- 
+
+
+		.CPU     300HN
+
+
+		.SECTION D, DATA, ALIGN=2
+		.SECTION X, DATA, ALIGN=2
+		.SECTION P, CODE, ALIGN=2
+
+		.EXPORT	_hos_vector007
+		.EXPORT	_hos_vector008
+		.EXPORT	_hos_vector009
+		.EXPORT	_hos_vector010
+		.EXPORT	_hos_vector011
+		.EXPORT	_hos_vector012
+		.EXPORT	_hos_vector013
+		.EXPORT	_hos_vector014
+		.EXPORT	_hos_vector015
+		.EXPORT	_hos_vector016
+		.EXPORT	_hos_vector017
+		.EXPORT	_hos_vector018
+		.EXPORT	_hos_vector019
+		.EXPORT	_hos_vector021
+		.EXPORT	_hos_vector022
+		.EXPORT	_hos_vector023
+		.EXPORT	_hos_vector024
+		.EXPORT	_hos_vector025
+
+
+;------------------------------------------------
+; 割り込みハンドラ
+;------------------------------------------------
+_hos_vector007:	push.w	r0
+		mov.b	#7, r0l
+		bra	int_handler
+		  
+_hos_vector008:	push.w	r0
+		mov.b	#8, r0l
+		bra	int_handler
+
+_hos_vector009:	push.w	r0
+		mov.b	#9, r0l
+		bra	int_handler
+
+_hos_vector010:	push.w	r0
+		mov.b	#10, r0l
+		bra	int_handler
+
+_hos_vector011:	push.w	r0
+		mov.b	#11, r0l
+		bra	int_handler
+
+_hos_vector012:	push.w	r0
+		mov.b	#12, r0l
+		bra	int_handler
+
+_hos_vector013:	push.w	r0
+		mov.b	#13, r0l
+		bra	int_handler
+
+_hos_vector014:	push.w	r0
+		mov.b	#14, r0l
+		bra	int_handler
+
+_hos_vector015:	push.w	r0
+		mov.b	#15, r0l
+		bra	int_handler
+
+_hos_vector016:	push.w	r0
+		mov.b	#16, r0l
+		bra	int_handler
+
+_hos_vector017:	push.w	r0
+		mov.b	#17, r0l
+		bra	int_handler
+
+_hos_vector018:	push.w	r0
+		mov.b	#18, r0l
+		bra	int_handler
+
+_hos_vector019:	push.w	r0
+		mov.b	#19, r0l
+		bra	int_handler
+
+_hos_vector021:	push.w	r0
+		mov.b	#21, r0l
+		bra	int_handler
+
+_hos_vector022:	push.w	r0
+		mov.b	#22, r0l
+		bra	int_handler
+
+_hos_vector023:	push.w	r0
+		mov.b	#23, r0l
+		bra	int_handler
+
+_hos_vector024:	push.w	r0
+		mov.b	#24, r0l
+		bra	int_handler
+
+_hos_vector025:	push.w	r0
+		mov.b	#25, r0l
+
+
+; -----------------------------------------------
+;          割り込み処理
+;
+;  割り込み発生時は er0 を push した後、r0l に
+;  割り込み番号をセットして、ここにジャンプする
+; -----------------------------------------------
+		.IMPORT	_kernel_sta_int		; 割り込み処理開始
+		.IMPORT	_kernel_end_int		; 割り込み処理終了
+		.IMPORT	_kernel_exe_int		; 割り込み処理実行
+		.IMPORT	_kernel_int_sp		; 割り込み用スタックアドレス
+		.IMPORT	_kernel_int_ssp		; 割り込み用スタックアドレス
+		.IMPORT	_kernel_int_cnt		; 割り込みネストカウンタ
+		.IMPORT	_kernel_h83_imsk	; 現在の割り込みマスク値
+		.IMPORT	_kernel_h83_ibmsk	; ベース割り込みマスク値
+
+int_handler:
+		push.w	e0
+		; ---- 割り込み番号の符合拡張
+		extu.w	r0
+
+		; ---- レジスタ保存
+		push.l	er1
+
+		; ----割り込みマスク設定
+		stc.b	ccr, r1l
+                and.b   #h'c0, r1l
+		mov.b	r1l, @_kernel_h83_imsk
+
+		; -------- 多重割り込みの判別
+		mov.w	@_kernel_int_cnt, r1
+		bne	mul_int
+
+		; ======== 最初の割り込み ========
+		; ---- 割り込みネストカウンタ設定
+		mov.w	#1, r1
+		mov.w	r1, @_kernel_int_cnt
+
+		; ---- スタックポインタの入れ替え
+		mov.w	r7, @_kernel_int_ssp
+		mov.w	@_kernel_int_sp, r7
+
+		; ---- 割り込み処理の開始
+		push.w	r0
+		jsr	@_kernel_sta_int
+		pop.w	r0
+
+		; -------- 割り込みハンドラの処理
+		jsr	@_kernel_exe_int
+
+		; -------- スタックポインタ復帰
+		mov.w   @_kernel_int_ssp, r7
+
+		; -------- 割り込みネストカウンタクリア
+		xor.w	r1, r1
+		mov.w	r1, @_kernel_int_cnt
+
+		; -------- 割り込みマスク値の復帰
+		mov.b	@_kernel_h83_ibmsk, r0l
+		mov.b	r0l, @_kernel_h83_imsk	; 割り込みマスク値をベース値に戻す
+
+		; -------- タスクコンテキストに移行
+		jsr	@_kernel_end_int
+
+		; -------- 復帰後のマスク値を設定
+		mov.b	@_kernel_h83_ibmsk, r0l	; ベースマスク値取り出し
+		mov.b	@(8, er7), r1l
+                and.b   #h'3f, r1l      ; スタック上のCCRからIとUI以外を取り出し
+		or.b	r0l, r1l	; ベースマスク値を設定
+		mov.b	r1l, @(8, er7)	; スタック上のCCRを更新
+
+		; -------- 復帰
+		pop.l	er1
+		pop.w	e0
+		pop.w	r0
+
+		rte
+
+		; ======== 多重割り込み ========
+mul_int:
+		; -------- 割り込みネストカウンタ加算
+		inc.w	#1, r1
+		mov.w	r1, @_kernel_int_cnt
+
+		; -------- 割り込みハンドラ呼び出し
+		jsr	@_kernel_exe_int
+
+		; -------- 割り込みネストカウンタ減算
+		mov.w	@_kernel_int_cnt, r0
+		dec.w	#1, r0
+		mov.w	r0, @_kernel_int_cnt
+
+		; -------- 復帰
+		pop.l	er1
+		pop.w	e0
+		pop.w	r0
+
+		rte
+
+		.END
+
+
+; --------------------------------------------------------------------------- 
+;  Copyright (C) 1998-2003 by Project HOS                                     
+; --------------------------------------------------------------------------- 

@@ -1,0 +1,8 @@
+INPUT   crt0,vector,sample,ostimer,h8t_sci,kernel_cfg
+LIBRARY c:\akih8c\C38HNB, ..\..\lib\h83\akih8\h4h83nak
+DEFINE  STACK(0FF80)
+PRINT   sample.map
+OUTPUT  sample.abs
+ROM     (D,X)
+START   VECT(0),P,C,D(00034),X,B(0F780)
+EXIT
