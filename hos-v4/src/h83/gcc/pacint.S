@@ -13,6 +13,7 @@
 				.text
 				.align 2
 
+
 				.global	_hos_vector001
 				.global	_hos_vector002
 				.global	_hos_vector003
