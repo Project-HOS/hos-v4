@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    HOS_IDL_STK API の処理                                                  
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -104,11 +104,11 @@ void  CApiIdleStack::WriteCfgDef(FILE* fp)
 			fp,
 			"const VP   mknl_idl_stk   = (VP)(%s);\t/* idle stack */\n"
 			"const SIZE mknl_idl_stksz = (SIZE)(%s);\t/* idle stack */\n",
-			pszSize, pszStack);
+			pszStack,pszSize); 
 	}
 }
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------
