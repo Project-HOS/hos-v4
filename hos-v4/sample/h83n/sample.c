@@ -38,11 +38,6 @@ void Initialize(VP_INT exinf)
 /*      act_tsk(TSKID_SAMPLE1);*/
 }
 
-int foo( int a, int b, int c, int d)
-{
-    return a+b-c-d;
-}
-
 /* サンプルタスク */
 void Task1(VP_INT exinf)
 {
