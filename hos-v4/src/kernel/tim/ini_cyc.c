@@ -23,7 +23,8 @@ void kernel_ini_cyc(void)
 		cyccb_ram = kernel_cyccb_ram_tbl[i];
 		if ( cyccb_ram != NULL && (cyccb_ram->cyccb_rom->cycatr & TA_STA) )
 		{
-			sta_cyc(TMIN_CYCID + i);
+			cyccb_ram->lefttim = cyccb_ram->cyccb_rom->cyctim;
+			cyccb_ram->cycstat = TCYC_STA;
 		}
 	}
 }

@@ -57,7 +57,7 @@ ER isig_tim(void)
 
 		cyccb_ram = kernel_cyccb_ram_tbl[i];
 
-		if ( cyccb_ram->cycstat != TCYC_STP )	/* 停止ではないなら */
+		if ( cyccb_ram != NULL && cyccb_ram->cycstat != TCYC_STP )	/* 停止ではないなら */
 		{
 			if ( cyccb_ram->lefttim <= tic )
 			{
@@ -68,7 +68,7 @@ ER isig_tim(void)
 
 				/* 周期ハンドラ呼び出し */
 				cyccb_rom = cyccb_ram->cyccb_rom;
-				cyccb_rom->cychdr(cyccb_rom->exinf);				
+				cyccb_rom->cychdr(cyccb_rom->exinf);		
 			}
 			else
 			{
