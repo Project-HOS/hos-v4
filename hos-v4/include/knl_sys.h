@@ -23,7 +23,7 @@
 #define TKERNEL_MAKER	0x0008				/* メーカーコード(個人) */
 #define TKERNEL_PRID	0x0000				/* カーネルの識別番号(未定) */
 #define TKERNEL_SPVER	0x5401				/* ITRON仕様のバージョン(μITRON Ver 4.01) */
-#define TKERNEL_PRVER	0x0100				/* カーネルのバージョン番号 (HOS-V4 Ver 1.00) */
+#define TKERNEL_PRVER	0x0101				/* カーネルのバージョン番号 (HOS-V4 Ver 1.01) */
 
 
 
