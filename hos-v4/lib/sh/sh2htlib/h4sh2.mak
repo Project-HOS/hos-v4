@@ -130,22 +130,19 @@ TARGET = h4sh2.lib
 # ライブラリ
 $(TARGET): $(OBJS)
 	$(LIBR) $(TARGET) $(OBJS)
-	del $(OBJS)
+#	del $(OBJS)
 
 
 
 # プロセッサ依存
 pacctx.obj: $(PACASMDIR)\pacctx.src
-	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctx.src
-	move $(PACASMDIR)\pacctx.obj .
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctx.src -OBJECT=pacctx.obj
 
 pacint.obj: $(PACASMDIR)\pacint.src
-	$(ASM) $(AFLAGS) $(PACASMDIR)\pacint.src
-	move $(PACASMDIR)\pacint.obj .
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacint.src -OBJECT=pacint.obj
 
 pacimsk.obj: $(PACDIR)\pacimsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\pacimsk.c
-	move $(PACASMDIR)\pacimsk.obj .
 
 
 # μカーネル システム制御
