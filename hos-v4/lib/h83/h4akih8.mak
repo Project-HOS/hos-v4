@@ -13,13 +13,11 @@
 # いただきました。
 # 
 # メイクファイルは、なるべくいろんな make が利用できるように極力原始的な
-# 書き方をしております。
+# 書き方をしておりますが、動作確認は Borland-C++ Ver 5.5 付属の make.exe
+# にて行っております。
 # 秋月 Cコンパイラのインストール環境に合わせてインクルードパスを設定して
 # ご使用ください。
 
-# 当方、WinNT と Win2000 での開発ですので、Win95/98 のDOS窓だとコマンド
-# ラインの長さが問題となるかもしれません。
-# (基本的には make コマンド依存だと思います。)
 
 
 INCH8DIR   = \akih8c
@@ -71,7 +69,8 @@ INCS = $(INCDIR)\itron.h \
 
 
 # オブジェクトファイル
-OBJS = pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj \
+OBJS = pacini.obj pacint.obj pacctx.obj \
+       chg_imsk.obj get_imsk.obj fchg_imk.obj fget_imk.obj \
        mini_sys.obj msta_stu.obj mext_stu.obj \
        msta_tsk.obj mext_tsk.obj mchg_pri.obj mrot_rdq.obj \
        mwai_tsk.obj mwup_tsk.obj msus_tsk.obj mrsm_tsk.obj \
@@ -142,6 +141,12 @@ chg_imsk.obj: $(PACDIR)\chg_imsk.c
 
 get_imsk.obj: $(PACDIR)\get_imsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\get_imsk.c
+
+fchg_imk.obj: $(PACDIR)\fchg_imk.c
+	$(CC) $(CFLAGS) $(PACDIR)\fchg_imk.c
+
+fget_imk.obj: $(PACDIR)\fget_imk.c
+	$(CC) $(CFLAGS) $(PACDIR)\fget_imk.c
 
 
 # μカーネル システム制御

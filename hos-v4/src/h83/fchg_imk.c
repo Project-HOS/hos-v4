@@ -11,8 +11,8 @@
 
 
 
-/* 割り込みマスクのベース値の変更 */
-ER chg_imsk(
+/* 現在の割込みマスク値の強制変更 */
+ER fchg_imsk(
 		IMSK imsk)		/* 設定するマスク値 */
 {
 	/* パラメーターチェック */
@@ -25,19 +25,8 @@ ER chg_imsk(
 	
 	mknl_loc_sys();		/* システムのロック */
 	
-	/* ベースマスク値の変更 */
-	kernel_h83_ibmsk = imsk;
-	
-	if ( mknl_sns_ctx() )
-	{
-		/* 割り込みコンテキストならマスクレベルUPのみ反映 */
-		kernel_h83_imsk |= imsk;
-	}
-	else
-	{
-		/* タスクコンテキストなら現在のマスク値も即時変更 */
-		kernel_h83_imsk = imsk;
-	}
+	/* 強制的に現在値を変更 */
+	kernel_h83_imsk = imsk;		/* 割り込みマスクの設定 */
 	
 	mknl_unl_sys();		/* システムのアンロック */
 	

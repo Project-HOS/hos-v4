@@ -11,12 +11,13 @@
 
 
 
-/* 割り込みマスク参照 */
-ER get_imsk(IMSK *p_imsk)
+/* 割り込みマスクのベース値の参照 */
+ER get_imsk(
+		IMSK *p_imsk)	/* 現在のマスク値の格納番地 */
 {
 	mknl_loc_sys();		/* システムのロック */
 	
-	*p_imsk = kernel_h83_imsk;		/* 割り込みマスクの取得 */
+	*p_imsk = kernel_h83_ibmsk;		/* 割り込みマスクベース値の取得 */
 	
 	mknl_unl_sys();		/* システムのアンロック */
 	

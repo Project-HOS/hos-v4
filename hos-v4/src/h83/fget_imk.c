@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*   プロセッサ抽象化コンポーネント (日立 H8/300H 用)                       */
+/*   プロセッサ抽象化コンポーネント (日立 H8 用)                            */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -11,33 +11,14 @@
 
 
 
-/* 割り込みマスクのベース値の変更 */
-ER chg_imsk(
-		IMSK imsk)		/* 設定するマスク値 */
+/* 現在の割込みマスク値の強制参照 */
+ER fget_imsk(
+		IMSK *p_imsk)	/* 現在のマスク値の格納番地 */
 {
-	/* パラメーターチェック */
-#ifdef HOS_ERCHK_E_PAR
-	if ( (imsk & ~(H83_IMSK_I_BIT | H83_IMSK_I_BIT)) != 0 )
-	{
-		return E_PAR;
-	}
-#endif
-	
 	mknl_loc_sys();		/* システムのロック */
 	
-	/* ベースマスク値の変更 */
-	kernel_h83_ibmsk = imsk;
-	
-	if ( mknl_sns_ctx() )
-	{
-		/* 割り込みコンテキストならマスクレベルUPのみ反映 */
-		kernel_h83_imsk |= imsk;
-	}
-	else
-	{
-		/* タスクコンテキストなら現在のマスク値も即時変更 */
-		kernel_h83_imsk = imsk;
-	}
+	/* 現在値を読み取る */
+	*p_imsk = kernel_h83_imsk;		/* 割り込みマスクの取得 */
 	
 	mknl_unl_sys();		/* システムのアンロック */
 	

@@ -11,12 +11,12 @@
 
 
 
-UB kernel_h83_imsk = 0;
+UB kernel_h83_imsk  = 0;		/* 現在の割り込みマスク値 */
+UB kernel_h83_ibmsk = 0;		/* ベース割り込みマスク値 */
 
 
 void hospac_ini_sys(void)
 {
-	
 }
 
 
