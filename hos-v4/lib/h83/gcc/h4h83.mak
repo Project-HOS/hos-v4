@@ -8,16 +8,17 @@
 
 
 
-
-INCDIR     = ../../include
-
-PACDIR     = ../../src/h83
-MKNLDIR    = ../../src/mknl
+# パス定義
+HOSROOT    = ../../..
+INCDIR     = $(HOSROOT)/include
+SRCDIR     = $(HOSROOT)/src
+PACDIR     = $(SRCDIR)/h83
+MKNLDIR    = $(SRCDIR)/mknl
 MKNLSYSDIR = $(MKNLDIR)/sys
 MKNLTSKDIR = $(MKNLDIR)/tsk
 MKNLQUEDIR = $(MKNLDIR)/que
 MKNLTMODIR = $(MKNLDIR)/tmout
-KERNELDIR  = ../../src/kernel
+KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
 KNLMEMDIR  = $(KERNELDIR)/mem
 KNLTSKDIR  = $(KERNELDIR)/tsk
@@ -30,6 +31,7 @@ KNLTIMDIR  = $(KERNELDIR)/tim
 KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
 
+
 # ツール
 CC     = h8300-hms-gcc
 ASM    = h8300-hms-gcc
@@ -38,23 +40,30 @@ RANLIB = h8300-hms-ranlib
 
 
 # オプション
-CFLAGS = -c -mh -O2 -I$(INCDIR) -pipe
+CFLAGS = -c -mh -O2 -I$(INCDIR)
 AFLAGS = -c -mh
 LFLAGS = 
 
+
 #インクルードファイル
 INCS = $(INCDIR)/itron.h \
+       $(INCDIR)/hoserchk.h \
+       $(INCDIR)/hosdenv.h \
        $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
+       $(INCDIR)/knl_mem.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \
        $(INCDIR)/knl_flg.h \
        $(INCDIR)/knl_dtq.h \
        $(INCDIR)/knl_mbx.h \
+       $(INCDIR)/knl_mpf.h \
+       $(INCDIR)/knl_mbf.h \
        $(INCDIR)/knl_tim.h \
        $(INCDIR)/knl_sys.h \
        $(INCDIR)/knl_int.h \
+       $(INCDIR)/knl_exc.h \
        $(INCDIR)/h83/hospac.h
 
 
@@ -104,6 +113,7 @@ TARGET  = libh4h83.a
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
+
 
 
 # プロセッサ依存
@@ -543,6 +553,7 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
+
 
 
 # -----------------------------------------------------------------------------
