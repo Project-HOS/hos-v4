@@ -10,7 +10,7 @@
 ません。改変の履歴が分かるように管理していただければ有り難いです。
 
 
-HOS-V4  Ver X.XX   200X/XX/XX  by Project HOS (http://sourceforge.jp/projects/hos/)
+HOS-V4  Ver 1.01   2003/07/01  by Project HOS (http://sourceforge.jp/projects/hos/)
            ・acre_cyc,cre_cyc,del_cycを追加
            ・H8/Tiny対応の追加
            ・IA32対応の追加
