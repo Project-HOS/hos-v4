@@ -40,8 +40,8 @@ void hospac_dis_int(void);							/* 割り込み禁止 */
 void hospac_ena_int(void);							/* 割り込み許可 */
 void hospac_cre_ctx_asm(T_HOSPAC_CTXINF *pk_ctxinf,
 					VP sp, FP task, VP_INT exinf);	/* 実行コンテキストの作成(アセンブラ用) */
-#define hospac_cre_ctx(pk_ctxinf, exinf, task, stksz, stk) \
-	hospac_cre_ctx_asm(pk_ctxinf, (VP)((UB *)(stk) + ((stksz) & 0xfffffffc)), task, exinf);
+#define hospac_cre_ctx(pk_ctxinf, exinf, task, stksz, stk)	\
+	hospac_cre_ctx_asm(pk_ctxinf, (VP)((UB *)(stk) + ((stksz) & 0xfffffffc)), task, exinf)
 													/* アセンブラ側で都合がいいように引数を入れ替え */
 #define hospac_del_ctx(pk_ctxinf)					/* 実行コンテキストの削除 */
 void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
