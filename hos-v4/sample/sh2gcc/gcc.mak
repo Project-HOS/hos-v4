@@ -1,3 +1,10 @@
+# --------------------------------------------------------------------------- 
+#  Hyper Operating System V4  サンプルプログラム                              
+#    メイクファイル SH2 gcc用                                                 
+#                                                                             
+#                                   Copyright (C) 1998-2002 by Project HOS    
+#                                   http://sourceforge.jp/projects/hos/       
+# --------------------------------------------------------------------------- 
 
 
 CC     = sh-hms-gcc
@@ -5,7 +12,9 @@ ASM    = sh-hms-gcc
 LINK   = sh-hms-gcc
 OBJCNV = sh-hms-objcopy
 
+
 TARGET = sample
+
 
 CFLAGS = -c -m2 -I../../include
 AFLAGS = -c -m2
@@ -13,7 +22,7 @@ LFLAGS = -m2 -nostartfiles -Wl,-v,-t,-Map,sample.map,-Tsample.x
 
 INCS   = kernel_id.h sample.h sci.h
 OBJS   = crt0.o vector.o sample.o ostimer.o sci.o stmfifo.o kernel_cfg.o
-LIBS   = ../../lib/sh/sh2gcc/h4sh2gcc.a
+LIBS   = ../../lib/sh/sh2gcc/libh4sh2.a
 
 ${TARGET}.mot: ${OBJS} sample.x
 	${LINK} ${LFLAGS} -o ${TARGET}.out ${OBJS} ${LIBS}
@@ -46,9 +55,6 @@ kernel_cfg.c kernel_id.h: system.cfg
 	hos4cfg system.i
 	rm system.i
 	rm system_tmp.c
-#	cpp system.cfg > system.i
-#	hos4cfg system.i
-#	rm system.i
 
 
 clean:
@@ -57,3 +63,9 @@ clean:
 	rm -f *.o
 	rm -f kernel_id.h
 	rm -f kernel_cfg.c
+
+
+
+# --------------------------------------------------------------------------- 
+#  Copyright (C) 1998-2002 by Project HOS                                     
+# --------------------------------------------------------------------------- 
