@@ -31,7 +31,7 @@ exception_hdr_adr:
 /* TLBミス例外ハンドラ */
 		.text
 		.org	__exception_handler+0x300
-__tbl_mis_handler:
+__tlb_mis_handler:
 	bra	__exception_handler
 	nop
 
