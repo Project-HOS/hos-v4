@@ -12,6 +12,7 @@ SECTIONS
 { 					
 .vectors : {
 	*(.vectors)
+	FILL(0xff)
         }  > vectors
 .text  : {
 	*(.text) 				
