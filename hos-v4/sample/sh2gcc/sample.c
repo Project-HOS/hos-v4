@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4 サンプル                                                         */
+/*  HOS-V4 サンプルプログラム                                               */
 /*   メインルーチン                                                         */
 /*                                                                          */
-/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/*                                   Copyright (C) 2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
 
 
@@ -10,16 +10,31 @@
 #include <stdio.h>
 #include "kernel.h"
 #include "kernel_id.h"
-#include "test.h"
+#include "sh7045.h"
+#include "sci.h"
+#include "sample.h"
 
 
 
-/* メイン関数 */
 int main()
 {
-	/* 必要ならここで ハードウェアの設定など行う */
-
-	/* HOS-V4 の開始 */
+	char c;
+	
+	/* I/O の初期化 */
+	*SH_PEIOR = 0x00ff;
+	*SH_PEDR  = 0;
+	*SH_PACRL2 |= 0x0100;
+	
+	/* タイマ初期化 */
+	*SH_CMCSR0 = 0x0041;
+	*SH_CMCOR0 = 62499;
+	*SH_CMSTR  = 0x0001;
+	*SH_IPRG   = 0x00f0;
+	
+	sci_init();
+	
+	sci_puts("\r\nStart\r\n");
+	
 	sta_hos();
 	
 	return 0;
@@ -39,27 +54,19 @@ void TestStart(VP_INT exinf)
 /* サンプルタスク１ */
 void Task1(VP_INT exinf)
 {
-	int i;
 	ER ercd;
-
-	printf("Task1:Start\n");
-
-	/* 自身の wup_tsk */
-	wup_tsk(TSKID_TEST1);
+	
+	sci_puts("\r\nTask1:Start\r\n");
+	
+	*SH_PEDR |= 0x0001;
+	
+	wup_tsk(1);
 	slp_tsk();
-
-	/* データキューへの送信 */
-	for ( i = 0; i < 16; i++ )
-	{
-		printf("Task1 snd_dtq : %d\n", i);
-		snd_dtq(DTQID_TEST1, (VP_INT)i);
-	}
-
-	printf("Task1:slp_tsk()\n");
+	
 	ercd = slp_tsk();
-	printf("Task1:slp_tsk() ret = %d\n", ercd);
 
-	printf("Task1:End\n");
+	*SH_PEDR |= 0x0010;
+
 	ext_tsk();
 }
 
@@ -69,13 +76,12 @@ void Task2(VP_INT exinf)
 {
 	ER ercd;
 
-	printf("Task2:Start\n");
+	*SH_PEDR |= 0x0002;
 
-	printf("Task2:wup_tsk()\n");
 	ercd = wup_tsk(1);
-	printf("Task2:wup_tsk(1) ret = %d\n", ercd);
 
-	printf("Task2:End\n");
+	*SH_PEDR |= 0x0020;
+
 	ext_tsk();
 }
 
@@ -83,23 +89,24 @@ void Task2(VP_INT exinf)
 /* サンプルタスク3 */
 void Task3(VP_INT exinf)
 {
-	VP_INT msg;
-	ER ercd;
-
-	printf("Task3:Start\n");
-
+	ER  ercd;
+	volatile int i;
+	
+	*SH_PEDR |= 0x0004;
+	
+	ercd = wup_tsk(1);
+	
+	*SH_PEDR |= 0x0040;
+	
+	*SH_PEDR = 0xaa;
+	
 	for ( ; ; )
 	{
-		rcv_dtq(DTQID_TEST1, &msg);
-		printf("Task3 rcv_dtq : %d\n", (int)msg);
+		for ( i = 0; i < 100000; i++ )
+			;
+		*SH_PEDR ^= 0x0080;
 	}
-
-	printf("Task3:wup_tsk(1)\n");
-	ercd = wup_tsk(1);
-	printf("Task3:wup_tsk(1) ret = %d\n", ercd);
-
-	printf("Task3:End\n");
-
+	
 	ext_tsk();
 }
 
@@ -112,10 +119,30 @@ void CycHandler1(VP_INT exinf)
 
 
 /* 割り込みハンドラサンプル */
-void IntHndler1(VP_INT exinf)
+void ostim_hdr(VP_INT exinf)	/* OSタイマ用ハンドラ */
 {
+	*SH_CMCSR0 &= 0xff7f;
+
+	*SH_PEDR = 0x005a;
+	
 	isig_tim();		/* タイムティックの供給 */
 }
+
+/*
+static int count = 0;
+
+#pragma interrupt
+void Cmt0_Handler(void)
+{
+	*SH_CMCSR0 &= 0xff7f;
+	
+	count++;
+	if ( count % 1 == 0 )
+	{
+		*SH_PEDR = ~*SH_PEDR;
+	}
+}
+*/
 
 
 /* ------------------------------------------------------------------------ */

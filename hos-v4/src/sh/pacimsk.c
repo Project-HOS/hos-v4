@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*   プロセッサ抽象化コンポーネント (ARM用)  割り込みマスク管理             */
+/*   プロセッサ抽象化コンポーネント (SH用)  割り込みマスク管理              */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -11,8 +11,10 @@
 
 
 /* グローバル変数定義 */
-UW hospac_arm_imsk  = ARM_IMSK_USR_MODE;		/* 割り込みマスク */
-UW hospac_arm_bimsk = ARM_IMSK_USR_MODE;		/* ベース割り込みマスク */
+UW hospac_sh_imsk      = 0;		/* 割り込みマスク */
+UW hospac_sh_imsk_base = 0;		/* 割り込みマスクベース値 */
+UW HOS_int_sp;					/* 割り込みスタックポインタ退避 */
+UW HOS_int_cnt = 0;				/* 割り込みネスト回数 */
 
 
 /* 割り込みマスク指定 */
@@ -20,25 +22,20 @@ ER chg_imsk(IMSK imsk)
 {
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( (imsk & ~(ARM_IMSK_FIQ | ARM_IMSK_IRQ)) != 0 )
+	if ( imsk < 0 || imsk > 15 )
 	{
 		return E_PAR;
 	}
 #endif
 
 	mknl_loc_sys();		/* システムのロック */
-
-	hospac_arm_bimsk = (imsk | ARM_IMSK_USR_MODE);
 	
-	if ( !mknl_sns_ctx() )
+	hospac_sh_imsk_base = (imsk << 4);
+	if ( mknl_sns_ctx() || hospac_sh_imsk < hospac_sh_imsk_base )
 	{
-		hospac_arm_imsk = hospac_arm_bimsk;
+		hospac_sh_imsk = hospac_sh_imsk_base;
 	}
-	else
-	{
-		hospac_arm_imsk |= hospac_arm_bimsk;
-	}
-
+	
 	mknl_unl_sys();		/* システムのアンロック */
 
 	return E_OK;
@@ -48,7 +45,7 @@ ER chg_imsk(IMSK imsk)
 /* 割り込みマスクの参照 */
 ER get_imsk(IMSK *p_imsk)
 {
-	*p_imsk = (hospac_arm_bimsk & (ARM_IMSK_FIQ | ARM_IMSK_IRQ));
+	*p_imsk = hospac_sh_imsk_base >> 4;
 	
 	return E_OK;
 }

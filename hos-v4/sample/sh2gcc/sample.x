@@ -2,61 +2,45 @@ OUTPUT_FORMAT("coff-sh")
 OUTPUT_ARCH(sh)
 MEMORY
 {
-  vector : o = 0x00000000, l = 0x00000300
-  rom    : o = 0x00000300, l = 0x0001fd00
-  ram    : o = 0xfffff000, l = 0x00001000
-  stack  : o = 0xffffff90, l = 0x00000010
+  vector : o = 0xfffff200, l = 0x00000300
+  rom    : o = 0x00c00000, l = 0x00020000
+  ram    : o = 0x00c20000, l = 0x0001fff0
+  stack  : o = 0x00c3fff0, l = 0x00000010
 }
 SECTIONS
 {
   .vector :
   {
-    _vec_top = . ;
+    _VECTOR_START = . ;
     *(.vector)
   } > vector
   
   .text :
   {
-    _stext = . ;
+    _TEXT_START = . ;
     *(.vector)
     *(.text)
     *(.strings)
-    _etext = . ;
+    _TEXT_END = . ;
   } > rom
-  .tors :
+  .data : AT (ADDR(.text) + SIZEOF(.text))
   {
-    ___ctors = . ;
-    *(.ctors)
-    ___ctors_end = . ;
-    ___dtors = . ;
-    *(.dtors)
-    ___dtors_end = . ;
-  } > rom
-  .data :
-  {
-    _sdata = . ;
+    _DATA_ROM = ADDR(.text) + SIZEOF(.text) ;
+    _DATA_START = . ;
     *(.data)
-    _edata = . ;
+    _DATA_END = . ;
   } > ram
   .bss :
   {
-    _bss_start = . ;
+    _BSS_START = . ;
     *(.bss)
     *(COMMON)
-    _bss_end = . ;
+    _BSS_END = . ;
   } > ram
   .stack :
   {
-    _stack_top = . ;
+    _STACK_START = . ;
     *(.stack);
-    _stack_end = . ;
+    _STACK_END = . ;
   } > stack
-  .stab 0 (NOLOAD) :
-  {
-    *(.stab)
-  }
-  .stabstr 0 (NOLOAD) :
-  {
-    *(.stabstr)
-  }
 }

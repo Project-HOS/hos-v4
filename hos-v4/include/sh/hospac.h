@@ -15,6 +15,10 @@
 /*                   型定義                   */
 /* ------------------------------------------ */
 
+/* SH固有 割り込み管理機構 */
+typedef UW		IMSK;			/* 割り込みマスク */
+
+
 /* コンテキスト情報保存ブロック */
 typedef struct t_hos_pac_ctxinf
 {
@@ -43,6 +47,11 @@ void hospac_cre_ctx_asm(T_HOSPAC_CTXINF *pk_ctxinf,
 void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 						T_HOSPAC_CTXINF *pk_nxt_ctxinf);	/* 実行コンテキストの切替 */
 #define hospac_idle()				/* アイドル時処理 */
+
+
+/* SH固有 割り込み管理機構 */
+ER   chg_imsk(IMSK imsk);			/* 割り込みマスク指定 */
+ER   get_imsk(IMSK *p_imsk);		/* 割り込みマスクの参照 */
 
 
 

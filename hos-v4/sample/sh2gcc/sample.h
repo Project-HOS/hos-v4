@@ -23,7 +23,7 @@ void Task3(VP_INT exinf);		/* サンプルタスク3 */
 
 void CycHandler1(VP_INT exinf);	/* 周期ハンドラサンプル */
 
-void IntHndler1(VP_INT exinf);	/* 割り込みハンドラサンプル */
+void ostim_hdr(VP_INT exinf);	/* OSタイマ用ハンドラ */
 
 #ifdef __cplusplus
 }

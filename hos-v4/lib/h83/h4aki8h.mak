@@ -215,16 +215,16 @@ mrmv_tmo.obj: $(MKNLTMODIR)\mrmv_tmo.c $(INCS)
 
 
 # カーネル独自
-sta_hos.objbj: $(KNLHOSDIR)\sta_hos.c $(INCS)
+sta_hos.obj: $(KNLHOSDIR)\sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\sta_hos.c
 
-ini_mem.objbj: $(KNLHOSDIR)\ini_mem.c $(INCS)
+ini_mem.obj: $(KNLHOSDIR)\ini_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\ini_mem.c
 
-alc_mem.objbj: $(KNLHOSDIR)\alc_mem.c $(INCS)
+alc_mem.obj: $(KNLHOSDIR)\alc_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\alc_mem.c
 
-fre_mem.objbj: $(KNLHOSDIR)\fre_mem.c $(INCS)
+fre_mem.obj: $(KNLHOSDIR)\fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\fre_mem.c 
 
 

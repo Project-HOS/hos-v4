@@ -22,7 +22,8 @@
 				.text
 				.align	2
 _hospac_dis_int:
-				mov		#0, r0
+				stc		sr, r0
+				or		#0xf0, r0		/* 全割り込みマスク */
 				rts
 				ldc		r0, sr
 
@@ -35,9 +36,19 @@ _hospac_dis_int:
 				.text
 				.align	2
 _hospac_ena_int:
-				mov		#-1, r0
+				mov		#0xf0, r1		/* 0x00f0 を反転させて 0xff0f を作成 */
+				not		r1, r1
+				stc		sr, r0
+				and		r1, r0			/* 割り込みマスク値以外を取得 */
+				mov.l	imsk_addr, r1
+				mov.l	@r1, r1
+				or		r1, r0			/* 割り込みマスクの値を設定 */
 				rts
 				ldc		r0, sr
+
+				.align	2
+imsk_addr:
+				.long	_hospac_sh_imsk			/* 割り込みマスク */
 
 
 

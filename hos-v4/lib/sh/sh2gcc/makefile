@@ -1,27 +1,26 @@
 # -----------------------------------------------------------------------------
 #  HOS-V4                                                                      
-#   ライブラリメイクファイル ARM SDT用                                         
-#   ARMモード リトルエンディアン                                               
+#   ライブラリメイクファイル gcc SH2 用                                        
 #                                                                              
 #                                   Copyright (C) 1998-2002 by Ryuji Fuchikami 
 # -----------------------------------------------------------------------------
 
 
-# メイクプログラムに極力依存しないように、単純に記述しています。
-
 
 # インクルードパス
-INCDIR     = ../../include
+INCDIR     = ../../../include
 
 
 # ソースパス
-PACDIR     = ../../src/sh
-MKNLDIR    = ../../src/mknl
+SRCDIR     = ../../../src
+PACDIR     = $(SRCDIR)/sh
+PACASMDIR  = $(PACDIR)/sh2gcc
+MKNLDIR    = $(SRCDIR)/mknl
 MKNLSYSDIR = $(MKNLDIR)/sys
 MKNLTSKDIR = $(MKNLDIR)/tsk
 MKNLQUEDIR = $(MKNLDIR)/que
 MKNLTMODIR = $(MKNLDIR)/tmout
-KERNELDIR  = ../../src/kernel
+KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
 KNLTSKDIR  = $(KERNELDIR)/tsk
 KNLSEMDIR  = $(KERNELDIR)/sem
@@ -41,8 +40,8 @@ LIBR   = sh-hms-ar
 RANLIB = sh-hms-ranlib
 
 # オプション
-CFLAGS = -c -g -O0 -I$(INCDIR)
-AFLAGS = -c -g
+CFLAGS = -c -O2 -m2 -I$(INCDIR)
+AFLAGS = -c
 
 
 # ターゲット
@@ -67,7 +66,7 @@ INCS = $(INCDIR)/itron.h \
 
 
 # オブジェクトファイル
-OBJS = pacctx.o \
+OBJS = pacctx.o pacint.o pacimsk.o \
        mini_sys.o msta_stu.o mext_stu.o \
        msta_tsk.o mext_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
@@ -104,12 +103,17 @@ OBJS = pacctx.o \
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
-	rm *.o
 
 
 # プロセッサ依存
-pacctx.o: $(PACDIR)/pacctx.s
-	$(ASM) $(AFLAGS) -o pacctx.o $(PACDIR)/pacctx.s
+pacctx.o: $(PACASMDIR)/pacctx.s
+	$(ASM) $(AFLAGS) -o pacctx.o $(PACASMDIR)/pacctx.s
+
+pacint.o: $(PACASMDIR)/pacint.s
+	$(ASM) $(AFLAGS) -o pacint.o $(PACASMDIR)/pacint.s
+
+pacimsk.o: $(PACDIR)/pacimsk.c
+	$(CC) $(CFLAGS) $(PACDIR)/pacimsk.c
 
 
 # μカーネル システム制御

@@ -39,8 +39,8 @@ ASM  = armasm
 LIBR = armlib
 
 # オプション
-CFLAGS = -c -g -O0 -I$(INCDIR)
-AFLAGS = -g
+CFLAGS = -c -O2 -I$(INCDIR)
+AFLAGS = 
 LFLAGS = 
 
 # ターゲット
@@ -76,7 +76,7 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        ref_tst.o \
        slp_tsk.o tslp_tsk.o wup_tsk.o can_wup.o rel_wai.o \
        sus_tsk.o rsm_tsk.o frsm_tsk.o dly_tsk.o \
-       ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
+       ras_tex.o ktex_ent.o dis_tex.o ena_tex.o sns_tex.o \
        ini_sem.o cre_sem.o acre_sem.o kcre_sem.o del_sem.o \
        sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
        ini_flg.o set_flg.o clr_flg.o wai_flg.o pol_flg.o \
@@ -276,6 +276,9 @@ dly_tsk.o: $(KNLTSKDIR)\dly_tsk.c $(INCS)
 
 ras_tex.o: $(KNLTSKDIR)\ras_tex.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)\ras_tex.c
+
+ktex_ent.o: $(KNLTSKDIR)\ktex_ent.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)\ktex_ent.c
 
 dis_tex.o: $(KNLTSKDIR)\dis_tex.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)\dis_tex.c
