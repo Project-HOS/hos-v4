@@ -71,7 +71,7 @@ ER kernel_cre_mpf(
 	mpfcb_rom->mpfatr    = pk_cmpf->mpfatr;
 	mpfcb_rom->blkcnt    = pk_cmpf->blkcnt;
 	mpfcb_rom->blksz     = pk_cmpf->blksz;
-	mpfcb_rom->mpf　= pk_cmpf->mpf;
+	mpfcb_rom->mpf       = pk_cmpf->mpf;
 
 	/* ブロックの初期化 */
 	ptr = (UB *)mpfcb_rom->mpf;
