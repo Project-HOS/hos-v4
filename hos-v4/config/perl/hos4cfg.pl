@@ -62,7 +62,7 @@ while(<>)
 		$max_tskid = $1;
 	}
 	# CRE_TSK()
-	elsif (/CRE_TSK\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_TSK\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %tsk = ();
 		$tsk{tskid} =  $1;
 		$tsk{tskatr} =  $2;
@@ -83,7 +83,7 @@ while(<>)
 		$max_semid = $1;
 	}
 	# CRE_SEM()
-	elsif (/CRE_SEM\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/)	{
+	elsif (/CRE_SEM\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/)	{
 		my %sem = ();
 		$sem{semid} =  $1;
 		$sem{sematr} =  $2;
@@ -101,7 +101,7 @@ while(<>)
 		$max_excno = $1;
 	}
 	# DEF_EXC()
-	elsif (/DEF_EXC\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*\}\);/)	{
+	elsif (/DEF_EXC\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/)	{
 		my %defexc = ();
 		$defexc{excno} =  $1;
 		$defexc{excatr} =  $2;
@@ -114,7 +114,7 @@ while(<>)
 		}
 	}
 	# DEF_TEX()
-	elsif (/DEF_TEX\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*\}\);/)	{
+	elsif (/DEF_TEX\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/)	{
 		my %deftex = ();
 		$deftex{tskid} =  $1;
 		$deftex{texatr} =  $2;
@@ -144,7 +144,7 @@ while(<>)
 		$max_mbfid = $1;
 	}
 	# CRE_MBF()
-	elsif (/CRE_MBF\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_MBF\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %mbf = ();
 		$mbf{mbfid} =  $1;
 		$mbf{mbfatr} =  $2;
@@ -163,7 +163,7 @@ while(<>)
 		$max_mbxid = $1;
 	}
 	# CRE_MBX()
-	elsif (/CRE_MBX\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_MBX\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %mbx = ();
 		$mbx{mbxid} =  $1;
 		$mbx{mbxatr} =  $2;
@@ -181,7 +181,7 @@ while(<>)
 		$max_mpfid = $1;
 	}
 	# CRE_MPF()
-	elsif (/CRE_MPF\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_MPF\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %mpf = ();
 		$mpf{mpfid} =  $1;
 		$mpf{mpfatr} =  $2;
@@ -199,7 +199,7 @@ while(<>)
 		$max_flgid = $1;
 	}
 	# CRE_FLG()
-	elsif (/CRE_FLG\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_FLG\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %flg = ();
 		$flg{flgid} =  $1;
 		$flg{flgatr} =  $2;
@@ -215,7 +215,7 @@ while(<>)
 		$max_cycid = $1;
 	}
 	# CRE_CYC()
-	elsif (/CRE_CYC\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_CYC\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %cyc = ();
 		$cyc{cycid} =  $1;
 		$cyc{cycatr} =  $2;
@@ -238,7 +238,7 @@ while(<>)
 		$max_dtqid = $1;
 	}
 	# CRE_DTQ()
-	elsif (/CRE_DTQ\(\s*(.*)\s*,\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/CRE_DTQ\(\s*(.*\S)\s*,\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %dtq = ();
 		$dtq{dtqid} =  $1;
 		$dtq{dtqatr} =  $2;
@@ -251,7 +251,7 @@ while(<>)
 		}
 	}
 	# ATT_INI()
-	elsif (/ATT_INI\(\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/ATT_INI\(\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %attini = ();
 		$attini{iniatr} =  $1;
 		$attini{extinf} =  $2;
@@ -263,7 +263,7 @@ while(<>)
 		}
 	}
 	# ATT_ISR()
-	elsif (/ATT_ISR\(\s*\{\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\}\);/) {
+	elsif (/ATT_ISR\(\s*\{\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*,\s*(.*\S)\s*\}\);/) {
 		my %attisr = ();
 		$attisr{isratr} =  $1;
 		$attisr{exinf} =  $2;
