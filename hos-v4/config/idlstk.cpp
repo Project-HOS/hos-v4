@@ -44,8 +44,17 @@ int CApiIdleStack::AutoId(void)
 // API§Œ≤Ú¿œ
 int CApiIdleStack::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+
 	if ( strcmp(pszApiName, "HOS_IDL_STK") == 0 )
 	{
+		if ( blEx == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blEx = true;
+
 		return AddParams(pszParams);
 	}
 
@@ -63,7 +72,7 @@ void  CApiIdleStack::WriteCfgDef(FILE* fp)
 	fputs(
 		"\n\n\n"
 		"/* ------------------------------------------ */\n"
-		"/*                 idel stack                 */\n"
+		"/*                 idle stack                 */\n"
 		"/* ------------------------------------------ */\n\n"
 		, fp);
 
