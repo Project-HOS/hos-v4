@@ -12,7 +12,10 @@
 
 HOS-V4  Ver X.XX   200X/XX/XX  by Project HOS (http://sourceforge.jp/projects/hos/)
            ・acre_cyc,cre_cyc,del_cycを追加
-           ・H8/3664対応
+           ・H8/Tiny対応の追加
+           ・IA32対応の追加
+           ・コンフィギュレーターのバグ修正
+           ・h83 gcc版コンテキスト制御のレジスタ保存に関する修正
 
 
 HOS-V4  Ver 1.00   2002/11/17  by Project HOS (http://sourceforge.jp/projects/hos/)
