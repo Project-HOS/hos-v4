@@ -38,6 +38,9 @@
 
 #include "x86/hospac.h"
 
+#elif defined(__i386__)	/* i386-elf-gcc */
+#include "ia32/hospac.h"
+
 #else
 
 #include "hospac.h"		/* 識別できない場合はインクルードパスの指定を期待する */
