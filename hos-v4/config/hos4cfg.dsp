@@ -105,6 +105,10 @@ SOURCE=.\attisr.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\crealm.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\crecyc.cpp
 # End Source File
 # Begin Source File
@@ -157,15 +161,7 @@ SOURCE=.\idlstk.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\idlstk.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\intstk.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\intstk.h
 # End Source File
 # Begin Source File
 
@@ -217,6 +213,10 @@ SOURCE=.\attisr.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\crealm.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\crecyc.h
 # End Source File
 # Begin Source File
@@ -258,6 +258,14 @@ SOURCE=.\defexc.h
 # Begin Source File
 
 SOURCE=.\deftex.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\idlstk.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\intstk.h
 # End Source File
 # Begin Source File
 

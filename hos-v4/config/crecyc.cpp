@@ -187,13 +187,6 @@ void  CApiCreCyc::WriteCfgDef(FILE* fp)
 		}
 		fputs("\t};\n", fp);
 	}
-	else
-	{
-		fputs(
-			"\n/* cyclic handler control block table */\n"
-			"T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[1];\t\t/* dummy */",
-			fp);
-	}
 
 	// テーブルサイズ情報出力
 	fprintf(

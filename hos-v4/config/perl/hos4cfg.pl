@@ -19,6 +19,8 @@ $idl_stksz		= 128;
 $idl_stk		= mknl_idl_stkblk;
 $int_stksz		= 0;
 $int_sp			= kernel_int_stk;
+$cycnum			= 0;
+$tsknum			= 0;
 
 
 mainloop:
@@ -322,12 +324,14 @@ sub gen_cfg_c
 	print CFG "const INT\tmknl_rdq_cnt = $max_tpri;\n";
 	print CFG "\n\n\n";
 
-	print CFG "/* ------------------------------------------ */\n";
-	print CFG "/*                kernel heap                 */\n";
-	print CFG "/* ------------------------------------------ */\n";
-	print CFG "\n";
-	print CFG "VP kernel_heap_mem[(($kernel_heap) + sizeof(VP) - 1) / sizeof(VP)];	/* kernel heap */\n";
-	print CFG "\n\n\n";
+	if ( $kernel_heap != 0 ){
+		print CFG "/* ------------------------------------------ */\n";
+		print CFG "/*                kernel heap                 */\n";
+		print CFG "/* ------------------------------------------ */\n";
+		print CFG "\n";
+		print CFG "VP kernel_heap_mem[(($kernel_heap) + sizeof(VP) - 1) / sizeof(VP)];	/* kernel heap */\n";
+		print CFG "\n\n\n";
+	}
 
 	print CFG "/* ------------------------------------------ */\n";
 	print CFG "/*               set time tic                 */\n";
@@ -659,7 +663,7 @@ sub gen_cfg_c
 		print CFG "T_KERNEL_CYCCB_RAM kernel_cyccb_ram[$cycnum];\n\n";
 
 		print CFG "/* cyclic handler control block table */\n";
-		print CFG "T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[$mbfnum] =\n";
+		print CFG "T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[$cycnum] =\n";
 		print CFG "\t{\n";
 		$i = 0;
 		while($i < $cycnum ){
@@ -668,6 +672,12 @@ sub gen_cfg_c
 		}
 		print CFG "\t};\n\n";
 	}
+	else {
+		print CFG "/* cyclic handler control block table */\n";
+		print CFG "T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[1];";
+		print CFG "\t\t/* dummy */\n";
+	}
+
 
 	print CFG "/* cyclic handler control block count */\n";
 	print CFG "const INT kernel_cyccb_cnt = $cycnum;\n";
