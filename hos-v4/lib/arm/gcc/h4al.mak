@@ -29,6 +29,8 @@ KNLDTQDIR  = $(KERNELDIR)/dtq
 KNLMBXDIR  = $(KERNELDIR)/mbx
 KNLMPFDIR  = $(KERNELDIR)/mpf
 KNLTIMDIR  = $(KERNELDIR)/tim
+KNLCYCDIR  = $(KERNELDIR)/cyc
+KNLALMDIR  = $(KERNELDIR)/alm
 KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
 
@@ -491,14 +493,39 @@ get_tim.o: $(KNLTIMDIR)/get_tim.c $(INCS)
 isig_tim.o: $(KNLTIMDIR)/isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)/isig_tim.c
 
-ini_cyc.o: $(KNLTIMDIR)/ini_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/ini_cyc.c
+add_tml.o: $(KNLTIMDIR)/add_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/add_tml.c
 
-sta_cyc.o: $(KNLTIMDIR)/sta_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/sta_cyc.c
+rmv_tml.o: $(KNLTIMDIR)/rmv_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/rmv_tml.c
 
-stp_cyc.o: $(KNLTIMDIR)/stp_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/stp_cyc.c
+
+# 周期ハンドラ
+ini_cyc.o: $(KNLCYCDIR)/ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/ini_cyc.c
+
+cyc_hdr.o: $(KNLCYCDIR)/cyc_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/cyc_hdr.c
+
+sta_cyc.o: $(KNLCYCDIR)/sta_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/sta_cyc.c
+
+stp_cyc.o: $(KNLCYCDIR)/stp_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/stp_cyc.c
+
+
+# アラームハンドラ
+ini_alm.o: $(KNLALMDIR)/ini_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/ini_alm.c
+
+alm_hdr.o: $(KNLALMDIR)/alm_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/alm_hdr.c
+
+sta_alm.o: $(KNLALMDIR)/sta_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/sta_alm.c
+
+stp_alm.o: $(KNLALMDIR)/stp_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/stp_alm.c
 
 
 # 割り込み管理

@@ -103,9 +103,9 @@ MultipleInt:
 				bl		hos_arm_end_fiq				/* FIQ終了処理 */
 
 			/* 割り込みネストカウントデクリメント */
-				ldr		r0, =kernel_int_ssp
+				ldr		r0, =kernel_int_cnt
 				ldr		r1, [r0]
-				add		r1, r1, #1
+				sub		r1, r1, #1
 				str		r1, [r0]
 
 				b		ReturnInt
