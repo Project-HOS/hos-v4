@@ -75,7 +75,7 @@ void  CApiIdleStack::WriteCfgDef(FILE* fp)
 	}
 	else
 	{
-		pszSize  = "64";		// 指定が無ければデフォルトサイズ
+		pszSize  = "128";		// 指定が無ければデフォルトサイズ
 		pszStack = "NULL";		// 指定が無ければNULL(自動生成)
 	}
 
