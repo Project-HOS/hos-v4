@@ -34,7 +34,7 @@ ER wai_flg(
 
 	/* パラメータのチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( (wfmode != TWF_ANDW && wfmode != TWF_ORW) || waiptn == 0)
+	if ( (wfmode != TWF_ANDW && wfmode != TWF_ORW) || waiptn == 0 )
 	{
 		return E_PAR;	/* パラメータエラー */
 	}
@@ -52,7 +52,6 @@ ER wai_flg(
 #endif
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
-	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* オブジェクトの存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -62,6 +61,8 @@ ER wai_flg(
 		return E_NOEXS;	/* オブジェクト未生成 */
 	}
 #endif
+
+	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* サービスコール不正使用チェック */
 #ifdef HOS_ERCHK_E_ILUSE

@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    システム時間管理                                                      */
+/*    ITRONカーネル システム時間管理                                        */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */

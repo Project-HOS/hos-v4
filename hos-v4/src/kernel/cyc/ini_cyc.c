@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    周期ハンドラ                                                          */
+/*    ITRONカーネル 周期ハンドラ                                            */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-#include "knl_tim.h"
+#include "knl_cyc.h"
 
 
 
@@ -21,10 +21,19 @@ void kernel_ini_cyc(void)
 	for ( i = 0; i < kernel_cyccb_cnt; i++ )
 	{
 		cyccb_ram = kernel_cyccb_ram_tbl[i];
-		if ( cyccb_ram != NULL && (cyccb_ram->cyccb_rom->cycatr & TA_STA) )
+		
+		if ( cyccb_ram != NULL )
 		{
-			cyccb_ram->lefttim = cyccb_ram->cyccb_rom->cyctim;
-			cyccb_ram->cycstat = TCYC_STA;
+			/* タイマハンドラ登録 */
+			cyccb_ram->timobj.timhdr = kernel_cyc_hdr;
+			
+			/* 初期スタート設定 */
+			if ( cyccb_ram->cyccb_rom->cycatr & TA_STA )
+			{
+				/* タイマリストに追加 */
+				cyccb_ram->lefttim = cyccb_ram->cyccb_rom->cyctim;
+				kernel_add_tml((T_KERNEL_TIM *)cyccb_ram);
+			}
 		}
 	}
 }

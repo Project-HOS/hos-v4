@@ -25,6 +25,7 @@
 #include "knl_mbf.h"
 #include "knl_mpf.h"
 #include "knl_tim.h"
+#include "knl_cyc.h"
 #include "knl_sys.h"
 #include "knl_int.h"
 #include "knl_exc.h"

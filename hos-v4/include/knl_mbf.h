@@ -63,8 +63,9 @@ typedef struct t_kernel_mbfcb_ram
 {
 	T_MKNL_QUE sndque;	/* メッセージバッファ送信待ちタスクキュー */
 	T_MKNL_QUE rcvque;	/* メッセージバッファ受信待ちタスクキュー */
-	UINT       head;	/* 先頭メッセージの位置 */
-	UINT       tail;	/* 末尾メッセージの位置 */
+	SIZE       head;	/* 先頭メッセージの位置 */
+	SIZE       tail;	/* 末尾メッセージの位置 */
+	UINT       smsgcnt;	/* メッセージバッファに入っているメッセージの数 */
 	const T_KERNEL_MBFCB_ROM *mbfcb_rom;	/* メッセージバッファコントロールブロックROM部へのポインタ */
 } T_KERNEL_MBFCB_RAM;
 
@@ -76,10 +77,6 @@ typedef struct t_kernel_mbfdat
 } T_KERNEL_MBFDAT;
 
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
@@ -107,6 +104,10 @@ extern const INT kernel_mbfcb_cnt;							/* メッセージバッファコントロールブロッ
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* メッセージバッファ */
 #define kernel_ini_mbf()									/* メッセージバッファの初期化 */

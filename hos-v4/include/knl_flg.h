@@ -40,6 +40,13 @@ typedef struct t_cflg
 	FLGPTN iflgptn;		/* イベントフラグのビットパターンの初期値 */
 } T_CFLG;
 
+/* イベントフラグ状態 */
+typedef struct t_rflg
+{
+	ID     wtskid;		/* イベントフラグの待ち行列の先頭のタスクのID番号 */
+	FLGPTN flgptn;		/* イベントフラグの現在のビットパターン */
+} T_RFLG;
+
 
 /* イベントフラグコントロールブロック(ROM部) */
 typedef struct t_kernel_flgcb_rom
@@ -65,9 +72,6 @@ typedef struct t_kernel_flginf
 } T_KERNEL_FLGINF;
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
@@ -86,6 +90,10 @@ extern const INT kernel_flgcb_cnt;							/* イベントフラグコントロールブロック個
 /*                関数宣言                    */
 /* ------------------------------------------ */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* イベントフラグ */
 void    kernel_ini_flg(void);								/* イベントフラグの初期化 */
 ER      cre_flg(ID flgid, const T_CFLG *pk_cflg);			/* イベントフラグの生成 */
@@ -101,10 +109,9 @@ ER      pol_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn);
 															/* イベントフラグ待ち(ポーリング) */
 ER      twai_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn, TMO tmout);
 															/* イベントフラグ待ち(タイムアウトあり) */
+ER      ref_flg(ID flgid, T_RFLG *pk_rflg);					/* イベントフラグの状態参照 */
 BOOL    kernel_chk_flg(T_KERNEL_FLGCB_RAM *flgcb_ram, T_KERNEL_FLGINF *pk_flginf);
 															/* フラグが起床条件を満たしているかチェック */
-
-
 
 #ifdef __cplusplus
 }

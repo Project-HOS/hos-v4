@@ -1,19 +1,19 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    周期ハンドラ                                                          */
+/*    ITRONカーネル アラームハンドラ                                        */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-#include "knl_tim.h"
+#include "knl_cyc.h"
 
 
 
-/* 周期ハンドラの動作停止 */
+/* アラームハンドラの動作停止 */
 ER stp_cyc(
-		ID cycid)	/* 動作停止対象の周期ハンドラのID番号 */
+		ID cycid)	/* 動作停止対象のアラームハンドラのID番号 */
 {
 	const T_KERNEL_CYCCB_ROM *cyccb_rom;
 	T_KERNEL_CYCCB_RAM *cyccb_ram;
@@ -38,20 +38,11 @@ ER stp_cyc(
 		return E_NOEXS;
 	}
 #endif
-
-	/* コンテキストチェック */
-#ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
-	{
-		mknl_unl_sys();	/* システムのロック解除 */
-		return E_CTX;	/* コンテキスト不正 */
-	}
-#endif
 	
 	cyccb_rom = cyccb_ram->cyccb_rom;
 	
-	/* 動作設定 */
-	cyccb_ram->cycstat = TCYC_STP;
+	/* タイマリストから外す */
+	kernel_rmv_tml((T_KERNEL_TIM *)cyccb_ram);
 	
 	mknl_unl_sys();		/* システムのロック解除 */
 

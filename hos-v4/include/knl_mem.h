@@ -43,10 +43,6 @@ typedef struct t_kernel_mem_blk
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -61,12 +57,14 @@ extern SIZE             kernel_mem_szie;	/* カーネル用メモリサイズ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* システムメモリ管理 */
 void    kernel_ini_mem(void *p_base, SIZE size);	/* メモリ管理を初期化 */
 VP      kernel_alc_mem(SIZE size);					/* メモリの割り当て */
 void    kernel_fre_mem(VP ptr);						/* メモリの解放 */
-
-
 
 #ifdef __cplusplus
 }

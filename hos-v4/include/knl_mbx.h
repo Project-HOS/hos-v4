@@ -61,6 +61,13 @@ typedef struct t_cmbx
 	VP    mprihd;		/* 優先度別のメッセージキューヘッダ領域の先頭番地 */
 } T_CMBX;
 
+/* メールボックス状態 */
+typedef struct t_rmbx
+{
+	ID    wtskid;		/* メールボックスの待ち行列の先頭のタスクのID番号 */
+	T_MSG *pk_msg;		/* メッセージキューの先頭のメッセージパケットの先頭番地 */
+} T_RMBX;
+
 
 /* メールボックスコントロールブロック(ROM部) */
 typedef struct t_kernel_mbxcb_rom
@@ -79,10 +86,6 @@ typedef struct t_kernel_mbxcb_ram
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -100,6 +103,10 @@ extern const INT kernel_mbxcb_cnt;							/* メールボックスコントロールブロック個
 /*                関数宣言                    */
 /* ------------------------------------------ */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* メールボックス */
 #define kernel_ini_mbx()									/* メールボックスの初期化 */
 ER      cre_mbx(ID semid, const T_CMBX *pk_cmbx);			/* セマフォの生成 */
@@ -110,8 +117,7 @@ ER      snd_mbx(ID mbxid, T_MSG *pk_msg);					/* メールボックスへの送信 */
 ER      rcv_mbx(ID mbxid, T_MSG **ppk_msg);					/* メールボックスからの受信 */
 ER      prcv_mbx(ID mbxid, T_MSG **ppk_msg);				/* メールボックスからの受信(ポーリング) */
 ER      trcv_mbx(ID mbxid, T_MSG **ppk_msg, TMO tmout);		/* メールボックスからの受信(タイムアウトあり) */
-
-
+ER      ref_mbx(ID mbxid, T_RMBX *pk_rmbx);					/* メールボックスの状態参照 */
 
 #ifdef __cplusplus
 }

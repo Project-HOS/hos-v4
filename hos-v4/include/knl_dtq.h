@@ -47,6 +47,14 @@ typedef struct t_cdtq
 	VP     dtq;			/* データキュー領域の先頭番地 */
 } T_CDTQ;
 
+/* データキュー状態 */
+typedef struct t_rdtq
+{
+	ID   stskid;		/* データキューの送信待ち行列の先頭のタスクのID番号 */
+	ID   rtskid;		/* データキューの受信待ち行列の先頭のタスクのID番号 */
+	UINT sdtqcnt;		/* データキューに入っているデータの数 */
+} T_RDTQ;
+
 
 /* データキューコントロールブロック(ROM部) */
 typedef struct t_kernel_dtqcb_rom
@@ -68,10 +76,6 @@ typedef struct t_kernel_dtqcb_ram
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -89,6 +93,9 @@ extern const INT kernel_dtqcb_cnt;							/* データキューコントロールブロック個数
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* データキュー */
 #define kernel_ini_dtq()									/* データキューの初期化 */
@@ -105,8 +112,7 @@ ER      fsnd_dtq(ID dtqid, VP_INT data);					/* データキューへの強制送信 */
 ER      rcv_dtq(ID dtqid, VP_INT *p_data);					/* データキューからの受信 */
 ER      prcv_dtq(ID dtqid, VP_INT *p_data);					/* データキューからの受信(ポーリング) */
 ER      trcv_dtq(ID dtqid, VP_INT *p_data, TMO tmout);		/* データキューからの受信(タイムアウトあり) */
-
-
+ER      ref_dtq(ID dtqid, T_RDTQ *pk_rdtq);					/* データキューの状態参照 */
 
 #ifdef __cplusplus
 }

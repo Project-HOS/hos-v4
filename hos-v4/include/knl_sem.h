@@ -64,10 +64,6 @@ typedef struct t_kernel_semcb_ram
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -85,6 +81,10 @@ extern const INT kernel_semcb_cnt;							/* セマフォコントロールブロック個数 */
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* セマフォ */
 void    kernel_ini_sem(void);								/* セマフォの初期化 */

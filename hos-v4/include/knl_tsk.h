@@ -107,10 +107,6 @@ typedef struct t_kernel_tcb_ram
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -128,6 +124,10 @@ extern const INT kernel_tcb_cnt;							/* タスクコントロールブロック個数 */
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* タスク管理機能 */
 void    kernel_ini_tsk(void);								/* タスクの初期化 */
@@ -166,8 +166,6 @@ ER      ras_tex(ID tskid, TEXPTN rasptn);					/* タスク例外処理の要求 */
 ER      dis_tex(void);										/* タスク例外処理の禁止 */
 ER      ena_tex(void);										/* タスク例外処理の禁止 */
 BOOL    sns_tex(void);										/* タスク例外処理禁止状態の参照 */
-
-
 
 #ifdef __cplusplus
 }

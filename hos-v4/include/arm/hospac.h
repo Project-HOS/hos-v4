@@ -42,10 +42,6 @@ typedef UW		IMSK;			/* 割り込みマスク */
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -58,6 +54,10 @@ extern UW hospac_arm_bimsk;		/* ベース割り込みマスク */
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define hospac_ini_sys()	hos_arm_ini_int()		/* プロセッサ抽象化コンポーネントの初期化 */
 void hospac_dis_int(void);							/* 割り込み禁止 */
@@ -83,8 +83,6 @@ void  hos_arm_end_fiq(void);		/* FIQ割り込み処理終了（ユーザー作成関数） */
 /* ARM固有 割り込み管理機構 */
 ER    chg_imsk(IMSK imsk);			/* 割り込みマスク指定 */
 ER    get_imsk(IMSK *p_imsk);		/* 割り込みマスクの参照 */
-
-
 
 #ifdef __cplusplus
 }

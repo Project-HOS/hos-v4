@@ -39,6 +39,13 @@ typedef struct t_cmpf
 	VP   mpf;			/* 固定長メモリプール領域の先頭番地 */
 } T_CMPF;
 
+/* 固定長メモリプール状態 */
+typedef struct t_rmpf
+{
+	ID   wtskid;		/* 固定長メモリプールの待ち行列の先頭のタスクのID番号 */
+	UINT fblkcnt;		/* 固定長メモリプールの空きメモリブロック数(個数) */
+} T_RMPF;
+
 
 /* 固定長メモリプールコントロールブロック(ROM部) */
 typedef struct t_kernel_mpfcb_rom
@@ -60,10 +67,6 @@ typedef struct t_kernel_mpfcb_ram
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
@@ -82,9 +85,8 @@ extern const INT kernel_mpfcb_cnt;							/* 固定長メモリプールコントロールブロッ
 /*                関数宣言                    */
 /* ------------------------------------------ */
 
-
 #ifdef __cplusplus
-}
+extern "C" {
 #endif
 
 /* 固定長メモリプール */
@@ -97,6 +99,12 @@ ER      get_mpf(ID mpfid, VP *p_blk);						/* 固定長メモリブロックの獲得 */
 ER      pget_mpf(ID mpfid, VP *p_blk);						/* 固定長メモリブロックの獲得(ポーリング) */
 ER      tget_mpf(ID mpfid, VP *p_blk, TMO tmout);			/* 固定長メモリブロックの獲得(タイムアウトあり) */
 ER      rel_mpf(ID mpfid, VP blk);							/* 固定長メモリブロックの返却 */
+ER      ref_mpf(ID mpfid, T_RMPF *pk_rmpf);					/* 固定長メモリブロックの状態参照 */
+
+#ifdef __cplusplus
+}
+#endif
+
 
 
 #endif	/* __HOS_V4__knl_mpf_h__ */

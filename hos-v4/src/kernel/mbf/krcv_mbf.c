@@ -25,6 +25,7 @@ ER_UINT kernel_rcv_mbf(
 {
 	UINT msgsz;
 	UINT tmpsz;
+	INT  i;
 
 	/* メッセージ存在チェック */
 	if ( mbfcb_ram->head == mbfcb_ram->tail )
@@ -33,8 +34,13 @@ ER_UINT kernel_rcv_mbf(
 	}
 	
 	/* サイズ受信 */
-	msgsz  = (UINT)kernel_rch_mbf(mbfcb_rom, mbfcb_ram) * 256;
-	msgsz += (UINT)kernel_rch_mbf(mbfcb_rom, mbfcb_ram);
+	msgsz = 0;
+	for ( i = 0; i < sizeof(UINT); i++ )
+	{
+		/* 下位から順に8bitずつ読み出し */
+		msgsz += kernel_rch_mbf(mbfcb_rom, mbfcb_ram);
+		msgsz <<= 8;
+	}
 	
 	/* データ受信 */
 	tmpsz = (UINT)mbfcb_rom->mbfsz - mbfcb_ram->head;			/* 折り返し点までのサイズを算出 */
@@ -54,6 +60,9 @@ ER_UINT kernel_rcv_mbf(
 	{
 		mbfcb_ram->head -= (UINT)mbfcb_rom->mbfsz;
 	}
+
+	/* 送信個数デクリメント */
+	mbfcb_ram->smsgcnt;
 
 	return E_OK;
 }

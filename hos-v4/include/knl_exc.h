@@ -62,8 +62,6 @@ void    kernel_sta_exc(void);			/* CPU例外ハンドラの開始 */
 void    kernel_end_exc(void);			/* CPU例外ハンドラの終了 */
 void    kernel_exe_exc(INTNO excno);	/* CPU例外ハンドラ処理実行 */
 
-
-
 #ifdef __cplusplus
 }
 #endif

@@ -25,6 +25,7 @@ ER kernel_snd_mbf(
 		UINT                     msgsz)			/* 送信メッセージのサイズ(バイト数) */
 {
 	UINT fresz;
+	INT  i;
 
 	/* 空きサイズ算出 */
 	if ( mbfcb_ram->head > mbfcb_ram->tail )
@@ -43,8 +44,11 @@ ER kernel_snd_mbf(
 	}
 	
 	/* サイズ送信 */
-	kernel_sch_mbf(mbfcb_rom, mbfcb_ram, (UB)(msgsz / 256));
-	kernel_sch_mbf(mbfcb_rom, mbfcb_ram, (UB)(msgsz % 256));
+	for ( i = 0; i < sizeof(UINT); i++ )
+	{
+		/* 下位から順に8bit単位で書き込み */
+		kernel_sch_mbf(mbfcb_rom, mbfcb_ram, (UB)((msgsz >> (i * 8)) & 0xff));
+	}
 
 	/* データ送信 */
 	fresz = (UINT)mbfcb_rom->mbfsz - mbfcb_ram->tail;	/* バッファ折り返しまでの空きサイズ算出 */
@@ -64,6 +68,9 @@ ER kernel_snd_mbf(
 	{
 		mbfcb_ram->tail -= (UINT)mbfcb_rom->mbfsz;
 	}
+
+	/* 送信個数インクリメント */
+	mbfcb_ram->smsgcnt;
 
 	return E_OK;
 }

@@ -1,61 +1,52 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    ITRONカーネル 固定長メモリプール                                      */
+/*    ITRONカーネル アラームハンドラ                                        */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-#include "knl_mpf.h"
+#include "knl_alm.h"
 
 
 
-/* 固定長メモリブロックの獲得(ポーリング) */
-ER pget_mpf(
-		ID mpfid,		/* メモリブロック獲得対象の固定長メモリプールのID番号 */
-		VP *p_blk)		/* 獲得したメモリブロックの先頭番地 */
+/* アラームハンドラの動作停止 */
+ER stp_alm(
+		ID almid)	/* 動作停止対象のアラームハンドラのID番号 */
 {
-	T_KERNEL_MPFCB_RAM *mpfcb_ram;
-	ER ercd;
+	const T_KERNEL_ALMCB_ROM *almcb_rom;
+	T_KERNEL_ALMCB_RAM *almcb_ram;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mpfid < TMIN_MPFID || mpfid > TMAX_MPFID )
+	if ( almid < TMIN_ALMID || almid > TMAX_ALMID )
 	{
-		return E_ID;	/* ID不正 */
+		return E_ID;
 	}
 #endif
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mpfcb_ram = KERNEL_MPFID_TO_MPFCB_RAM(mpfid);
+	almcb_ram = KERNEL_ALMID_TO_ALMCB_RAM(almid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
-	if ( mpfcb_ram == NULL )
+	if ( almcb_ram == NULL )
 	{
-		mknl_unl_sys();	/* システムのロック解除 */
-		return E_NOEXS;	/* オブジェクト未生成 */
+		mknl_unl_sys();		/* システムのロック解除 */
+		return E_NOEXS;
 	}
 #endif
-
-	if ( mpfcb_ram->free != NULL )
-	{
-		/* 空きブロックがあれば割り当てる */
-		*p_blk          = mpfcb_ram->free;
-		mpfcb_ram->free = *(VP *)mpfcb_ram->free;	/* 次の空きエリアを設定 */
-		ercd = E_OK;
-	}
-	else
-	{
-		/* 空きブロックが無ければタイムアウト */
-		ercd = E_TMOUT;
-	}
-
+	
+	almcb_rom = almcb_ram->almcb_rom;
+	
+	/* タイマリストから外す */
+	kernel_rmv_tml((T_KERNEL_TIM *)almcb_ram);
+	
 	mknl_unl_sys();		/* システムのロック解除 */
 
-	return ercd;
+	return E_OK;	
 }
 
 

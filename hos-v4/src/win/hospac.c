@@ -9,7 +9,7 @@
 
 #include <stdlib.h>
 #include "hospac.h"
-
+#include <tchar.h>
 
 
 /* タスク情報 */
@@ -22,12 +22,12 @@ typedef struct t_TaskInfo
 
 
 DWORD WINAPI TaskEntry(LPVOID param);	/* スレッドの開始関数 */
-
+void  HookPrimaryThread(void);			/* プライマリスレッドのフック */
 
 HANDLE hospac_hSem  = NULL;				/* システムの排他制御用セマフォ */
 BOOL   hospac_blInt = FALSE;			/* 割り込み処理中フラグ */
 
-
+static DWORD  hPrimaryThreadId;			/* プライマリスレッドID */
 static HANDLE hThreadDelete = NULL;		/* 削除するスレッドハンドル */
 
 
@@ -35,6 +35,9 @@ static HANDLE hThreadDelete = NULL;		/* 削除するスレッドハンドル */
 /* システムの初期化 */
 void hospac_ini_sys(void)
 {
+	/* プライマリスレッドIDの保存 */
+	hPrimaryThreadId = GetCurrentThreadId();
+
 	/* 割り込み禁止に見立てるセマフォの作成 */
 	hospac_hSem = CreateSemaphore(NULL, 0, 1, NULL);
 }
@@ -155,6 +158,12 @@ void hospac_swi_ctx(
 			ReleaseSemaphore(hospac_hSem, 1, NULL);
 		}
 		
+		/* プライマリスレッドIのフック */
+		if ( hPrimaryThreadId == GetCurrentThreadId() )
+		{
+			HookPrimaryThread();
+		}
+
 		/* 自分自身をサスペンドさせる */
 		SuspendThread(GetCurrentThread());
 	}
@@ -176,6 +185,17 @@ void hospac_idle(void)
 	
 	/* 他のプロセスに実行タイミングを与える */
 	Sleep(1);
+}
+
+
+/* プライマリスレッドのフック */
+void  HookPrimaryThread(void)
+{
+	/* ダイアログを表示 */
+	MessageBox(NULL, _T("OKを押すと終了します"), _T("Hyper Operationg System V4 for Win32"), MB_OK);
+
+	/* 終了 */
+	ExitProcess(0);
 }
 
 

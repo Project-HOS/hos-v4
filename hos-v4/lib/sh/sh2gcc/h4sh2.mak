@@ -30,6 +30,8 @@ KNLMBXDIR  = $(KERNELDIR)/mbx
 KNLMBFDIR  = $(KERNELDIR)/mbf
 KNLMPFDIR  = $(KERNELDIR)/mpf
 KNLTIMDIR  = $(KERNELDIR)/tim
+KNLCYCDIR  = $(KERNELDIR)/cyc
+KNLALMDIR  = $(KERNELDIR)/alm
 KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
 
@@ -93,16 +95,18 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
        ini_flg.o cre_flg.o acre_flg.o kcre_flg.o del_flg.o \
        set_flg.o clr_flg.o wai_flg.o pol_flg.o \
-       twai_flg.o chk_flg.o \
+       twai_flg.o chk_flg.o ref_flg.o \
        cre_dtq.o acre_dtq.o kcre_dtq.o del_dtq.o \
        snd_dtq.o psnd_dtq.o tsnd_dtq.o fsnd_dtq.o \
-       rcv_dtq.o prcv_dtq.o trcv_dtq.o \
+       rcv_dtq.o prcv_dtq.o trcv_dtq.o ref_flg.o \
        cre_mbx.o acre_mbx.o kcre_mbx.o del_mbx.o \
-       snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o \
+       snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o ref_mbx.o \
        ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
-       get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
+       get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o ref_mpf.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
-       ini_cyc.o sta_cyc.o stp_cyc.o \
+       add_tml.o rmv_tml.o \
+       ini_cyc.o cyc_hdr.o sta_cyc.o stp_cyc.o \
+       ini_alm.o alm_hdr.o sta_alm.o stp_alm.o \
        ram_int.o exe_int.o \
        get_tid.o kget_tid.o rot_rdq.o \
        loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
@@ -382,6 +386,9 @@ twai_flg.o: $(KNLFLGDIR)/twai_flg.c $(INCS)
 chk_flg.o: $(KNLFLGDIR)/chk_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)/chk_flg.c
 
+ref_flg.o: $(KNLFLGDIR)/ref_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/ref_flg.c
+
 
 # データキュー
 cre_dtq.o: $(KNLDTQDIR)/cre_dtq.c $(INCS)
@@ -417,6 +424,9 @@ prcv_dtq.o: $(KNLDTQDIR)/prcv_dtq.c $(INCS)
 trcv_dtq.o: $(KNLDTQDIR)/trcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)/trcv_dtq.c
 
+ref_dtq.o: $(KNLDTQDIR)/ref_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/ref_dtq.c
+
 
 # メールボックス
 cre_mbx.o: $(KNLMBXDIR)/cre_mbx.c $(INCS)
@@ -442,6 +452,9 @@ prcv_mbx.o: $(KNLMBXDIR)/prcv_mbx.c $(INCS)
 
 trcv_mbx.o: $(KNLMBXDIR)/trcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)/trcv_mbx.c
+
+ref_mbx.o: $(KNLMBXDIR)/ref_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/ref_mbx.c
 
 
 # メッセージバッファ
@@ -475,6 +488,9 @@ prcv_mbf.o: $(KNLMBFDIR)/prcv_mbf.c $(INCS)
 trcv_mbf.o: $(KNLMBFDIR)/trcv_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)/trcv_mbf.c
 
+ref_mbf.o: $(KNLMBFDIR)/ref_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/ref_mbf.c
+
 
 # 固定長メモリプール
 ini_mpf.o: $(KNLMPFDIR)/ini_mpf.c $(INCS)
@@ -504,6 +520,9 @@ tget_mpf.o: $(KNLMPFDIR)/tget_mpf.c $(INCS)
 rel_mpf.o: $(KNLMPFDIR)/rel_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)/rel_mpf.c
 
+ref_mpf.o: $(KNLMPFDIR)/ref_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/ref_mpf.c
+
 
 # 時間管理
 ini_tim.o: $(KNLTIMDIR)/ini_tim.c $(INCS)
@@ -518,14 +537,39 @@ get_tim.o: $(KNLTIMDIR)/get_tim.c $(INCS)
 isig_tim.o: $(KNLTIMDIR)/isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)/isig_tim.c
 
-ini_cyc.o: $(KNLTIMDIR)/ini_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/ini_cyc.c
+add_tml.o: $(KNLTIMDIR)/add_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/add_tml.c
 
-sta_cyc.o: $(KNLTIMDIR)/sta_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/sta_cyc.c
+rmv_tml.o: $(KNLTIMDIR)/rmv_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/rmv_tml.c
 
-stp_cyc.o: $(KNLTIMDIR)/stp_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/stp_cyc.c
+
+# 周期ハンドラ
+ini_cyc.o: $(KNLCYCDIR)/ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/ini_cyc.c
+
+cyc_hdr.o: $(KNLCYCDIR)/cyc_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/cyc_hdr.c
+
+sta_cyc.o: $(KNLCYCDIR)/sta_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/sta_cyc.c
+
+stp_cyc.o: $(KNLCYCDIR)/stp_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/stp_cyc.c
+
+
+# アラームハンドラ
+ini_alm.o: $(KNLALMDIR)/ini_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/ini_alm.c
+
+alm_hdr.o: $(KNLALMDIR)/alm_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/alm_hdr.c
+
+sta_alm.o: $(KNLALMDIR)/sta_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/sta_alm.c
+
+stp_alm.o: $(KNLALMDIR)/stp_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/stp_alm.c
 
 
 # 割り込み管理

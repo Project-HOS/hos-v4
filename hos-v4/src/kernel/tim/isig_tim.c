@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    システム時間管理                                                      */
+/*    ITRONカーネル システム時間管理                                        */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -11,12 +11,17 @@
 
 
 
+/* タイマリスト管理 */
+T_KERNEL_TIM *kernel_tml_head;		/* タイマリスト先頭位置 */
+T_KERNEL_TIM *kernel_tml_ptr;		/* タイマリストポインタ */
+
+
+
 /* タイムティックの供給 */
 ER isig_tim(void)
 {
-	RELTIM tic;
 	UW     prev_tim;
-    INT    i;
+	RELTIM tic;
 
 	/* 加算するタイムティックを算出 */
 	/* 例えば 10/3 ms 周期なら 3, 3, 4, 3, 3, 4, ... とカウントしていく */
@@ -44,41 +49,35 @@ ER isig_tim(void)
 		kernel_systim.utime++;
 	}
 
-
-	/* タイムアウト待ち行列のタスク起床 */
-	mknl_tic_tmout(tic);	/* タイムアウトキューにタイムティックを供給 */
-
-
-	/* 周期タスクの実行 */
-	for ( i = 0; i < kernel_cyccb_cnt; i++ )
+	/* タイマオブジェクトのハンドラ呼び出し */
+	if ( kernel_tml_head != NULL )
 	{
-		const T_KERNEL_CYCCB_ROM *cyccb_rom;
-		T_KERNEL_CYCCB_RAM       *cyccb_ram;
+		/* 検索ポインタ設定 */
+		kernel_tml_ptr = kernel_tml_head;
 
-		cyccb_ram = kernel_cyccb_ram_tbl[i];
-
-		if ( cyccb_ram != NULL && cyccb_ram->cycstat != TCYC_STP )	/* 停止ではないなら */
+		do /* リスト末尾まで繰り返し */
 		{
-			if ( cyccb_ram->lefttim <= tic )
+			/* タイマハンドラ呼び出し */
+			kernel_tml_ptr->timhdr(kernel_tml_ptr, tic);
+			
+			/* ハンドラ内で削除された場合 */
+			if ( kernel_tml_ptr == NULL )
 			{
-				cyccb_rom = cyccb_ram->cyccb_rom;
-				
-				/* 次の値を設定 */
-				cyccb_ram->lefttim += cyccb_rom->cyctim - tic;
-
-				/* 周期ハンドラ呼び出し */
-				cyccb_rom = cyccb_ram->cyccb_rom;
-				cyccb_rom->cychdr(cyccb_rom->exinf);		
-			}
-			else
-			{
-				cyccb_ram->lefttim -= tic;
+				break;
 			}
 			
-		}
+			/* ポインタを先に進める */
+			kernel_tml_ptr = kernel_tml_ptr->next;
+		} while ( kernel_tml_ptr != kernel_tml_head );
+		
+		/* 検索ポインタのクリア */
+		kernel_tml_ptr = NULL;
 	}
-
-	mknl_unl_sys();		/* システムのロック解除 */
+	
+	/* タイムアウト待ち行列のタスク起床 */
+	mknl_tic_tmout(tic);	/* タイムアウトキューにタイムティックを供給 */
+	
+	mknl_unl_sys();			/* システムのロック解除 */
 
 	return E_OK;
 }

@@ -25,13 +25,13 @@ typedef struct t_hos_pac_ctxinf
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define hospac_ini_sys()							/* プロセッサ抽象化コンポーネントの初期化 */
 void hospac_dis_int(void);							/* 割り込み禁止 */
@@ -52,8 +52,6 @@ INTNO hos_arm_sta_irq(void);		/* IRQ割り込み処理開始（ユーザー作成関数） */
 void  hos_arm_end_irq(void);		/* IRQ割り込み処理終了（ユーザー作成関数） */
 INTNO hos_arm_sta_fiq(void);		/* FIQ割り込み処理開始（ユーザー作成関数） */
 void  hos_arm_end_fiq(void);		/* FIQ割り込み処理終了（ユーザー作成関数） */
-
-
 
 #ifdef __cplusplus
 }

@@ -109,6 +109,14 @@ SOURCE=..\..\..\include\kernel.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\knl_alm.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\knl_cyc.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\knl_dtq.h
 # End Source File
 # Begin Source File
@@ -384,6 +392,10 @@ SOURCE=..\..\..\src\kernel\flg\pol_flg.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\kernel\flg\ref_flg.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\kernel\flg\set_flg.c
 # End Source File
 # Begin Source File
@@ -429,6 +441,10 @@ SOURCE=..\..\..\src\kernel\dtq\psnd_dtq.c
 # Begin Source File
 
 SOURCE=..\..\..\src\kernel\dtq\rcv_dtq.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\dtq\ref_dtq.c
 # End Source File
 # Begin Source File
 
@@ -496,11 +512,11 @@ SOURCE=..\..\..\src\kernel\sys\unl_cpu.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\..\..\src\kernel\tim\get_tim.c
+SOURCE=..\..\..\src\kernel\tim\add_tml.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\kernel\tim\ini_cyc.c
+SOURCE=..\..\..\src\kernel\tim\get_tim.c
 # End Source File
 # Begin Source File
 
@@ -512,15 +528,11 @@ SOURCE=..\..\..\src\kernel\tim\isig_tim.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\kernel\tim\rmv_tml.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\kernel\tim\set_tim.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\kernel\tim\sta_cyc.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\kernel\tim\stp_cyc.c
 # End Source File
 # End Group
 # Begin Group "int"
@@ -564,6 +576,10 @@ SOURCE=..\..\..\src\kernel\mbx\rcv_mbx.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\kernel\mbx\ref_mbx.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\kernel\mbx\snd_mbx.c
 # End Source File
 # Begin Source File
@@ -601,6 +617,10 @@ SOURCE=..\..\..\src\kernel\mpf\kcre_mpf.c
 # Begin Source File
 
 SOURCE=..\..\..\src\kernel\mpf\pget_mpf.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpf\ref_mpf.c
 # End Source File
 # Begin Source File
 
@@ -668,6 +688,10 @@ SOURCE=..\..\..\src\kernel\mbf\rcv_mbf.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\kernel\mbf\ref_mbf.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\kernel\mbf\snd_mbf.c
 # End Source File
 # Begin Source File
@@ -677,6 +701,46 @@ SOURCE=..\..\..\src\kernel\mbf\trcv_mbf.c
 # Begin Source File
 
 SOURCE=..\..\..\src\kernel\mbf\tsnd_mbf.c
+# End Source File
+# End Group
+# Begin Group "cyc"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\cyc\cyc_hdr.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\cyc\ini_cyc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\cyc\sta_cyc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\cyc\stp_cyc.c
+# End Source File
+# End Group
+# Begin Group "alm"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\alm\alm_hdr.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\alm\ini_alm.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\alm\sta_alm.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\alm\stp_alm.c
 # End Source File
 # End Group
 # End Group

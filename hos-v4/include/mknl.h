@@ -79,10 +79,6 @@ typedef struct t_mknl_timout
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ------------------------------------------ */
 /*              外部変数宣言                  */
 /* ------------------------------------------ */
@@ -109,6 +105,10 @@ extern T_MKNL_TCB      *mknl_timout_head;	/* タイムアウトキューの先頭 */
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* μカーネルのサービスコールは原則 mknl_sys_loc() で */
 /* ロックされた状態で呼び出されること                 */
@@ -208,8 +208,6 @@ void    mknl_rot_que(T_MKNL_QUE *que);						/* レディーキューの回転 */
 void    mknl_tic_tmout(RELTIM tictim);						/* タイムアウトにタイムティック供給 */
 ER      mknl_add_tmout(T_MKNL_TCB *mtcb, RELTIM tmout);		/* タイムアウト待ち行列にタスクを追加 */
 void    mknl_rmv_tmout(T_MKNL_TCB *mtcb);					/* タイムアウト待ち行列からタスクを取り除く */
-
-
 
 #ifdef __cplusplus
 }

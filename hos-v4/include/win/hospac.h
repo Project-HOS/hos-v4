@@ -7,8 +7,8 @@
 /* ------------------------------------------------------------------------ */
 
 
-#ifndef __HOS4_hospac_win_h__
-#define __HOS4_hospac_win_h__
+#ifndef __HOS_V4__win__hospac_h__
+#define __HOS_V4__win__hospac_h__
 
 
 
@@ -78,7 +78,7 @@ void hospac_win_int(INTNO intno);	/* µ¼»÷³ä¤ê¹þ¤ß¤Î¥¨¥ß¥å¥ì¡¼¥È(ITRON¥¿¥¹¥¯¤È¤ÏÌ
 
 
 
-#endif	/* __HOS4_hospac_win_h__ */
+#endif	/* __HOS_V4__win__hospac_h__ */
 
 
 /* ------------------------------------------------------------------------ */

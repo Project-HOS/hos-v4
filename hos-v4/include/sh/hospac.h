@@ -28,13 +28,13 @@ typedef struct t_hos_pac_ctxinf
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define hospac_ini_sys()							/* プロセッサ抽象化コンポーネントの初期化 */
 void hospac_dis_int(void);							/* 割り込み禁止 */
@@ -53,8 +53,6 @@ void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 /* SH固有 割り込み管理機構 */
 ER   chg_imsk(IMSK imsk);			/* 割り込みマスク指定 */
 ER   get_imsk(IMSK *p_imsk);		/* 割り込みマスクの参照 */
-
-
 
 #ifdef __cplusplus
 }

@@ -51,6 +51,7 @@ ER kernel_cre_mbf(
 	mknl_ini_que(&mbfcb_ram->rcvque);
 	mbfcb_ram->head      = 0;
 	mbfcb_ram->tail      = 0;
+	mbfcb_ram->smsgcnt   = 0;
 	mbfcb_ram->mbfcb_rom = mbfcb_rom;
 	mbfcb_rom->mbfatr    = pk_cmbf->mbfatr;
 	mbfcb_rom->maxmsz    = pk_cmbf->maxmsz;

@@ -42,13 +42,13 @@ typedef struct t_rver
 
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* システム状態管理機能 */
 ER      rot_rdq(PRI tskpri);						/* タスク優先順位の回転 */
@@ -68,7 +68,6 @@ BOOL    sns_dpn(void);								/* ディスパッチ保留状態の参照 */
 
 /* システム構成管理機能 */
 ER      ref_ver(T_RVER *pk_rver);					/* バージョン番号の参照 */
-
 
 #ifdef __cplusplus
 }

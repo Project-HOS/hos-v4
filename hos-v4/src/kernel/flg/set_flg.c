@@ -34,7 +34,6 @@ ER set_flg(
 	mknl_loc_sys();	/* システムのロック */
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
-	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,6 +43,8 @@ ER set_flg(
 		return E_NOEXS;
 	}
 #endif
+
+	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* フラグのセット */
 	flgcb_ram->flgptn = (FLGPTN)(flgcb_ram->flgptn | setptn);

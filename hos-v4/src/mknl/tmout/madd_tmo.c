@@ -11,6 +11,7 @@
 
 
 
+/* タイムアウト待ち行列にタスクを追加 */
 ER mknl_add_tmout(
 		T_MKNL_TCB *mtcb,	/* 待ち行列に加えるタスク */
 		RELTIM     tmout)	/* タイムアウトまでの時間 */

@@ -57,13 +57,14 @@ typedef struct t_dbg_dspinf
 } T_DBG_DSPINF;
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /* ------------------------------------------ */
 /*                関数宣言                    */
 /* ------------------------------------------ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* 制御関数 */
 void _hosdbg_ini_dsphok(T_DBG_DSPINF dspinf[], INT infcnt);	/* フック処理初期化 */

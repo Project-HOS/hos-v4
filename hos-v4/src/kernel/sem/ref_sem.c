@@ -11,6 +11,7 @@
 #include "knl_sys.h"
 
 
+
 /* セマフォの状態参照 */
 ER ref_sem(
 		ID     semid,		/* 状態参照対象のセマフォのID番号 */
@@ -26,7 +27,15 @@ ER ref_sem(
 		return E_ID;
 	}
 #endif
-	
+
+	/* パラメータのチェック */
+#ifdef HOS_ERCHK_E_PAR
+	if ( pk_rsem == NULL )
+	{
+		return E_PAR;	/* パラメータエラー */
+	}
+#endif
+
 	mknl_loc_sys();	/* システムのロック */
 
 	semcb_ram = KERNEL_SEMID_TO_SEMCB_RAM(semid);
