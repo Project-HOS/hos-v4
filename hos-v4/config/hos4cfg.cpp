@@ -89,9 +89,36 @@ int main(int argc, char *argv[])
 	int  iErr;
 	int  i;
 
-	if ( argc >= 2 )
+	// コマンドライン解析
+	for ( i = 1; i < argc; i++ )
 	{
-		strcpy(s_szConfigFile, argv[1]);
+		if ( strcmp(argv[i], "-c") == 0 )
+		{
+			i++;
+			if ( i >= argc )
+			{
+				fprintf(stderr, "option error \"-c\"\n");
+				return 1;
+			}
+			strncpy(s_szCfgFile, argv[i], MAX_PATH - 1);
+			s_szCfgFile[MAX_PATH - 1] = '\0';
+		}
+		else if ( strcmp(argv[i], "-i") == 0 )
+		{
+			i++;
+			if ( i >= argc )
+			{
+				fprintf(stderr, "option error \"-i\"\n");
+				return 1;
+			}
+			strncpy(s_szIdFile, argv[i], MAX_PATH - 1);
+			s_szIdFile[MAX_PATH - 1] = '\0';
+		}
+		else
+		{
+			strncpy(s_szConfigFile, argv[i], MAX_PATH - 1);
+			s_szConfigFile[MAX_PATH - 1] = '\0';
+		}
 	}
 
 	// コンフィギュレーションファイルオープン
@@ -236,7 +263,8 @@ void WriteCfgFile(FILE* fp)
 	int i;
 
 	/* ヘッダ出力 */
-	fputs(
+	fprintf(
+		fp,
 		"/* ------------------------------------------------------------------------ */\n"
 		"/*  HOS-V4  kernel configuration                                            */\n"
 		"/*    kernel object create and initialize                                   */\n"
@@ -244,8 +272,8 @@ void WriteCfgFile(FILE* fp)
 		"/* ------------------------------------------------------------------------ */\n"
 		"\n\n"
 		"#include \"kernel.h\"\n"
-		"#include \"kernel_id.h\"\n"
-		, fp);
+		"#include \"%s\"\n"
+		, s_szIdFile);
 
 	// ID 定義ファイル出力
 	for ( i = 0; i < API_COUNT; i++ )

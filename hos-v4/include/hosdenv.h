@@ -25,6 +25,10 @@
 
 #include "win/hospac.h"
 
+#elif defined(LSI_C)	/* LSI-C(86) */
+
+#include "x86/hospac.h"
+
 #else
 
 #include "hospac.h"		/* 識別できない場合はインクルードパスの指定を期待する */

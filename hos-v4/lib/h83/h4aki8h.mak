@@ -26,6 +26,10 @@ INCDIR     = ..\..\include
 
 PACDIR     = ..\..\src\h83
 MKNLDIR    = ..\..\src\mknl
+MKNLSYSDIR = $(MKNLDIR)\sys
+MKNLTSKDIR = $(MKNLDIR)\tsk
+MKNLQUEDIR = $(MKNLDIR)\que
+MKNLTMODIR = $(MKNLDIR)\tmout
 KERNELDIR  = ..\..\src\kernel
 KNLHOSDIR  = $(KERNELDIR)\hos
 KNLTSKDIR  = $(KERNELDIR)\tsk
@@ -67,14 +71,21 @@ INCS = $(INCDIR)\itron.h \
 # オブジェクトファイル
 OBJS = pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj \
        sta_hos.obj ini_mem.obj alc_mem.obj fre_mem.obj \
-       mknlsys.obj mknltsk.obj mknlque.obj mknltout.obj \
+       mini_sys.obj msta_stu.obj mext_stu.obj \
+       msta_tsk.obj mext_tsk.obj mchg_pri.obj mrot_rdq.obj \
+       mwai_tsk.obj mwup_tsk.obj msus_tsk.obj mrsm_tsk.obj \
+       mexe_dsp.obj mdly_dsp.obj msrh_top.obj \
+       mras_tex.obj mexe_tex.obj \
+       madd_que.obj madp_que.obj mrmv_que.obj mrot_que.obj \
+       mtic_tmo.obj madd_tmo.obj mrmv_tmo.obj \
        ini_tsk.obj cre_tsk.obj acre_tsk.obj act_tsk.obj can_act.obj \
        sta_tsk.obj ext_tsk.obj ter_tsk.obj chg_pri.obj get_pri.obj \
        ref_tst.obj \
        ras_tex.obj dis_tex.obj ena_tex.obj sns_tex.obj \
        slp_tsk.obj tslp_tsk.obj wup_tsk.obj can_wup.obj rel_wai.obj \
        sus_tsk.obj rsm_tsk.obj frsm_tsk.obj dly_tsk.obj \
-       ini_sem.obj sig_sem.obj wai_sem.obj pol_sem.obj twai_sem.obj \
+       ini_sem.obj cre_sem.obj acre_sem.obj kcre_sem.obj del_sem.obj \
+       sig_sem.obj wai_sem.obj pol_sem.obj twai_sem.obj ref_sem.obj \
        ini_flg.obj set_flg.obj clr_flg.obj wai_flg.obj pol_flg.obj \
        twai_flg.obj chk_flg.obj \
        snd_dtq.obj psnd_dtq.obj tsnd_dtq.obj fsnd_dtq.obj \
@@ -83,8 +94,10 @@ OBJS = pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj \
        ini_mpf.obj get_mpf.obj pget_mpf.obj rel_mpf.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
        ini_cyc.obj sta_cyc.obj stp_cyc.obj \
-       get_tid.obj loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
-       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj exe_int.obj
+       exe_int.obj \
+       get_tid.obj kget_tid.obj rot_rdq.obj \
+       loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
+       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj
 
 
 # ターゲット
@@ -124,34 +137,94 @@ get_imsk.obj: $(PACDIR)\get_imsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\get_imsk.c
 
 
-# μカーネル
-mknlsys.obj: $(MKNLDIR)\mknlsys.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknlsys.c
+# μカーネル システム制御
+mini_sys.obj: $(MKNLSYSDIR)\mini_sys.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mini_sys.c
 
-mknlint.obj: $(MKNLDIR)\mknlint.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknlint.c
+msta_stu.obj: $(MKNLSYSDIR)\msta_stu.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\msta_stu.c
 
-mknltsk.obj: $(MKNLDIR)\mknltsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknltsk.c
+mext_stu.obj: $(MKNLSYSDIR)\mext_stu.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mext_stu.c
 
-mknlque.obj: $(MKNLDIR)\mknlque.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknlque.c
 
-mknltout.obj: $(MKNLDIR)\mknltout.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLDIR)\mknltout.c
+# μカーネル タスク制御
+msta_tsk.obj: $(MKNLTSKDIR)\msta_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\msta_tsk.c
+
+mext_tsk.obj: $(MKNLTSKDIR)\mext_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mext_tsk.c
+
+mchg_pri.obj: $(MKNLTSKDIR)\mchg_pri.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mchg_pri.c
+
+mrot_rdq.obj: $(MKNLTSKDIR)\mrot_rdq.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mrot_rdq.c
+
+mwai_tsk.obj: $(MKNLTSKDIR)\mwai_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mwai_tsk.c
+
+mwup_tsk.obj: $(MKNLTSKDIR)\mwup_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mwup_tsk.c
+
+msus_tsk.obj: $(MKNLTSKDIR)\msus_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\msus_tsk.c
+
+mrsm_tsk.obj: $(MKNLTSKDIR)\mrsm_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mrsm_tsk.c
+
+mexe_dsp.obj: $(MKNLTSKDIR)\mexe_dsp.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mexe_dsp.c
+
+mdly_dsp.obj: $(MKNLTSKDIR)\mdly_dsp.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mdly_dsp.c
+
+msrh_top.obj: $(MKNLTSKDIR)\msrh_top.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\msrh_top.c
+
+mras_tex.obj: $(MKNLTSKDIR)\mras_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mras_tex.c
+
+mexe_tex.obj: $(MKNLTSKDIR)\mexe_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mexe_tex.c
+
+
+# μカーネル タスクキュー管理
+madd_que.obj: $(MKNLQUEDIR)\madd_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\madd_que.c
+
+madp_que.obj: $(MKNLQUEDIR)\madp_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\madp_que.c
+
+mrmv_que.obj: $(MKNLQUEDIR)\mrmv_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mrmv_que.c
+
+mrot_que.obj: $(MKNLQUEDIR)\mrot_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)\mrot_que.c
+
+
+# μカーネル タイムアウトキュー管理
+mtic_tmo.obj: $(MKNLTMODIR)\mtic_tmo.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTMODIR)\mtic_tmo.c
+
+madd_tmo.obj: $(MKNLTMODIR)\madd_tmo.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTMODIR)\madd_tmo.c
+
+mrmv_tmo.obj: $(MKNLTMODIR)\mrmv_tmo.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTMODIR)\mrmv_tmo.c
 
 
 # カーネル独自
-sta_hos.obj: $(KNLHOSDIR)\sta_hos.c $(INCS)
+sta_hos.objbj: $(KNLHOSDIR)\sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\sta_hos.c
 
-ini_mem.obj: $(KNLHOSDIR)\ini_mem.c $(INCS)
+ini_mem.objbj: $(KNLHOSDIR)\ini_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\ini_mem.c
 
-alc_mem.obj: $(KNLHOSDIR)\alc_mem.c $(INCS)
+alc_mem.objbj: $(KNLHOSDIR)\alc_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\alc_mem.c
 
-fre_mem.obj: $(KNLHOSDIR)\fre_mem.c $(INCS)
+fre_mem.objbj: $(KNLHOSDIR)\fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\fre_mem.c 
 
 
@@ -233,6 +306,18 @@ sns_tex.obj: $(KNLTSKDIR)\sns_tex.c $(INCS)
 ini_sem.obj: $(KNLSEMDIR)\ini_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)\ini_sem.c
 
+cre_sem.obj: $(KNLSEMDIR)\cre_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\cre_sem.c
+
+acre_sem.obj: $(KNLSEMDIR)\acre_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\acre_sem.c
+
+kcre_sem.obj: $(KNLSEMDIR)\kcre_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\kcre_sem.c
+
+del_sem.obj: $(KNLSEMDIR)\del_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\del_sem.c
+
 sig_sem.obj: $(KNLSEMDIR)\sig_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)\sig_sem.c
 
@@ -244,6 +329,9 @@ pol_sem.obj: $(KNLSEMDIR)\pol_sem.c $(INCS)
 
 twai_sem.obj: $(KNLSEMDIR)\twai_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)\twai_sem.c
+
+ref_sem.obj: $(KNLSEMDIR)\ref_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\ref_sem.c
 
 
 # イベントフラグ
@@ -343,9 +431,20 @@ stp_cyc.obj: $(KNLTIMDIR)\stp_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\stp_cyc.c
 
 
+# 割り込み管理
+exe_int.obj: $(KNLINTDIR)\exe_int.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLINTDIR)\exe_int.c
+
+
 # システム状態管理
 get_tid.obj: $(KNLSYSDIR)\get_tid.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)\get_tid.c
+
+kget_tid.obj: $(KNLSYSDIR)\kget_tid.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSYSDIR)\kget_tid.c
+
+rot_rdq.obj: $(KNLSYSDIR)\rot_rdq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSYSDIR)\rot_rdq.c
 
 loc_cpu.obj: $(KNLSYSDIR)\loc_cpu.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)\loc_cpu.c
@@ -371,8 +470,6 @@ sns_dsp.obj: $(KNLSYSDIR)\sns_dsp.c $(INCS)
 sns_dpn.obj: $(KNLSYSDIR)\sns_dpn.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)\sns_dpn.c
 
-exe_int.obj: $(KNLINTDIR)\exe_int.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLINTDIR)\exe_int.c
 
 
 

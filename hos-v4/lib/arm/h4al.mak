@@ -78,7 +78,7 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        sus_tsk.o rsm_tsk.o frsm_tsk.o dly_tsk.o \
        ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
        ini_sem.o cre_sem.o acre_sem.o kcre_sem.o del_sem.o \
-       sig_sem.o wai_sem.o pol_sem.o twai_sem.o \
+       sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
        ini_flg.o set_flg.o clr_flg.o wai_flg.o pol_flg.o \
        twai_flg.o chk_flg.o \
        snd_dtq.o psnd_dtq.o tsnd_dtq.o fsnd_dtq.o \
@@ -88,7 +88,8 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
        ini_cyc.o sta_cyc.o stp_cyc.o \
        exe_int.o \
-       get_tid.o kget_tid.o loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
+       get_tid.o kget_tid.o rot_rdq.o \
+       loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
        sns_ctx.o sns_loc.o sns_dsp.o sns_dpn.o \
        ref_ver.o
 
@@ -314,6 +315,9 @@ pol_sem.o: $(KNLSEMDIR)\pol_sem.c $(INCS)
 twai_sem.o: $(KNLSEMDIR)\twai_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)\twai_sem.c
 
+ref_sem.o: $(KNLSEMDIR)\ref_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)\ref_sem.c
+
 
 # イベントフラグ
 ini_flg.o: $(KNLFLGDIR)\ini_flg.c $(INCS)
@@ -426,6 +430,9 @@ get_tid.o: $(KNLSYSDIR)\get_tid.c $(INCS)
 
 kget_tid.o: $(KNLSYSDIR)\kget_tid.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)\kget_tid.c
+
+rot_rdq.o: $(KNLSYSDIR)\rot_rdq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSYSDIR)\rot_rdq.c
 
 loc_cpu.o: $(KNLSYSDIR)\loc_cpu.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)\loc_cpu.c

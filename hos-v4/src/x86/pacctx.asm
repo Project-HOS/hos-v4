@@ -1,46 +1,38 @@
 ; --------------------------------------------------------------------------- 
 ;  HOS-V4                                                                     
-;    プロセッサ抽象化コンポーネント (ARM用)                                   
+;    プロセッサ抽象化コンポーネント (LSI-C86 スモールモデル用)                
 ;                                                                             
 ;                                 Copyright (C) 1998-2002 by Ryuji Fuchikami  
 ; --------------------------------------------------------------------------- 
 
 
-				EXPORT	hospac_dis_int		; 割り込み禁止
-				EXPORT	hospac_ena_int		; 割り込み許可
-				EXPORT	hospac_cre_ctx_asm	; 実行コンテキストの作成
-				EXPORT	hospac_swi_ctx		; 実行コンテキストの切替
 
-
-				AREA	code, CODE, READONLY
-
+TEXT			CSEG
 
 ; -----------------------------------------------
 ;  割り込み禁止
 ;  void hospac_dis_int(void)
 ; -----------------------------------------------
-hospac_dis_int
-				mov		a1, #0		; 割り込み禁止を指定
-				swi		0x10		; スーパバイーザーコール
-				mov		pc, lr
+hospac_dis_int_::
+				cli					; 割り込み禁止
+				ret
 
 
 ; -----------------------------------------------
 ;  割り込み許可
 ;  void hospac_ena_int(void)
 ; -----------------------------------------------
-hospac_ena_int
-				mov		a1, #1		; 割り込み許可を指定
-				swi		0x10		; スーパバイーザーコール
-				mov		pc, lr
+hospac_ena_int_::
+				sti					; 割り込み許可
+				ret
 
 
 ; -----------------------------------------------
 ;  実行コンテキストエントリーアドレス
 ; -----------------------------------------------
-ctx_entry	
-				mov		a1, v2		; 実行時パラメータを第一引数に設定
-				mov		pc, v1		; 実行アドレスに分岐
+ctx_entry:		
+				mov		ax, dx		; 実行時パラメータを第一引数に設定
+				jmp		cx			; 実行アドレスに分岐
 
 
 ; -----------------------------------------------
@@ -52,15 +44,17 @@ ctx_entry
 ;		VP_INT exinf				/* 実行時パラメータ */
 ;		)
 ; -----------------------------------------------
-hospac_cre_ctx_asm
-				stmfd	sp!, {v1}		; 作業レジスタ退避
-				ldr		v1, =ctx_entry
-				stmfd	a2!, {v1}		; エントリーポイントを設定
-				sub		a2, a2, #28		; v3-v8, ip 分減算
-				stmfd	a2!, {a3,a4}	; v1, v2 の領域に実行アドレスとパラメータ格納
-				str		a2, [a1]		; コンテキストとして sp を保存
-				ldmfd	sp!, {v1}		; 作業レジスタ復帰
-				mov		pc, lr			; リターン
+hospac_cre_ctx_asm_::
+				sub		bx, 2
+				mov		[bx].w, ctx_entry
+				sub		bx, 8
+				mov		[bx], dx
+				sub		bx, 2
+				mov		[bx], cx
+				
+				xchg	ax, bx
+				mov		[bx], ax
+				ret
 
 
 ; -----------------------------------------------
@@ -70,15 +64,22 @@ hospac_cre_ctx_asm
 ;		T_HOSPAC_CTXINF *pk_nxt_ctxinf	/* 切り替えるコンテキスト */
 ;		)
 ; -----------------------------------------------
-hospac_swi_ctx
-				stmfd	sp!, {v1-v8,ip,lr}	; レジスタ保存
-				str		sp, [a1]			; スタックポインタ保存
-				ldr		sp, [a2]			; スタックポインタ復帰
-				ldmfd	sp!, {v1-v8,ip,pc}	; レジスタ復帰＆リターン
-
-
-
-				END
+hospac_swi_ctx_::
+				push	bp
+				push	di
+				push	si
+				push	dx
+				push	cx
+				xchg	ax, bx
+				mov		[bx], sp
+				mov		bx, ax
+				mov		sp, [bx]
+				pop		cx
+				pop		dx
+				pop		si
+				pop		di
+				pop		bp
+				ret
 
 
 
