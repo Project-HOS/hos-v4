@@ -6,24 +6,30 @@
 /* ------------------------------------------------------------------------ */
 
 
-#ifndef __Ryuz__test_h__
-#define __Ryuz__test_h__
+#ifndef __sample_h__
+#define __sample_h__
 
+
+/* 哲学者タスクとフォークセマフォのIDを固定値で指定 */
+#define TSKID_PHILOSOPHER1	1
+#define TSKID_PHILOSOPHER2	2
+#define TSKID_PHILOSOPHER3	3
+#define TSKID_PHILOSOPHER4	4
+#define TSKID_PHILOSOPHER5	5
+#define SEMID_FORK1			1
+#define SEMID_FORK2			2
+#define SEMID_FORK3			3
+#define SEMID_FORK4			4
+#define SEMID_FORK5			5
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void TestStart(VP_INT exinf);	/* ATT_INI 登録の関数 */
+void SampleInitialize(VP_INT exinf);	/* ATT_INI 登録の関数 */
+void PhilosopherTask(VP_INT exinf);		/* 哲学者タスク */
 
-void Task1(VP_INT exinf);		/* サンプルタスク1 */
-void Task2(VP_INT exinf);		/* サンプルタスク2 */
-void Task3(VP_INT exinf);		/* サンプルタスク3 */
-
-void CycHandler1(VP_INT exinf);	/* 周期ハンドラサンプル */
-
-void IntHndler1(VP_INT exinf);	/* 割り込みハンドラサンプル */
 
 #ifdef __cplusplus
 }
@@ -31,7 +37,7 @@ void IntHndler1(VP_INT exinf);	/* 割り込みハンドラサンプル */
 
 
 
-#endif	/* __Ryuz__test_h__ */
+#endif	/* __sample_h__ */
 
 
 /* ------------------------------------------------------------------------ */

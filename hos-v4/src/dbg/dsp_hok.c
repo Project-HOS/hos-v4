@@ -64,25 +64,52 @@ void _hosdbg_stp_dsphok(void)
 /* 読み出し開始 */
 T_DBG_DSPINF *_hosdbg_red_fst(void)
 {
-	/* 読み出し開始位置
-	_hosdbg_dsphok.read = _hosdbg_dsphok.tail + 1;
-	if ( _hosdbg_dsphok.read >= _hosdbg_dsphok.infcnt )
+	/* 読み出し開始位置設定 */
+	_hosdbg_dsphok.read = _hosdbg_dsphok.tail;
+
+	do
 	{
-		_hosdbg_dsphok.read = 0;
-	}
+		_hosdbg_dsphok.read++;
+		if ( _hosdbg_dsphok.read >= _hosdbg_dsphok.infcnt )
+		{
+			_hosdbg_dsphok.read = 0;
+		}
+		
+		/* 空なら終了 */
+		if ( _hosdbg_dsphok.read == _hosdbg_dsphok.tail )
+		{
+			return NULL;
+		}
+	} while ( _hosdbg_dsphok.inf[_hosdbg_dsphok.read].type == 0 );
 	
+	return &_hosdbg_dsphok.inf[_hosdbg_dsphok.read];
 }
 
 
 /* 次を読み出し */
-void _hosdbg_red_fxt(T_DBG_DSPINF *pk_dspinf)
+T_DBG_DSPINF *_hosdbg_red_nxt(void)
 {
+	/* 次の位置に移動 */
+	_hosdbg_dsphok.read++;
+	if ( _hosdbg_dsphok.read >= _hosdbg_dsphok.infcnt )
+	{
+		_hosdbg_dsphok.read = 0;
+	}
+		
+	/* 空なら終了 */
+	if ( _hosdbg_dsphok.read == _hosdbg_dsphok.tail )
+	{
+		return NULL;
+	}
+	
+	return &_hosdbg_dsphok.inf[_hosdbg_dsphok.read];
 }
 
 
 /* タスクディスパッチフック */
 void _hos_tsw_hok(void)
 {
+	T_KERNEL_TCB_RAM*  tcb_ram;
 	T_DBG_DSPINF *inf;
 
 	/* 有効フラグチェック */
@@ -91,11 +118,20 @@ void _hos_tsw_hok(void)
 		return;
 	}
 
+	tcb_ram = kernel_get_run_tsk();
+
 	/* 情報取得 */
 	inf = &_hosdbg_dsphok.inf[_hosdbg_dsphok.tail];
 	inf->time = _hosdbg_get_tim();
 	inf->type = _HOS_DSPTYPE_TSKSWC;
-	inf->id   = kernel_get_tid(kernel_get_run_tsk());
+	if ( tcb_ram != NULL )
+	{
+		inf->id = kernel_get_tid(tcb_ram);
+	}
+	else
+	{
+		inf->id = 0;
+	}
 	
 	/* ログバッファ更新 */
 	if ( _hosdbg_dsphok.tail + 1 < _hosdbg_dsphok.infcnt )

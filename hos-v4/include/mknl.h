@@ -173,7 +173,7 @@ void    kernel_tex_entry(void);								/* ¥¿¥¹¥¯Îã³°½èÍý¥¨¥ó¥È¥ê¡¼¥Ý¥¤¥ó¥È(¥«¡¼¥
 															/* CPU¤Î¥í¥Ã¥¯²ò½ü(¥Þ¥¯¥í´Ø¿ô) */
 #define mknl_dis_dsp()	do { mknl_ctx_stat |= MKNL_TSS_DDSP; } while (0)
 															/* ¥Ç¥£¥¹¥Ñ¥Ã¥Á¤Î¶Ø»ß(¥Þ¥¯¥í´Ø¿ô) */
-#define mknl_ena_dsp()	do { mknl_ctx_stat &= ~MKNL_TSS_DINT; } while (0)
+#define mknl_ena_dsp()	do { mknl_ctx_stat &= ~MKNL_TSS_DDSP; } while (0)
 															/* ¥Ç¥£¥¹¥Ñ¥Ã¥Á¤Îµö²Ä(¥Þ¥¯¥í´Ø¿ô) */
 #define mknl_sns_ctx()	((mknl_ctx_stat & MKNL_TSS_INDP) ? TRUE : FALSE)
 															/* ¥³¥ó¥Æ¥­¥¹¥È¤Î»²¾È(¥Þ¥¯¥í´Ø¿ô) */

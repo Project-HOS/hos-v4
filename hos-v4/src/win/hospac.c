@@ -186,7 +186,9 @@ void hospac_idle(void)
 	/* インターバルタイマのエミュレーション */
 	for ( ; ; )
 	{
+		dis_dsp();
 		isig_tim();		/* タイムティック供給 */
+		ena_dsp();
 		Sleep(10);
 	}
 }

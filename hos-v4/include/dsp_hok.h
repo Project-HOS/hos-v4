@@ -71,7 +71,7 @@ void _hosdbg_stp_dsphok(void);								/* フック処理停止 */
 
 /* ログ読み出し関数 */
 T_DBG_DSPINF *_hosdbg_red_fst(void);		/* 読み出し開始 */
-T_DBG_DSPINF *_hosdbg_red_fxt(void);		/* 次を読み出し */
+T_DBG_DSPINF *_hosdbg_red_nxt(void);		/* 次を読み出し */
 
 /* ディスパッチフック関数 */
 void _hos_tsw_hok(void);			/* タスクスイッチ フック */

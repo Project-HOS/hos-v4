@@ -17,7 +17,7 @@ void ostim_init(VP_INT exinf)
 {
 	/* タイマ初期化 */
 	*SH_CMCSR0 = 0x0040;
-	*SH_CMCOR0 = (UH)exinf;
+	*SH_CMCOR0 = (UH)(INT)exinf;
 	*SH_CMSTR  = 0x0001;
 	*SH_IPRG   = 0x00f0;
 }

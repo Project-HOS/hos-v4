@@ -28,7 +28,7 @@ ER mknl_add_tmout(
 	/* 挿入位置を検索(時間順に配置) */
 	for ( i = 0; i < mknl_timout_tskcnt; i++ )
 	{
-		if ( mknl_timout[i].diftim < tmout )
+		if ( tmout < mknl_timout[i].diftim )
 		{
 			break;	/* 挿入場所に来たら抜ける */
 		}
@@ -37,11 +37,11 @@ ER mknl_add_tmout(
 	if ( i < mknl_timout_tskcnt )
 	{
 		/* 途中なら挿入の為に後ろを移動 */
+		mknl_timout[i].diftim -= tmout;
 		for ( j = mknl_timout_tskcnt; j > i; j-- )
 		{
 			mknl_timout[j] = mknl_timout[j - 1];
 		}
-		mknl_timout[j].diftim -= tmout;
 	}
 	mknl_timout[i].mtcb   = mtcbs;
 	mknl_timout[i].diftim = tmout;
