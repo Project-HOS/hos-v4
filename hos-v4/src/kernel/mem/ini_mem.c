@@ -13,7 +13,7 @@
 
 /* グローバル変数 */
 T_KERNEL_MEM_BLK *kernel_mem_base = NULL;	/* カーネル用メモリ先頭ブロックのアドレス */
-SIZE             kernel_mem_szie;			/* カーネル用メモリサイズ */
+SIZE             kernel_mem_size;			/* カーネル用メモリサイズ */
 
 
 /* メモリ管理を初期化 */
@@ -34,7 +34,7 @@ void kernel_ini_mem(
 	
 	/* 設定保存 */
 	kernel_mem_base = (T_KERNEL_MEM_BLK *)p_base;
-	kernel_mem_szie = size;
+	kernel_mem_size = size;
 	
 	/* 終端位置に番人を設定 */
 	mblklast = (T_KERNEL_MEM_BLK *)((UB *)p_base + size - MEMBLKSIZE);

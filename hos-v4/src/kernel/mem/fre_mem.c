@@ -19,7 +19,7 @@ void kernel_fre_mem(VP ptr)
 	T_KERNEL_MEM_BLK *mblknext;
 
 	/* ポインタ範囲チェック */
-	if ( ptr < (VP)kernel_mem_base || ptr >= (VP)((UB*)kernel_mem_base + kernel_mem_szie) )
+	if ( ptr < (VP)kernel_mem_base || ptr >= (VP)((UB*)kernel_mem_base + kernel_mem_size) )
 	{
 		return;
 	}

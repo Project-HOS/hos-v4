@@ -49,7 +49,7 @@ typedef struct t_kernel_mem_blk
 
 /* カーネルメモリ管理 */
 extern T_KERNEL_MEM_BLK *kernel_mem_base;	/* カーネル用メモリ先頭ブロックのアドレス */
-extern SIZE             kernel_mem_szie;	/* カーネル用メモリサイズ */
+extern SIZE             kernel_mem_size;	/* カーネル用メモリサイズ */
 
 
 
