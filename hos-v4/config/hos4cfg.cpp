@@ -37,6 +37,7 @@
 int  ReadConfigFile(FILE* fpConfig);	// コンフィギュレーションファイル読み込み
 void WriteIdFile(FILE* fp);				// ID 定義ヘッダファイル出力
 void WriteCfgFile(FILE* fp);			// C 言語ソース出力
+void PrintUsage(void);
 
 
 CApiInclude    g_ApiInclude;
@@ -106,6 +107,7 @@ int main(int argc, char *argv[])
 			if ( i >= argc )
 			{
 				fprintf(stderr, "option error \"-c\"\n");
+                               PrintUsage();
 				return 1;
 			}
 			strncpy(s_szCfgFile, argv[i], MAX_PATH - 1);
@@ -117,6 +119,7 @@ int main(int argc, char *argv[])
 			if ( i >= argc )
 			{
 				fprintf(stderr, "option error \"-i\"\n");
+                               PrintUsage();
 				return 1;
 			}
 			strncpy(s_szIdFile, argv[i], MAX_PATH - 1);
@@ -128,6 +131,17 @@ int main(int argc, char *argv[])
 			strncpy(s_szInputFile, "stdin", MAX_PATH - 1);
 			s_szInputFile[MAX_PATH - 1] = '\0';
 		}
+               else if ( strcmp(argv[i], "-help") == 0 )
+               {
+                       PrintUsage();
+                       return 0;
+               }
+               else if ( argv[i][0] == '-')
+               {
+                       fprintf(stderr, "unknown option \"%s\"\n", argv[i]);
+                       PrintUsage();
+                       return 1;
+               }
 		else
 		{
 			strncpy(s_szInputFile, argv[i], MAX_PATH - 1);
@@ -138,7 +152,7 @@ int main(int argc, char *argv[])
 	// 入力ファイルオープン
 	if ( fpInput == NULL && (fpInput = fopen(s_szInputFile, "r")) == NULL )
 	{
-		printf("could not open file \"%s\"\n", s_szInputFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szInputFile);
 		return 1;
 	}
 	
@@ -159,7 +173,7 @@ int main(int argc, char *argv[])
 	// ID 定義ファイルオープン
 	if ( (fpId = fopen(s_szIdFile, "w")) == NULL )
 	{
-		printf("could not open file \"%s\"\n", s_szIdFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szIdFile);
 		return 1;
 	}
 
@@ -171,7 +185,7 @@ int main(int argc, char *argv[])
 	// Cfgファイルオープン
 	if ( (fpCfg = fopen(s_szCfgFile, "w")) == NULL )
 	{
-		printf("could not open file \"%s\"\n", s_szCfgFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szCfgFile);
 		return 1;
 	}
 
@@ -200,7 +214,7 @@ int ReadConfigFile(FILE* fpConfig)
 		// 読み込みエラーチェック
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
@@ -209,7 +223,7 @@ int ReadConfigFile(FILE* fpConfig)
 		iErr = CAnalize::SplitState(szApiName, szParams, szState);
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
@@ -228,7 +242,7 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
@@ -340,6 +354,17 @@ void WriteCfgFile(FILE* fp)
 		, fp);
 }
 
+// 使い方表示
+void PrintUsage(void)
+{
+       fprintf(stderr,
+               "usage: hos4cfg [options] [input-file]\n"
+               "options are:\n"
+               "   -i FILE    specify auto-assginment headerfile (default:  kernel_id.h)\n"
+               "   -c FILE    specify kernel configuration file  (default: kernel_cfg.c)\n"
+               "   -help      show this help\n"
+               "\ninput-file (default: system.cfg)\n");
+}
 
 // ---------------------------------------------------------------------------
 //  Copyright (C) 2002 by Ryuji Fuchikami                                     
