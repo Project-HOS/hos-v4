@@ -38,6 +38,7 @@ void hospac_win_int(INTNO intno)
 	}
 	SuspendThread(ctxinf->hThread);
 	ctxinf->blIntSuspend = TRUE;
+	Sleep(0);
 
 	/* 割り込みフラグセット */
 	hospac_blInt = TRUE;
