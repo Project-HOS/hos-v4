@@ -1,6 +1,6 @@
 # --------------------------------------------------------------------------- 
 #  Hyper Operating System V4  サンプルプログラム                              
-#    メイクファイル（h8300-hms  GNUCコンパイラ版）                         
+#    メイクファイル（h8300-hms  GNUCコンパイラ版）                            
 #                                                                             
 #                                   Copyright (C) 1998-2002 by Project HOS    
 #                                   http://sourceforge.jp/projects/hos/       
@@ -11,9 +11,11 @@
 
 
 # パス
-INCDIR   = ../../include
-PACDIR   = ../../include/h83
-LIBDIR   = ../../lib/h83/
+HOSROOT  = ../..
+INCDIR   = $(HOSROOT)/include
+PACDIR   = $(HOSROOT)/include/h83
+LIBDIR   = $(HOSROOT)/lib/h83/gcc
+
 
 # ツール
 CC     = h8300-hms-gcc
