@@ -10,20 +10,12 @@
 
 
 
-/* 割り込みマスク指定 */
-ER chg_imsk(IMSK imsk)
+/* 割り込みマスク参照 */
+ER get_imsk(IMSK *p_imsk)
 {
-	/* パラメーターチェック */
-#ifdef HOS_ERCHK_E_PAR
-	if ( (imsk & ~(H83_IMSK_I_BIT | H83_IMSK_I_BIT)) != 0 )
-	{
-		return E_PAR;
-	}
-#endif
-
 	mknl_loc_sys();		/* システムのロック */
 
-	kernel_h83_imsk = imsk;		/* 割り込みマスクの設定 */
+	*p_imsk = kernel_h83_imsk;		/* 割り込みマスクの取得 */
 
 	mknl_unl_sys();		/* システムのアンロック */
 
