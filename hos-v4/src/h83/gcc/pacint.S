@@ -347,7 +347,7 @@ _hos_vector063:	push.l	er0
 
 int_handler:
 				/* 割り込み番号のマスク */
-				and.l	#0xff,er0
+				extu.w	r0
 
 				/* レジスタ保存 */
 				push.l	er1
