@@ -15,8 +15,15 @@
 /*                  定数定義                  */
 /* ------------------------------------------ */
 
+/* 割り込み番号の範囲 */
+#define TMIN_INTNO		(kernel_min_intno)	/* 割り込み番号の最小値 */
+#define TMAX_INTNO		(TMIN_INTNO + kernel_intcb_cnt - 1)
+											/* 割り込み番号の最大値 */
+
 /* IDの範囲 */
 #define TMIN_ISRID		1					/* 割り込みサービスルーチンIDの最小値 */
+#define TMAX_ISRID		(TMIN_ISRID - kernel_isrcb_cnt - 1)
+											/* 割り込みサービスルーチンIDの最大値 */
 
 
 
@@ -55,10 +62,11 @@ typedef struct t_kernel_isrcb
 /* 割り込み管理 */
 extern T_KERNEL_INTCB  kernel_intcb_tbl[];	/* 割り込み管理コントロールブロックテーブル */
 extern const INT       kernel_intcb_cnt;	/* 最大割り込み番号数 */
-
+extern const INTNO     kernel_min_intno;	/* 割り込み番号最小値 */
 
 /* 割り込みサービスルーチン */
 extern T_KERNEL_ISRCB* kernel_isrcb_tbl[];	/* 割り込みサービスルーチンコントロールブロックテーブル */
+extern const INT       kernel_isrcb_cnt;	/* 割り込みサービスルーチンコントロールブロックの個数 */
 
 
 

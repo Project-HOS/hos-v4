@@ -21,7 +21,6 @@ T_HOSPAC_CTXINF mknl_idlctx;			/* アイドルループのコンテキスト */
 void mknl_ini_sys(void)
 {
 	hospac_ini_sys();					/* プロセッサ抽象化コンポーネントの初期化 */
-	mknl_ini_int();						/* 割り込みの初期化 */
 }
 
 
@@ -47,13 +46,13 @@ void mknl_ext_startup(void)
 	if ( mtcb != NULL )
 	{
 		mknl_run_mtcb = mtcb;
-		hospac_swi_cnt(&mknl_idlctx, &mtcb->ctxinf);	/* タスクを開始 */
+		hospac_swi_ctx(&mknl_idlctx, &mtcb->ctxinf);	/* タスクを開始 */
 		mknl_run_mtcb = NULL;
 	}
 	else
 	{
 		mknl_run_mtcb = NULL;
-		hospac_swi_cnt(&mknl_idlctx, &mknl_idlctx);		/* アイドルコンテキスト登録のみ */
+		hospac_swi_ctx(&mknl_idlctx, &mknl_idlctx);		/* アイドルコンテキスト登録のみ */
 	}
 
 	hospac_ena_int();	/* 割り込みの許可 */

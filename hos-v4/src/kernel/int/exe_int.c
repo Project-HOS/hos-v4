@@ -11,22 +11,39 @@
 
 
 
-/* 割り込み処理実行（μカーネルより呼び出し） */
-void kernel_exe_int(INTNO intno)
+/* 割り込みコンテキストの開始 */
+void kernel_sta_int(void)
+{
+	/* 非タスク部(割り込みコンテキストに移行) */
+	mknl_sta_ind();
+}
+
+
+/* 割り込みコンテキストの終了 */
+void kernel_end_int(void)
+{
+	/* タスク部に移行 */
+	mknl_ext_ind();
+
+	/* 遅延ディスパッチ実行 */
+	mknl_dly_dsp();
+}
+
+
+/* 割り込み処理実行 */
+void kernel_exe_int(
+		INTNO intno)		/* 割り込み番号 */
 {
 	T_KERNEL_INTCB intcb;
-	
-	/* 割り込み解除前にローカルにコピー */
-	intcb = kernel_intcb_tbl[intno];
 
-	/* 割り込み解除（多重割り込み許可） */
-	mknl_ena_int();
+	mknl_loc_sys();						/* システムロック */
+	intcb = kernel_intcb_tbl[intno];	/* ローカルにコピー */
+	mknl_unl_sys();						/* システムロック解除 */	
 
-	/* 割り込みサービスルーチン実行 */
-	intcb.isr(intcb.exinf);
-
-	/* 割り込み禁止（多重割り込み許可） */
-	mknl_ena_int();
+	if ( intcb.isr != NULL )
+	{
+		intcb.isr(intcb.exinf);			/* 割り込みサービスルーチン実行 */
+	}
 }
 
 

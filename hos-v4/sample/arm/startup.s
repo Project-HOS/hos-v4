@@ -23,6 +23,10 @@ SVC_Stack		EQU 	Stack		; SVCモードのスタック
 USR_Stack		EQU 	Stack-32	; USERモードのスタック
 
 
+				IMPORT	|Image$$RO$$Limit|
+				IMPORT	|Image$$RW$$Base|
+				IMPORT	|Image$$ZI$$Base|
+				IMPORT	|Image$$ZI$$Limit|
 				IMPORT  _HOS_UndefinedHandler
 				IMPORT  _HOS_SwiHandler
 				IMPORT	_HOS_PrefetchHandler
@@ -86,11 +90,6 @@ Reset_Handler
 				ldr 	r13, =SVC_Stack			; SVCモードのスタックを設定
 
 		; --- C言語用データ設定
-				IMPORT	|Image$$RO$$Limit|
-				IMPORT	|Image$$RW$$Base|
-				IMPORT	|Image$$ZI$$Base|
-				IMPORT	|Image$$ZI$$Limit|
-
 				ldr 	r0, =|Image$$RO$$Limit|
 				ldr 	r1, =|Image$$RW$$Base|
 				ldr 	r3, =|Image$$ZI$$Base|

@@ -1,24 +1,18 @@
 ; --------------------------------------------------------------------------- 
-;  HOS-V4                                                                     
-;    スタートアップルーチン (日立 H8 300h 用)                                 
+;  HOS Version 4                                                              
+;    割り込みベクタ  (日立 H8/300H 用)                                        
 ;                                                                             
-;                                 Copyright (C) 1998-2002 by Ryuji Fuchikami  
+;                                 Copyright (C) 1998-2001 by Ryuji Fuchikami  
 ; --------------------------------------------------------------------------- 
 
 
 		.CPU     300HA
 
 
-		.IMPORT	_hos_start
-		.IMPORT	_int_default
-		.IMPORT	_int_trap
-		.IMPORT	_TimerTrap
-		.IMPORT	_SCI_ERR_Intr
-		.IMPORT	_Int_SCI_Recv
-		.IMPORT	_SCI_TX_Intr
 
 		.SECTION  D,DATA,ALIGN=2
 		.SECTION  X,DATA,ALIGN=2
+		.SECTION  B,DATA,ALIGN=2
 
 		.SECTION  VECT,DATA,ALIGN=2
 
@@ -131,341 +125,260 @@ clr_bsec:	eepmov.w
 ; -----------------------------------------------
 ;          割り込みハンドラ
 ; -----------------------------------------------
+		.IMPORT	_HOS_int_hdr
 
 int01_vector:	push.l	er0
 		mov.l	#H'01, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int02_vector:	push.l	er0
 		mov.l	#H'02, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int03_vector:	push.l	er0
 		mov.l	#H'03, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int04_vector:	push.l	er0
 		mov.l	#H'04, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int05_vector:	push.l	er0
 		mov.l	#H'05, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int06_vector:	push.l	er0
 		mov.l	#H'06, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int07_vector:	push.l	er0
 		mov.l	#H'07, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int08_vector:	push.l	er0
 		mov.l	#H'08, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int09_vector:	push.l	er0
 		mov.l	#H'09, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0a_vector:	push.l	er0
 		mov.l	#H'0a, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0b_vector:	push.l	er0
 		mov.l	#H'0b, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0c_vector:	push.l	er0
 		mov.l	#H'0c, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0d_vector:	push.l	er0
 		mov.l	#H'0d, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0e_vector:	push.l	er0
 		mov.l	#H'0e, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int0f_vector:	push.l	er0
 		mov.l	#H'0f, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int10_vector:	push.l	er0
 		mov.l	#H'10, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int11_vector:	push.l	er0
 		mov.l	#H'11, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int12_vector:	push.l	er0
 		mov.l	#H'12, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int13_vector:	push.l	er0
 		mov.l	#H'13, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int14_vector:	push.l	er0
 		mov.l	#H'14, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int15_vector:	push.l	er0
 		mov.l	#H'15, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int16_vector:	push.l	er0
 		mov.l	#H'16, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int17_vector:	push.l	er0
 		mov.l	#H'17, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int18_vector:	push.l	er0
 		mov.l	#H'18, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int19_vector:	push.l	er0
 		mov.l	#H'19, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1a_vector:	push.l	er0
 		mov.l	#H'1a, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1b_vector:	push.l	er0
 		mov.l	#H'1b, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1c_vector:	push.l	er0
 		mov.l	#H'1c, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1d_vector:	push.l	er0
 		mov.l	#H'1d, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1e_vector:	push.l	er0
 		mov.l	#H'1e, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int1f_vector:	push.l	er0
 		mov.l	#H'1f, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int20_vector:	push.l	er0
 		mov.l	#H'20, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int21_vector:	push.l	er0
 		mov.l	#H'21, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int22_vector:	push.l	er0
 		mov.l	#H'22, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int23_vector:	push.l	er0
 		mov.l	#H'23, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int24_vector:	push.l	er0
 		mov.l	#H'24, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int25_vector:	push.l	er0
 		mov.l	#H'25, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int26_vector:	push.l	er0
 		mov.l	#H'26, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int27_vector:	push.l	er0
 		mov.l	#H'27, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int28_vector:	push.l	er0
 		mov.l	#H'28, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int29_vector:	push.l	er0
 		mov.l	#H'29, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2a_vector:	push.l	er0
 		mov.l	#H'2a, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2b_vector:	push.l	er0
 		mov.l	#H'2b, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2c_vector:	push.l	er0
 		mov.l	#H'2c, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2d_vector:	push.l	er0
 		mov.l	#H'2d, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2e_vector:	push.l	er0
 		mov.l	#H'2e, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int2f_vector:	push.l	er0
 		mov.l	#H'2f, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int30_vector:	push.l	er0
 		mov.l	#H'30, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int31_vector:	push.l	er0
 		mov.l	#H'31, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int32_vector:	push.l	er0
 		mov.l	#H'32, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int33_vector:	push.l	er0
 		mov.l	#H'33, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int34_vector:	push.l	er0
 		mov.l	#H'34, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int35_vector:	push.l	er0
 		mov.l	#H'35, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int36_vector:	push.l	er0
 		mov.l	#H'36, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int37_vector:	push.l	er0
 		mov.l	#H'37, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int38_vector:	push.l	er0
 		mov.l	#H'38, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int39_vector:	push.l	er0
 		mov.l	#H'39, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3a_vector:	push.l	er0
 		mov.l	#H'3a, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3b_vector:	push.l	er0
 		mov.l	#H'3b, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3c_vector:	push.l	er0
 		mov.l	#H'3c, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3d_vector:	push.l	er0
 		mov.l	#H'3d, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3e_vector:	push.l	er0
 		mov.l	#H'3e, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
 int3f_vector:	push.l	er0
 		mov.l	#H'3f, er0
-		jmp	@_int_handler
+		jmp	@_HOS_int_hdr
 
-
-
-
-; -----------------------------------------------
-;          割り込み処理
-; -----------------------------------------------
-		.IMPORT	_mknl_sta_int		; 割り込み処理開始
-		.IMPORT	_mknl_ext_int		; 割り込み処理終了
-		.IMPORT	_kernel_int_handler	; 割り込み処理ルーチン
-		.IMPORT	_kernel_int_sp		; 割り込み用スタックアドレス
-
-_int_handler:
-	; -------- レジスタ保存
-		push.l	er1
-		
-	; -------- 多重割り込みの判別
-		mov.w	@_int_cnt, r1
-		bne	mul_int
-
-
-	; ======== 最初の割り込み ========
-	; -------- 割り込みネストカウンタ設定
-		mov.w	#1, r0
-		mov.w	r0, @_int_cnt
-		
-	; -------- スタックポインタの入れ替え
-		mov.l	er7, @_int_sp
-		mov.l	@_kernel_int_sp, er7
-		
-	; -------- 割り込みコンテキストに移行
-		jsr	@_mknl_sta_int
-		
-	; -------- 割り込みハンドラの処理
-		jsr	@_kernel_int_handler
-		orc	#h'80, ccr	; 割り込みの禁止
-		
-	; -------- スタックポインタ復帰
-		mov.l	@_int_sp,er7
-		
-	; -------- 割り込みネストカウンタクリア
-		xor.w	r0, r0
-		mov.w	r0, @_int_cnt	; 割り込みカウンタクリア
-		
-	; -------- タスクコンテキストに移行
-		jsr	@_mknl_ext_int
-		
-	; -------- 復帰
-		pop.l	er1
-		pop.l	er0
-		rte
-
-
-	; ======== 多重割り込み ========
-mul_int:	
-	; -------- 割り込みネストカウンタ加算
-		inc.w	#1,r1
-		mov.w	r1,@_int_cnt
-		
-	; -------- 割り込みハンドラ呼び出し
-		andc	#h'7f, ccr	; 割り込みの許可
-		jsr	@_kernel_int_handler
-		orc	#h'80, ccr	; 割り込みの禁止
-		
-	; -------- 割り込みネストカウンタ減算
-		mov.w	@_int_cnt, r0
-		dec.w	#1, r0
-		mov.w	r0, @_int_cnt
-		
-	; -------- 復帰
-		pop.l	er0
-		pop.l	er1
-		rte
-
-
-
-; -----------------------------------------------
-;       割り込み処理データ
-; -----------------------------------------------
-		.SECTION  B, DATA, ALIGN=2
-
-_int_cnt:	.RES.L	1	; 割り込みネストカウンタ
-_int_sp:	.RES.L	1	; 割り込み時の er7 保存用
 
 
 		.END

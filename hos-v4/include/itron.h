@@ -65,8 +65,8 @@ typedef UH		FLGPTN;		/* フラグパターン */
 
 typedef INT     EXCNO;		/* CPU例外ハンドラ番号 */
 
-typedef int		INHNO;		/* 割り込みハンドラ番号 */
-typedef int		INTNO;		/* 割り込み番号 */
+typedef INT		INHNO;		/* 割り込みハンドラ番号 */
+typedef INT		INTNO;		/* 割り込み番号 */
 
 
 

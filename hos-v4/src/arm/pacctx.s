@@ -1,97 +1,81 @@
 ; --------------------------------------------------------------------------- 
 ;  HOS-V4                                                                     
-;    プロセッサ抽象化コンポーネント (日立 H8/300h 用)                         
+;    プロセッサ抽象化コンポーネント (ARM用)                                   
 ;                                                                             
-;                                  Copyright (C) 1998-2002 by Ryuji Fuchikami 
+;                                 Copyright (C) 1998-2002 by Ryuji Fuchikami  
 ; --------------------------------------------------------------------------- 
 
 
-		.CPU     300HA
+		EXPORT	hospac_dis_int		; 割り込み禁止
+		EXPORT	hospac_ena_int		; 割り込み許可
+		EXPORT	hospac_cre_ctx_asm	; 実行コンテキストの作成
+		EXPORT	hospac_swi_ctx		; 実行コンテキストの切替
+		EXPORT	hospac_set_tex		; 例外処理実行設定
 
 
-
-		.GLOBAL	_hospac_des_int		; 割り込み禁止
-		.GLOBAL	_hospac_ena_int		; 割り込み許可
-		.GLOBAL	_hospac_cre_cnt_asm	; 実行コンテキストの作成
-		.GLOBAL	_hospac_swi_cnt		; 実行コンテキストの切替
-		.GLOBAL	_hospac_set_tex		; 例外処理実行設定
-
-
-
-		.SECTION  P, CODE, ALIGN=2
+		AREA	code, CODE, READONLY
 
 
 ; -----------------------------------------------
 ;  割り込み禁止
-;  void hospac_des_int(void)
+;  void hospac_dis_int(void)
 ; -----------------------------------------------
-_hospac_des_int:
-		orc	#h'80, ccr	; 割り込みの禁止
-		rts
+hospac_dis_int
+		mov	a1, #0		; 割り込み禁止を指定
+		swi	0x10		; スーパバイーザーコール
+		mov	pc, lr
 
 
 ; -----------------------------------------------
 ;  割り込み許可
 ;  void hospac_ena_int(void)
 ; -----------------------------------------------
-_hospac_ena_int:
-		andc	#h'7f, ccr	; 割り込みの許可
-		rts
+hospac_ena_int
+		mov	a1, #1		; 割り込み許可を指定
+		swi	0x10		; スーパバイーザーコール
+		mov	pc, lr
 
 
 ; -----------------------------------------------
 ;  実行コンテキストエントリーアドレス
 ; -----------------------------------------------
-ctx_entry:	
-		mov.l	er2, er0	; 実行時パラメータを第一引数に設定
-		jmp	@er3		; 実行アドレスにジャンプ
+ctx_entry	
+		mov	a1, v2		; 実行時パラメータを第一引数に設定
+		mov	pc, v1		; 実行アドレスに分岐
 
 
 ; -----------------------------------------------
 ;  実行コンテキストの作成
-;  void hospac_cre_cnt_asm(
+;  void hospac_cre_ctx_asm(
 ;	T_HOSPAC_CTXINF *pk_ctxinf,	/* 作成するコンテキスト */
 ;	VP     sp,			/* スタックポインタ */
 ;	void   (*task)(VP_INT),		/* 実行アドレス */
 ;	VP_INT exinf			/* 実行時パラメータ */
 ;	)
 ; -----------------------------------------------
-_hospac_cre_cnt_asm:
-		push.l	er2
-		mov.l	#ctx_entry, er2	; 実行エントリーポイントの設定
-		mov.l	er2, @-er1
-		mov.l	@(12, er7), er2	; 実行時パラメータの取り出し
-		mov.l	er2, @-er1	; 実行時パラメータ格納 (er2の退避分)
-		mov.l	@(8, er7), er2	; 実行アドレス取り出し
-		mov.l	er2, @-er1	; 実行ドレスを格納 (er3 の退避分)
-		sub.l	#12, er1	; er4〜er6 までの退避分
-		mov.l	er1, @(0, er0)	; スタックポインタの格納
-		pop.l	er2
-		rts
-
+hospac_cre_ctx_asm
+		stmfd	sp!, {v1}		; 作業レジスタ退避
+		ldr	v1, =ctx_entry
+		stmfd	a2!, {v1}		; エントリーポイントを設定
+		sub	a2, a2, #28		; v3-v8, ip 分減算
+		stmfd	a2!, {a3,a4}	; v1, v2 の領域に実行アドレスとパラメータ格納
+		str	a2, [a1]		; コンテキストとして sp を保存
+		ldmfd	sp!, {v1}		; 作業レジスタ復帰
+		mov		pc, lr	; リターン
 
 
 ; -----------------------------------------------
 ;  実行コンテキストの切替
-;  void hospac_swi_cnt(
+;  void hospac_swi_ctx(
 ;	T_HOSPAC_CTXINF *pk_pre_ctxinf,	/* 現在のコンテキストの保存先 */
 ;	T_HOSPAC_CTXINF *pk_nxt_ctxinf	/* 切り替えるコンテキスト */
 ;	)
 ; -----------------------------------------------
-_hospac_swi_cnt:
-		push.l	er2
-		push.l	er3
-		push.l	er4
-		push.l	er5
-		push.l	er6
-		mov.l	er7,@(0, er0)	; スタックポインタ保存
-		mov.l	@(0, er1), er7	; スタックポインタ復帰
-		pop.l	er6
-		pop.l	er5
-		pop.l	er4
-		pop.l	er3
-		pop.l	er2
-		rts
+hospac_swi_ctx
+		stmfd	sp!, {v1-v8,ip,lr}	; レジスタ保存
+		str	sp, [a1]		; スタックポインタ保存
+		ldr	sp, [a2]		; スタックポインタ復帰
+		ldmfd	sp!, {v1-v8,ip,pc}	; レジスタ復帰＆リターン
 
 
 ; -----------------------------------------------
@@ -102,11 +86,13 @@ _hospac_swi_cnt:
 ;	TEXPTN rasptn
 ;	)
 ; -----------------------------------------------
-_hospac_set_tex:
-		
-		rts
+hospac_set_tex
+		; すいませんまだ未実装です m(_ _)m
+		mov	pc, lr
 
-		.END
+
+
+		END
 
 
 

@@ -23,7 +23,7 @@ void mknl_sta_tsk(
 {
 	/* 実行コンテキストの作成 */
 	mtcb->data = exinf;
-	hospac_cre_cnt(&mtcb->ctxinf, exinf, task, stksz, stk);
+	hospac_cre_ctx(&mtcb->ctxinf, exinf, task, stksz, stk);
 
 	/* タスクの状態設定 */
 	mtcb->tskstat = TTS_RDY;	/* レディー状態に設定 */
@@ -49,7 +49,7 @@ void mknl_ext_tsk(
 	}
 
 	/* 実行コンテキストの削除 */
-	hospac_del_cnt(&mtcb->ctxinf);
+	hospac_del_ctx(&mtcb->ctxinf);
 
 	mtcb->tskstat = TTS_DMT;	/* 休止状態に設定 */
 	mtcb->tskwait = 0;			/* 待ち要因クリア */
@@ -198,7 +198,7 @@ ER_UINT mknl_exe_dsp(void)
 	}
 
 	/* タスクコンテキストスイッチ実行 */
-	hospac_swi_cnt(ctxinf_run, ctxinf_top);
+	hospac_swi_ctx(ctxinf_run, ctxinf_top);
 
 	if ( mtcb_run == NULL )
 	{

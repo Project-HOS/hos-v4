@@ -33,6 +33,7 @@ _HOS_UndefinedHandler
 ; ----------------------------------------------
 ;  SWI ハンドラ
 ; ----------------------------------------------
+				IMPORT	hospac_arm_imask
 _HOS_SwiHandler
 			; ---- SWI番号読み出し
 				ldr		r13, [lr, #-4]
@@ -44,12 +45,13 @@ _HOS_SwiHandler
 			; ---- a1 が 真なら割り込み許可
 				cmp 	a1, #0
 				moveq	r13, #Mode_USR:OR:I_Bit:OR:F_Bit
-				movne	r13, #Mode_USR
+				ldrne	r13, =hospac_arm_imask
+				ldrne	r13, [r13]
 				msr 	spsr_cf, r13
 				subs	pc, lr, #0
 
 NoKarnelCall
-				; カーネル以外でswiを利用するならここに書く
+			; ---- 将来ここに例外処理機構 
 				subs	pc, lr, #0
 
 
@@ -67,6 +69,17 @@ _HOS_PrefetchHandler
 _HOS_AbortHandler
 				b		_HOS_AbortHandler
 
+
+
+; ----------------------------------------------
+;  グローバル変数
+; ----------------------------------------------
+				AREA	inthdr_bss, NOINIT
+
+				EXPORT	_HOS_int_cnt
+				EXPORT	_HOS_int_sp	
+_HOS_int_cnt	%		4		; 割り込みネスト回数
+_HOS_int_sp		%		4		; 割り込み時スタック退避
 
 
 				END

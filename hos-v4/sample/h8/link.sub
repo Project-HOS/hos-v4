@@ -1,0 +1,7 @@
+INPUT   ..\..\lib\h8\h4akih8v, kernel_cfg, test
+LIBRARY c:\akih8c\C38HAB, ..\..\lib\h8\h4akih8
+OUTPUT  test.abs
+PRINT   test.map
+ROM     (D,X)
+START   VECT(200000),P,C,D(200100),X,B(220000)
+EXIT

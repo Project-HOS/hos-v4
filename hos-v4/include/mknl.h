@@ -112,11 +112,6 @@ void mknl_sta_startup(void);						/* スタートアップルーチンの開始処理 */
 void mknl_ext_startup(void);						/* スタートアップルーチンの終了処理 */
 
 
-/* 割り込み制御 */
-void mknl_ini_int(void);							/* 割り込み処理の初期化 */
-void mknl_exe_int(INTNO intno);						/* 割り込み処理実行 */
-
-
 /* タスク制御 */
 #define mknl_ini_tsk(mtcb)	do { (mtcb)->tskstat = TTS_DMT; } while (0)
 													/* タスクの初期化(マクロ関数) */

@@ -8,7 +8,8 @@
 
 
 # ライブラリアンには http://www.vector.co.jp/soft/win95/prog/se098521.html
-# にて公開されている 江藤 善一 氏 の lib38.exe を利用させていただきました。
+# にて公開されている 江藤 善一 氏 の lib38.exe を勝手ながら利用させて
+# いただきました。
 # 
 # メイクファイルは、なるべくいろんな make が利用できるように極力原始的な
 # 書き方をしております。
@@ -17,9 +18,10 @@
 
 # 当方、WinNT と Win2000 での開発ですので、Win95/98 のDOS窓だとコマンド
 # ラインの長さが問題となるかもしれません。
-# (でも、基本的には make コマンド依存だと思います。)
+# (基本的には make コマンド依存だと思います。)
 
-INCH8DIR   = c:\akih8c
+
+INCH8DIR   = \akih8c
 INCDIR     = ..\..\include
 INCPACDIR  = ..\..\include\h8
 
@@ -62,10 +64,7 @@ INCS = $(INCDIR)\itron.h \
        $(INCPACDIR)\hospac.h \
 
 # オブジェクトファイル
-OBJS = hospac.obj \
-       mknlsys.obj mknlint.obj mknltsk.obj mknlque.obj mknltout.obj \
-       sta_hos.obj ini_mem.obj alc_mem.obj fre_mem.obj \
-       ini_tsk.obj cre_tsk.obj acre_tsk.obj act_tsk.obj can_act.obj \
+OBJS = ini_tsk.obj cre_tsk.obj acre_tsk.obj act_tsk.obj can_act.obj \
        sta_tsk.obj ext_tsk.obj ter_tsk.obj chg_pri.obj get_pri.obj \
        ref_tst.obj \
        slp_tsk.obj tslp_tsk.obj wup_tsk.obj can_wup.obj rel_wai.obj \
@@ -76,24 +75,48 @@ OBJS = hospac.obj \
        snd_dtq.obj psnd_dtq.obj rcv_dtq.obj snd_mbx.obj rcv_mbx.obj \
        set_tim.obj get_tim.obj isig_tim.obj sta_cyc.obj stp_cyc.obj \
        get_tid.obj loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
-       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj exe_int.obj
+       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj exe_int.obj \
+       ini_mem.obj alc_mem.obj fre_mem.obj \
+       mknlsys.obj mknltsk.obj mknlque.obj mknltout.obj sta_hos.obj \
+       pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj
 
 
 # ターゲット
-TARGET  = hosv4.a
+TARGET  = h4akih8.lib
+
+
+all: $(TARGET) h4akih8v.obj
 
 
 # ライブラリ
 $(TARGET): $(OBJS)
 	$(LIBR) $(TARGET) $(OBJS)
-	del *.obj
 
+
+# ベクタテーブル
+h4akih8v.obj: $(PACDIR)\h4akih8v.src
+	$(ASM) $(AFLAGS) $(PACDIR)\h4akih8v.src
+	move $(PACDIR)\h4akih8v.obj .
 
 
 # プロセッサ依存
-hospac.obj: $(PACDIR)\hospac.src $(INCS)
-	$(ASM) $(AFLAGS) $(PACDIR)\hospac.src
-	move $(PACDIR)\hospac.obj .
+pacini.obj: $(PACDIR)\pacini.c
+	$(CC) $(CFLAGS) $(PACDIR)\pacini.c
+
+pacctx.obj: $(PACDIR)\pacctx.src
+	$(ASM) $(AFLAGS) $(PACDIR)\pacctx.src
+	move $(PACDIR)\pacctx.obj .
+
+pacint.obj: $(PACDIR)\pacint.src
+	$(ASM) $(AFLAGS) $(PACDIR)\pacint.src
+	move $(PACDIR)\pacint.obj .
+
+chg_imsk.obj: $(PACDIR)\chg_imsk.c
+	$(CC) $(CFLAGS) $(PACDIR)\chg_imsk.c
+
+get_imsk.obj: $(PACDIR)\get_imsk.c
+	$(CC) $(CFLAGS) $(PACDIR)\get_imsk.c
+
 
 # μカーネル
 mknlsys.obj: $(MKNLDIR)\mknlsys.c $(INCS)
@@ -295,6 +318,10 @@ sns_dpn.obj: $(KNLSYSDIR)\sns_dpn.c $(INCS)
 exe_int.obj: $(KNLINTDIR)\exe_int.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLINTDIR)\exe_int.c
 
+
+
+clean:
+	del *.obj
 
 
 # -----------------------------------------------------------------------------
