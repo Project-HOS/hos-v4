@@ -18,6 +18,8 @@ HOS-V4  Ver X.XX   2002/XX/XX  by Project HOS (http://sourceforge.jp/projects/ho
            ・コンフィギュレーターのバグ修正(パッチ提供 h-iwamoto様）by Ryuz
            ・C++用NULL定義の追加(パッチ提供 h-iwamoto様）by Ryuz
            ・タイムアウト管理機構の変更 by Ryuz
+           ・周期ハンドラ系の仕様変更 by Ryuz
+           ・ref_xxx 系 API の追加 by Ryuz
 
 
 -------------------------------------------------------------------------------
