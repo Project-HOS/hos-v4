@@ -87,7 +87,12 @@ void  CApiKernelHeap::WriteCfgStart(FILE* fp)
 	{
 		return;
 	}
-
+	
+	if ( strcmp(m_pParamPacks[0]->GetParam(0), "0") == 0 )
+	{
+		return;
+	}
+	
 	fputs("\tkernel_ini_mem(kernel_heap_mem, sizeof(kernel_heap_mem));\t\t/* initialize kernel heap */\n\n", fp);
 }
 
