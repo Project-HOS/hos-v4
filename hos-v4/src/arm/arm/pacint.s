@@ -1,5 +1,6 @@
 ; --------------------------------------------------------------------------- 
-;  HOS-V4                                                                     
+;  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
+;    プロセッサ抽象化コンポーネント (ARM用)                                   
 ;    例外ハンドラ                                                             
 ;                                                                             
 ;                                     Copyright (C) 1998-2002 by Project HOS  

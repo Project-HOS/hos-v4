@@ -1,19 +1,14 @@
 ; --------------------------------------------------------------------------- 
-;  HOS-V4                                                                     
-;    例外ハンドラ                                                             
+;  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
+;    プロセッサ抽象化コンポーネント (ARM用)                                   
+;    IRQ例外ハンドラ                                                          
 ;                                                                             
 ;                                     Copyright (C) 1998-2002 by Project HOS  
 ;                                     http://sourceforge.jp/projects/hos/     
 ; --------------------------------------------------------------------------- 
 
 
-; 定数定義
-Mode_USR		EQU 	0x10
-Mode_IRQ		EQU 	0x12
-Mode_SYS		EQU 	0x1f
-
-I_Bit			EQU 	0x80
-F_Bit			EQU 	0x40
+				INCLUDE	pacarm.inc
 
 
 
