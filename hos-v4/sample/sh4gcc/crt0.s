@@ -14,9 +14,6 @@ start:
 	or	#0xf0,r0
 	ldc	r0,sr
 
-	/* スタックセット */
-	mov.l	l_init_stack,r15
-
 	/* setup_cacheはP2領域として呼び出されなければならない */
 	mov.l	l_setup_cache,r0
 	mov.l	l_addr_mask,r1
@@ -77,8 +74,6 @@ l_p2_mask:
 	.long	0xa0000000
 l_vbr_data:
 	.long	__exception_handler - 0x100
-l_init_stack:
-	.long	0x8d000000
 l_main:
 	.long	_main
 l_bss_start:
