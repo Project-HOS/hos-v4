@@ -12,6 +12,13 @@
 
 HOS-V4  Ver X.XX   200X/XX/XX  by Project HOS (http://sourceforge.jp/projects/hos/)
            ・del_mbxにおける優先度別管理領域解放漏れの修正
+           ・コンフィグレータに静的API HOS_RES_XXXOBJを追加
+           ・Windows版割込部の修正(パッチ提供 miro様)
+           ・dtqcnt=0のデータキューを作成した場合のメモリ管理不具合を修正
+             (バグ報告 Graham Whaley様)
+           ・動的生成したMPFの削除に関する不具合を修正
+             (バグ報告 Graham Whaley様)
+           ・SUSPENDへの状態遷移でレディキューから削除するよう変更
 
 
 HOS-V4  Ver 1.01   2003/07/01  by Project HOS (http://sourceforge.jp/projects/hos/)
