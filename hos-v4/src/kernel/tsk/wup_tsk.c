@@ -77,7 +77,7 @@ ER wup_tsk(ID tskid)
 #endif
 		tcb_ram->wupcnt++;
 		mknl_unl_sys();	/* システムのロック解除 */
-		return E_OK;	/* オブジェクト未生成 */
+		return E_OK;	/* 起床要求をキューイングして終了 */
 	}
 	
 	/* タスクを起床させる */
