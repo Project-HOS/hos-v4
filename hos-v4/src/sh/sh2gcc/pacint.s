@@ -898,8 +898,8 @@ int_multi:
 				
 				/* 割り込み実行処理呼び出し */
 				mov.l	exe_int_addr, r1
-				jsr		@r1
-				mov.l	@r15+, r4			/* 割り込み番号を引数とする */
+				jsr		@r1			/* 割り込み番号を引数とする */
+				nop
 				
 				/* 割り込みカウンタの減算 */
 				mov.l	int_cnt_addr, r1

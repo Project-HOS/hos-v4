@@ -18,7 +18,7 @@ __exception_handler:
 	stc	spc,r5
 	stc	ssr,r6
 	mov.l	exception_hdr_adr,r0
-	jsr	@r0	
+	jsr	@r0
 	mov.l	@r4,r4
 
 		.align	2
@@ -42,7 +42,7 @@ __tbl_mis_handler:
 __interrupt_handler:
 	stc.l	ssr,@-r15
 	stc.l	spc,@-r15
-	mov.l	r4,@-r15		
+	mov.l	r4,@-r15
 
 	/* 割り込み番号 = ( 割り込み事象レジスタ >> 5 ) - 16 */
 	mov.l	intevt_adr,r4
@@ -55,7 +55,7 @@ __interrupt_handler:
 	/* レジスタ退避(r0-r1) */
 	mov.l	r0,@-r15
 	mov.l	r1,@-r15
-		
+
 	/* 当該割り込みのマスクを保存 */
 	mov.l	int_pri_tbl_adr,r0
 	mov.b	@(r0,r4),r0
@@ -63,7 +63,7 @@ __interrupt_handler:
 	shll2	r0
 	mov.l	imsk_addr,r1
 	mov.l	r0,@r1
-		
+
 	/* レジスタ保存(r2-r7,mach,macl,pr) */
 	mov.l	r2,@-r15
 	mov.l	r3,@-r15
@@ -73,55 +73,55 @@ __interrupt_handler:
 	sts.l	mach,@-r15
 	sts.l	macl,@-r15
 	sts.l	pr,@-r15
-		
+
 	/* 多重割り込み判定 */
 	mov.l	int_cnt_addr,r1
 	mov.l	@r1,r0
 	cmp/eq	#0,r0
 	bf/s	int_multi
 	add	#1,r0
-		
+
 	/* 単独割り込み時 */
 	mov.l	r0,@r1				/* 割り込みネスト値を設定 */
-		
+
 	/* スタック入れ替え */
 	mov.l	save_sp_addr,r0
 	mov.l	r15,@r0			/* 現在のスタックを退避 */
 	mov.l	int_sp_addr,r0
 	mov.l	@r0,r15			/* 割り込み用スタックを設定 */
-		
+
 	mov.l	r4,@-r15			/* 割り込み番号を退避 */
-		
+
 	/* 割り込み開始処理呼び出し */
 	mov.l	sta_int_addr,r1
 	jsr	@r1
 	nop
-		
+
 	/* 割り込み実行処理呼び出し */
 	mov.l	exe_int_addr,r1
 	jsr	@r1
 	mov.l	@r15+,r4			/* 割り込み番号を引数とする */
-		
+
 	/* スタックの復帰 */
 	mov.l	save_sp_addr,r0
 	mov.l	@r0,r15
-		
+
 	/* 割り込みカウンタのクリア */
 	mov.l	int_cnt_addr,r1
 	xor	r0,r0
 	mov.l	r0,@r1
-		
+
 	/* ベースマスク値に戻す */
 	mov.l	imsk_base_addr,r0
 	mov.l	@r0,r1
 	mov.l	imsk_addr,r0
 	mov.l	r1,@r0
-		
+
 	/* 割り込み終了処理呼び出し */
 	mov.l	end_int_addr,r1
 	jsr	@r1
 	nop
-		
+
 	/* レジスタ復帰 */
 	lds.l	@r15+,pr
 	lds.l	@r15+,macl
@@ -140,20 +140,20 @@ __interrupt_handler:
 	nop
 
 	/* 多重割り込み処理 */
-int_multi:		
+int_multi:
 	mov.l	r0,@r1				/* 割り込みネスト値を設定 */
 
 	/* 割り込み実行処理呼び出し */
 	mov.l	exe_int_addr,r1
-	jsr	@r1
-	mov.l	@r15+,r4			/* 割り込み番号を引数とする */
-		
+	jsr	@r1				/* 割り込み番号を引数とする */
+	nop
+
 	/* 割り込みカウンタの減算 */
 	mov.l	int_cnt_addr,r1
 	mov.l	@r1,r0
 	add	#-1,r0
 	mov.l	r0,@r1
-		
+
 	/* レジスタ復帰 */
 	lds.l	@r15+,pr
 	lds.l	@r15+,macl
