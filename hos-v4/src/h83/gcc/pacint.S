@@ -389,10 +389,10 @@ int_handler:
 				
 				/* 復帰後のマスク値を設定 */
 				mov.b	@_kernel_h83_ibmsk, r0l		/* ベースマスク値取り出し */
-				mov.b	@(8, er7), r1l
+				mov.b	@(12, er7), r1l
 				and.b	#0x3f,r1l					/* スタック上のCCRからIとU以外を取り出し */
 				or.b	r0l, r1l					/* ベースマスク値を設定 */
-				mov.b	r1l, @(8, er7)				/* スタック上のCCRを更新 */
+				mov.b	r1l, @(812, er7)				/* スタック上のCCRを更新 */
 				
 				/* 復帰 */
 				pop.l	er2
