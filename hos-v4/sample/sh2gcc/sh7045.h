@@ -63,6 +63,24 @@
 #define SH_SSR1		((volatile unsigned char *)0xffff81b4)
 #define SH_RDR1		((volatile unsigned char *)0xffff81b5)
 
+#define SH_SCR_TIE		0x80
+#define SH_SCR_RIE		0x40
+#define SH_SCR_TE		0x20
+#define SH_SCR_RE		0x10
+#define SH_SCR_MPIE		0x08
+#define SH_SCR_TEIE		0x04
+#define SH_SCR_CKE1		0x02
+#define SH_SCR_CKE2		0x01
+
+#define SH_SSR_TDRE		0x80
+#define SH_SSR_TDRF		0x40
+#define SH_SSR_ORER		0x20
+#define SH_SSR_FER		0x10
+#define SH_SSR_PER		0x08
+#define SH_SSR_TEND		0x04
+#define SH_SSR_MPB		0x02
+#define SH_SSR_MPBT		0x01
+
 
 /* コンペアマッチタイマ */
 #define SH_CMSTR	((volatile unsigned short *)0xffff83d0)
@@ -72,6 +90,62 @@
 #define SH_CMCSR1	((volatile unsigned short *)0xffff83d8)
 #define SH_CMCNT1	((volatile unsigned short *)0xffff83da)
 #define SH_CMCOR1	((volatile unsigned short *)0xffff83dc)
+
+
+/* 割り込み番号定義 */
+#define SH_INTNUM_NMI			11
+#define SH_INTNUM_USRBRK		12
+#define SH_INTNUM_IRQ0			64
+#define SH_INTNUM_IRQ1			65
+#define SH_INTNUM_IRQ2			66
+#define SH_INTNUM_IRQ3			67
+#define SH_INTNUM_IRQ4			68
+#define SH_INTNUM_IRQ5			69
+#define SH_INTNUM_IRQ6			70
+#define SH_INTNUM_IRQ7			71
+#define SH_INTNUM_DEI0			72
+#define SH_INTNUM_DEI1			76
+#define SH_INTNUM_DEI2			80
+#define SH_INTNUM_DEI3			84
+#define SH_INTNUM_TGI0A			88
+#define SH_INTNUM_TGI0B			89
+#define SH_INTNUM_TGI0C			90
+#define SH_INTNUM_TGI0D			91
+#define SH_INTNUM_TGI0U			92
+#define SH_INTNUM_TGI1A			96
+#define SH_INTNUM_TGI1B			97
+#define SH_INTNUM_TGI1V			100
+#define SH_INTNUM_TGI1U			101
+#define SH_INTNUM_TGI2A			104
+#define SH_INTNUM_TGI2B			105
+#define SH_INTNUM_TGI2V			108
+#define SH_INTNUM_TGI2U			109
+#define SH_INTNUM_TGI3A			112
+#define SH_INTNUM_TGI3B			113
+#define SH_INTNUM_TGI3C			114
+#define SH_INTNUM_TGI3D			115
+#define SH_INTNUM_TGI3V			116
+#define SH_INTNUM_TGI4A			120
+#define SH_INTNUM_TGI4B			121
+#define SH_INTNUM_TGI4C			122
+#define SH_INTNUM_TGI4D			123
+#define SH_INTNUM_TGI4V			124
+#define SH_INTNUM_ERI0			128
+#define SH_INTNUM_RXI0			129
+#define SH_INTNUM_TXI0			130
+#define SH_INTNUM_TEI0			131
+#define SH_INTNUM_ERI1			132
+#define SH_INTNUM_RXI1			133
+#define SH_INTNUM_TXI1			134
+#define SH_INTNUM_TEI1			135
+#define SH_INTNUM_ADI0			136
+#define SH_INTNUM_ADI1			137
+#define SH_INTNUM_SWDTCE		140
+#define SH_INTNUM_CMI0			144
+#define SH_INTNUM_CMI1			148
+#define SH_INTNUM_ITI			152
+#define SH_INTNUM_CMI			153
+#define SH_INTNUM_OEI			156
 
 
 #endif	/* __sh7045_h__ */

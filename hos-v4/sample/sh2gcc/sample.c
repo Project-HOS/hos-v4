@@ -15,6 +15,8 @@
 #include "sample.h"
 
 
+#define SCIID	ID_SCI1
+
 
 int main()
 {
@@ -25,15 +27,7 @@ int main()
 	*SH_PEDR  = 0;
 	*SH_PACRL2 |= 0x0100;
 	
-	/* タイマ初期化 */
-	*SH_CMCSR0 = 0x0041;
-	*SH_CMCOR0 = 62499;
-	*SH_CMSTR  = 0x0001;
-	*SH_IPRG   = 0x00f0;
-	
-	sci_init();
-	
-	sci_puts("\r\nStart\r\n");
+	*SH_PEDR = 0x00;
 	
 	sta_hos();
 	
@@ -55,18 +49,26 @@ void TestStart(VP_INT exinf)
 void Task1(VP_INT exinf)
 {
 	ER ercd;
+	UB c;
 	
-	sci_puts("\r\nTask1:Start\r\n");
+	*SH_PEDR |= 0x10;
+	sci_open(SCIID, 0x13);
+	*SH_PEDR |= 0x20;
 	
-	*SH_PEDR |= 0x0001;
+	sci_puts(SCIID, "\r\nTask1:Start\r\n");
+	
+	for ( ; ; )
+	{
+		c = sci_getc(SCIID);
+		sci_putc(SCIID, c);
+	}
 	
 	wup_tsk(1);
 	slp_tsk();
 	
 	ercd = slp_tsk();
-
-	*SH_PEDR |= 0x0010;
-
+	
+	
 	ext_tsk();
 }
 
@@ -76,11 +78,7 @@ void Task2(VP_INT exinf)
 {
 	ER ercd;
 
-	*SH_PEDR |= 0x0002;
-
 	ercd = wup_tsk(1);
-
-	*SH_PEDR |= 0x0020;
 
 	ext_tsk();
 }
@@ -92,57 +90,17 @@ void Task3(VP_INT exinf)
 	ER  ercd;
 	volatile int i;
 	
-	*SH_PEDR |= 0x0004;
-	
 	ercd = wup_tsk(1);
-	
-	*SH_PEDR |= 0x0040;
-	
-	*SH_PEDR = 0xaa;
 	
 	for ( ; ; )
 	{
-		for ( i = 0; i < 100000; i++ )
-			;
 		*SH_PEDR ^= 0x0080;
+		dly_tsk(1000);
 	}
 	
 	ext_tsk();
 }
 
-
-
-/* 周期ハンドラサンプル */
-void CycHandler1(VP_INT exinf)
-{
-}
-
-
-/* 割り込みハンドラサンプル */
-void ostim_hdr(VP_INT exinf)	/* OSタイマ用ハンドラ */
-{
-	*SH_CMCSR0 &= 0xff7f;
-
-	*SH_PEDR = 0x005a;
-	
-	isig_tim();		/* タイムティックの供給 */
-}
-
-/*
-static int count = 0;
-
-#pragma interrupt
-void Cmt0_Handler(void)
-{
-	*SH_CMCSR0 &= 0xff7f;
-	
-	count++;
-	if ( count % 1 == 0 )
-	{
-		*SH_PEDR = ~*SH_PEDR;
-	}
-}
-*/
 
 
 /* ------------------------------------------------------------------------ */

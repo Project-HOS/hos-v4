@@ -12,7 +12,7 @@ AFLAGS = -c -m2
 LFLAGS = -v -t -nostartfiles -Map sample.map -Tsample.x
 
 INCS   = kernel_id.h sample.h sci.h
-OBJS   = crt0.o vector.o sample.o sci.o kernel_cfg.o
+OBJS   = crt0.o vector.o sample.o ostimer.o sci.o stmfifo.o kernel_cfg.o
 LIBS   = ../../lib/sh/sh2gcc/h4sh2gcc.a
 
 ${TARGET}.mot: ${OBJS} sample.x
@@ -28,8 +28,14 @@ crt0.o: crt0.s
 sample.o: sample.c ${INCS}
 	${CC} ${CFLAGS} sample.c -o sample.o
 
+ostimer.o: ostimer.c ostimer.h
+	${CC} ${CFLAGS} ostimer.c -o ostimer.o
+
 sci.o: sci.c sci.h
 	${CC} ${CFLAGS} sci.c -o sci.o
+
+stmfifo.o: stmfifo.c stmfifo.h
+	${CC} ${CFLAGS} stmfifo.c -o stmfifo.o
 
 kernel_cfg.o: kernel_cfg.c ${INCS}
 	${CC} ${CFLAGS} kernel_cfg.c -o kernel_cfg.o

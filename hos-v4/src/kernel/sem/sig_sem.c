@@ -17,7 +17,7 @@ ER sig_sem(
 	const T_KERNEL_SEMCB_ROM *semcb_rom;
 	T_KERNEL_SEMCB_RAM *semcb_ram;
 	T_MKNL_TCB *mtcb;
-
+	
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
 	if ( semid < TMIN_SEMID || semid > TMAX_SEMID )
@@ -27,9 +27,9 @@ ER sig_sem(
 #endif
 	
 	mknl_loc_sys();	/* システムのロック */
-
+	
 	semcb_ram = KERNEL_SEMID_TO_SEMCB_RAM(semid);
-
+	
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
 	if ( semcb_ram == NULL )
@@ -38,9 +38,9 @@ ER sig_sem(
 		return E_NOEXS;	/* オブジェクト未生成 */
 	}
 #endif
-
+	
 	semcb_rom = semcb_ram->semcbrom;
-
+	
 	/* キューイングオーバーフローチェック */
 #ifdef HOS_ERCHK_E_QOVR
 	if ( semcb_ram->semcnt >= semcb_rom->maxsem )
@@ -49,7 +49,7 @@ ER sig_sem(
 		return E_QOVR;
 	}
 #endif
-
+	
 	mtcb = mknl_ref_qhd(&semcb_ram->que);	/* 待ち行列先頭からタスク取り出し */
 	if ( mtcb != NULL )
 	{

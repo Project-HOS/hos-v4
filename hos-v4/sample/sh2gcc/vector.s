@@ -154,7 +154,6 @@
 				.long	_hos_vecter142
 				.long	_hos_vecter143
 				.long	_hos_vecter144
-/*				.long	_Cmt0_Handler */
 				.long	_hos_vecter145
 				.long	_hos_vecter146
 				.long	_hos_vecter147
