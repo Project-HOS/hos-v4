@@ -31,7 +31,7 @@ public:
 	{ return m_szLogicalInputFile; }
 
 protected:
-	int SkipPriProcessorLine(char* szText, int iCount);	// プリプロセッサラインのスキップ
+       int SkipPreProcessorLine(char* szText, int iCount);     // プリプロセッサラインのスキップ
 	int ReadString(int cDelimiter, char* szText, int& iCount);	// 文字列読み込み
 
 	FILE *m_fpRead;					// 読み込み用ファイルポインタ

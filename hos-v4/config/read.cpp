@@ -66,7 +66,7 @@ int CRead::ReadState(char *szState)
 		// 行頭が # ならスキップ
 		if ( m_blLineTop && c == '#' )
 		{
-			iErr = SkipPriProcessorLine(szState, iCount);
+                       iErr = SkipPreProcessorLine(szState, iCount);
 			if ( iErr != CFG_ERR_OK )
 			{
 				break;
@@ -134,7 +134,7 @@ int CRead::ReadState(char *szState)
 
 
 // プリプロセッサラインのスキップ
-int CRead::SkipPriProcessorLine(char* szText, int iCountOrg)
+int CRead::SkipPreProcessorLine(char* szText, int iCountOrg)
 {
 	int  c;
 	int iCount = iCountOrg;
