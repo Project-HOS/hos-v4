@@ -16,7 +16,6 @@
 ER del_mpf(
 		ID mpfid)	/* 削除対象の固定長メモリプールのID番号 */
 {
-	const T_KERNEL_MPFCB_ROM *mpfcb_rom;
 	T_KERNEL_MPFCB_RAM *mpfcb_ram;
 
 	/* ID のチェック */
@@ -30,7 +29,6 @@ ER del_mpf(
 	mknl_loc_sys();	/* システムのロック */
 
 	mpfcb_ram = KERNEL_MPFID_TO_MPFCB_RAM(mpfid);
-	mpfcb_rom = mpfcb_ram->mpfcb_rom;
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

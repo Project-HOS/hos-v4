@@ -22,7 +22,7 @@ BOOL sns_ctx(void)
 
 	mknl_unl_sys();	/* システムのロック解除 */
 
-	return E_OK;
+	return state;
 }
 
 

@@ -16,7 +16,6 @@
 ER del_dtq(
 		ID dtqid)	/* 削除対象のデータキューのID番号 */
 {
-	const T_KERNEL_DTQCB_ROM *dtqcb_rom;
 	T_KERNEL_DTQCB_RAM *dtqcb_ram;
 
 	/* ID のチェック */
@@ -30,7 +29,6 @@ ER del_dtq(
 	mknl_loc_sys();		/* システムのロック */
 
 	dtqcb_ram = KERNEL_DTQID_TO_DTQCB_RAM(dtqid);
-	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

@@ -39,8 +39,6 @@ ER stp_cyc(
 	}
 #endif
 	
-	cyccb_rom = cyccb_ram->cyccb_rom;
-	
 	/* タイマリストから外す */
 	kernel_rmv_tml((T_KERNEL_TIM *)cyccb_ram);
 	

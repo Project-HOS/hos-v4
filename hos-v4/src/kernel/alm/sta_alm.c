@@ -16,7 +16,6 @@ ER sta_alm(
 		ID     almid,	/* 動作開始対象のアラームハンドラのID番号 */
 		RELTIM almtim)	/* アラームハンドラの起動時刻(相対時間) */
 {
-	const T_KERNEL_ALMCB_ROM *almcb_rom;
 	T_KERNEL_ALMCB_RAM *almcb_ram;
 	
 	/* ID のチェック */
@@ -39,8 +38,6 @@ ER sta_alm(
 		return E_NOEXS;
 	}
 #endif
-	
-	almcb_rom = almcb_ram->almcb_rom;
 	
 	/* タイマカウンタ設定 */
 	almcb_ram->lefttim = almtim;

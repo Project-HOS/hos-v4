@@ -40,7 +40,7 @@ CC     = bcc32
 LIBR   = tlib
 
 # オプション
-CFLAGS = -c -w-8057 -I$(INCDIR) -I$(PACINCDIR)
+CFLAGS = -c -w-8057 -w-8064 -I$(INCDIR) -I$(PACINCDIR)
 AFLAGS = 
 LFLAGS = 
 

@@ -15,7 +15,6 @@
 ER stp_alm(
 		ID almid)	/* 動作停止対象のアラームハンドラのID番号 */
 {
-	const T_KERNEL_ALMCB_ROM *almcb_rom;
 	T_KERNEL_ALMCB_RAM *almcb_ram;
 
 	/* ID のチェック */
@@ -38,8 +37,6 @@ ER stp_alm(
 		return E_NOEXS;
 	}
 #endif
-	
-	almcb_rom = almcb_ram->almcb_rom;
 	
 	/* タイマリストから外す */
 	kernel_rmv_tml((T_KERNEL_TIM *)almcb_ram);
