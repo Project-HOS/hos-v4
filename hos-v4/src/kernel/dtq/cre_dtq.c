@@ -20,7 +20,7 @@ ER cre_dtq(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( dtqid < TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
+	if ( dtqid < KERNEL_TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -30,7 +30,7 @@ ER cre_dtq(
 
 	/* データキューが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] != NULL )
+	if ( kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

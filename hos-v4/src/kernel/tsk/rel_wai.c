@@ -19,7 +19,7 @@ ER rel_wai(
 
 	/* ID 範囲チェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( tskid != TSK_SELF && (tskid < TMIN_TSKID || tskid > KERNEL_TMAX_TSKID) )
+	if ( tskid != TSK_SELF && (tskid < KERNEL_TMIN_TSKID || tskid > KERNEL_TMAX_TSKID) )
 	{
 		return E_ID;	/* 不正ID番号 */
 	}

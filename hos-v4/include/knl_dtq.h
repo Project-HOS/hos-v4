@@ -20,9 +20,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_DTQID		1					/* データキューIDの最小値 */
-#define KERNEL_TMAX_DTQID		(TMIN_DTQID + kernel_dtqcb_cnt - 1)
-											/* データキューIDの最大値 */
+#define KERNEL_TMIN_DTQID	TMIN_DTQID			/* データキューIDの最小値 */
+#define KERNEL_TMAX_DTQID	(KERNEL_TMIN_DTQID + kernel_dtqcb_cnt - 1)
+												/* データキューIDの最大値 */
 
 
 
@@ -85,7 +85,7 @@ extern       T_KERNEL_DTQCB_RAM *kernel_dtqcb_ram_tbl[];	/* データキューコントロ
 extern const INT kernel_dtqcb_cnt;							/* データキューコントロールブロック個数 */
 
 /* データキューコントロールブロック変換マクロ */
-#define KERNEL_DTQID_TO_DTQCB_RAM(dtqid)	(kernel_dtqcb_ram_tbl[(dtqid) - TMIN_DTQID])
+#define KERNEL_DTQID_TO_DTQCB_RAM(dtqid)	(kernel_dtqcb_ram_tbl[(dtqid) - KERNEL_TMIN_DTQID])
 															/* データキューIDからDTQCB RAMアドレスを取得 */
 
 

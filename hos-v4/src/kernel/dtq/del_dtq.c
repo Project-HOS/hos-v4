@@ -21,7 +21,7 @@ ER del_dtq(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( dtqid < TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
+	if ( dtqid < KERNEL_TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -29,7 +29,7 @@ ER del_dtq(
 
 	mknl_loc_sys();		/* システムのロック */
 
-	dtqcb_ram = kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID];
+	dtqcb_ram = kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID];
 	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	/* オブジェクト存在チェック */
@@ -48,7 +48,7 @@ ER del_dtq(
 	/* メモリの解放 */
 	kernel_fre_mem(dtqcb_rom->dtq);
 	kernel_fre_mem(dtqcb_ram);
-	kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] = NULL;
+	kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

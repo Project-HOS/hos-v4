@@ -19,7 +19,7 @@ ER del_sem(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( semid < TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
+	if ( semid < KERNEL_TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -27,7 +27,7 @@ ER del_sem(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	semcb_ram = kernel_semcb_ram_tbl[semid - TMIN_SEMID];
+	semcb_ram = kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID];
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -43,7 +43,7 @@ ER del_sem(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(semcb_ram);
-	kernel_semcb_ram_tbl[semid - TMIN_SEMID] = NULL;
+	kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

@@ -69,7 +69,7 @@ ER kernel_cre_tsk(
 	tcb_rom->stksz   = pk_ctsk->stksz;		/* タスクのスタックのサイズ（バイト数） */
 
 	/* タスクコントロールブロックテーブルに登録 */
-	kernel_tcb_ram_tbl[tskid - TMIN_TSKID] = tcb_ram;
+	kernel_tcb_ram_tbl[tskid - KERNEL_TMIN_TSKID] = tcb_ram;
 
 	/* 実行状態で生成 */
 	if ( pk_ctsk->tskatr & TA_ACT )

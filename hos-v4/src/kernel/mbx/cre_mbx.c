@@ -20,7 +20,7 @@ ER cre_mbx(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbxid < TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
+	if ( mbxid < KERNEL_TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -30,7 +30,7 @@ ER cre_mbx(
 
 	/* メールボックスが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID] != NULL )
+	if ( kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

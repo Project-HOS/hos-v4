@@ -20,14 +20,14 @@ ER_ID acre_tsk(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 空きIDの検索 */
-	for ( tskid = KERNEL_TMAX_TSKID; tskid >= TMIN_TSKID; tskid-- )
+	for ( tskid = KERNEL_TMAX_TSKID; tskid >= KERNEL_TMIN_TSKID; tskid-- )
 	{
 		if ( KERNEL_TSKID_TO_TCB_RAM(tskid) == NULL )
 		{
 			break;
 		}
 	}
-	if ( tskid < TMIN_TSKID )
+	if ( tskid < KERNEL_TMIN_TSKID )
 	{
 		mknl_unl_sys();		/* システムのロック解除 */
 		return E_NOID;		/* ID番号不足 */

@@ -24,50 +24,65 @@ ER kernel_snd_mbf(
 		VP                       msg,			/* 送信メッセージの先頭番地 */
 		UINT                     msgsz)			/* 送信メッセージのサイズ(バイト数) */
 {
-	UINT fresz;
-	INT  i;
+	T_MKNL_TCB *mtcb;
+	SIZE       fresz;
+	SIZE       tail;
+	INT        i;
 
-	/* 空きサイズ算出 */
-	if ( mbfcb_ram->head > mbfcb_ram->tail )
+	/* 送信待ちタスクをチェック */
+	mtcb = mknl_ref_qhd(&mbfcb_ram->sndque);	/* 送信待ち行列の先頭タスクを参照 */
+	if ( mtcb != NULL )
 	{
-		fresz = mbfcb_ram->head - mbfcb_ram->tail - 1;
+		return E_TMOUT;		/* 送信待ちが既にあればタイムアウト */
 	}
-	else
+
+	/* 受信待ちタスクチェック */
+	mtcb = mknl_ref_qhd(&mbfcb_ram->rcvque);	/* 受信待ち行列の先頭タスクを参照 */
+	if ( mtcb != NULL )
 	{
-		fresz = (UINT)mbfcb_rom->mbfsz - (mbfcb_ram->tail - mbfcb_ram->head) - 1;
+		/* 受信タスクの待ちを解除 */
+		memcpy((VP)mtcb->data, msg, msgsz);		/* データコピー */
+		mknl_rmv_que(mtcb);						/* 待ち行列から削除 */
+		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
+		mknl_wup_tsk(mtcb, (ER_UINT)msgsz);		/* タスクの待ち解除 */
+
+		return E_OK;	/* 正常完了 */
 	}
-	
-	/* 送信可能判定 */
-	if ( fresz < msgsz + 2 )
+
+	/* 空きサイズチェック */
+	if ( mbfcb_ram->fmbfsz < msgsz + sizeof(UINT) )
 	{
 		return E_TMOUT;		/* タイムアウト */
 	}
 	
 	/* サイズ送信 */
-	for ( i = 0; i < sizeof(UINT); i++ )
+	for ( i = sizeof(UINT) - 1; i >= 0; i-- )
 	{
-		/* 下位から順に8bit単位で書き込み */
+		/* 上位から順に8bit単位で書き込み */
 		kernel_sch_mbf(mbfcb_rom, mbfcb_ram, (UB)((msgsz >> (i * 8)) & 0xff));
 	}
 
-	/* データ送信 */
-	fresz = (UINT)mbfcb_rom->mbfsz - mbfcb_ram->tail;	/* バッファ折り返しまでの空きサイズ算出 */
-	if ( fresz >= msgsz )								/* 折り返し不要か判定 */
+	/* 末尾位置算出 */
+	tail = mbfcb_ram->head - mbfcb_ram->fmbfsz;
+	if ( mbfcb_ram->head < mbfcb_ram->fmbfsz )
 	{
-		memcpy((UB *)mbfcb_rom->mbf + mbfcb_ram->tail, msg, msgsz);		/* データコピー */
+		tail += mbfcb_rom->mbfsz;
+	}
+
+	/* データ送信 */
+	fresz = (UINT)mbfcb_rom->mbfsz - tail;	/* バッファ折り返しまでの空きサイズ算出 */
+	if ( fresz >= msgsz )					/* 折り返し不要か判定 */
+	{
+		memcpy((UB *)mbfcb_rom->mbf + tail, msg, msgsz);				/* データコピー */
 	}
 	else
 	{
-		memcpy((UB *)mbfcb_rom->mbf + mbfcb_ram->tail, msg, fresz);		/* 折り返し点までコピー */
+		memcpy((UB *)mbfcb_rom->mbf + tail, msg, fresz);				/* 折り返し点までコピー */
 		memcpy((UB *)mbfcb_rom->mbf, (UB *)msg + fresz, msgsz - fresz);	/* 残りを先頭からコピー */
 	}
 
-	/* ポインタ更新 */
-	mbfcb_ram->tail += msgsz;
-	if ( mbfcb_ram->tail >= mbfcb_rom->mbfsz )
-	{
-		mbfcb_ram->tail -= (UINT)mbfcb_rom->mbfsz;
-	}
+	/* 空きサイズ更新 */
+	mbfcb_ram->fmbfsz -= msgsz;
 
 	/* 送信個数インクリメント */
 	mbfcb_ram->smsgcnt++;
@@ -82,18 +97,20 @@ void kernel_sch_mbf(
 		T_KERNEL_MBFCB_RAM       *mbfcb_ram,	/* メッセージバッファコントロールブロック(RAM部) */
 		UB                       chr)			/* 送信するキャラクタ */
 {
-	/* １キャラクタ送信 */
-	*((UB *)mbfcb_rom->mbf + mbfcb_ram->tail) = chr;
+	SIZE tail;
 
-	/* ポインタ更新 */
-	if ( mbfcb_ram->tail + 1 < (UINT)mbfcb_rom->mbfsz )
+	/* 末尾位置算出 */
+	tail = mbfcb_ram->head - mbfcb_ram->fmbfsz;
+	if ( mbfcb_ram->head < mbfcb_ram->fmbfsz )
 	{
-		mbfcb_ram->tail++;
+		tail += mbfcb_rom->mbfsz;
 	}
-	else
-	{
-		mbfcb_ram->tail = 0;
-	}
+
+	/* １キャラクタ送信 */
+	*((UB *)mbfcb_rom->mbf + tail) = chr;
+
+	/* バッファ空きサイズ更新 */
+	mbfcb_ram->fmbfsz--;
 }
 
 

@@ -21,7 +21,7 @@ ER del_mpf(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mpfid < TMIN_MPFID || mpfid > KERNEL_TMAX_MPFID )
+	if ( mpfid < KERNEL_TMIN_MPFID || mpfid > KERNEL_TMAX_MPFID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -29,7 +29,7 @@ ER del_mpf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mpfcb_ram = kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID];
+	mpfcb_ram = kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID];
 	mpfcb_rom = mpfcb_ram->mpfcb_rom;
 
 	/* オブジェクト存在チェック */
@@ -47,7 +47,7 @@ ER del_mpf(
 	/* メモリの解放 */
 	kernel_fre_mem(mpfcb_rom->mpf);	
 	kernel_fre_mem(mpfcb_ram);
-	kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID] = NULL;
+	kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

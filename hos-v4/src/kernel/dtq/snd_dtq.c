@@ -24,7 +24,7 @@ ER snd_dtq(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( dtqid < TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
+	if ( dtqid < KERNEL_TMIN_DTQID || dtqid > KERNEL_TMAX_DTQID )
 	{
 		return E_ID;
 	}

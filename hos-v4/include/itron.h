@@ -197,6 +197,19 @@ typedef INT		INTNO;		/* 割り込み番号 */
 #define E_BOVR		(-58)		/* バッファオーバーフロー */
 
 
+/* IDの範囲(HOS独自) */
+#define TMIN_TSKID	1			/* タスクのID番号の最小値 */
+#define TMIN_SEMID	1			/* セマフォのID番号の最小値 */
+#define TMIN_FLGID	1			/* イベントフラグのID番号の最小値 */
+#define TMIN_DTQID	1			/* データキューのID番号の最小値 */
+#define TMIN_MBXID	1			/* メールボックスタスクのID番号の最小値 */
+#define TMIN_MBFID	1			/* メッセージバッファのID番号の最小値 */
+#define TMIN_MPFID	1			/* 固定長メモリプールのID番号の最小値 */
+#define TMIN_CYCID	1			/* 周期ハンドラのID番号の最小値 */
+#define TMIN_ALMID	1			/* アラームハンドラのID番号の最小値 */
+#define TMIN_ISRID	1			/* 割り込みサービスルーチンのID番号の最小値 */
+
+
 
 /* ------------------------------------ */
 /*           マクロ定義                 */

@@ -29,7 +29,7 @@ void kernel_ini_tsk(void)
 			/* TA_ACT属性のものを起動する */
 			if ( tcb_ram->tcb_rom->tskatr & TA_ACT )
 			{
-				act_tsk(TMIN_TSKID + i);
+				act_tsk(KERNEL_TMIN_TSKID + i);
 			}
 		}
 	}

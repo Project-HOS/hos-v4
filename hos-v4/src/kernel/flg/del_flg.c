@@ -20,7 +20,7 @@ ER del_flg(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( flgid < TMIN_FLGID || flgid > KERNEL_TMAX_FLGID )
+	if ( flgid < KERNEL_TMIN_FLGID || flgid > KERNEL_TMAX_FLGID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -28,7 +28,7 @@ ER del_flg(
 
 	mknl_loc_sys();		/* システムのロック */
 
-	flgcb_ram = kernel_flgcb_ram_tbl[flgid - TMIN_FLGID];
+	flgcb_ram = kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID];
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_flg(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(flgcb_ram);
-	kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] = NULL;
+	kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

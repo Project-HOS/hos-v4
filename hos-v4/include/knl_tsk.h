@@ -20,18 +20,19 @@
 /* ------------------------------------------ */
 
 /* ID¤ÎÈÏ°Ï */
-#define TMIN_TSKID		1					/* ¥¿¥¹¥¯ID¤ÎºÇ¾®ÃÍ */
-#define KERNEL_TMAX_TSKID		(TMIN_TSKID + kernel_tcb_cnt - 1)
+#define KERNEL_TMIN_TSKID	TMIN_TSKID			/* ¥¿¥¹¥¯ID¤ÎºÇ¾®ÃÍ */
+#define KERNEL_TMAX_TSKID	(KERNEL_TMIN_TSKID + kernel_tcb_cnt - 1)
+												/* ¥¿¥¹¥¯ID¤ÎºÇÂçÃÍ */
 
 /* ¥Ó¥Ã¥È¥Ñ¥¿¡¼¥ó¤Î¥Ó¥Ã¥È¿ô */
-#define TBIT_TEXPTN		16					/* ¥¿¥¹¥¯Îã³°Í×°ø¤Î¥Ó¥Ã¥È¿ô */
-											/* ¥¿¥¹¥¯ID¤ÎºÇÂçÃÍ */
+#define TBIT_TEXPTN			16					/* ¥¿¥¹¥¯Îã³°Í×°ø¤Î¥Ó¥Ã¥È¿ô */
+												/* ¥¿¥¹¥¯ID¤ÎºÇÂçÃÍ */
 
 
 /* ¥­¥å¡¼¥¤¥ó¥°¡¿¥Í¥¹¥È²ó¿ô¤ÎºÇÂçÃÍ */
-#define TMAX_ACTCNT		255					/* ¥¿¥¹¥¯µ¯Æ°Í×µá¥­¥å¡¼¥¤¥ó¥°¿ô¤ÎºÇÂçÃÍ */
-#define TMAX_WUPCNT		65535				/* ¥¿¥¹¥¯µ¯¾²Í×µá¥­¥å¡¼¥¤¥ó¥°¿ô¤ÎºÇÂçÃÍ */
-#define TMAX_SUSCNT		255					/* ¥¿¥¹¥¯¶¯À©ÂÔ¤ÁÍ×µá¥Í¥¹¥È¿ô¤ÎºÇÂçÃÍ */
+#define TMAX_ACTCNT			255					/* ¥¿¥¹¥¯µ¯Æ°Í×µá¥­¥å¡¼¥¤¥ó¥°¿ô¤ÎºÇÂçÃÍ */
+#define TMAX_WUPCNT			65535				/* ¥¿¥¹¥¯µ¯¾²Í×µá¥­¥å¡¼¥¤¥ó¥°¿ô¤ÎºÇÂçÃÍ */
+#define TMAX_SUSCNT			255					/* ¥¿¥¹¥¯¶¯À©ÂÔ¤ÁÍ×µá¥Í¥¹¥È¿ô¤ÎºÇÂçÃÍ */
 
 
 
@@ -116,7 +117,7 @@ extern       T_KERNEL_TCB_RAM* kernel_tcb_ram_tbl[];		/* ¥¿¥¹¥¯¥³¥ó¥È¥í¡¼¥ë¥Ö¥í¥
 extern const INT kernel_tcb_cnt;							/* ¥¿¥¹¥¯¥³¥ó¥È¥í¡¼¥ë¥Ö¥í¥Ã¥¯¸Ä¿ô */
 
 /* ÊÑ´¹¥Þ¥¯¥í */
-#define KERNEL_TSKID_TO_TCB_RAM(tskid)	(kernel_tcb_ram_tbl[(tskid) - TMIN_TSKID])
+#define KERNEL_TSKID_TO_TCB_RAM(tskid)	(kernel_tcb_ram_tbl[(tskid) - KERNEL_TMIN_TSKID])
 															/* ¥¿¥¹¥¯ID¤«¤éTCB RAM¥¢¥É¥ì¥¹¤ò¼èÆÀ */
 
 

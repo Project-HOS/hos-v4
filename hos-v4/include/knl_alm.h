@@ -22,9 +22,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_ALMID		1					/* アラームハンドラIDの最小値 */
-#define KERNEL_TMAX_ALMID		(TMIN_ALMID + kernel_almcb_cnt - 1)
-											/* アラームハンドラIDの最大値 */
+#define KERNEL_TMIN_ALMID	TMIN_ALMID			/* アラームハンドラIDの最小値 */
+#define KERNEL_TMAX_ALMID	(KERNEL_TMIN_ALMID + kernel_almcb_cnt - 1)
+												/* アラームハンドラIDの最大値 */
 
 
 
@@ -58,7 +58,7 @@ typedef struct t_kernel_almcb_ram
 extern       T_KERNEL_ALMCB_RAM *kernel_almcb_ram_tbl[];	/* アラームハンドラコントロールブロックテーブル */
 extern const INT kernel_almcb_cnt;							/* アラームハンドラコントロールブロック個数 */
 
-#define KERNEL_ALMID_TO_ALMCB_RAM(almid)	(kernel_almcb_ram_tbl[(almid) - TMIN_ALMID])
+#define KERNEL_ALMID_TO_ALMCB_RAM(almid)	(kernel_almcb_ram_tbl[(almid) - KERNEL_TMIN_ALMID])
 															/* アラームハンドラIDからALMCB RAMアドレスを取得 */
 
 

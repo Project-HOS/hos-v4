@@ -20,14 +20,14 @@
 /* ------------------------------------------ */
 
 /* 割り込み番号の範囲 */
-#define TMIN_INTNO		(kernel_min_intno)	/* 割り込み番号の最小値 */
-#define TMAX_INTNO		(TMIN_INTNO + kernel_intcb_cnt - 1)
-											/* 割り込み番号の最大値 */
+#define KERNEL_TMIN_INTNO	(kernel_min_intno)	/* 割り込み番号の最小値 */
+#define KERNEL_TMAX_INTNO	(KERNEL_TMIN_INTNO + kernel_intcb_cnt - 1)
+												/* 割り込み番号の最大値 */
 
 /* IDの範囲 */
-#define TMIN_ISRID		1					/* 割り込みサービスルーチンIDの最小値 */
-#define KERNEL_TMAX_ISRID		(TMIN_ISRID + kernel_isrcb_cnt - 1)
-											/* 割り込みサービスルーチンIDの最大値 */
+#define KERNEL_TMIN_ISRID	TMIN_ISRID			/* 割り込みサービスルーチンIDの最小値 */
+#define KERNEL_TMAX_ISRID	(KERNEL_TMIN_ISRID + kernel_isrcb_cnt - 1)
+												/* 割り込みサービスルーチンIDの最大値 */
 
 
 

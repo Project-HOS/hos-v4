@@ -20,9 +20,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_MBFID		1					/* メッセージバッファIDの最小値 */
-#define KERNEL_TMAX_MBFID		(TMIN_MBFID + kernel_mbfcb_cnt - 1)
-											/* メッセージバッファIDの最大値 */
+#define KERNEL_TMIN_MBFID	TMIN_MBFID			/* メッセージバッファIDの最小値 */
+#define KERNEL_TMAX_MBFID	(KERNEL_TMIN_MBFID + kernel_mbfcb_cnt - 1)
+												/* メッセージバッファIDの最大値 */
 
 
 
@@ -64,7 +64,7 @@ typedef struct t_kernel_mbfcb_ram
 	T_MKNL_QUE sndque;	/* メッセージバッファ送信待ちタスクキュー */
 	T_MKNL_QUE rcvque;	/* メッセージバッファ受信待ちタスクキュー */
 	SIZE       head;	/* 先頭メッセージの位置 */
-	SIZE       tail;	/* 末尾メッセージの位置 */
+	SIZE       fmbfsz;	/* メッセージバッファ領域の空きサイズ */
 	UINT       smsgcnt;	/* メッセージバッファに入っているメッセージの数 */
 	const T_KERNEL_MBFCB_ROM *mbfcb_rom;	/* メッセージバッファコントロールブロックROM部へのポインタ */
 } T_KERNEL_MBFCB_RAM;
@@ -87,7 +87,7 @@ extern       T_KERNEL_MBFCB_RAM *kernel_mbfcb_ram_tbl[];	/* メッセージバッファコ
 extern const INT kernel_mbfcb_cnt;							/* メッセージバッファコントロールブロック個数 */
 
 /* メッセージバッファコントロールブロック変換マクロ */
-#define KERNEL_MBFID_TO_MBFCB_RAM(mbfid)	(kernel_mbfcb_ram_tbl[(mbfid) - TMIN_MBFID])
+#define KERNEL_MBFID_TO_MBFCB_RAM(mbfid)	(kernel_mbfcb_ram_tbl[(mbfid) - KERNEL_TMIN_MBFID])
 															/* メッセージバッファIDからMBFCB RAMアドレスを取得 */
 
 
@@ -110,7 +110,7 @@ extern "C" {
 #endif
 
 /* メッセージバッファ */
-#define kernel_ini_mbf()									/* メッセージバッファの初期化 */
+void    kernel_ini_mbf(void);								/* メッセージバッファの初期化 */
 ER      cre_mbf(ID mbfid, const T_CMBF *pk_cmbf);			/* メッセージバッファの生成 */
 ER_ID   acre_mbf(const T_CMBF *pk_cmbf);					/* メッセージバッファの生成(ID番号自動割付け) */
 ER      kernel_cre_mbf(ID mbfid, const T_CMBF *pk_cmbf);	/* メッセージバッファの生成(カーネル内部関数) */

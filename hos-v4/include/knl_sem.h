@@ -20,9 +20,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_SEMID		1					/* セマフォIDの最小値 */
-#define KERNEL_TMAX_SEMID		(TMIN_SEMID + kernel_semcb_cnt - 1)
-											/* セマフォIDの最大値 */
+#define KERNEL_TMIN_SEMID	TMIN_SEMID			/* セマフォIDの最小値 */
+#define KERNEL_TMAX_SEMID	(KERNEL_TMIN_SEMID + kernel_semcb_cnt - 1)
+												/* セマフォIDの最大値 */
 
 
 
@@ -73,7 +73,7 @@ extern       T_KERNEL_SEMCB_RAM *kernel_semcb_ram_tbl[];	/* セマフォコントロール
 extern const INT kernel_semcb_cnt;							/* セマフォコントロールブロック個数 */
 
 /* セマフォコントロールブロック変換マクロ */
-#define KERNEL_SEMID_TO_SEMCB_RAM(semid)	(kernel_semcb_ram_tbl[(semid) - TMIN_SEMID])
+#define KERNEL_SEMID_TO_SEMCB_RAM(semid)	(kernel_semcb_ram_tbl[(semid) - KERNEL_TMIN_SEMID])
 															/* セマフォIDからSEMCB RAMアドレスを取得 */
 
 

@@ -20,18 +20,18 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_MBXID		1					/* メールボックスIDの最小値 */
-#define KERNEL_TMAX_MBXID		(TMIN_MBXID + kernel_mbxcb_cnt - 1)
-											/* メールボックスIDの最大値 */
+#define KERNEL_TMIN_MBXID	TMIN_MBXID			/* メールボックスIDの最小値 */
+#define KERNEL_TMAX_MBXID	(KERNEL_TMIN_MBXID + kernel_mbxcb_cnt - 1)
+												/* メールボックスIDの最大値 */
 
 
 /* 優先度の範囲 */
-#define TMIN_MPRI		1					/* メッセージ優先度の最小値 */
-#define TMAX_MPRI		32767				/* メッセージ優先度の最大値 */
+#define TMIN_MPRI			1					/* メッセージ優先度の最小値 */
+#define TMAX_MPRI			32767				/* メッセージ優先度の最大値 */
 
 /* 必要なメモリ領域のサイズ */
-#define TSZ_MPRIHD(maxmpri)		(sizeof(T_MSG *) * ((maxmpri) - TMIN_MPRI + 1))
-											/* 優先度別キューヘッダのメモリ領域のサイズ */
+#define TSZ_MPRIHD(maxmpri)	(sizeof(T_MSG *) * ((maxmpri) - TMIN_MPRI + 1))
+												/* 優先度別キューヘッダのメモリ領域のサイズ */
 
 
 
@@ -94,7 +94,7 @@ typedef struct t_kernel_mbxcb_ram
 extern       T_KERNEL_MBXCB_RAM *kernel_mbxcb_ram_tbl[];	/* メールボックスコントロールブロックテーブル(RAM部) */
 extern const INT kernel_mbxcb_cnt;							/* メールボックスコントロールブロック個数 */
 
-#define KERNEL_MBXID_TO_MBXCB_RAM(mbxid)	(kernel_mbxcb_ram_tbl[(mbxid) - TMIN_MBXID])
+#define KERNEL_MBXID_TO_MBXCB_RAM(mbxid)	(kernel_mbxcb_ram_tbl[(mbxid) - KERNEL_TMIN_MBXID])
 															/* メールボックスIDからMBXCB RAMアドレスを取得 */
 
 

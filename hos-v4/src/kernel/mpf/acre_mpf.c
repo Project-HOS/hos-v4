@@ -21,9 +21,9 @@ ER_ID acre_mpf(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( mpfid = KERNEL_TMAX_MPFID; mpfid >= TMIN_MPFID; mpfid-- )
+	for ( mpfid = KERNEL_TMAX_MPFID; mpfid >= KERNEL_TMIN_MPFID; mpfid-- )
 	{
-		if ( kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID] == NULL )
+		if ( kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] == NULL )
 		{
 			break;
 		}
@@ -31,7 +31,7 @@ ER_ID acre_mpf(
 	
 	/* ID番号不足チェック */
 #ifdef HOS_ERCHK_E_NOID
-	if ( mpfid < TMIN_MPFID )
+	if ( mpfid < KERNEL_TMIN_MPFID )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_NOID;	/* ID番号不足 */

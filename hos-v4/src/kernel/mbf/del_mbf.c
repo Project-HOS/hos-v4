@@ -19,7 +19,7 @@ ER del_mbf(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -27,7 +27,7 @@ ER del_mbf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mbfcb_ram = kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID];
+	mbfcb_ram = kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID];
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_mbf(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(mbfcb_ram);
-	kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID] = NULL;
+	kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

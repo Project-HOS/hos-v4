@@ -20,7 +20,7 @@ ER_ID del_tsk(
 
 	/* ID 範囲チェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( tskid < TMIN_TSKID || tskid > KERNEL_TMAX_TSKID )
+	if ( tskid < KERNEL_TMIN_TSKID || tskid > KERNEL_TMAX_TSKID )
 	{
 		return E_ID;	/* 不正ID番号 */
 	}
@@ -53,7 +53,7 @@ ER_ID del_tsk(
 	kernel_fre_mem(tcb_ram);
 
 	/* タスクコントロールブロックテーブルから登録解除 */
-	kernel_tcb_ram_tbl[tskid - TMIN_TSKID] = NULL;
+	kernel_tcb_ram_tbl[tskid - KERNEL_TMIN_TSKID] = NULL;
 
 
 	return E_OK;		/* 成功 */

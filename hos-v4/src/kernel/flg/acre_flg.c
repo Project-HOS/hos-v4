@@ -21,9 +21,9 @@ ER_ID acre_flg(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( flgid = KERNEL_TMAX_FLGID; flgid >= TMIN_FLGID; flgid-- )
+	for ( flgid = KERNEL_TMAX_FLGID; flgid >= KERNEL_TMIN_FLGID; flgid-- )
 	{
-		if ( kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] == NULL )
+		if ( kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] == NULL )
 		{
 			break;
 		}
@@ -31,7 +31,7 @@ ER_ID acre_flg(
 	
 	/* ID番号不足チェック */
 #ifdef HOS_ERCHK_E_NOID
-	if ( flgid < TMIN_FLGID )
+	if ( flgid < KERNEL_TMIN_FLGID )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_NOID;	/* ID番号不足 */

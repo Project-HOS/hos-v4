@@ -20,7 +20,7 @@ ER del_mbx(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbxid < TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
+	if ( mbxid < KERNEL_TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -28,7 +28,7 @@ ER del_mbx(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mbxcb_ram = kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID];
+	mbxcb_ram = kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID];
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_mbx(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(mbxcb_ram);
-	kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID] = NULL;
+	kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

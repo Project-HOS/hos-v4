@@ -21,12 +21,11 @@ ER_UINT trcv_mbf(
 	const T_KERNEL_MBFCB_ROM *mbfcb_rom;
 	T_KERNEL_MBFCB_RAM       *mbfcb_ram;
 	T_MKNL_TCB               *mtcb;
-	T_KERNEL_MBFDAT *mbfdat;
-	ER_UINT ercd;
+	ER_UINT                  ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* ID不正 */
 	}
@@ -87,24 +86,6 @@ ER_UINT trcv_mbf(
 			ercd = mknl_exe_dsp();		/* タスクディスパッチの実行 */
 			mknl_exe_tex();				/* 例外処理の実行 */
 		}
-	}
-	else
-	{
-		/* 送信待ちタスクチェック */
-		mtcb = mknl_ref_qhd(&mbfcb_ram->sndque);	/* 送信待ち行列先頭からタスク取り出し */
-		if ( mtcb != NULL )
-		{
-			/* メッセージを送信 */
-			mbfdat = (T_KERNEL_MBFDAT *)mtcb->data;
-			if ( kernel_snd_mbf(mbfcb_rom, mbfcb_ram, mbfdat->msg, mbfdat->msgsz) == E_OK )
-			{
-				/* 送信タスクの待ちを解除 */
-				mknl_rmv_que(mtcb);						/* 待ち行列から削除 */
-				mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
-				mknl_wup_tsk(mtcb, (ER_UINT)E_OK);		/* タスクの待ち解除 */
-			}
-		}
-		ercd = E_OK;
 	}
 	
 	mknl_unl_sys();		/* システムのロック解除 */

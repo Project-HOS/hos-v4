@@ -17,11 +17,11 @@ ER ref_mbf(
 		T_RMBF *pk_rmbf)	/* メッセージバッファ状態を返すパケットへのポインタ */
 {
 	T_KERNEL_MBFCB_RAM *mbfcb_ram;
-	T_MKNL_TCB *mtcb;
+	T_MKNL_TCB         *mtcb;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* ID不正 */
 	}
@@ -76,15 +76,15 @@ ER ref_mbf(
 	pk_rmbf->smsgcnt = mbfcb_ram->smsgcnt;
 	
 	/* メッセージバッファ領域の空き領域のサイズの取得 */
-	if ( mbfcb_ram->head > mbfcb_ram->tail )
+	pk_rmbf->fmbfsz = mbfcb_ram->fmbfsz;
+	if ( pk_rmbf->fmbfsz > sizeof(UINT) )
 	{
-		pk_rmbf->fmbfsz = mbfcb_ram->head - mbfcb_ram->tail;
+		pk_rmbf->fmbfsz -= sizeof(UINT);
 	}
 	else
 	{
-		pk_rmbf->fmbfsz = mbfcb_ram->mbfcb_rom->mbfsz - (mbfcb_ram->tail - mbfcb_ram->head);
+		pk_rmbf->fmbfsz = 0;
 	}
-	pk_rmbf->fmbfsz -= (sizeof(UINT) + 1);
 
 	mknl_unl_sys();		/* システムのロック解除 */
 

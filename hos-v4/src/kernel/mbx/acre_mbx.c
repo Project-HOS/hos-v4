@@ -21,9 +21,9 @@ ER_ID acre_mbx(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( mbxid = KERNEL_TMAX_MBXID; mbxid >= TMIN_MBXID; mbxid-- )
+	for ( mbxid = KERNEL_TMAX_MBXID; mbxid >= KERNEL_TMIN_MBXID; mbxid-- )
 	{
-		if ( kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID] == NULL )
+		if ( kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] == NULL )
 		{
 			break;
 		}
@@ -31,7 +31,7 @@ ER_ID acre_mbx(
 	
 	/* ID番号不足チェック */
 #ifdef HOS_ERCHK_E_NOID
-	if ( mbxid < TMIN_MBXID )
+	if ( mbxid < KERNEL_TMIN_MBXID )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_NOID;	/* ID番号不足 */

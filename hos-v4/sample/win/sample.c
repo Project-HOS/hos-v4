@@ -37,6 +37,7 @@ int main()
 void SampleInitialize(VP_INT exinf)
 {
 	/* タスク起動 */
+	act_tsk(TSKID_OUTPUT);
 	act_tsk(TSKID_PHILOSOPHER1);
 	act_tsk(TSKID_PHILOSOPHER2);
 	act_tsk(TSKID_PHILOSOPHER3);
@@ -57,12 +58,12 @@ void PhilosopherTask(VP_INT exinf)
 	{
 		/* 適当な時間悩んでみる */
 		status[id -1] = 'T';
-		printf(status);
+		snd_mbf(MBFID_OUTPUT, status, 7);
 		dly_tsk((rand() % 100) * 10 + 500);
 
 		/* 左右のフォークを取るまで粘る */
 		status[id -1] = 'W';
-		printf(status);
+		snd_mbf(MBFID_OUTPUT, status, 7);
 		for ( ; ; )
 		{
 			wai_sem(LEFT_FORK(id));
@@ -76,7 +77,7 @@ void PhilosopherTask(VP_INT exinf)
 
 		/* お食事中 */
 		status[id -1] = 'E';
-		printf(status);
+		snd_mbf(MBFID_OUTPUT, status, 7);
 		dly_tsk(1000);
 
 		/* フォークを放す */
@@ -84,6 +85,19 @@ void PhilosopherTask(VP_INT exinf)
 		sig_sem(RIGHT_FORK(id));
 	}
 }
+
+
+void OutputTask(VP_INT exinf)
+{
+	char buf[128];
+
+	for ( ; ; )
+	{
+		rcv_mbf(MBFID_OUTPUT, buf);
+		printf("%s", buf);
+	}
+}
+
 
 
 /* ------------------------------------------------------------------------ */

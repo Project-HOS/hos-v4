@@ -20,7 +20,7 @@ ER cre_sem(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( semid < TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
+	if ( semid < KERNEL_TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -30,7 +30,7 @@ ER cre_sem(
 
 	/* セマフォが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_semcb_ram_tbl[semid - TMIN_SEMID] != NULL )
+	if ( kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

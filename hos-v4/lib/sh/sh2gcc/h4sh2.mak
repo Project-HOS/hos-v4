@@ -101,7 +101,7 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        rcv_dtq.o prcv_dtq.o trcv_dtq.o ref_dtq.o \
        cre_mbx.o acre_mbx.o kcre_mbx.o del_mbx.o \
        snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o ref_mbx.o \
-       cre_mbf.o acre_mbf.o kcre_mbf.o del_mbf.o \
+       ini_mbf.o cre_mbf.o acre_mbf.o kcre_mbf.o del_mbf.o \
        snd_mbf.o psnd_mbf.o tsnd_mbf.o ksnd_mbf.o \
        rcv_mbf.o prcv_mbf.o trcv_mbf.o krcv_mbf.o ref_mbf.o \
        ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
@@ -461,6 +461,9 @@ ref_mbx.o: $(KNLMBXDIR)/ref_mbx.c $(INCS)
 
 
 # メッセージバッファ
+ini_mbf.o: $(KNLMBFDIR)/ini_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/ini_mbf.c
+
 cre_mbf.o: $(KNLMBFDIR)/cre_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)/cre_mbf.c
 

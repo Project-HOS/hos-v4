@@ -23,13 +23,32 @@ ER_UINT kernel_rcv_mbf(
 		T_KERNEL_MBFCB_RAM       *mbfcb_ram,	/* メッセージバッファコントロールブロック(RAM部) */
 		VP                       msg)			/* 受信メッセージを格納する先頭番地 */
 {
-	UINT msgsz;
-	UINT tmpsz;
-	INT  i;
+	T_MKNL_TCB *mtcb;
+	UINT       msgsz;
+	UINT       tmpsz;
+	INT        i;
 
 	/* メッセージ存在チェック */
-	if ( mbfcb_ram->head == mbfcb_ram->tail )
+	if ( mbfcb_ram->smsgcnt == 0 )	/* メッセージが無い場合 */
 	{
+		/* 送信待ちタスクチェック */
+		mtcb = mknl_ref_qhd(&mbfcb_ram->sndque);	/* 受信待ち行列の先頭タスクを参照 */
+		if ( mtcb != NULL )
+		{
+			T_KERNEL_MBFDAT *mbfdat;
+			
+			/* 送信データ受け取り */
+			mbfdat = (T_KERNEL_MBFDAT *)mtcb->data;
+			memcpy(msg, mbfdat->msg, mbfdat->msgsz);	/* データコピー */
+
+			/* 送信タスクの待ちを解除 */
+			mknl_rmv_que(mtcb);				/* 待ち行列から削除 */
+			mknl_rmv_tmout(mtcb);			/* タイムアウト待ち行列から削除 */
+			mknl_wup_tsk(mtcb, E_OK);		/* タスクの待ち解除 */
+
+			return (ER_UINT)mbfdat->msgsz;	/* 正常完了 */
+		}
+
 		return E_TMOUT;		/* タイムアウト */
 	}
 	
@@ -37,13 +56,13 @@ ER_UINT kernel_rcv_mbf(
 	msgsz = 0;
 	for ( i = 0; i < sizeof(UINT); i++ )
 	{
-		/* 下位から順に8bitずつ読み出し */
-		msgsz += kernel_rch_mbf(mbfcb_rom, mbfcb_ram);
+		/* 上位から順に8bitずつ読み出し */
 		msgsz <<= 8;
+		msgsz += kernel_rch_mbf(mbfcb_rom, mbfcb_ram);
 	}
 	
 	/* データ受信 */
-	tmpsz = (UINT)mbfcb_rom->mbfsz - mbfcb_ram->head;			/* 折り返し点までのサイズを算出 */
+	tmpsz = (UINT)mbfcb_rom->mbfsz - mbfcb_ram->head;	/* 折り返し点までのサイズを算出 */
 	if ( tmpsz >= msgsz )	/* 折り返し判定 */
 	{
 		memcpy(msg, (UB *)mbfcb_rom->mbf + mbfcb_ram->head, msgsz);		/* データコピー */
@@ -61,10 +80,13 @@ ER_UINT kernel_rcv_mbf(
 		mbfcb_ram->head -= (UINT)mbfcb_rom->mbfsz;
 	}
 
+	/* バッファ空きサイズ更新 */
+	mbfcb_ram->fmbfsz += msgsz;
+
 	/* 送信個数デクリメント */
 	mbfcb_ram->smsgcnt--;
 
-	return E_OK;
+	return (ER_UINT)msgsz;	/* 送信サイズを返す */
 }
 
 
@@ -87,6 +109,9 @@ UB kernel_rch_mbf(
 	{
 		mbfcb_ram->head = 0;
 	}
+
+	/* バッファ空きサイズ更新 */
+	mbfcb_ram->fmbfsz++;
 	
 	return chr;
 }

@@ -20,12 +20,12 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_FLGID		1					/* イベントフラグIDの最小値 */
-#define KERNEL_TMAX_FLGID		(TMIN_FLGID + kernel_flgcb_cnt - 1)
-											/* イベントフラグIDの最大値 */
+#define KERNEL_TMIN_FLGID	TMIN_FLGID			/* イベントフラグIDの最小値 */
+#define KERNEL_TMAX_FLGID	(KERNEL_TMIN_FLGID + kernel_flgcb_cnt - 1)
+												/* イベントフラグIDの最大値 */
 
 /* ビットパターンのビット数 */
-#define TBIT_FLGPTN		16					/* イベントフラグのビット数 */
+#define TBIT_FLGPTN			16					/* イベントフラグのビット数 */
 
 
 
@@ -81,7 +81,7 @@ typedef struct t_kernel_flginf
 extern       T_KERNEL_FLGCB_RAM *kernel_flgcb_ram_tbl[];	/* イベントフラグコントロールブロックテーブル(RAM部) */
 extern const INT kernel_flgcb_cnt;							/* イベントフラグコントロールブロック個数 */
 
-#define KERNEL_FLGID_TO_FLGCB_RAM(flgid)	(kernel_flgcb_ram_tbl[(flgid) - TMIN_FLGID])
+#define KERNEL_FLGID_TO_FLGCB_RAM(flgid)	(kernel_flgcb_ram_tbl[(flgid) - KERNEL_TMIN_FLGID])
 															/* イベントフラグIDからFLGCB RAMアドレスを取得 */
 
 

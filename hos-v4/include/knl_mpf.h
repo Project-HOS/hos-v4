@@ -20,9 +20,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_MPFID		1					/* 固定長メモリプールIDの最小値 */
-#define KERNEL_TMAX_MPFID		(TMIN_MPFID + kernel_mpfcb_cnt - 1)
-											/* 固定長メモリプールIDの最大値 */
+#define KERNEL_TMIN_MPFID	TMIN_MPFID			/* 固定長メモリプールIDの最小値 */
+#define KERNEL_TMAX_MPFID	(KERNEL_TMIN_MPFID + kernel_mpfcb_cnt - 1)
+												/* 固定長メモリプールIDの最大値 */
 
 
 
@@ -76,7 +76,7 @@ extern       T_KERNEL_MPFCB_RAM *kernel_mpfcb_ram_tbl[];	/* 固定長メモリプールコ
 extern const INT kernel_mpfcb_cnt;							/* 固定長メモリプールコントロールブロック個数 */
 
 /* 固定長メモリプールコントロールブロック変換マクロ */
-#define KERNEL_MPFID_TO_MPFCB_RAM(mpfid)	(kernel_mpfcb_ram_tbl[(mpfid) - TMIN_MPFID])
+#define KERNEL_MPFID_TO_MPFCB_RAM(mpfid)	(kernel_mpfcb_ram_tbl[(mpfid) - KERNEL_TMIN_MPFID])
 															/* 固定長メモリプールIDからMPFCB RAMアドレスを取得 */
 
 

@@ -18,7 +18,7 @@ void hospac_win_int(INTNO intno)
 	T_HOSPAC_CTXINF *ctxinf;
 
 	/* »œ∞œ•¡•ß•√•Ø */
-	if ( intno < TMIN_INTNO || intno > TMAX_INTNO )
+	if ( intno < KERNEL_TMIN_INTNO || intno > KERNEL_TMAX_INTNO )
 	{
 		return;
 	}

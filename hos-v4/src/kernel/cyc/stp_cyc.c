@@ -20,7 +20,7 @@ ER stp_cyc(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( cycid < TMIN_CYCID || cycid > KERNEL_TMAX_CYCID )
+	if ( cycid < KERNEL_TMIN_CYCID || cycid > KERNEL_TMAX_CYCID )
 	{
 		return E_ID;
 	}

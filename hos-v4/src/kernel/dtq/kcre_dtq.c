@@ -75,7 +75,7 @@ ER kernel_cre_dtq(
 	dtqcb_ram->dtqcb_rom = dtqcb_rom;
 
 	/* 管理テーブルへ追加 */
-	kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] = dtqcb_ram;
+	kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] = dtqcb_ram;
 
 	return E_OK;
 }

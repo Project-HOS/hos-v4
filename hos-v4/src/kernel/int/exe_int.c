@@ -36,7 +36,7 @@ void kernel_exe_int(
 {
 	T_KERNEL_INTCB intcb;
 	
-	if ( intno < TMIN_INTNO || intno > TMAX_INTNO )
+	if ( intno < KERNEL_TMIN_INTNO || intno > KERNEL_TMAX_INTNO )
 	{
 		return;
 	}

@@ -664,6 +664,10 @@ SOURCE=..\..\..\src\kernel\mbf\del_mbf.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\kernel\mbf\ini_mbf.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\kernel\mbf\kcre_mbf.c
 # End Source File
 # Begin Source File

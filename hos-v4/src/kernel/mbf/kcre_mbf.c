@@ -50,7 +50,7 @@ ER kernel_cre_mbf(
 	mknl_ini_que(&mbfcb_ram->sndque);
 	mknl_ini_que(&mbfcb_ram->rcvque);
 	mbfcb_ram->head      = 0;
-	mbfcb_ram->tail      = 0;
+	mbfcb_ram->fmbfsz    = pk_cmbf->mbfsz;
 	mbfcb_ram->smsgcnt   = 0;
 	mbfcb_ram->mbfcb_rom = mbfcb_rom;
 	mbfcb_rom->mbfatr    = pk_cmbf->mbfatr;
@@ -59,7 +59,7 @@ ER kernel_cre_mbf(
 	mbfcb_rom->mbf       = pk_cmbf->mbf;
 
 	/* 管理テーブルへ追加 */
-	kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID] = mbfcb_ram;
+	kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] = mbfcb_ram;
 
 	return E_OK;
 }

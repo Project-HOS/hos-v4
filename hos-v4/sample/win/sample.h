@@ -31,7 +31,7 @@ extern "C" {
 
 void SampleInitialize(VP_INT exinf);	/* ATT_INI 登録の関数 */
 void PhilosopherTask(VP_INT exinf);		/* 哲学者タスク */
-
+void OutputTask(VP_INT exinf);			/* 出力タスク */
 
 #ifdef __cplusplus
 }

@@ -23,7 +23,7 @@ ER twai_sem(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( semid < TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
+	if ( semid < KERNEL_TMIN_SEMID || semid > KERNEL_TMAX_SEMID )
 	{
 		return E_ID;
 	}

@@ -22,9 +22,9 @@
 /* ------------------------------------------ */
 
 /* IDの範囲 */
-#define TMIN_CYCID		1					/* 周期ハンドラIDの最小値 */
-#define KERNEL_TMAX_CYCID		(TMIN_CYCID + kernel_cyccb_cnt - 1)
-											/* 周期ハンドラIDの最大値 */
+#define KERNEL_TMIN_CYCID	TMIN_CYCID			/* 周期ハンドラIDの最小値 */
+#define KERNEL_TMAX_CYCID	(KERNEL_TMIN_CYCID + kernel_cyccb_cnt - 1)
+												/* 周期ハンドラIDの最大値 */
 
 
 
@@ -59,7 +59,7 @@ typedef struct t_kernel_cyccb_ram
 extern       T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[];	/* 周期ハンドラコントロールブロックテーブル */
 extern const INT kernel_cyccb_cnt;							/* 周期ハンドラコントロールブロック個数 */
 
-#define KERNEL_CYCID_TO_CYCCB_RAM(cycid)	(kernel_cyccb_ram_tbl[(cycid) - TMIN_CYCID])
+#define KERNEL_CYCID_TO_CYCCB_RAM(cycid)	(kernel_cyccb_ram_tbl[(cycid) - KERNEL_TMIN_CYCID])
 															/* 周期ハンドラIDからCYCCB RAMアドレスを取得 */
 
 

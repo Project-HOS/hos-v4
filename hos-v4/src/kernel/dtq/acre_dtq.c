@@ -21,9 +21,9 @@ ER_ID acre_dtq(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( dtqid = KERNEL_TMAX_DTQID; dtqid >= TMIN_DTQID; dtqid-- )
+	for ( dtqid = KERNEL_TMAX_DTQID; dtqid >= KERNEL_TMIN_DTQID; dtqid-- )
 	{
-		if ( kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] == NULL )
+		if ( kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] == NULL )
 		{
 			break;
 		}
@@ -31,7 +31,7 @@ ER_ID acre_dtq(
 	
 	/* ID番号不足チェック */
 #ifdef HOS_ERCHK_E_NOID
-	if ( dtqid < TMIN_DTQID )
+	if ( dtqid < KERNEL_TMIN_DTQID )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_NOID;	/* ID番号不足 */

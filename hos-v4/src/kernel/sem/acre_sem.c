@@ -21,9 +21,9 @@ ER_ID acre_sem(
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 利用可能なIDの検索 */
-	for ( semid = KERNEL_TMAX_SEMID; semid >= TMIN_SEMID; semid-- )
+	for ( semid = KERNEL_TMAX_SEMID; semid >= KERNEL_TMIN_SEMID; semid-- )
 	{
-		if ( kernel_semcb_ram_tbl[semid - TMIN_SEMID] == NULL )
+		if ( kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] == NULL )
 		{
 			break;
 		}
@@ -31,7 +31,7 @@ ER_ID acre_sem(
 	
 	/* ID番号不足チェック */
 #ifdef HOS_ERCHK_E_NOID
-	if ( semid < TMIN_SEMID )
+	if ( semid < KERNEL_TMIN_SEMID )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_NOID;	/* ID番号不足 */

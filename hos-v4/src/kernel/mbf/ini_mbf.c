@@ -11,38 +11,25 @@
 
 
 
-/* メッセージバッファの生成 */
-ER cre_mbf(
-		ID           mbfid,		/* 生成対象のメッセージバッファのID番号 */
-		const T_CMBF *pk_cmbf)	/* メッセージバッファ生成情報を入れたパケットへのポインタ */
+/* メッセージバッファの初期化 */
+void kernel_ini_mbf(void)
 {
-	ER ercd;
+	const T_KERNEL_MBFCB_ROM *mbfcb_rom;
+	T_KERNEL_MBFCB_RAM       *mbfcb_ram;
+	INT                      i;
 
-	/* ID のチェック */
-#ifdef HOS_ERCHK_E_ID
-	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	/* メッセージバッファコントロールブロックの初期化 */
+	for ( i = 0; i < kernel_mbfcb_cnt; i++ )
 	{
-		return E_ID;	/* 不正ID */
+		mbfcb_ram = kernel_mbfcb_ram_tbl[i];
+		if ( mbfcb_ram != NULL )
+		{
+			mbfcb_rom = mbfcb_ram->mbfcb_rom;
+			
+			/* 空きサイズの初期化 */
+			mbfcb_ram->fmbfsz = mbfcb_rom->mbfsz;
+		}
 	}
-#endif
-
-	mknl_loc_sys();	/* システムのロック */
-
-	/* メッセージバッファが登録可能かどうかチェック */
-#ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] != NULL )
-	{
-		mknl_unl_sys();	/* システムのロック解除 */
-		return E_OBJ;	/* 既に登録済み */
-	}
-#endif
-
-	/* メッセージバッファの生成 */
-	ercd = kernel_cre_mbf(mbfid, pk_cmbf);
-	
-	mknl_unl_sys();	/* システムのロック解除 */
-
-	return ercd;
 }
 
 

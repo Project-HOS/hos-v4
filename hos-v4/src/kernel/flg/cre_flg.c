@@ -20,7 +20,7 @@ ER cre_flg(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( flgid < TMIN_FLGID || flgid > KERNEL_TMAX_FLGID )
+	if ( flgid < KERNEL_TMIN_FLGID || flgid > KERNEL_TMAX_FLGID )
 	{
 		return E_ID;	/* 不正ID */
 	}
@@ -30,7 +30,7 @@ ER cre_flg(
 
 	/* イベントフラグが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] != NULL )
+	if ( kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

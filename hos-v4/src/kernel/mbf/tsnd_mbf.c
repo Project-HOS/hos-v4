@@ -22,12 +22,12 @@ ER tsnd_mbf(
 	const T_KERNEL_MBFCB_ROM *mbfcb_rom;
 	T_KERNEL_MBFCB_RAM       *mbfcb_ram;
 	T_MKNL_TCB               *mtcb;
-	T_KERNEL_MBFDAT mbfdat;
-	ER ercd;
+	T_KERNEL_MBFDAT          mbfdat;
+	ER                       ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* ID不正 */
 	}
@@ -74,42 +74,28 @@ ER tsnd_mbf(
 	}
 #endif
 
-	/* 受信待ちタスクチェック */
-	mtcb = mknl_ref_qhd(&mbfcb_ram->rcvque);	/* 受信待ち行列先頭からタスク取り出し */
-	if ( mtcb != NULL )
+	/* 送信 */
+	ercd = kernel_snd_mbf(mbfcb_rom, mbfcb_ram, msg, msgsz);
+	if ( ercd == E_TMOUT )	/* タイムアウトなら */
 	{
-		/* 受信タスクの待ちを解除 */
-		memcpy((VP)mtcb->data, msg, msgsz);		/* データコピー */
-		mknl_rmv_que(mtcb);						/* 待ち行列から削除 */
-		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
-		mknl_wup_tsk(mtcb, (ER_UINT)msgsz);		/* タスクの待ち解除 */
-		ercd = E_OK;
-	}
-	else
-	{
-		/* 送信 */
-		ercd = kernel_snd_mbf(mbfcb_rom, mbfcb_ram, msg, msgsz);
-		if ( ercd == E_TMOUT )	/* タイムアウトなら */
+		if ( tmout != TMO_POL )		/* ポーリング指定でなければ */
 		{
-			if ( tmout != TMO_POL )		/* ポーリング指定でなければ */
-			{
-				/* タスクを待ち状態にする */
-				mtcb = mknl_get_run_tsk();
-				mbfdat.msg   = msg;
-				mbfdat.msgsz = msgsz;
-				mtcb->data   = (VP_INT)&mbfdat;
-				mknl_wai_tsk(mtcb, TTW_SMBF);
-				mknl_add_que(&mbfcb_ram->sndque, mtcb, mbfcb_rom->mbfatr);	/* 待ち行列に追加 */
+			/* タスクを待ち状態にする */
+			mtcb = mknl_get_run_tsk();
+			mbfdat.msg   = msg;
+			mbfdat.msgsz = msgsz;
+			mtcb->data   = (VP_INT)&mbfdat;
+			mknl_wai_tsk(mtcb, TTW_SMBF);
+			mknl_add_que(&mbfcb_ram->sndque, mtcb, mbfcb_rom->mbfatr);	/* 待ち行列に追加 */
 	
-				/* 無限待ちでなければタイムアウト設定 */
-				if ( tmout != TMO_FEVR )
-				{
-					mknl_add_tmout(mtcb, (RELTIM)tmout);	/* タイムアウトキューに追加 */
-				}
-
-				ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
-				mknl_exe_tex();				/* 例外処理の実行 */
+			/* 無限待ちでなければタイムアウト設定 */
+			if ( tmout != TMO_FEVR )
+			{
+				mknl_add_tmout(mtcb, (RELTIM)tmout);	/* タイムアウトキューに追加 */
 			}
+
+			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+			mknl_exe_tex();				/* 例外処理の実行 */
 		}
 	}
 	

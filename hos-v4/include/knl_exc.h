@@ -20,9 +20,9 @@
 /* ------------------------------------------ */
 
 /* 割り込み番号の範囲 */
-#define TMIN_EXCNO		(kernel_min_excno)	/* CPU例外ハンドラ番号の最小値 */
-#define TMAX_EXCNO		(TMIN_EXCNO + kernel_exccb_cnt - 1)
-											/* CPU例外ハンドラ番号の最大値 */
+#define KERNEL_TMIN_EXCNO	(kernel_min_excno)	/* CPU例外ハンドラ番号の最小値 */
+#define KERNEL_TMAX_EXCNO	(KERNEL_TMIN_EXCNO + kernel_exccb_cnt - 1)
+												/* CPU例外ハンドラ番号の最大値 */
 
 
 

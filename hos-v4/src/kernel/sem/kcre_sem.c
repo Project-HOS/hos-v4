@@ -57,7 +57,7 @@ ER kernel_cre_sem(
 	semcb_rom->maxsem    = pk_csem->maxsem;
 
 	/* 管理テーブルへ追加 */
-	kernel_semcb_ram_tbl[semid - TMIN_SEMID] = semcb_ram;
+	kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] = semcb_ram;
 
 	return E_OK;
 }

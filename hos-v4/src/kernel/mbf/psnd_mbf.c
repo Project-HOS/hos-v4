@@ -20,12 +20,11 @@ ER psnd_mbf(
 {
 	const T_KERNEL_MBFCB_ROM *mbfcb_rom;
 	T_KERNEL_MBFCB_RAM       *mbfcb_ram;
-	T_MKNL_TCB               *mtcb;
 	ER ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbfid < TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
+	if ( mbfid < KERNEL_TMIN_MBFID || mbfid > KERNEL_TMAX_MBFID )
 	{
 		return E_ID;	/* ID不正 */
 	}
@@ -55,22 +54,8 @@ ER psnd_mbf(
 	}
 #endif
 
-	/* 受信待ちタスクチェック */
-	mtcb = mknl_ref_qhd(&mbfcb_ram->rcvque);	/* 受信待ち行列先頭からタスク取り出し */
-	if ( mtcb != NULL )
-	{
-		/* 受信タスクの待ちを解除 */
-		memcpy((VP)mtcb->data, msg, msgsz);		/* データコピー */
-		mknl_rmv_que(mtcb);						/* 待ち行列から削除 */
-		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
-		mknl_wup_tsk(mtcb, (ER_UINT)msgsz);		/* タスクの待ち解除 */
-		ercd = E_OK;
-	}
-	else
-	{
-		/* 送信 */
-		ercd = kernel_snd_mbf(mbfcb_rom, mbfcb_ram, msg, msgsz);
-	}
+	/* 送信処理 */
+	ercd = kernel_snd_mbf(mbfcb_rom, mbfcb_ram, msg, msgsz);
 	
 	mknl_unl_sys();		/* システムのロック解除 */
 

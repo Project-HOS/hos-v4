@@ -35,7 +35,7 @@ void exd_tsk(void)
 	kernel_fre_mem(tcb_ram);
 
 	/* タスクコントロールブロックテーブルから登録解除 */
-	kernel_tcb_ram_tbl[tskid - TMIN_TSKID] = NULL;
+	kernel_tcb_ram_tbl[tskid - KERNEL_TMIN_TSKID] = NULL;
 
 	/* タスクディスパッチの実行 */
 	mknl_exe_dsp();

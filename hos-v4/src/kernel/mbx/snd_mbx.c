@@ -24,7 +24,7 @@ ER snd_mbx(
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbxid < TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
+	if ( mbxid < KERNEL_TMIN_MBXID || mbxid > KERNEL_TMAX_MBXID )
 	{
 		return E_ID;
 	}

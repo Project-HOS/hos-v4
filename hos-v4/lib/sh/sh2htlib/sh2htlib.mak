@@ -106,8 +106,8 @@ OBJS = pacint.obj pacctx.obj pacimsk.obj \
        snd_dtq.obj psnd_dtq.obj tsnd_dtq.obj fsnd_dtq.obj \
        rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj ref_dtq.obj \
        cre_mbx.obj acre_mbx.obj kcre_mbx.obj del_mbx.obj \
-       snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj \
-       cre_mbf.obj acre_mbf.obj kcre_mbf.obj del_mbf.obj ref_mbx.obj \
+       snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj ref_mbx.obj \
+       ini_mbf.obj cre_mbf.obj acre_mbf.obj kcre_mbf.obj del_mbf.obj \
        snd_mbf.obj psnd_mbf.obj tsnd_mbf.obj ksnd_mbf.obj \
        rcv_mbf.obj prcv_mbf.obj trcv_mbf.obj krcv_mbf.obj ref_mbf.obj \
        ini_mpf.obj cre_mpf.obj acre_mpf.obj kcre_mpf.obj del_mpf.obj \
@@ -471,6 +471,9 @@ ref_mbx.obj: $(KNLMBXDIR)\ref_mbx.c $(INCS)
 
 
 # メッセージバッファ
+ini_mbf.obj: $(KNLMBFDIR)\ini_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ini_mbf.c
+
 cre_mbf.obj: $(KNLMBFDIR)\cre_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)\cre_mbf.c
 
