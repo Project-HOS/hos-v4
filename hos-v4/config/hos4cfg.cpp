@@ -30,8 +30,9 @@
 #include "attini.h"
 #include "defexc.h"
 
-
-
+#define DEFAULT_INPUTFILE		"system.i"
+#define DEFAULT_IDFILE			"kernel_id.h"
+#define DEFAULT_CFGFILE			"kernel_cfg.c"
 
 int  ReadConfigFile(FILE* fpConfig);	// コンフィギュレーションファイル読み込み
 void WriteIdFile(FILE* fp);				// ID 定義ヘッダファイル出力
@@ -57,9 +58,9 @@ CApiAttIsr     g_ApiAttIsr;
 CApiAttIni     g_ApiAttIni;
 CApiDefExc     g_ApiDefExc;
 
-static const char *s_szPhysicalInputFile  = "system.cfg";
-static const char *s_szIdFile             = "kernel_id.h";
-static const char *s_szCfgFile            = "kernel_cfg.c";
+static const char *s_szPhysicalInputFile  = NULL;
+static const char *s_szIdFile             = DEFAULT_IDFILE;
+static const char *s_szCfgFile            = DEFAULT_CFGFILE;
 
 // API定義リスト
 static CApiDef* g_ApiList[] =
@@ -91,7 +92,7 @@ static CApiDef* g_ApiList[] =
 // メイン関数
 int main(int argc, char *argv[])
 {
-	FILE* fpInput = NULL;
+	FILE* fpInput;
 	FILE* fpCfg;
 	FILE* fpId;
 	int  iErr;
@@ -122,17 +123,12 @@ int main(int argc, char *argv[])
 			}
 			s_szIdFile = argv[i];
 		}
-		else if ( strcmp(argv[i], "-") == 0 )
-		{
-			fpInput = stdin;
-			s_szPhysicalInputFile = "stdin";
-		}
                else if ( strcmp(argv[i], "-help") == 0 )
                {
                        PrintUsage();
                        return 0;
                }
-               else if ( argv[i][0] == '-')
+               else if ( argv[i][0] == '-' && argv[i][1] != '\0' )
                {
                        fprintf(stderr, "unknown option \"%s\"\n", argv[i]);
                        PrintUsage();
@@ -140,12 +136,28 @@ int main(int argc, char *argv[])
                }
 		else
 		{
+			if ( s_szPhysicalInputFile != NULL )
+			{
+				fprintf(stderr, "too many input files\n");
+				PrintUsage();
+				return 1;
+			}
 			s_szPhysicalInputFile = argv[i];
 		}
 	}
-	
+
+	// 入力ファイル省略時のデフォルト設定
+	if ( s_szPhysicalInputFile == NULL )
+	{
+		s_szPhysicalInputFile = DEFAULT_INPUTFILE;
+	}
+
 	// 入力ファイルオープン
-	if ( fpInput == NULL && (fpInput = fopen(s_szPhysicalInputFile, "r")) == NULL )
+	if ( strcmp(s_szPhysicalInputFile, "-") == 0) {
+		s_szPhysicalInputFile = "stdin";
+		fpInput = stdin;
+	}
+	else if ( (fpInput = fopen(s_szPhysicalInputFile, "r")) == NULL )
 	{
                fprintf(stderr, "could not open file \"%s\"\n", s_szPhysicalInputFile);
 		return 1;
@@ -358,10 +370,11 @@ void PrintUsage(void)
        fprintf(stderr,
                "usage: hos4cfg [options] [input-file]\n"
                "options are:\n"
-               "   -i FILE    specify auto-assginment headerfile (default:  kernel_id.h)\n"
-               "   -c FILE    specify kernel configuration file  (default: kernel_cfg.c)\n"
+               "   -i FILE    specify auto-assginment headerfile (default: " DEFAULT_IDFILE ")\n"
+               "   -c FILE    specify kernel configuration file  (default: " DEFAULT_CFGFILE ")\n"
                "   -help      show this help\n"
-               "\ninput-file (default: system.cfg)\n");
+               "\n"
+               "input-file (default: " DEFAULT_INPUTFILE ")\n");
 }
 
 // ---------------------------------------------------------------------------
