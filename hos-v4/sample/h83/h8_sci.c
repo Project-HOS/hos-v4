@@ -6,9 +6,8 @@
 /* ------------------------------------------------------------------------ */
 
 
-/* 現時点では、テスト用にポーリングで文字を出すのみ */
 
-
+#include "kernel.h"
 #include "h8_3048.h"
 #include "h8_sci.h"
 
@@ -31,10 +30,18 @@
 #define RDR     RDR1
 #endif
 
+#define RECV_BUFSIZE	32		/* 受信バッファのサイズ */
+
+
+
+static unsigned char recv_buf[32];
+static int head;
+static int tail;
+
 
 
 /* SCI初期化 */
-void SCI_Init(unsigned char rate)
+void Sci_Initialize(unsigned char rate)
 {
 	volatile int v;
 	int i;
@@ -45,20 +52,65 @@ void SCI_Init(unsigned char rate)
 	BRR  = rate;
 	for ( i = 0; i < 280; i++ )
 		v++;
-	SCR  = 0x30;
+	SCR  = 0x70;
 	SSR &= 0x80;
+	
+	/* 受信バッファ初期化 */
+	head = 0;
+	tail = 0;
 }
 
 
 /* １文字出力 */
-void SCI_Putc(char c)
+void Sci_PutChar(char c)
 {
 	while ( !(SSR & 0x80) )
 		;
+	
 	TDR  = c;
 	SSR &= 0x7f;
 }
 
+
+/* １文字入力 */
+int Sci_GetChar(void)
+{
+	if ( head == tail )
+	{
+		return -1;
+	}
+	
+	return recv_buf[head++];
+}
+
+
+/* SCI受信割り込み */
+void Sci_RxiHandler(VP_INT exinf)
+{
+	unsigned char c;
+	int next;
+	
+	/* 1文字受信 */
+	c = RDR;
+	SSR &= 0xbf;
+	
+	/* 次の末尾位置を計算 */
+	next = tail + 1;
+	if ( next >= RECV_BUFSIZE )
+	{
+		next = 0;
+	}
+	
+	/* オーバーフローチェック */
+	if ( next == head )
+	{
+		return;
+	}
+	
+	/* 受信バッファに格納 */
+	recv_buf[tail] = c;
+	tail = next;
+}
 
 
 /* ------------------------------------------------------------------------ */

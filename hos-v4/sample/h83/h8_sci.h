@@ -24,15 +24,10 @@
 
 
 /* SCI */
-void SCI_Init(unsigned char rate);	/* SCI初期化 */
-void SCI_ERR_Intr(void);			/* エラー受信 割り込みハンドラ */
-void SCI_RX_Intr(void);				/* データ受信 割り込みハンドラ */
-void SCI_TX_Intr(void);				/* 送信バッファ空き割り込み */
-void SCI_Putc(char c)			;	/* １文字出力 */
-int  SCI_Getc(void);				/* １文字入力 */
-void SCI_Puts(const char* str);		/* 文字列出力 */
-void SCI_Gets(char* buf);			/* 文字列入力 */
-
+void Sci_Initialize(unsigned char rate);	/* SCI初期化 */
+void Sci_PutChar(char c);					/* １文字出力 */
+int  Sci_GetChar(void);						/* １文字入力 */
+void Sci_RxiHandler(VP_INT exinf);			/* SCI受信割り込み */
 
 
 #endif	/* __PROJECT_HOS__h8_sci_h__ */

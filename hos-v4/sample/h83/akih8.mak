@@ -37,10 +37,10 @@ LFLAGS   =
 TARGET = sample.mot
 
 #インクルードファイル
-INCS = kernel_id.h sample.h h8_sci.h
+INCS = kernel_id.h sample.h ostimer.h h8_sci.h
 
 # オブジェクトファイル
-OBJS = vector.obj crt0.obj sample.obj h8_sci.obj kernel_cfg.obj
+OBJS = vector.obj crt0.obj sample.obj ostimer.obj h8_sci.obj kernel_cfg.obj
 
 
 
@@ -62,6 +62,9 @@ crt0.obj: crt0.src
 
 sample.obj: sample.c $(INCS)
 	$(CC) $(CFLAGS) sample.c
+
+ostimer.obj: ostimer.c $(INCS)
+	$(CC) $(CFLAGS) ostimer.c
 
 h8_sci.obj: h8_sci.c $(INCS)
 	$(CC) $(CFLAGS) h8_sci.c
