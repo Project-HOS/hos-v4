@@ -11,7 +11,6 @@
 #include "kernel.h"
 
 
-BOOL blTest;
 
 /* 擬似割り込みのエミュレート(ITRONタスクとは無関係のスレッドから呼ぶこと) */
 void hospac_win_int(INTNO intno)
@@ -25,12 +24,7 @@ void hospac_win_int(INTNO intno)
 	}
 
 	/* セマフォを取る */
-	blTest = TRUE;
 	WaitForSingleObject(hospac_hSem, INFINITE);
-	blTest = FALSE;
-
-	/* 割り込みフラグセット */
-	hospac_blInt = TRUE;
 
 	/* 実行中スレッドをサスペンドする */
 	if ( mknl_run_mtcb != NULL )
@@ -43,7 +37,10 @@ void hospac_win_int(INTNO intno)
 	}
 	SuspendThread(ctxinf->hThread);
 	ctxinf->blIntSuspend = TRUE;
-	
+
+	/* 割り込みフラグセット */
+	hospac_blInt = TRUE;
+
 	/* 非タスク部(割り込みコンテキストに移行) */
 	mknl_sta_ind();
 	
@@ -64,8 +61,6 @@ void hospac_win_int(INTNO intno)
 
 	/* 最高優先度の実行可能タスクを探す */
 	mknl_run_mtcb = mknl_srh_top();
-
-	/* 実行中スレッドの復帰 */
 	if ( mknl_run_mtcb != NULL )
 	{
 		ctxinf = &mknl_run_mtcb->ctxinf;
@@ -74,7 +69,6 @@ void hospac_win_int(INTNO intno)
 	{
 		ctxinf = &mknl_idlctx;
 	}
-	ResumeThread(ctxinf->hThread);
 
 	/* セマフォを返却 */
 	if ( ctxinf->blIntSuspend )
@@ -82,6 +76,9 @@ void hospac_win_int(INTNO intno)
 		ctxinf->blIntSuspend = FALSE;
 		ReleaseSemaphore(hospac_hSem, 1, NULL);
 	}
+
+	/* 実行中スレッドの復帰 */
+	ResumeThread(ctxinf->hThread);
 }
 
 

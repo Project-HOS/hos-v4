@@ -24,8 +24,8 @@ typedef struct t_TaskInfo
 DWORD WINAPI TaskEntry(LPVOID param);	/* スレッドの開始関数 */
 
 
-HANDLE hospac_hSem   = NULL;			/* システムの排他制御用セマフォ */
-BOOL   hospac_blInt  = FALSE;			/* 割り込み処理中フラグ */
+HANDLE hospac_hSem  = NULL;				/* システムの排他制御用セマフォ */
+BOOL   hospac_blInt = FALSE;			/* 割り込み処理中フラグ */
 
 
 static HANDLE hThreadDelete = NULL;		/* 削除するスレッドハンドル */
@@ -36,7 +36,7 @@ static HANDLE hThreadDelete = NULL;		/* 削除するスレッドハンドル */
 void hospac_ini_sys(void)
 {
 	/* 割り込み禁止に見立てるセマフォの作成 */
-	hospac_hSem = CreateSemaphore(NULL, 1, 1, NULL);
+	hospac_hSem = CreateSemaphore(NULL, 0, 1, NULL);
 }
 
 
@@ -74,10 +74,9 @@ void hospac_cre_ctx(
 	pInfo = (T_TaskInfo *)GlobalAlloc(GMEM_FIXED, sizeof(T_TaskInfo));
 	pInfo->task  = task;
 	pInfo->exinf = exinf;
-
-	pk_ctxinf->blIntSuspend;
-
+	
 	/* 生成 */
+	pk_ctxinf->blIntSuspend = FALSE;
 	pk_ctxinf->hThread = CreateThread(NULL, 0, TaskEntry, (LPVOID)pInfo,
 									CREATE_SUSPENDED, &pk_ctxinf->dwThreadId);
 }
@@ -109,7 +108,7 @@ void hospac_del_ctx(T_HOSPAC_CTXINF *pk_ctxinf)
 	else
 	{
 		/* 実行中スレッドなら削除を予約 */
-
+		hThreadDelete = pk_ctxinf->hThread;
 	}
 }
 
@@ -141,11 +140,11 @@ void hospac_swi_ctx(
 			{
 				break;
 			}
-
+			
 			/* サスペンド完了まで待つ */
 			Sleep(1);
 		}
-
+		
 		/* 切り替え先のスレッドを起こす */
 		ResumeThread(pk_nxt_ctxinf->hThread);
 		
@@ -155,11 +154,11 @@ void hospac_swi_ctx(
 			pk_nxt_ctxinf->blIntSuspend = FALSE;
 			ReleaseSemaphore(hospac_hSem, 1, NULL);
 		}
-
+		
 		/* 自分自身をサスペンドさせる */
 		SuspendThread(GetCurrentThread());
 	}
-
+	
 	/* 削除予約のスレッドがあれば削除 */
 	if ( hThreadDelete != NULL )
 	{
@@ -176,7 +175,7 @@ void hospac_idle(void)
 	/* マイコンなら省消費電力モードに切り替えるなど可能 */
 	
 	/* 他のプロセスに実行タイミングを与える */
-	Sleep(0);
+	Sleep(1);
 }
 
 
