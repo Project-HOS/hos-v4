@@ -64,8 +64,8 @@ ER rel_wai(
 #endif
 
 	/* タスクの強制起床 */
-	mknl_del_que(&tcb_ram->mtcb);				/* 待ち行列から外す */
-	mknl_del_tmout(&tcb_ram->mtcb);				/* タイムアウト解除 */
+	mknl_rmv_que(&tcb_ram->mtcb);				/* 待ち行列から外す */
+	mknl_rmv_tmout(&tcb_ram->mtcb);				/* タイムアウト解除 */
 	mknl_wup_tsk(&tcb_ram->mtcb, E_RLWAI);		/* 強制待ち解除 */
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */

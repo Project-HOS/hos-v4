@@ -14,28 +14,20 @@
 ER get_tid(ID *p_tskid)
 {
 	T_KERNEL_TCB_RAM *tcb_ram;
-	T_MKNL_TCB *mtcb;
-	ID tskid;
 
-	/* 実行中に自タスクIDが変化することは無い為ロックは行わない */
+	mknl_loc_sys();	/* システムのロック */
 
-	mtcb = mknl_get_run_tsk();	/* 実行中のタスクを取得 */
-	*p_tskid = TSK_NONE;
-	if ( mtcb != NULL )
+	tcb_ram = kernel_get_run_tsk();	/* 実行中のタスクを取得 */
+	if ( tcb_ram == NULL )
 	{
-		/* 実行中のタスクを取得 */
-		tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mtcb);
-		
-		/* タスクIDを検索 */
-		for ( tskid = TMIN_TSKID; tskid <= kernel_tcb_cnt; tskid++ )
-		{
-			if ( tcb_ram == KERNEL_TSKID_TO_TCB_RAM(tskid) )
-			{
-				*p_tskid = tskid;
-				break;
-			}
-		}
+		*p_tskid = TSK_NONE;	/* 実行中のタスクが存在しない */
 	}
+	else
+	{
+		*p_tskid = kernel_get_tid(tcb_ram);	/* 実行中のタスクを取得 */
+	}
+
+	mknl_unl_sys();	/* システムのロック解除 */
 
 	return E_OK;
 }

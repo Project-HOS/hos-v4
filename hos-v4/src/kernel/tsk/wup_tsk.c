@@ -80,7 +80,7 @@ ER wup_tsk(ID tskid)
 	}
 	
 	/* タスクを起床させる */
-	mknl_del_tmout(&tcb_ram->mtcb);			/* タイムアウト待ち行列から削除 */
+	mknl_rmv_tmout(&tcb_ram->mtcb);			/* タイムアウト待ち行列から削除 */
 	mknl_wup_tsk(&tcb_ram->mtcb, E_OK);		/* 待ち状態解除 */
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */

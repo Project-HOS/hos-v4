@@ -37,20 +37,21 @@ _HOS_FiqHandler
 			
 			; ---- Systemモードに移行してレジスタ退避
 				mov		r13, #I_Bit:OR:F_Bit:OR:Mode_SYS
-				msr		cpsr_c, r13
-				stmfd	sp!, {r0-r3, ip, lr, pc}	; 汎用レジスタ退避
-				mov		r0, sp
+				msr		cpsr_csxf, r13
+				stmfd	sp!, {r1-r3, ip, lr}		; 汎用レジスタ退避
 
-			; ---- IRQモードに戻るってとspsr保存				
+			; ---- FIQモードに戻ってspsr保存				
 				mov		r1, #I_Bit:OR:F_Bit:OR:Mode_FIQ
 				msr		cpsr_c, r1
-				str		lr, [r0, #24]				; 割り込み復帰先保存
-				mrs		r0, spsr					; spsr 取り出し
+				mrs		r1, spsr					; spsr 取り出し
+				mov		r2, lr						; 割り込み復帰先保存
 				
 			; ---- USRモードに移行
-				mov		r1, #I_Bit:OR:F_Bit:OR:Mode_USR
-				msr		cpsr_c, r1
-				stmfd	sp!, {r0}					; 割り込み元フラグ保存
+				mov		r3, #I_Bit:OR:F_Bit:OR:Mode_USR
+				msr		cpsr_c, r3
+				
+			; ---- レジスタ退避
+				stmfd	sp!, {r0-r2}				; a1, spsr_irq, lr_irq 保存
 				
 			; ---- 多重割り込みチェック
 				ldr		r0, =_HOS_int_cnt
@@ -70,9 +71,9 @@ _HOS_FiqHandler
 				bl		kernel_sta_int
 				
 			; ---- 割り込み処理
-				bl      hos_arm_sta_fiq				; IRQ開始処理(割込み番号取得)
+				bl      hos_arm_sta_fiq				; FIQ開始処理(割込み番号取得)
 				bl		kernel_exe_int				; 割り込み処理実行
-				bl		hos_arm_end_fiq				; IRQ終了処理
+				bl		hos_arm_end_fiq				; FIQ終了処理
 			
 			; ---- スタックの復帰
 				ldr		r0, =_HOS_int_sp
@@ -87,24 +88,25 @@ _HOS_FiqHandler
 				bl		kernel_end_int				; 遅延ディスパッチ実行
 			
 			; ---- 割り込みからの復帰
-ReturnInt			
-				mov		a1, #1						; 割り込み許可を指定
-				swi		0x10						; スーパバイーザーコール
-				
-				ldmfd	sp!, {r0}
-				msr		cpsr_sxf, r0
-				ldmfd	sp!, {r0-r3, ip, lr, pc}	; レジスタ復帰＆リターン
+ReturnInt		
+				IMPORT	_HOS_swi_ret
+				ldmfd	sp!, {r0-r2}
+				ldr		r3, =_HOS_swi_ret
+				stmia	r3, {r0-r2}					; 割り込み復帰データ設定
+				ldmfd	sp!, {r1-r3, ip, lr}		; レジスタ復帰
+				mov		a1, #2
+				swi		0x10
 
 
 			;---- 多重割り込み処理
 MultipleInt
 			; ---- 割り込み処理
-				bl      hos_arm_sta_fiq				; IRQ開始処理(割込み番号取得)
+				bl      hos_arm_sta_fiq				; FIQ開始処理(割込み番号取得)
 				bl		kernel_exe_int				; 割り込み処理実行
-				bl		hos_arm_end_fiq				; IRQ終了処理
+				bl		hos_arm_end_fiq				; FIQ終了処理
 
 			; ---- 割り込みネストカウントデクリメント
-				ldr		r0, =_HOS_int_cnt
+				ldr		r0, =_HOS_int_sp
 				ldr		r1, [r0]
 				add		r1, r1, #1
 				str		r1, [r0]

@@ -16,7 +16,7 @@
 /* ------------------------------------------ */
 
 /* カーネルメモリ管理定数 */
-#define MEMBLK_ALIGN	4			/* メモリアライメント */
+#define MEMBLK_ALIGN	sizeof(VP)	/* メモリアライメント */
 
 #define MEMBLK_USING	0x1234		/* 使用中 */
 #define MEMBLK_FREE		0xabcd		/* 未使用 */

@@ -59,8 +59,8 @@ ER rcv_dtq(
 		{
 			/* 送信待ちタスクがあれば開放 */
 			mtcb = mknl_ref_qhd(&dtqcb_ram->sndque);	/* 待ち行列先頭からタスク取り出し */
-			mknl_del_que(mtcb);							/* 待ち行列から削除 */
-			mknl_del_tmout(mtcb);						/* タイムアウト解除 */
+			mknl_rmv_que(mtcb);							/* 待ち行列から削除 */
+			mknl_rmv_tmout(mtcb);						/* タイムアウト解除 */
 			*p_data = mtcb->data;						/* データを取り出し */
 			mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
 			
@@ -118,8 +118,8 @@ ER rcv_dtq(
 			}
 			dtqcb_rom->dtq[tail] = mtcb->data;
 
-			mknl_del_que(mtcb);			/* 待ち行列から削除 */
-			mknl_del_tmout(mtcb);		/* タイムアウト解除 */
+			mknl_rmv_que(mtcb);			/* 待ち行列から削除 */
+			mknl_rmv_tmout(mtcb);		/* タイムアウト解除 */
 			mknl_wup_tsk(mtcb, E_OK);	/* タスクの待ち解除 */
 			
 			mknl_exe_dsp();		/* タスクディスパッチの実行 */

@@ -1,9 +1,9 @@
-// ===========================================================================
+// ---------------------------------------------------------------------------
 //  HOS-V4 コンフィギュレーター
 //    メインルーチン
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
-// ===========================================================================
+// ---------------------------------------------------------------------------
 
 
 #include <stdio.h>
@@ -13,10 +13,12 @@
 #include "read.h"
 #include "analize.h"
 #include "apiinc.h"
-#include "maxtpri.h"
-#include "maxtmout.h"
+#include "knlheap.h"
 #include "timtic.h"
+#include "maxtmout.h"
+#include "maxtpri.h"
 #include "cretsk.h"
+#include "deftex.h"
 #include "cresem.h"
 #include "creflg.h"
 #include "credtq.h"
@@ -35,32 +37,36 @@ void WriteIdFile(FILE* fp);				// ID 定義ヘッダファイル出力
 void WriteCfgFile(FILE* fp);			// C 言語ソース出力
 
 
-CApiInclude   g_ApiInclude;
-CApiMaxTpri   g_ApiMaxTpri;
-CApiMaxTimout g_ApiMaxTimout;
-CApiTimTic    g_ApiTimTic;
-CApiCreTsk    g_ApiCreTsk;
-CApiCreSem    g_ApiCreSem;
-CApiCreFlg    g_ApiCreFlg;
-CApiCreDtq    g_ApiCreDtq;
-CApiCreMbx    g_ApiCreMbx;
-CApiCreMpf    g_ApiCreMpf;
-CApiCreCyc    g_ApiCreCyc;
-CApiAttIsr    g_ApiAttIsr;
-CApiAttIni    g_ApiAttIni;
+CApiInclude    g_ApiInclude;
+CApiKernelHeap g_ApiKernelHeap;
+CApiTimTic     g_ApiTimTic;
+CApiMaxTimout  g_ApiMaxTimout;
+CApiMaxTpri    g_ApiMaxTpri;
+CApiCreTsk     g_ApiCreTsk;
+CApiDefTex     g_ApiDefTex;
+CApiCreSem     g_ApiCreSem;
+CApiCreFlg     g_ApiCreFlg;
+CApiCreDtq     g_ApiCreDtq;
+CApiCreMbx     g_ApiCreMbx;
+CApiCreMpf     g_ApiCreMpf;
+CApiCreCyc     g_ApiCreCyc;
+CApiAttIsr     g_ApiAttIsr;
+CApiAttIni     g_ApiAttIni;
 
-static char szConfigFile[MAX_PATH] = "system.cfg";
-static char szIdFile[MAX_PATH]     = "kernel_id.h";
-static char szCfgFile[MAX_PATH]    = "kernel_cfg.c";
+static char s_szConfigFile[MAX_PATH] = "system.cfg";
+static char s_szIdFile[MAX_PATH]     = "kernel_id.h";
+static char s_szCfgFile[MAX_PATH]    = "kernel_cfg.c";
 
 // API定義リスト
 static CApiDef* g_ApiList[] =
 	{
 		&g_ApiInclude,
-		&g_ApiMaxTpri,
-		&g_ApiMaxTimout,
+		&g_ApiKernelHeap,
 		&g_ApiTimTic,
+		&g_ApiMaxTimout,
+		&g_ApiMaxTpri,
 		&g_ApiCreTsk,
+		&g_ApiDefTex,
 		&g_ApiCreSem,
 		&g_ApiCreFlg,
 		&g_ApiCreDtq,
@@ -85,13 +91,13 @@ int main(int argc, char *argv[])
 
 	if ( argc >= 2 )
 	{
-		strcpy(szConfigFile, argv[1]);
+		strcpy(s_szConfigFile, argv[1]);
 	}
 
 	// コンフィギュレーションファイルオープン
-	if ( (fp = fopen(szConfigFile, "r")) == NULL )
+	if ( (fp = fopen(s_szConfigFile, "r")) == NULL )
 	{
-		printf("\"%s\" が開けません\n", szConfigFile);
+		printf("\"%s\" が開けません\n", s_szConfigFile);
 		return 1;
 	}
 
@@ -110,7 +116,7 @@ int main(int argc, char *argv[])
 	}
 
 	// ID 定義ファイルオープン
-	if ( (fp = fopen(szIdFile, "w")) == NULL )
+	if ( (fp = fopen(s_szIdFile, "w")) == NULL )
 	{
 		return 1;
 	}
@@ -121,7 +127,7 @@ int main(int argc, char *argv[])
 
 
 	// ID 定義ファイルオープン
-	if ( (fp = fopen(szCfgFile, "w")) == NULL )
+	if ( (fp = fopen(s_szCfgFile, "w")) == NULL )
 	{
 		return 1;
 	}
@@ -152,7 +158,7 @@ int ReadConfigFile(FILE* fpConfig)
 		if ( iErr != CFG_ERR_OK )
 		{
 			printf("%s (%d) : error(%d)\n",
-					szConfigFile, read.GetLineNum(), iErr);
+					s_szConfigFile, read.GetLineNum(), iErr);
 			return 1;
 		}
 
@@ -161,7 +167,7 @@ int ReadConfigFile(FILE* fpConfig)
 		if ( iErr != CFG_ERR_OK )
 		{
 			printf("%s (%d) : error(%d) Syntax Error\n",
-					szConfigFile, read.GetLineNum(), iErr);
+					s_szConfigFile, read.GetLineNum(), iErr);
 			return 1;
 		}
 		CAnalize::SpaceCut(szApiName);
@@ -179,7 +185,7 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("err(%d)\n", iErr);
+			printf("%s line(%d) : error(%d)\n", s_szConfigFile, read.GetLineNum(), iErr);
 			return 1;
 		}
 	}
@@ -199,7 +205,6 @@ void WriteIdFile(FILE* fp)
 		"/*  HOS-V4  kernel configuration                                            */\n"
 		"/*    kernel object ID definition                                           */\n"
 		"/*                                                                          */\n"
-		"/*                                   Copyright (C) 2002 by Ryuji Fuchikami  */\n"
 		"/* ------------------------------------------------------------------------ */\n"
 		"\n\n"
 		"#ifndef __HOS_V4__kernel_cfg_h__\n"
@@ -219,7 +224,7 @@ void WriteIdFile(FILE* fp)
 		"#endif\t/* __HOS_V4__kernel_cfg_h__ */\n"
 		"\n\n"
 		"/* ------------------------------------------------------------------------ */\n"
-		"/*  Copyright (C) 2002 by Ryuji Fuchikami                                   */\n"
+		"/*  End of file                                                             */\n"
 		"/* ------------------------------------------------------------------------ */\n"
 		, fp);
 }
@@ -236,7 +241,6 @@ void WriteCfgFile(FILE* fp)
 		"/*  HOS-V4  kernel configuration                                            */\n"
 		"/*    kernel object create and initialize                                   */\n"
 		"/*                                                                          */\n"
-		"/*                                   Copyright (C) 2002 by Ryuji Fuchikami  */\n"
 		"/* ------------------------------------------------------------------------ */\n"
 		"\n\n"
 		"#include \"kernel.h\"\n"
@@ -286,12 +290,12 @@ void WriteCfgFile(FILE* fp)
 	fputs(
 		"\n\n"
 		"/* ------------------------------------------------------------------------ */\n"
-		"/*  Copyright (C) 2002 by Ryuji Fuchikami                                   */\n"
+		"/*  End of file                                                             */\n"
 		"/* ------------------------------------------------------------------------ */\n"
 		, fp);
 }
 
 
-// ===========================================================================
+// ---------------------------------------------------------------------------
 //  Copyright (C) 2002 by Ryuji Fuchikami                                     
-// ===========================================================================
+// ---------------------------------------------------------------------------

@@ -29,7 +29,8 @@
 /* 周期ハンドラコントロールブロック(ROM部) */
 typedef struct t_kernel_cyccb_rom
 {
-	VP_INT exinf;		/* 周期ハンドラ属性 */
+	ATR    cycatr;		/* 周期ハンドラ属性 */
+	VP_INT exinf;		/* 周期ハンドラの拡張情報 */
 	FP     cychdr;		/* 周期ハンドラの起動番地 */
 	RELTIM cyctim;		/* 周期ハンドラの起動周期 */
 } T_KERNEL_CYCCB_ROM;

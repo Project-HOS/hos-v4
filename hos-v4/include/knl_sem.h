@@ -26,6 +26,22 @@
 /*                 型定義                     */
 /* ------------------------------------------ */
 
+/* セマフォ生成情報 */
+typedef struct t_csem
+{
+	ATR  sematr;		/* セマフォ属性 */
+	UINT isemcnt;		/* セマフォ資源数の初期値 */
+	UINT maxsem;		/* セマフォの最大資源数 */
+} T_CSEM;
+
+/* セマフォ状態情報 */
+typedef struct t_rsem
+{
+	ID   wtskid;		/* セマフォの待ち行列の先頭のタスクのID番号 */
+	UINT semcnt;		/* セマフォの現在の資源数 */
+} T_RSEM;
+
+
 /* セマフォコントロールブロック(ROM部) */
 typedef struct t_kernel_semcb_rom
 {
@@ -33,7 +49,6 @@ typedef struct t_kernel_semcb_rom
 	UINT isemcnt;		/* セマフォ資源数の初期値 */
 	UINT maxsem;		/* セマフォの最大資源数 */
 } T_KERNEL_SEMCB_ROM;
-
 
 /* セマフォコントロールブロック(RAM部) */
 typedef struct t_kernel_semcb_ram
@@ -43,6 +58,12 @@ typedef struct t_kernel_semcb_ram
 	const T_KERNEL_SEMCB_ROM *semcbrom;	/* セマフォコントロールブロックROM部へのポインタ */
 } T_KERNEL_SEMCB_RAM;
 
+/* セマフォコントロールブロック(動的生成用) */
+typedef struct t_kernel_semcb
+{
+	T_KERNEL_SEMCB_RAM semcbram;	/* セマフォコントロールブロック(RAM部) */
+	T_KERNEL_SEMCB_ROM semcbrom;	/* セマフォコントロールブロック(ROM部) */
+} T_KERNEL_SEMCB;
 
 
 #ifdef __cplusplus
@@ -68,12 +89,17 @@ extern const INT kernel_semcb_cnt;							/* セマフォコントロールブロック個数 */
 /* ------------------------------------------ */
 
 /* セマフォ */
-void    kernel_ini_sem(void);						/* セマフォの初期化 */
-ER      sig_sem(ID semid);							/* セマフォ資源の返却 */
-#define isig_sem sig_sem							/* セマフォ資源の返却(非タスクコンテキスト用マクロ) */
-ER      wai_sem(ID semid);							/* セマフォ資源の獲得 */
-ER      pol_sem(ID semid);							/* セマフォ資源の獲得(ポーリング) */
-ER      twai_sem(ID semid, TMO tmout);				/* セマフォ資源の獲得(タイムアウトあり) */
+void    kernel_ini_sem(void);								/* セマフォの初期化 */
+ER      cre_sem(ID semid, const T_CSEM *pk_csem);			/* セマフォの生成 */
+ER_ID   acre_sem(const T_CSEM *pk_csem);					/* セマフォの生成(ID番号自動割付け) */
+ER      kernel_cre_sem(ID semid, const T_CSEM *pk_csem);	/* セマフォの生成(カーネル内部関数) */
+ER      del_sem(ID semid);									/* セマフォの削除 */
+ER      sig_sem(ID semid);									/* セマフォ資源の返却 */
+#define isig_sem sig_sem									/* セマフォ資源の返却(非タスクコンテキスト用マクロ) */
+ER      wai_sem(ID semid);									/* セマフォ資源の獲得 */
+ER      pol_sem(ID semid);									/* セマフォ資源の獲得(ポーリング) */
+ER      twai_sem(ID semid, TMO tmout);						/* セマフォ資源の獲得(タイムアウトあり) */
+ER      ref_sem(ID semid, T_RSEM *pk_rsem);					/* セマフォの状態参照 */
 
 #ifdef __cplusplus
 }

@@ -6,30 +6,9 @@
 /* ------------------------------------------------------------------------ */
 
 
-
 #include "mknl.h"
 #include "kernel.h"
 
-
-/* グローバル変数宣言 */
-STAT            mknl_ctx_stat;			/* システムのコンテキスト状態 */
-T_MKNL_TCB      *mknl_run_mtcb = NULL;	/* 実行中タスクコントロールブロック */
-T_HOSPAC_CTXINF mknl_idlctx;			/* アイドルループのコンテキスト */
-
-
-/* μカーネルシステムの初期化 */
-void mknl_ini_sys(void)
-{
-	hospac_ini_sys();					/* プロセッサ抽象化コンポーネントの初期化 */
-}
-
-
-
-/* スタートアップルーチンの開始処理 */
-void mknl_sta_startup(void)
-{
-	mknl_ctx_stat = MKNL_TSS_INDP | MKNL_TSS_DINT;	/* 割り込み禁止でタスク独立部に設定 */
-}
 
 
 /* スタートアップルーチンの終了処理 */
@@ -57,7 +36,6 @@ void mknl_ext_startup(void)
 
 	hospac_ena_int();	/* 割り込みの許可 */
 }
-
 
 
 /* ------------------------------------------------------------------------ */

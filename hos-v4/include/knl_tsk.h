@@ -18,6 +18,9 @@
 /* IDの範囲 */
 #define TMIN_TSKID		1					/* タスクIDの最小値 */
 #define TMAX_TSKID		(TMIN_TSKID + kernel_tcb_cnt - 1)
+
+/* ビットパターンのビット数 */
+#define TBIT_TEXPTN		16					/* タスク例外要因のビット数 */
 											/* タスクIDの最大値 */
 
 
@@ -124,7 +127,6 @@ extern const INT kernel_tcb_cnt;							/* タスクコントロールブロック個数 */
 
 /* タスク管理機能 */
 void    kernel_ini_tsk(void);						/* タスクの初期化 */
-void    kernel_task_entry(VP_INT exinf);			/* タスクのエントリーポイント(μカーネルより呼び出し) */
 ER      cre_tsk(ID tskid, const T_CTSK *pk_ctsk);	/* タスクの生成 */
 ER_ID   acre_tsk(const T_CTSK *pk_ctsk);			/* タスクの生成(ID番号自動割付け) */
 ER      kernel_cre_tsk(ID tskid, const T_CTSK *pk_ctsk);
@@ -154,7 +156,6 @@ ER      frsm_tsk(ID tskid);							/* 強制待ち状態からの強制再開 */
 ER      dly_tsk(RELTIM dlytim);						/* 自タスクの遅延 */
 
 /* タスク例外処理機能 */
-void    kernel_tex_entry(void);						/* タスク例外処理エントリーポイント(μカーネルより呼び出し) */
 ER      ras_tex(ID tskid, TEXPTN rasptn);			/* タスク例外処理の要求 */
 #define iras_tex	ras_tex							/* タスク例外処理の要求(非タスクコンテキスト用マクロ) */
 ER      dis_tex(void);								/* タスク例外処理の禁止 */

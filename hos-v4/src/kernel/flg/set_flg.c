@@ -49,8 +49,8 @@ ER set_flg(
 		if ( kernel_chk_flg(flgcb_ram) )
 		{
 			/* 起床条件を満たしているなら */
-			mknl_del_que(flgcb_ram->mtcb);			/* 待ち行列から外す */
-			mknl_del_tmout(flgcb_ram->mtcb);		/* タイムアウト解除 */
+			mknl_rmv_que(flgcb_ram->mtcb);			/* 待ち行列から外す */
+			mknl_rmv_tmout(flgcb_ram->mtcb);		/* タイムアウト解除 */
 			mknl_wup_tsk(flgcb_ram->mtcb, E_OK);	/* 待ちタスクの起床 */
 			
 			mknl_exe_dsp();		/* タスクディスパッチの実行 */

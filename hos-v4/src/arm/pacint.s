@@ -67,15 +67,6 @@ swi_ena_int
 				ldr		r13, =hospac_arm_imsk
 				ldr		r13, [r13]
 				msr 	spsr_cf, r13
-				
-				
-;			; ---- a1 が 真なら割り込み許可
-;				cmp 	a1, #0
-;				moveq	r13, #Mode_USR:OR:I_Bit:OR:F_Bit
-;				ldrne	r13, =hospac_arm_imsk
-;				ldrne	r13, [r13]
-;				msr 	spsr_cf, r13
-;				subs	pc, lr, #0
 
 swi_ret
 			; ---- 将来ここに例外処理機構 

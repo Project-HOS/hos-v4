@@ -16,6 +16,7 @@ ER unl_cpu(void)
 	mknl_loc_sys();	/* システムのロック */
 
 	mknl_unl_cpu();	/* CPUのロック解除 */
+	mknl_dly_dsp();	/* 遅延ディスパッチの実行 */
 
 	mknl_unl_sys();	/* システムのロック解除 */
 

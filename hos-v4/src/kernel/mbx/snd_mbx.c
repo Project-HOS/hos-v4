@@ -47,8 +47,8 @@ ER snd_mbx(
 		/* 待ちタスクがあれば開放 */
 		mtcb->data = (VP_INT)pk_msg;			/* メッセージを渡す */
 		mtcb = mknl_ref_qhd(&mbxcb_ram->que);	/* 待ち行列先頭からタスク取り出し */
-		mknl_del_que(mtcb);						/* セマフォの待ち行列から削除 */
-		mknl_del_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
+		mknl_rmv_que(mtcb);						/* セマフォの待ち行列から削除 */
+		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
 		mknl_wup_tsk(mtcb, E_OK);				/* タスクの待ち解除 */
 		
 		mknl_exe_dsp();		/* タスクディスパッチの実行 */

@@ -58,7 +58,7 @@ ER ter_tsk(
 #endif
 
 	/* 実行タスクの終了 */
-	mknl_del_tmout(&tcb_ram->mtcb);		/* タイムアウト待ち行列につながれていれば解除 */
+	mknl_rmv_tmout(&tcb_ram->mtcb);		/* タイムアウト待ち行列につながれていれば解除 */
 	mknl_ext_tsk(&tcb_ram->mtcb);		/* タスクを削除 */
 
 	/* 起動がキューイングされていたなら */

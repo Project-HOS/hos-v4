@@ -25,14 +25,6 @@
 /*                  定数定義                  */
 /* ------------------------------------------ */
 
-/* バージョン情報 */
-#define TKERNEL_MAKER	0x0008				/* メーカーコード(個人) */
-#define TKERNEL_PRID	0x0000				/* カーネルの識別番号(未定) */
-#define TKERNEL_SPVER	0x5401				/* ITRON仕様のバージョン(μITRON Ver 4.01) */
-#define TKERNEL_PRVER	0x0001				/* カーネルのバージョン番号 (HOS-V4 Ver 0.01) */
-
-/* ビットパターンのビット数 */
-#define TBIT_TEXPTN		16					/* タスク例外要因のビット数 */
 #define TBIT_RDVPTN		16					/* ランデブ条件のビット数 */
 
 /* IDの範囲 */
@@ -45,11 +37,13 @@
 
 /* エラーチェック(HOS独自) */
 #ifdef HOS_ERCHK_ALL
+#define HOS_ERCHK_E_RSATR					/* E_RSATR のエラーチェックを行う */
 #define HOS_ERCHK_E_PAR						/* E_PAR のエラーチェックを行う */
 #define HOS_ERCHK_E_ID						/* E_ID のエラーチェックを行う */
 #define HOS_ERCHK_E_CTX						/* E_CTX のエラーチェックを行う */
 #define HOS_ERCHK_E_ILUSE					/* E_ILUSE のエラーチェックを行う */
 #define HOS_ERCHK_E_NOMEM					/* E_NOMEM のエラーチェックを行う */
+#define HOS_ERCHK_E_NOID					/* E_NOID のエラーチェックを行う */
 #define HOS_ERCHK_E_OBJ						/* E_OBJ のエラーチェックを行う */
 #define HOS_ERCHK_E_NOEXS					/* E_NOEXS のエラーチェックを行う */
 #define HOS_ERCHK_E_QOVR					/* E_QOVR のエラーチェックを行う */

@@ -31,7 +31,7 @@ VP kernel_alc_mem(
 			if ( mblk->size - size > MEMBLKSIZE + MEMBLK_ALIGN )
 			{
 				/* ブロックを分割する */
-				mblk_next = (T_KERNEL_MEM_BLK *)((UB *)mblk + size);
+				mblk_next = (T_KERNEL_MEM_BLK *)((UB *)mblk + MEMBLKSIZE + size);
 				mblk_next->prev = mblk;
 				mblk_next->size = mblk->size - size - MEMBLKSIZE;
 				mblk_next->flag = MEMBLK_FREE;

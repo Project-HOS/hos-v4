@@ -23,9 +23,8 @@
 
 INCH8DIR   = \akih8c
 INCDIR     = ..\..\include
-INCPACDIR  = ..\..\include\h8
 
-PACDIR     = ..\..\src\h8
+PACDIR     = ..\..\src\h83
 MKNLDIR    = ..\..\src\mknl
 KERNELDIR  = ..\..\src\kernel
 KNLHOSDIR  = $(KERNELDIR)\hos
@@ -34,6 +33,7 @@ KNLSEMDIR  = $(KERNELDIR)\sem
 KNLFLGDIR  = $(KERNELDIR)\flg
 KNLDTQDIR  = $(KERNELDIR)\dtq
 KNLMBXDIR  = $(KERNELDIR)\mbx
+KNLMPFDIR  = $(KERNELDIR)\mpf
 KNLTIMDIR  = $(KERNELDIR)\tim
 KNLSYSDIR  = $(KERNELDIR)\sys
 KNLINTDIR  = $(KERNELDIR)\int
@@ -44,7 +44,7 @@ ASM  = a38h
 LIBR = lib38
 
 # オプション
-CFLAGS = -CPU=300HA -INCLUDE=$(INCH8DIR),$(INCDIR),$(INCPACDIR)
+CFLAGS = -CPU=300HA -INCLUDE=$(INCH8DIR),$(INCDIR)
 AFLAGS = 
 LFLAGS = 
 
@@ -61,24 +61,30 @@ INCS = $(INCDIR)\itron.h \
        $(INCDIR)\knl_tim.h \
        $(INCDIR)\knl_sys.h \
        $(INCDIR)\knl_int.h \
-       $(INCPACDIR)\hospac.h \
+       $(INCDIR)\h83\hospac.h
+
 
 # オブジェクトファイル
-OBJS = ini_tsk.obj cre_tsk.obj acre_tsk.obj act_tsk.obj can_act.obj \
+OBJS = pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj \
+       sta_hos.obj ini_mem.obj alc_mem.obj fre_mem.obj \
+       mknlsys.obj mknltsk.obj mknlque.obj mknltout.obj \
+       ini_tsk.obj cre_tsk.obj acre_tsk.obj act_tsk.obj can_act.obj \
        sta_tsk.obj ext_tsk.obj ter_tsk.obj chg_pri.obj get_pri.obj \
        ref_tst.obj \
+       ras_tex.obj dis_tex.obj ena_tex.obj sns_tex.obj \
        slp_tsk.obj tslp_tsk.obj wup_tsk.obj can_wup.obj rel_wai.obj \
        sus_tsk.obj rsm_tsk.obj frsm_tsk.obj dly_tsk.obj \
        ini_sem.obj sig_sem.obj wai_sem.obj pol_sem.obj twai_sem.obj \
        ini_flg.obj set_flg.obj clr_flg.obj wai_flg.obj pol_flg.obj \
        twai_flg.obj chk_flg.obj \
-       snd_dtq.obj psnd_dtq.obj rcv_dtq.obj snd_mbx.obj rcv_mbx.obj \
-       set_tim.obj get_tim.obj isig_tim.obj sta_cyc.obj stp_cyc.obj \
+       snd_dtq.obj psnd_dtq.obj tsnd_dtq.obj fsnd_dtq.obj \
+       rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj \
+       snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj \
+       ini_mpf.obj get_mpf.obj pget_mpf.obj rel_mpf.obj \
+       ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
+       ini_cyc.obj sta_cyc.obj stp_cyc.obj \
        get_tid.obj loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
-       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj exe_int.obj \
-       ini_mem.obj alc_mem.obj fre_mem.obj \
-       mknlsys.obj mknltsk.obj mknlque.obj mknltout.obj sta_hos.obj \
-       pacini.obj pacint.obj pacctx.obj chg_imsk.obj get_imsk.obj
+       sns_ctx.obj sns_loc.obj sns_dsp.obj sns_dpn.obj exe_int.obj
 
 
 # ターゲット
@@ -210,6 +216,18 @@ frsm_tsk.obj: $(KNLTSKDIR)\frsm_tsk.c $(INCS)
 dly_tsk.obj: $(KNLTSKDIR)\dly_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)\dly_tsk.c
 
+ras_tex.obj: $(KNLTSKDIR)\ras_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)\ras_tex.c
+
+dis_tex.obj: $(KNLTSKDIR)\dis_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)\dis_tex.c
+
+ena_tex.obj: $(KNLTSKDIR)\ena_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)\ena_tex.c
+
+sns_tex.obj: $(KNLTSKDIR)\sns_tex.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)\sns_tex.c
+
 
 # セマフォ
 ini_sem.obj: $(KNLSEMDIR)\ini_sem.c $(INCS)
@@ -258,8 +276,20 @@ snd_dtq.obj: $(KNLDTQDIR)\snd_dtq.c $(INCS)
 psnd_dtq.obj: $(KNLDTQDIR)\psnd_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\psnd_dtq.c
 
+tsnd_dtq.obj: $(KNLDTQDIR)\tsnd_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\tsnd_dtq.c
+
+fsnd_dtq.obj: $(KNLDTQDIR)\fsnd_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\fsnd_dtq.c
+
 rcv_dtq.obj: $(KNLDTQDIR)\rcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\rcv_dtq.c
+
+prcv_dtq.obj: $(KNLDTQDIR)\prcv_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\prcv_dtq.c
+
+trcv_dtq.obj: $(KNLDTQDIR)\trcv_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\trcv_dtq.c
 
 
 # メールボックス
@@ -269,8 +299,31 @@ snd_mbx.obj: $(KNLMBXDIR)\snd_mbx.c $(INCS)
 rcv_mbx.obj: $(KNLMBXDIR)\rcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)\rcv_mbx.c
 
+prcv_mbx.obj: $(KNLMBXDIR)\prcv_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\prcv_mbx.c
+
+trcv_mbx.obj: $(KNLMBXDIR)\trcv_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\trcv_mbx.c
+
+
+# 固定長メモリプール
+ini_mpf.obj: $(KNLMPFDIR)\ini_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\ini_mpf.c
+
+get_mpf.obj: $(KNLMPFDIR)\get_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\get_mpf.c
+
+pget_mpf.obj: $(KNLMPFDIR)\pget_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\pget_mpf.c
+
+rel_mpf.obj: $(KNLMPFDIR)\rel_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\rel_mpf.c
+
 
 # 時間管理
+ini_tim.obj: $(KNLTIMDIR)\ini_tim.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_tim.c
+
 set_tim.obj: $(KNLTIMDIR)\set_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\set_tim.c
 
@@ -279,6 +332,9 @@ get_tim.obj: $(KNLTIMDIR)\get_tim.c $(INCS)
 
 isig_tim.obj: $(KNLTIMDIR)\isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\isig_tim.c
+
+ini_cyc.obj: $(KNLTIMDIR)\ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_cyc.c
 
 sta_cyc.obj: $(KNLTIMDIR)\sta_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\sta_cyc.c
@@ -321,6 +377,8 @@ exe_int.obj: $(KNLINTDIR)\exe_int.c $(INCS)
 
 
 clean:
+	del *.lib
+	del *.lst
 	del *.obj
 
 

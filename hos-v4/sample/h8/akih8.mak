@@ -12,7 +12,6 @@
 # パス
 INCH8DIR  = \akih8c
 INCDIR    = ..\..\include
-INCPACDIR = $(INCDIR)\h8
 LIBDIR    = ..\..\lib\h8
 
 # ツール
@@ -21,7 +20,7 @@ ASM  = a38h
 LINK = l38h
 
 # オプション
-CFLAGS = -CPU=300HA -INCLUDE=$(INCH8DIR),$(INCDIR),$(INCPACDIR)
+CFLAGS = -CPU=300HA -INCLUDE=$(INCH8DIR),$(INCDIR)
 AFLAGS = 
 LFLAGS = 
 

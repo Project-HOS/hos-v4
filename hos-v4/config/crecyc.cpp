@@ -1,9 +1,9 @@
-// ===========================================================================
+// ---------------------------------------------------------------------------
 //  HOS-V4 コンフィギュレーター
 //    CRE_CYC API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
-// ===========================================================================
+// ---------------------------------------------------------------------------
 
 
 #include <stdio.h>
@@ -124,7 +124,8 @@ void  CApiCreCyc::WriteCfgDef(FILE* fp)
 		{
 			fprintf(
 				fp,
-				"\t\t{(VP_INT)(%s), (FP)(%s), (RELTIM)(%s)},\n",
+				"\t\t{(ATR)(%s), (VP_INT)(%s), (FP)(%s), (RELTIM)(%s)},\n",
+				m_pParamPacks[i]->GetParam(CRECYC_CYCATR),
 				m_pParamPacks[i]->GetParam(CRECYC_EXINF),
 				m_pParamPacks[i]->GetParam(CRECYC_CYCHDR),
 				m_pParamPacks[i]->GetParam(CRECYC_CYCTIM));
@@ -175,6 +176,13 @@ void  CApiCreCyc::WriteCfgDef(FILE* fp)
 		}
 		fputs("\t};\n", fp);
 	}
+	else
+	{
+		fputs(
+			"\n/* cyclic handler control block table */\n"
+			"T_KERNEL_CYCCB_RAM *kernel_cyccb_ram_tbl[1];\t\t/* dummy */",
+			fp);
+	}
 
 	// テーブルサイズ情報出力
 	fprintf(
@@ -220,6 +228,6 @@ void  CApiCreCyc::WriteCfgStart(FILE* fp)
 }
 
 
-// ===========================================================================
+// ---------------------------------------------------------------------------
 //  Copyright (C) 2002 by Ryuji Fuchikami                                     
-// ===========================================================================
+// ---------------------------------------------------------------------------

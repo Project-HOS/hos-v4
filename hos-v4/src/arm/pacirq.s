@@ -37,7 +37,7 @@ _HOS_IrqHandler
 			
 			; ---- Systemモードに移行してレジスタ退避
 				mov		r13, #I_Bit:OR:F_Bit:OR:Mode_SYS
-				msr		cpsr_c, r13
+				msr		cpsr_csxf, r13
 				stmfd	sp!, {r1-r3, ip, lr}		; 汎用レジスタ退避
 
 			; ---- IRQモードに戻ってspsr保存				
@@ -96,14 +96,6 @@ ReturnInt
 				ldmfd	sp!, {r1-r3, ip, lr}		; レジスタ復帰
 				mov		a1, #2
 				swi		0x10
-				
-				
-;				mov		a1, #1						; 割り込み許可を指定
-;				swi		0x10						; スーパバイーザーコール
-;				
-;				ldmfd	sp!, {r0}
-;				msr		cpsr_sxf, r0
-;				ldmfd	sp!, {r0-r3, ip, lr, pc}	; レジスタ復帰＆リターン
 
 
 			;---- 多重割り込み処理

@@ -12,15 +12,23 @@
 /* タスクの初期化 */
 void kernel_ini_tsk(void)
 {
+	T_KERNEL_TCB_RAM *tcb_ram;
 	int i;
 
 	/* TCBのRAM部はゼロ領域にしておいてコードで初期化したほうが効率がよい */
 	for ( i = 0; i < kernel_tcb_cnt; i++ )
 	{
-		/* task アドレスのあるものだけ存在すると見なす */
-		if ( kernel_tcb_ram_tbl[i] != NULL )
+		tcb_ram = kernel_tcb_ram_tbl[i];
+		if ( tcb_ram != NULL )
 		{
-			mknl_ini_tsk(&kernel_tcb_ram_tbl[i]->mtcb);
+			/* μカーネル部分の初期化 */
+			mknl_ini_tsk(&tcb_ram->mtcb);
+			
+			/* TA_ACT属性のものを起動する */
+			if ( tcb_ram->tcbrom->tskatr & TA_ACT )
+			{
+				act_tsk(TMIN_TSKID + i);
+			}
 		}
 	}
 }
