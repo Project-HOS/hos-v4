@@ -14,7 +14,7 @@
 #define READ_MAX_STATE		4096	// １ステートの最大文字数
 
 
-// 構文解析クラス
+// データ読み込みクラス
 class CRead
 {
 public:

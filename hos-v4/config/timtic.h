@@ -14,7 +14,7 @@
 #include "parpack.h"
 
 
-// CRE_TSK мя
+// HOS_TIM_TIC мя
 class CApiTimTic : public CApiDef
 {
 public:

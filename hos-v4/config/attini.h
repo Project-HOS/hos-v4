@@ -14,7 +14,7 @@
 #include "parpack.h"
 
 
-// CRE_TSK мя
+// ATT_INI мя
 class CApiAttIni : public CApiDef
 {
 public:

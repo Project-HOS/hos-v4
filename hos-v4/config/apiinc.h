@@ -14,7 +14,7 @@
 #include "parpack.h"
 
 
-// CRE_TSK мя
+// INCLUDE мя
 class CApiInclude : public CApiDef
 {
 public:

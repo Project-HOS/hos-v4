@@ -14,7 +14,7 @@
 #include "parpack.h"
 
 
-// CRE_FLG мя
+// CRE_CYC мя
 class CApiCreCyc : public CApiDef
 {
 public:
