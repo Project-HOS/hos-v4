@@ -10,7 +10,6 @@
 
 
 
-/* タイムアウト待ち行列にタスクを追加 */
 ER mknl_add_tmout(
 		T_MKNL_TCB *mtcb,	/* 待ち行列に加えるタスク */
 		RELTIM     tmout)	/* タイムアウトまでの時間 */
@@ -34,7 +33,7 @@ ER mknl_add_tmout(
 	/* 挿入場所を検索 */
 	mtcb_tmp = mknl_timout_head;
 	do
-	{	
+	{
 		/* 時間比較 */
 		if ( tmout < mtcb_tmp->diftim )
 		{
@@ -60,11 +59,11 @@ ER mknl_add_tmout(
 		tmout -= mtcb_tmp->diftim;		/* 差分を減算 */
 		
 		mtcb_tmp = mtcb_tmp->tm_next;	/* 次のTCBへ進む */
-	} while ( mtcb_tmp != mknl_timout_head->tm_prev );	/* リストを一周するまでループ */
+	} while ( mtcb_tmp != mknl_timout_head );	/* リストを一周するまでループ */
 	
 	/* 末尾に追加 */
-	mtcb->tm_next          = mtcb_tmp->tm_next;
-	mtcb->tm_prev          = mtcb_tmp;
+	mtcb->tm_next          = mtcb_tmp;
+	mtcb->tm_prev          = mtcb_tmp->tm_prev;
 	mtcb->tm_next->tm_prev = mtcb;
 	mtcb->tm_prev->tm_next = mtcb;
 

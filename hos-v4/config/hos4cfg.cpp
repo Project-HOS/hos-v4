@@ -83,8 +83,7 @@ static CApiDef* g_ApiList[] =
 		&g_ApiDefExc,
 	};
 
-#define API_COUNT	((int)(sizeof(g_ApiList) / sizeof(CApiDef*)))		// API¸Ä¿ô
-
+#define API_COUNT	(sizeof(g_ApiList) / sizeof(CApiDef*))		// API¸Ä¿ô
 
 
 
