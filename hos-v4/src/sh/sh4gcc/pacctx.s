@@ -79,7 +79,7 @@ _hospac_cre_ctx_asm:
 	add 	#-20,r5		/* r14-10分コンテキストのstackを伸ばす */
 	mov.l	r7,@-r5			/* 実行パラメータの格納(r9) */
 	mov.l	r6,@-r5			/* 実行アドレスの格納(r8) */
-	mov.l	ctx_entry_addr,r0	/* 実行エントリポイントを
+	mov.l	ctx_entry_addr,r0	/* 実行エントリポイントを */
 					/* コンテキストのスタックに保存 */
 	mov.l	r0,@-r5	
 	rts

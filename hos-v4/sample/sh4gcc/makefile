@@ -19,11 +19,11 @@ INCDIR = ../../include
 SH4INC = /usr/local/include/hitachi/SH4
 
 CFLAGS = -O2 -Wall -c -ml -m4-single-only  -I$(INCDIR) -I$(SH4INC) -pipe
-AFLAGS = -c -ml -m4-single-only  -x assembler-with-cpp
+AFLAGS = -c -Wall -ml -m4-single-only  -x assembler-with-cpp
 LFLAGS = -ml -m4-single-only -mrelax -nostartfiles -L$(LIBDIR)\
 	-Wl,-v,-t,-Map,sample.map,-Ttext=0x8c010000
 
-CPPFLAGS = -E -x c -ml -m4-single-only  -I$(INCDIR) -pipe
+CPPFLAGS = -E -x c -Wall -ml -m4-single-only  -I$(INCDIR) -pipe
 
 INCS   = kernel_id.h sample.h scif.h
 #OBJS   = startup.o sample.o ostimer.o scif.o sh7750.o kernel_cfg.o

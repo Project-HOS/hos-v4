@@ -36,14 +36,14 @@ KNLINTDIR  = $(KERNELDIR)/int
 
 
 # ツール
-CC     = sh-hitachi-elf-gcc
-ASM    = sh-hitachi-elf-gcc
-LIBR   = sh-hitachi-elf-ar
-RANLIB = sh-hitachi-elf-ranlib
+CC     = sh-hms-gcc
+ASM    = sh-hms-gcc
+LIBR   = sh-hms-ar
+RANLIB = sh-hms-ranlib
 
 # オプション
 CFLAGS = -c -O2 -Wall -m4-single-only -ml -I$(INCDIR) -pipe
-AFLAGS = -c -ml -m4-single-only -x assembler-with-cpp
+AFLAGS = -c -Wall -ml -m4-single-only -x assembler-with-cpp
 
 
 # ターゲット
