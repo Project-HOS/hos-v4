@@ -1,18 +1,17 @@
 # --------------------------------------------------------------------------- 
-#  HOS-V4                                                                     
-#   ライブラリメイクファイル gcc SH4 用                                       
+#  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
+#   ライブラリメイクファイル SH4 gcc用                                        
 #                                                                             
 #                                     Copyright (C) 1998-2002 by Project HOS  
 #                                     http://sourceforge.jp/projects/hos/     
 # --------------------------------------------------------------------------- 
 
 
-# インクルードパス
-INCDIR     = ../../../include
 
-
-# ソースパス
-SRCDIR     = ../../../src
+# パス定義
+HOSROOT    = ../../..
+INCDIR     = $(HOSROOT)/include
+SRCDIR     = $(HOSROOT)/src
 PACDIR     = $(SRCDIR)/sh
 PACASMDIR  = $(PACDIR)/sh4gcc
 MKNLDIR    = $(SRCDIR)/mknl
@@ -31,6 +30,8 @@ KNLMBXDIR  = $(KERNELDIR)/mbx
 KNLMBFDIR  = $(KERNELDIR)/mbf
 KNLMPFDIR  = $(KERNELDIR)/mpf
 KNLTIMDIR  = $(KERNELDIR)/tim
+KNLCYCDIR  = $(KERNELDIR)/cyc
+KNLALMDIR  = $(KERNELDIR)/alm
 KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
 
@@ -41,9 +42,10 @@ ASM    = sh-hms-gcc
 LIBR   = sh-hms-ar
 RANLIB = sh-hms-ranlib
 
+
 # オプション
-CFLAGS = -c -O2 -Wall -m4-single-only -ml -I$(INCDIR) -pipe
-AFLAGS = -c -Wall -ml -m4-single-only -x assembler-with-cpp
+CFLAGS = -c -Wall -O2 -m4-single-only -ml -I$(INCDIR) -pipe
+AFLAGS = -c -m4-single-only -ml
 
 
 # ターゲット
@@ -52,8 +54,9 @@ TARGET  = libh4sh4.a
 
 #インクルードファイル
 INCS = $(INCDIR)/itron.h \
-       $(INCDIR)/mknl.h \
+       $(INCDIR)/hoserchk.h \
        $(INCDIR)/hosdenv.h \
+       $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
        $(INCDIR)/knl_mem.h \
@@ -62,52 +65,56 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/knl_flg.h \
        $(INCDIR)/knl_dtq.h \
        $(INCDIR)/knl_mbx.h \
+       $(INCDIR)/knl_mpf.h \
+       $(INCDIR)/knl_mbf.h \
        $(INCDIR)/knl_tim.h \
        $(INCDIR)/knl_sys.h \
        $(INCDIR)/knl_int.h \
+       $(INCDIR)/knl_exc.h \
        $(INCDIR)/sh/hospac.h
 
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o pacimsk.o \
-       midl_lop.o mini_sys.o msta_stu.o mext_stu.o \
+       mini_sys.o midl_lop.o msta_stu.o mext_stu.o \
        msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
        madd_que.o madf_que.o madp_que.o mrmv_que.o \
-       mrot_que.o mtic_tmo.o madd_tmo.o mrmv_tmo.o \
-       sta_hos.o \
-       ini_mem.o alc_mem.o fre_mem.o \
+       mrot_que.o mclr_que.o \
+       mtic_tmo.o madd_tmo.o mrmv_tmo.o \
+       sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
        ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
        act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
        ter_tsk.o chg_pri.o get_pri.o ref_tst.o \
        slp_tsk.o tslp_tsk.o wup_tsk.o can_wup.o rel_wai.o \
        sus_tsk.o rsm_tsk.o frsm_tsk.o dly_tsk.o \
-       ktex_ent.o ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
+       ras_tex.o ktex_ent.o dis_tex.o ena_tex.o sns_tex.o \
        ini_sem.o cre_sem.o acre_sem.o kcre_sem.o del_sem.o \
        sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
        ini_flg.o cre_flg.o acre_flg.o kcre_flg.o del_flg.o \
        set_flg.o clr_flg.o wai_flg.o pol_flg.o \
-       twai_flg.o chk_flg.o \
+       twai_flg.o chk_flg.o ref_flg.o \
        cre_dtq.o acre_dtq.o kcre_dtq.o del_dtq.o \
        snd_dtq.o psnd_dtq.o tsnd_dtq.o fsnd_dtq.o \
-       rcv_dtq.o prcv_dtq.o trcv_dtq.o \
+       rcv_dtq.o prcv_dtq.o trcv_dtq.o ref_dtq.o \
        cre_mbx.o acre_mbx.o kcre_mbx.o del_mbx.o \
-       snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o \
+       snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o ref_mbx.o \
        cre_mbf.o acre_mbf.o kcre_mbf.o del_mbf.o \
-       snd_mbf.o psnd_mbf.o tsnd_mbf.o \
-       rcv_mbf.o prcv_mbf.o trcv_mbf.o \
+       snd_mbf.o psnd_mbf.o tsnd_mbf.o ksnd_mbf.o \
+       rcv_mbf.o prcv_mbf.o trcv_mbf.o krcv_mbf.o ref_mbf.o \
        ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
-       get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
+       get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o ref_mpf.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
-       ini_cyc.o sta_cyc.o stp_cyc.o \
+       add_tml.o rmv_tml.o \
+       ini_cyc.o cyc_hdr.o sta_cyc.o stp_cyc.o \
+       ini_alm.o alm_hdr.o sta_alm.o stp_alm.o \
        ram_int.o exe_int.o \
        get_tid.o kget_tid.o rot_rdq.o \
        loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
        sns_ctx.o sns_loc.o sns_dsp.o sns_dpn.o \
        ref_ver.o
-
 
 
 # ライブラリ生成
@@ -128,11 +135,11 @@ pacimsk.o: $(PACDIR)/pacimsk.c
 
 
 # μカーネル システム制御
-midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
-
 mini_sys.o: $(MKNLSYSDIR)/mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mini_sys.c
+
+midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
 
 msta_stu.o: $(MKNLSYSDIR)/msta_stu.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/msta_stu.c
@@ -197,6 +204,9 @@ mrmv_que.o: $(MKNLQUEDIR)/mrmv_que.c $(INCS)
 
 mrot_que.o: $(MKNLQUEDIR)/mrot_que.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLQUEDIR)/mrot_que.c
+
+mclr_que.o: $(MKNLQUEDIR)/mclr_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)/mclr_que.c
 
 
 # μカーネル タイムアウトキュー管理
@@ -378,6 +388,9 @@ twai_flg.o: $(KNLFLGDIR)/twai_flg.c $(INCS)
 chk_flg.o: $(KNLFLGDIR)/chk_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)/chk_flg.c
 
+ref_flg.o: $(KNLFLGDIR)/ref_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/ref_flg.c
+
 
 # データキュー
 cre_dtq.o: $(KNLDTQDIR)/cre_dtq.c $(INCS)
@@ -413,6 +426,9 @@ prcv_dtq.o: $(KNLDTQDIR)/prcv_dtq.c $(INCS)
 trcv_dtq.o: $(KNLDTQDIR)/trcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)/trcv_dtq.c
 
+ref_dtq.o: $(KNLDTQDIR)/ref_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/ref_dtq.c
+
 
 # メールボックス
 cre_mbx.o: $(KNLMBXDIR)/cre_mbx.c $(INCS)
@@ -439,6 +455,9 @@ prcv_mbx.o: $(KNLMBXDIR)/prcv_mbx.c $(INCS)
 trcv_mbx.o: $(KNLMBXDIR)/trcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)/trcv_mbx.c
 
+ref_mbx.o: $(KNLMBXDIR)/ref_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/ref_mbx.c
+
 
 # メッセージバッファ
 cre_mbf.o: $(KNLMBFDIR)/cre_mbf.c $(INCS)
@@ -462,6 +481,9 @@ psnd_mbf.o: $(KNLMBFDIR)/psnd_mbf.c $(INCS)
 tsnd_mbf.o: $(KNLMBFDIR)/tsnd_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)/tsnd_mbf.c
 
+ksnd_mbf.o: $(KNLMBFDIR)/ksnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/ksnd_mbf.c
+
 rcv_mbf.o: $(KNLMBFDIR)/rcv_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)/rcv_mbf.c
 
@@ -470,6 +492,12 @@ prcv_mbf.o: $(KNLMBFDIR)/prcv_mbf.c $(INCS)
 
 trcv_mbf.o: $(KNLMBFDIR)/trcv_mbf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBFDIR)/trcv_mbf.c
+
+krcv_mbf.o: $(KNLMBFDIR)/krcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/krcv_mbf.c
+
+ref_mbf.o: $(KNLMBFDIR)/ref_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/ref_mbf.c
 
 
 # 固定長メモリプール
@@ -500,6 +528,9 @@ tget_mpf.o: $(KNLMPFDIR)/tget_mpf.c $(INCS)
 rel_mpf.o: $(KNLMPFDIR)/rel_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)/rel_mpf.c
 
+ref_mpf.o: $(KNLMPFDIR)/ref_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/ref_mpf.c
+
 
 # 時間管理
 ini_tim.o: $(KNLTIMDIR)/ini_tim.c $(INCS)
@@ -514,14 +545,39 @@ get_tim.o: $(KNLTIMDIR)/get_tim.c $(INCS)
 isig_tim.o: $(KNLTIMDIR)/isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)/isig_tim.c
 
-ini_cyc.o: $(KNLTIMDIR)/ini_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/ini_cyc.c
+add_tml.o: $(KNLTIMDIR)/add_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/add_tml.c
 
-sta_cyc.o: $(KNLTIMDIR)/sta_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/sta_cyc.c
+rmv_tml.o: $(KNLTIMDIR)/rmv_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)/rmv_tml.c
 
-stp_cyc.o: $(KNLTIMDIR)/stp_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)/stp_cyc.c
+
+# 周期ハンドラ
+ini_cyc.o: $(KNLCYCDIR)/ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/ini_cyc.c
+
+cyc_hdr.o: $(KNLCYCDIR)/cyc_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/cyc_hdr.c
+
+sta_cyc.o: $(KNLCYCDIR)/sta_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/sta_cyc.c
+
+stp_cyc.o: $(KNLCYCDIR)/stp_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/stp_cyc.c
+
+
+# アラームハンドラ
+ini_alm.o: $(KNLALMDIR)/ini_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/ini_alm.c
+
+alm_hdr.o: $(KNLALMDIR)/alm_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/alm_hdr.c
+
+sta_alm.o: $(KNLALMDIR)/sta_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/sta_alm.c
+
+stp_alm.o: $(KNLALMDIR)/stp_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)/stp_alm.c
 
 
 # 割り込み管理
@@ -571,7 +627,8 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 
 
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -f $(OBJS)
+	rm -f $(TARGET)
 
 
 # -----------------------------------------------------------------------------
