@@ -27,11 +27,14 @@ ER cre_tsk(
 
 	mknl_loc_sys();	/* システムのロック */
 
+	/* タスクが登録可能かチェック */
+#ifdef HOS_ERCHK_E_OBJ
 	if ( KERNEL_TSKID_TO_TCB_RAM(tskid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
-		return E_ID;	/* IDが使用できない */
+		return E_OBJ;	/* 既に登録済み */
 	}
+#endif
 	
 	/* タスクの生成 */
 	ercd = kernel_cre_tsk(tskid, pk_ctsk);

@@ -28,12 +28,12 @@ ER cre_flg(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	/* IDが使用可能かどうかチェック */
-#ifdef HOS_ERCHK_E_ID
-	if ( kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] == NULL )
+	/* イベントフラグが登録可能かどうかチェック */
+#ifdef HOS_ERCHK_E_OBJ
+	if ( kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
-		return E_ID;	/* 不正ID */
+		return E_OBJ;	/* 既に登録済み */
 	}
 #endif
 

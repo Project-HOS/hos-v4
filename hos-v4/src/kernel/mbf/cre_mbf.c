@@ -28,12 +28,12 @@ ER cre_mbf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	/* IDが使用可能かどうかチェック */
-#ifdef HOS_ERCHK_E_ID
-	if ( kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID] == NULL )
+	/* メッセージバッファが登録可能かどうかチェック */
+#ifdef HOS_ERCHK_E_OBJ
+	if ( kernel_mbfcb_ram_tbl[mbfid - TMIN_MBFID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
-		return E_ID;	/* 不正ID */
+		return E_OBJ;	/* 既に登録済み */
 	}
 #endif
 

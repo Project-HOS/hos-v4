@@ -28,12 +28,12 @@ ER cre_mpf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	/* IDが使用可能かどうかチェック */
-#ifdef HOS_ERCHK_E_ID
-	if ( kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID] == NULL )
+	/* メモリプールが登録可能かどうかチェック */
+#ifdef HOS_ERCHK_E_OBJ
+	if ( kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID] != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
-		return E_ID;	/* 不正ID */
+		return E_OBJ;	/* 既に登録済み */
 	}
 #endif
 
