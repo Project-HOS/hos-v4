@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル メールボックス                                          */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2003 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -19,6 +19,12 @@ typedef struct t_kernel_mbxcb
 	T_KERNEL_MBXCB_ROM mbxcb_rom;	/* メールボックスコントロールブロック(ROM部) */
 } T_KERNEL_MBXCB;
 
+/* 優先度別キューヘッダをカーネルで確保する場合 */
+typedef struct t_kernel_mbxcb_ph
+{
+	T_KERNEL_MBXCB	mbxcb;
+	T_MSG		*mprihd[1];
+} T_KERNEL_MBXCB_PH;
 
 
 /* メールボックスの生成(カーネル内部関数) */
@@ -41,13 +47,6 @@ ER kernel_cre_mbx(
 	}
 #endif
 
-	/* メールボックス用メモリの確保 */
-	mbxcb = (T_KERNEL_MBXCB *)kernel_alc_mem(sizeof(T_KERNEL_MBXCB));
-	if ( mbxcb == NULL )
-	{
-		return E_NOMEM;		/* メモリ不足 */
-	}
-	
 	/* メッセージ優先度付きか判定 */
 	if ( pk_cmbx->mbxatr & TA_MPRI )
 	{
@@ -59,16 +58,21 @@ ER kernel_cre_mbx(
 		maxmpri = TMIN_MPRI;
 		mprihd  = NULL;
 	}
-	
-	/* 優先度別のメッセージキューヘッダの領域メモリ確保 */
+
+	/* メールボックス用メモリの確保 */
+	mbxcb = (T_KERNEL_MBXCB *)kernel_alc_mem(
+			mprihd == NULL ?
+			sizeof(T_KERNEL_MBXCB_PH)+TSZ_MPRIHD(maxmpri-1) :
+			sizeof(T_KERNEL_MBXCB));
+	if ( mbxcb == NULL )
+	{
+		return E_NOMEM;		/* メモリ不足 */
+	}
+
+	/* メッセージキューヘッダをカーネルで確保する場合のポインタセット */
 	if ( mprihd == NULL )
 	{
-		mprihd = (T_MSG **)kernel_alc_mem(TSZ_MPRIHD(maxmpri));
-		if ( mprihd == NULL )
-		{
-			kernel_fre_mem(mbxcb);
-			return E_NOMEM;			/* メモリ不足 */
-		}
+		mprihd = ((T_KERNEL_MBXCB_PH *)mbxcb)->mprihd;
 	}
 
 	/* メールボックスの設定 */
@@ -94,5 +98,5 @@ ER kernel_cre_mbx(
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2003 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */
