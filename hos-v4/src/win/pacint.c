@@ -16,6 +16,7 @@
 void hospac_win_int(INTNO intno)
 {
 	T_HOSPAC_CTXINF *ctxinf;
+	T_KERNEL_INTCB intcb;
 
 	/* 範囲チェック */
 	if ( intno < KERNEL_TMIN_INTNO || intno > KERNEL_TMAX_INTNO )
@@ -41,13 +42,16 @@ void hospac_win_int(INTNO intno)
 	/* 割り込みフラグセット */
 	hospac_blInt = TRUE;
 
+	/* ローカルにコピー */
+	intcb = KERNEL_INTNO_TO_INTCB(intno);
+
 	/* 非タスク部(割り込みコンテキストに移行) */
 	mknl_sta_ind();
 	
 	/* 割り込みの実行 */
-	if ( kernel_intcb_tbl[intno].isr != NULL )
+	if ( intcb.isr != NULL )
 	{
-		kernel_intcb_tbl[intno].isr(kernel_intcb_tbl[intno].exinf);			/* 割り込みサービスルーチン実行 */
+		intcb.isr(intcb.exinf);		/* 割り込みサービスルーチン実行 */
 	}
 
 	/* タスク部に移行 */
