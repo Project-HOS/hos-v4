@@ -382,7 +382,7 @@ int_handler:
 				mov.w	r1, @_kernel_int_cnt
 				
 		; ---- スタックポインタの入れ替え
-				mov.l	er7, @_kernel_int_sp
+				mov.l	er7, @_kernel_int_ssp
 				mov.l	@_kernel_int_sp, er7
 				
 		; ---- 割り込み処理の開始
@@ -394,7 +394,7 @@ int_handler:
 				jsr		@_kernel_exe_int
 				
 		; -------- スタックポインタ復帰
-				mov.l	@_kernel_int_sp, er7
+				mov.l	@_kernel_int_ssp, er7
 				
 		; -------- 割り込みネストカウンタクリア
 				xor.w	r1, r1
