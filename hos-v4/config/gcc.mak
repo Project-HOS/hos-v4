@@ -25,28 +25,29 @@ TARGET  = hos4cfg
 # オブジェクトファイル
 OBJS = hos4cfg.o \
        analyze.o \
-       apidef.o \
-       apiinc.o \
-       attini.o \
-       attisr.o \
-       crecyc.o \
-       credtq.o \
-       creflg.o \
-       crembf.o \
-       crembx.o \
-       crempf.o \
-       cresem.o \
-       cretsk.o \
-       defercd.o \
-       defexc.o \
-       deftex.o \
-       idlstk.o \
-       intstk.o \
-       knlheap.o \
-       maxtpri.o \
        parpack.o \
        read.o \
-       timtic.o
+       defercd.o \
+       intstk.o \
+       idlstk.o \
+       knlheap.o \
+       maxtpri.o \
+       apidef.o \
+       apiinc.o \
+       cretsk.o \
+       deftex.o \
+       cresem.o \
+       creflg.o \
+       credtq.o \
+       crembx.o \
+       crempf.o \
+       crembf.o \
+       timtic.o \
+       crecyc.o \
+       crealm.o \
+       defexc.o \
+       attini.o \
+       attisr.o
 
 
 
@@ -62,3 +63,8 @@ clean:
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
+
+
+# -----------------------------------------------------------------------------
+#  Copyright (C) 1998-2002 by Project HOS                                      
+# -----------------------------------------------------------------------------
