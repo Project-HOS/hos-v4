@@ -22,6 +22,7 @@ MKNLQUEDIR = $(MKNLDIR)/que
 MKNLTMODIR = $(MKNLDIR)/tmout
 KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
+KNLMEMDIR  = $(KERNELDIR)/mem
 KNLTSKDIR  = $(KERNELDIR)/tsk
 KNLSEMDIR  = $(KERNELDIR)/sem
 KNLFLGDIR  = $(KERNELDIR)/flg
@@ -54,6 +55,7 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/hosdenv.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
+       $(INCDIR)/knl_mem.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \
        $(INCDIR)/knl_flg.h \
@@ -72,26 +74,31 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
-       madd_que.o madp_que.o mrmv_que.o mrot_que.o \
-       mtic_tmo.o madd_tmo.o mrmv_tmo.o \
-       sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
-       ini_tsk.o cre_tsk.o acre_tsk.o act_tsk.o can_act.o \
-       sta_tsk.o ext_tsk.o ter_tsk.o chg_pri.o get_pri.o \
-       ref_tst.o \
+       madd_que.o madf_que.o madp_que.o mrmv_que.o \
+       mrot_que.o mtic_tmo.o madd_tmo.o mrmv_tmo.o \
+       sta_hos.o \
+       ini_mem.o alc_mem.o fre_mem.o \
+       ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
+       act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
+       ter_tsk.o chg_pri.o get_pri.o ref_tst.o \
        slp_tsk.o tslp_tsk.o wup_tsk.o can_wup.o rel_wai.o \
        sus_tsk.o rsm_tsk.o frsm_tsk.o dly_tsk.o \
        ktex_ent.o ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
        ini_sem.o cre_sem.o acre_sem.o kcre_sem.o del_sem.o \
        sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
-       ini_flg.o set_flg.o clr_flg.o wai_flg.o pol_flg.o \
+       ini_flg.o cre_flg.o acre_flg.o kcre_flg.o del_flg.o \
+       set_flg.o clr_flg.o wai_flg.o pol_flg.o \
        twai_flg.o chk_flg.o \
+       cre_dtq.o acre_dtq.o kcre_dtq.o del_dtq.o \
        snd_dtq.o psnd_dtq.o tsnd_dtq.o fsnd_dtq.o \
        rcv_dtq.o prcv_dtq.o trcv_dtq.o \
+       cre_mbx.o acre_mbx.o kcre_mbx.o del_mbx.o \
        snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o \
-       ini_mpf.o get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
+       ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
+       get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
        ini_cyc.o sta_cyc.o stp_cyc.o \
-       exe_int.o \
+       ram_int.o exe_int.o \
        get_tid.o kget_tid.o rot_rdq.o \
        loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
        sns_ctx.o sns_loc.o sns_dsp.o sns_dpn.o \
@@ -172,6 +179,9 @@ mexe_tex.o: $(MKNLTSKDIR)/mexe_tex.c $(INCS)
 madd_que.o: $(MKNLQUEDIR)/madd_que.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLQUEDIR)/madd_que.c
 
+madf_que.o: $(MKNLQUEDIR)/madf_que.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLQUEDIR)/madf_que.c
+
 madp_que.o: $(MKNLQUEDIR)/madp_que.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLQUEDIR)/madp_que.c
 
@@ -193,18 +203,20 @@ mrmv_tmo.o: $(MKNLTMODIR)/mrmv_tmo.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTMODIR)/mrmv_tmo.c
 
 
-# カーネル独自
+# カーネル固有
 sta_hos.o: $(KNLHOSDIR)/sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)/sta_hos.c
 
-ini_mem.o: $(KNLHOSDIR)/ini_mem.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHOSDIR)/ini_mem.c
 
-alc_mem.o: $(KNLHOSDIR)/alc_mem.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHOSDIR)/alc_mem.c
+# カーネルメモリ管理
+ini_mem.o: $(KNLMEMDIR)/ini_mem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/ini_mem.c
 
-fre_mem.o: $(KNLHOSDIR)/fre_mem.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHOSDIR)/fre_mem.c 
+alc_mem.o: $(KNLMEMDIR)/alc_mem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/alc_mem.c
+
+fre_mem.o: $(KNLMEMDIR)/fre_mem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_mem.c 
 
 
 # タスク
@@ -217,6 +229,12 @@ cre_tsk.o: $(KNLTSKDIR)/cre_tsk.c $(INCS)
 acre_tsk.o: $(KNLTSKDIR)/acre_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/acre_tsk.c
 
+kcre_tsk.o: $(KNLTSKDIR)/kcre_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)/kcre_tsk.c
+
+del_tsk.o: $(KNLTSKDIR)/del_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)/del_tsk.c
+
 act_tsk.o: $(KNLTSKDIR)/act_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/act_tsk.c
 
@@ -228,6 +246,9 @@ sta_tsk.o: $(KNLTSKDIR)/sta_tsk.c $(INCS)
 
 ext_tsk.o: $(KNLTSKDIR)/ext_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/ext_tsk.c
+
+exd_tsk.o: $(KNLTSKDIR)/exd_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)/exd_tsk.c
 
 ter_tsk.o: $(KNLTSKDIR)/ter_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/ter_tsk.c
@@ -294,11 +315,11 @@ cre_sem.o: $(KNLSEMDIR)/cre_sem.c $(INCS)
 acre_sem.o: $(KNLSEMDIR)/acre_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)/acre_sem.c
 
-del_sem.o: $(KNLSEMDIR)/del_sem.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLSEMDIR)/del_sem.c
-
 kcre_sem.o: $(KNLSEMDIR)/kcre_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)/kcre_sem.c
+
+del_sem.o: $(KNLSEMDIR)/del_sem.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLSEMDIR)/del_sem.c
 
 sig_sem.o: $(KNLSEMDIR)/sig_sem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSEMDIR)/sig_sem.c
@@ -320,6 +341,18 @@ ref_sem.o: $(KNLSEMDIR)/ref_sem.c $(INCS)
 ini_flg.o: $(KNLFLGDIR)/ini_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)/ini_flg.c
 
+cre_flg.o: $(KNLFLGDIR)/cre_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/cre_flg.c
+
+acre_flg.o: $(KNLFLGDIR)/acre_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/acre_flg.c
+
+kcre_flg.o: $(KNLFLGDIR)/kcre_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/kcre_flg.c
+
+del_flg.o: $(KNLFLGDIR)/del_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)/del_flg.c
+
 set_flg.o: $(KNLFLGDIR)/set_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)/set_flg.c
 
@@ -340,6 +373,18 @@ chk_flg.o: $(KNLFLGDIR)/chk_flg.c $(INCS)
 
 
 # データキュー
+cre_dtq.o: $(KNLDTQDIR)/cre_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/cre_dtq.c
+
+acre_dtq.o: $(KNLDTQDIR)/acre_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/acre_dtq.c
+
+kcre_dtq.o: $(KNLDTQDIR)/kcre_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/kcre_dtq.c
+
+del_dtq.o: $(KNLDTQDIR)/del_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)/del_dtq.c
+
 snd_dtq.o: $(KNLDTQDIR)/snd_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)/snd_dtq.c
 
@@ -363,6 +408,18 @@ trcv_dtq.o: $(KNLDTQDIR)/trcv_dtq.c $(INCS)
 
 
 # メールボックス
+cre_mbx.o: $(KNLMBXDIR)/cre_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/cre_mbx.c
+
+acre_mbx.o: $(KNLMBXDIR)/acre_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/acre_mbx.c
+
+kcre_mbx.o: $(KNLMBXDIR)/kcre_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/kcre_mbx.c
+
+del_mbx.o: $(KNLMBXDIR)/del_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)/del_mbx.c
+
 snd_mbx.o: $(KNLMBXDIR)/snd_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)/snd_mbx.c
 
@@ -379,6 +436,18 @@ trcv_mbx.o: $(KNLMBXDIR)/trcv_mbx.c $(INCS)
 # 固定長メモリプール
 ini_mpf.o: $(KNLMPFDIR)/ini_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)/ini_mpf.c
+
+cre_mpf.o: $(KNLMPFDIR)/cre_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/cre_mpf.c
+
+acre_mpf.o: $(KNLMPFDIR)/acre_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/acre_mpf.c
+
+kcre_mpf.o: $(KNLMPFDIR)/kcre_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/kcre_mpf.c
+
+del_mpf.o: $(KNLMPFDIR)/del_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)/del_mpf.c
 
 get_mpf.o: $(KNLMPFDIR)/get_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)/get_mpf.c
@@ -417,6 +486,9 @@ stp_cyc.o: $(KNLTIMDIR)/stp_cyc.c $(INCS)
 
 
 # 割り込み管理
+ram_int.o: $(KNLINTDIR)/ram_int.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLINTDIR)/ram_int.c
+
 exe_int.o: $(KNLINTDIR)/exe_int.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLINTDIR)/exe_int.c
 

@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_mbx.h"
 
 
 
@@ -78,14 +78,7 @@ ER trcv_mbx(
 			/* 待ちに入る */
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_MBX);
-			if ( mbxcb_ram->mbxcbrom->mbxatr & TA_TPRI )
-			{
-				mknl_adp_que(&mbxcb_ram->que, mtcb);	/* タスク優先度順に追加 */
-			}
-			else
-			{
-				mknl_add_que(&mbxcb_ram->que, mtcb);	/* FIFO順に追加 */
-			}
+			mknl_add_que(&mbxcb_ram->que, mtcb, mbxcb_ram->mbxcbrom->mbxatr);	/* 待ち行列に追加 */
 
 			/* 無限待ちでなければ */
 			if ( tmout != TMO_FEVR )

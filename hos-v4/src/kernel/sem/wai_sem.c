@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_sem.h"
 
 
 
@@ -62,14 +62,7 @@ ER wai_sem(
 	/* タスクを待ち状態にする */
 	mtcb = mknl_get_run_tsk();
 	mknl_wai_tsk(mtcb, TTW_SEM);
-	if ( semcb_rom->sematr & TA_TPRI )
-	{
-		mknl_adp_que(&semcb_ram->que, mtcb);	/* タスク優先度順に追加 */
-	}
-	else
-	{
-		mknl_add_que(&semcb_ram->que, mtcb);	/* FIFO順に追加 */
-	}
+	mknl_add_que(&semcb_ram->que, mtcb, semcb_rom->sematr);	/* 待ち行列に追加 */
 	
 	ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
 	mknl_exe_tex();				/* 例外処理の実行 */

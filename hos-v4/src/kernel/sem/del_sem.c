@@ -6,8 +6,8 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
-
+#include "knl_sem.h"
+#include "knl_mem.h"
 
 
 /* セマフォの削除 */
@@ -15,7 +15,6 @@ ER del_sem(
 		ID semid)	/* 削除対象のセマフォのID番号 */
 {
 	T_KERNEL_SEMCB_RAM *semcb_ram;
-	T_MKNL_TCB *mtcb;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
@@ -39,12 +38,7 @@ ER del_sem(
 #endif
 	
 	/* 待ちタスクの解除 */
-	while (	(mtcb = mknl_ref_qhd(&semcb_ram->que)) != NULL )
-	{
-		mknl_rmv_que(mtcb);						/* セマフォの待ち行列から削除 */
-		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
-		mknl_wup_tsk(mtcb, E_DLT);				/* タスクの待ち解除 */
-	}
+	mknl_clr_que(&semcb_ram->que);
 	
 	/* メモリの解放 */
 	kernel_fre_mem(semcb_ram);

@@ -7,7 +7,9 @@
 
 
 
-#include "kernel.h"
+#include "knl_hos.h"
+#include "knl_int.h"
+#include "knl_tim.h"
 
 
 /* HOS カーネル動作開始 */
@@ -20,6 +22,7 @@ ER sta_hos(void)
 	mknl_ini_sys();		/* μカーネルシステムの初期化 */
 	
 	/* スタートアップ用コンテキストに移行 */
+	kernel_int_cnt = 1;		/* 擬似的に割り込みハンドラと見なす */
 	mknl_sta_startup();
 	
 	/* 初期化 */
@@ -27,6 +30,7 @@ ER sta_hos(void)
 	kernel_ini_tim();	/* 時間管理機能の初期化 */
 	
 	/* カーネル動作状態へ移行 */
+	kernel_int_cnt = 0;		/* 割り込みネスト回数クリア */
 	mknl_ext_startup();
 	
 	/* アイドルループ */

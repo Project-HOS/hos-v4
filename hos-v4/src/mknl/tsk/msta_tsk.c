@@ -30,7 +30,7 @@ void mknl_sta_tsk(
 	mtcb->tskwait = 0;			/* 待ち要因初期化 */
 
 	/* レディーキューに設定 */
-	mknl_add_que(&mknl_rdq_tbl[tskpri - TMIN_TPRI], mtcb);
+	mknl_adf_que(&mknl_rdq_tbl[tskpri - TMIN_TPRI], mtcb);
 }
 
 

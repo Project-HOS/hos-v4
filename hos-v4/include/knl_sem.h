@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_sem_h__
 
 
+#include "knl_hos.h"
+
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */
@@ -58,12 +61,6 @@ typedef struct t_kernel_semcb_ram
 	const T_KERNEL_SEMCB_ROM *semcbrom;	/* セマフォコントロールブロックROM部へのポインタ */
 } T_KERNEL_SEMCB_RAM;
 
-/* セマフォコントロールブロック(動的生成用) */
-typedef struct t_kernel_semcb
-{
-	T_KERNEL_SEMCB_RAM semcbram;	/* セマフォコントロールブロック(RAM部) */
-	T_KERNEL_SEMCB_ROM semcbrom;	/* セマフォコントロールブロック(ROM部) */
-} T_KERNEL_SEMCB;
 
 
 #ifdef __cplusplus

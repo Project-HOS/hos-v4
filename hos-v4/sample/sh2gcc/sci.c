@@ -113,12 +113,19 @@ ER sci_putc(
 	
 	scicb = &scicb_tbl[id - 1];
 	
+	*SH_PEDR |= 0x10;
+	
 	while ( stmfifo_snd_chr(&scicb->sndfifo, chr) != E_OK )
 	{
 		*SH_SCR(id) |= SH_SCR_TIE;	/* 送信割り込み許可 */
 		wai_flg(scicb->flgid_snd, 1, TWF_ANDW, NULL);
 	}
+	
+	*SH_PEDR |= 0x20;
+	
 	*SH_SCR(id) |= SH_SCR_TIE;	/* 送信割り込み許可 */
+	
+	*SH_PEDR |= 0x40;
 }
 
 
@@ -190,6 +197,8 @@ void sci_snd_hdr(
 	id    = (ID)exinf;
 	scicb = &scicb_tbl[id - 1];
 	
+	*SH_PEDR |= 0x01;
+	
 	/* 送信FIFOから取り出し */
 	if ( stmfifo_rcv_chr(&scicb->sndfifo, &chr) != E_OK )
 	{
@@ -216,6 +225,8 @@ void sci_rcv_hdr(
 	
 	id    = (ID)exinf;
 	scicb = &scicb_tbl[id - 1];
+	
+	*SH_PEDR |= 0x02;
 	
 	/* １キャラクタ受信 */
 	chr = *SH_RDR(id);

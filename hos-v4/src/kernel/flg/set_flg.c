@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_flg.h"
 
 
 
@@ -65,9 +65,9 @@ ER set_flg(
 			}
 
 			/* 待ち解除 */
-			mknl_rmv_que(flgcb_ram->mtcb);			/* 待ち行列から外す */
-			mknl_rmv_tmout(flgcb_ram->mtcb);		/* タイムアウト解除 */
-			mknl_wup_tsk(flgcb_ram->mtcb, E_OK);	/* 待ちタスクの起床 */
+			mknl_rmv_que(mtcb);			/* 待ち行列から外す */
+			mknl_rmv_tmout(mtcb);		/* タイムアウト解除 */
+			mknl_wup_tsk(mtcb, E_OK);	/* 待ちタスクの起床 */
 			wupflg = TRUE;
 		}
 		mtcb = mtcb_next;	/* 次のタスクに進める */

@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_mem.h"
 
 
 
@@ -16,6 +16,12 @@ void kernel_fre_mem(VP ptr)
 	T_KERNEL_MEM_BLK *mblk;
 	T_KERNEL_MEM_BLK *mblktmp;
 	T_KERNEL_MEM_BLK *mblknext;
+
+	/* ポインタ範囲チェック */
+	if ( ptr < (VP)kernel_mem_base || ptr >= (VP)((UB*)kernel_mem_base + kernel_mem_szie) )
+	{
+		return;
+	}
 
 	/* メモリブロック位置を取得 */
 	mblk = (T_KERNEL_MEM_BLK *)((UB *)ptr - MEMBLKSIZE);

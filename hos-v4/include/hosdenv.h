@@ -21,7 +21,7 @@
 #include "h83/hospac.h"
 #endif
 
-#elif defined(__sh__)	/* gcc SH コンパイラ */
+#elif defined(__sh__) || defined(_SH1) || defined(_SH2) ||  defined(_SH3) || defined(_SH4)	/* SH コンパイラ */
 
 #include "sh/hospac.h"
 

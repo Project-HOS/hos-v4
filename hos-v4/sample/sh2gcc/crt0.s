@@ -61,6 +61,7 @@ bss_end:
 				nop
 end_loop:
 				bra		end_loop
+				nop
 
 				/* __main */
 ___main:

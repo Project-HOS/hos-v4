@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_mpf.h"
 
 
 
@@ -43,7 +43,7 @@ ER rel_mpf(
 	if ( mtcb != NULL )
 	{
 		/* 待ちタスクがあれば待ち解除 */
-		mknl_rmv_que(mtcb);						/* セマフォの待ち行列から削除 */
+		mknl_rmv_que(mtcb);						/* メモリプールの待ち行列から削除 */
 		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
 		mtcb->data = (VP_INT)blk;				/* ブロックの先頭番地を設定 */
 		mknl_wup_tsk(mtcb, E_OK);				/* タスクの待ち解除 */

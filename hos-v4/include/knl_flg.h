@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_flg_h__
 
 
+#include "knl_hos.h"
+
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */
@@ -29,6 +32,14 @@
 /*                 型定義                     */
 /* ------------------------------------------ */
 
+/* イベントフラグ生成情報 */
+typedef struct t_cflg
+{
+	ATR    flgatr;		/* イベントフラグ属性 */
+	FLGPTN iflgptn;		/* イベントフラグのビットパターンの初期値 */
+} T_CFLG;
+
+
 /* イベントフラグコントロールブロック(ROM部) */
 typedef struct t_kernel_flgcb_rom
 {
@@ -36,15 +47,14 @@ typedef struct t_kernel_flgcb_rom
 	FLGPTN iflgptn;		/* イベントフラグのビットパターンの初期値 */
 } T_KERNEL_FLGCB_ROM;
 
-
 /* イベントフラグコントロールブロック(RAM部) */
 typedef struct t_kernel_flgcb_ram
 {
 	T_MKNL_QUE que;			/* イベントフラグ待ち行列 */
-	T_MKNL_TCB *mtcb;		/* イベントフラグ待ちタスク */
 	FLGPTN     flgptn;		/* イベントフラグのビットパターン */
 	const T_KERNEL_FLGCB_ROM* flgcbrom;	/* イベントフラグコントロールブロックROM部へのポインタ */
 } T_KERNEL_FLGCB_RAM;
+
 
 /* 待ちフラグ情報構造体 */
 typedef struct t_kernel_flginf
@@ -76,18 +86,22 @@ extern const INT kernel_flgcb_cnt;							/* イベントフラグコントロールブロック個
 /* ------------------------------------------ */
 
 /* イベントフラグ */
-void    kernel_ini_flg(void);						/* イベントフラグの初期化 */
-ER      set_flg(ID flgid, FLGPTN setptn);			/* イベントフラグのセット */
-#define iset_flg	set_flg							/* イベントフラグのセット(非タスクコンテキスト用マクロ) */
-ER      clr_flg(ID flgid, FLGPTN clrptn);			/* イベントフラグのクリア */
+void    kernel_ini_flg(void);								/* イベントフラグの初期化 */
+ER      cre_flg(ID flgid, const T_CFLG *pk_cflg);			/* イベントフラグの生成 */
+ER_ID   acre_flg(const T_CFLG *pk_cflg);					/* イベントフラグの生成(ID番号自動割付け) */
+ER      kernel_cre_flg(ID flgid, const T_CFLG *pk_cflg);	/* イベントフラグの生成(カーネル内部関数) */
+ER      del_flg(ID flgid);									/* イベントフラグの削除 */
+ER      set_flg(ID flgid, FLGPTN setptn);					/* イベントフラグのセット */
+#define iset_flg	set_flg									/* イベントフラグのセット(非タスクコンテキスト用マクロ) */
+ER      clr_flg(ID flgid, FLGPTN clrptn);					/* イベントフラグのクリア */
 ER      wai_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn);
-													/* イベントフラグ待ち */
+															/* イベントフラグ待ち */
 ER      pol_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn);
-													/* イベントフラグ待ち(ポーリング) */
+															/* イベントフラグ待ち(ポーリング) */
 ER      twai_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn, TMO tmout);
-													/* イベントフラグ待ち(タイムアウトあり) */
+															/* イベントフラグ待ち(タイムアウトあり) */
 BOOL    kernel_chk_flg(T_KERNEL_FLGCB_RAM *flgcb_ram, T_KERNEL_FLGINF *pk_flginf);
-													/* フラグが起床条件を満たしているかチェック */
+															/* フラグが起床条件を満たしているかチェック */
 
 
 

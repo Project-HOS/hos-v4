@@ -21,6 +21,7 @@ SECTIONS
     *(.vector)
     *(.text)
     *(.strings)
+    *(.rodata)
     _TEXT_END = . ;
   } > rom
   .data : AT (ADDR(.text) + SIZEOF(.text))

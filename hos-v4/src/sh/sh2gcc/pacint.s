@@ -928,9 +928,9 @@ imsk_addr:
 imsk_base_addr:
 				.long	_hospac_sh_imsk_base	/* 割り込みマスクベース値 */
 int_cnt_addr:
-				.long	_HOS_int_cnt			/* 割り込みネスト回数 */
+				.long	_kernel_int_cnt			/* 割り込みネスト回数 */
 save_sp_addr:
-				.long	_HOS_int_sp				/* 割り込み用スタックポインタ退避 */
+				.long	_kernel_int_ssp			/* 割り込み用スタックポインタ退避 */
 int_sp_addr:
 				.long	_kernel_int_sp			/* 割り込み用スタックポインタ */
 sta_int_addr:

@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_flg.h"
 
 
 
@@ -20,6 +20,7 @@ ER twai_flg(
 {
 	const T_KERNEL_FLGCB_ROM *flgcb_rom;
 	T_KERNEL_FLGCB_RAM       *flgcb_ram;
+	T_MKNL_TCB *mtcb;
 	T_KERNEL_FLGINF flginf;
 	ER ercd;
 
@@ -100,13 +101,14 @@ ER twai_flg(
 		else
 		{
 			/* 待ちに入る */
-			flgcb_ram->mtcb = mknl_get_run_tsk();		/* 実行中タスクを取得 */
-			flgcb_ram->mtcb->data = &flginf;			/* 待ち状態を保存 */
-			mknl_wai_tsk(flgcb_ram->mtcb, TTW_FLG);
+			mtcb = mknl_get_run_tsk();		/* 実行中タスクを取得 */
+			mtcb->data = &flginf;			/* 待ち状態を保存 */
+			mknl_wai_tsk(mtcb, TTW_FLG);
+			mknl_add_que(&flgcb_ram->que, mtcb, flgcb_rom->flgatr);
 			if ( tmout == TMO_FEVR )
 			{
 				/* 無限待ちでなければタイムアウト設定 */
-				mknl_add_tmout(flgcb_ram->mtcb, (RELTIM)tmout);
+				mknl_add_tmout(mtcb, (RELTIM)tmout);
 			}
 			
 			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチ実行 */

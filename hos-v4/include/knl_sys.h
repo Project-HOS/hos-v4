@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_sys_h__
 
 
+#include "knl_hos.h"
+#include "knl_tsk.h"
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */

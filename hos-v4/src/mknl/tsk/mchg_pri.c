@@ -20,7 +20,7 @@ void mknl_chg_pri(
 	{
 		/* 待ち状態でなければレディーキューに繋ぎなおす */
 		mknl_rmv_que(mtcb);
-		mknl_add_que(&mknl_rdq_tbl[tskpri - TMIN_TPRI], mtcb);
+		mknl_adf_que(&mknl_rdq_tbl[tskpri - TMIN_TPRI], mtcb);
 	}
 	mtcb->tskpri = tskpri;
 }

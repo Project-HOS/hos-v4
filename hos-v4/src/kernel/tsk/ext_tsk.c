@@ -6,25 +6,26 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_tsk.h"
 
 
 
 /* 自タスクの終了 */
-void ext_tsk()
+void ext_tsk(void)
 {
 	const T_KERNEL_TCB_ROM *tcb_rom;
 	T_KERNEL_TCB_RAM *tcb_ram;
-	T_MKNL_TCB *mtcb;
+	T_MKNL_TCB *mtcb_run;
 
-	mtcb = mknl_get_run_tsk();
+	/* 実行中タスクの取得 */
+	mtcb_run = mknl_get_run_tsk();
 
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 実行タスクの終了 */
-	mknl_ext_tsk(mtcb);
+	mknl_ext_tsk(mtcb_run);
 
-	tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mknl_get_run_tsk());
+	tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mtcb_run);
 	tcb_rom = tcb_ram->tcbrom;
 
 	/* 起動がキューイングされていたなら */

@@ -50,10 +50,9 @@ void Task1(VP_INT exinf)
 {
 	ER ercd;
 	UB c;
+	SYSTIM st;
 	
-	*SH_PEDR |= 0x10;
 	sci_open(SCIID, 0x13);
-	*SH_PEDR |= 0x20;
 	
 	sci_puts(SCIID, "\r\nTask1:Start\r\n");
 	

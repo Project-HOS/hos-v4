@@ -189,8 +189,11 @@ void    kernel_tex_entry(void);								/* ¥¿¥¹¥¯Îã³°½èÍý¥¨¥ó¥È¥ê¡¼¥Ý¥¤¥ó¥È(¥«¡¼¥
 
 /* ¥­¥å¡¼Áàºî */
 #define mknl_ini_que(que)	do { (que)->head = NULL; } while (0)
+void    mknl_clr_que(T_MKNL_QUE *que);						/* ¥­¥å¡¼¤Îºï½ü */
 															/* ¥­¥å¡¼¤Î½é´ü²½ */
-void    mknl_add_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb);	/* ¥¿¥¹¥¯¤òFIFO½ç¤Ç¥­¥å¡¼¤ËÄÉ²Ã */
+void    mknl_add_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb, ATR atr);
+															/* ¥¿¥¹¥¯¤ò¥­¥å¡¼¤ËÄÉ²Ã */
+void    mknl_adf_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb);	/* ¥¿¥¹¥¯¤òFIFO½ç¤Ç¥­¥å¡¼¤ËÄÉ²Ã */
 void    mknl_adp_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb);	/* ¥¿¥¹¥¯¤òÍ¥ÀèÅÙ½ç¤Ç¥­¥å¡¼¤ËÄÉ²Ã */
 void    mknl_rmv_que(T_MKNL_TCB *mtcb);						/* ¥¿¥¹¥¯¤ò¥­¥å¡¼¤«¤é¼è¤ê½ü¤¯ */
 void    mknl_rot_que(T_MKNL_QUE *que);						/* ¥ì¥Ç¥£¡¼¥­¥å¡¼¤Î²óÅ¾ */

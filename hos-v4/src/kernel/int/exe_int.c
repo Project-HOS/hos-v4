@@ -7,7 +7,7 @@
 
 
 
-#include "kernel.h"
+#include "knl_int.h"
 
 
 

@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_int_h__
 
 
+#include "knl_hos.h"
+
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */
@@ -67,6 +70,10 @@ extern const INTNO     kernel_min_intno;	/* 割り込み番号最小値 */
 /* 割り込みサービスルーチン */
 extern T_KERNEL_ISRCB* kernel_isrcb_tbl[];	/* 割り込みサービスルーチンコントロールブロックテーブル */
 extern const INT       kernel_isrcb_cnt;	/* 割り込みサービスルーチンコントロールブロックの個数 */
+
+/* 割り込み制御変数 */
+extern INT kernel_int_cnt;		/* 割り込みネスト回数 */
+extern VP  kernel_int_ssp;		/* 割り込み時スタック退避 */
 
 
 

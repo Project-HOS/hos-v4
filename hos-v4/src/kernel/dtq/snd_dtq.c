@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_dtq.h"
 
 
 
@@ -75,14 +75,7 @@ ER snd_dtq(
 			mtcb = mknl_get_run_tsk();		/* 現在のタスクを取得 */
 			mtcb->data = data;				/* データ保存 */
 			mknl_wai_tsk(mtcb, TTW_SDTQ);	/* 待ち状態に設定 */
-			if ( dtqcb_rom->dtqatr & TA_TPRI )
-			{
-				mknl_adp_que(&dtqcb_ram->sndque, mtcb);	/* タスク優先度順に追加 */
-			}
-			else
-			{
-				mknl_add_que(&dtqcb_ram->sndque, mtcb);	/* FIFO順に追加 */
-			}
+			mknl_add_que(&dtqcb_ram->sndque, mtcb, dtqcb_rom->dtqatr);	/* 待ち行列に追加 */
 			
 			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
 			mknl_exe_tex();				/* 例外処理の実行 */

@@ -13,28 +13,16 @@
 /* タスクをキュー末尾に追加 */
 void mknl_add_que(
 		T_MKNL_QUE *que,	/* 追加するキュー */
-		T_MKNL_TCB *mtcb)	/* 追加するタスク */
+		T_MKNL_TCB *mtcb,	/* 追加するタスク */
+		ATR        atr)		/* 追加時の属性 */
 {
-	T_MKNL_TCB *mtcb_head;
-	T_MKNL_TCB *mtcb_tail;
-	
-	mtcb->que = que;
-	if ( que->head == NULL )
+	if ( atr & TA_TPRI )
 	{
-		/* キューにタスクが無ければ先頭に設定 */
-		que->head  = mtcb;
-		mtcb->next = mtcb;
-		mtcb->prev = mtcb;
+		mknl_adp_que(que, mtcb);	/* タスク優先度順に追加 */
 	}
 	else
 	{
-		/* キュー末尾に追加 */
-		mtcb_head       = que->head;
-		mtcb_tail       = mtcb_head->prev;
-		mtcb->next      = mtcb_head;
-		mtcb->prev      = mtcb_tail;
-		mtcb_head->prev = mtcb;
-		mtcb_tail->next = mtcb;
+		mknl_adf_que(que, mtcb);	/* FIFO順に追加 */
 	}
 }
 

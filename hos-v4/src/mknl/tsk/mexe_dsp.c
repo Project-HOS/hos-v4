@@ -7,7 +7,7 @@
 
 
 #include "mknl.h"
-
+#include "dsp_hok.h"
 
 
 /* タスクディスパッチの実行 */
@@ -72,6 +72,8 @@ ER_UINT mknl_exe_dsp(void)
 
 	/* タスクコンテキストスイッチ実行 */
 	hospac_swi_ctx(ctxinf_run, ctxinf_top);
+
+	_HOS_TSW_HOK();		/* コンテキストスイッチのフック */
 
 	if ( mtcb_run == NULL )
 	{

@@ -6,7 +6,16 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_sem.h"
+#include "knl_mem.h"
+
+
+/* セマフォコントロールブロック(動的生成用) */
+typedef struct t_kernel_semcb
+{
+	T_KERNEL_SEMCB_RAM semcb_ram;	/* セマフォコントロールブロック(RAM部) */
+	T_KERNEL_SEMCB_ROM semcb_rom;	/* セマフォコントロールブロック(ROM部) */
+} T_KERNEL_SEMCB;
 
 
 
@@ -35,8 +44,8 @@ ER kernel_cre_sem(
 	}
 
 	/* セマフォの設定 */
-	semcb_ram = &semcb->semcbram;
-	semcb_rom = &semcb->semcbrom;
+	semcb_ram = &semcb->semcb_ram;
+	semcb_rom = &semcb->semcb_rom;
 	mknl_ini_que(&semcb_ram->que);
 	semcb_ram->semcnt   = pk_csem->isemcnt;
 	semcb_ram->semcbrom = semcb_rom;

@@ -46,7 +46,7 @@ _HOS_SwiHandler
 				b		swi_ena_int
 
 			; ---- IRQ/FIQからの復帰 (a1 = 2)
-				ldr		r13, =_HOS_swi_ret
+				ldr		r13, =pac_arm_swi_ret
 				ldmia	r13, {a1, r13, lr}
 				msr		spsr_csxf, r13
 				subs	pc, lr, #0
@@ -89,12 +89,8 @@ _HOS_AbortHandler
 ; ----------------------------------------------
 				AREA	inthdr_bss, NOINIT
 
-				EXPORT	_HOS_int_cnt
-				EXPORT	_HOS_int_sp
-				EXPORT	_HOS_swi_ret
-_HOS_int_cnt	%		4		; 割り込みネスト回数
-_HOS_int_sp		%		4		; 割り込み時スタック退避
-_HOS_swi_ret	%		12		; a1, cpsr, lr の値渡し用
+				EXPORT	pac_arm_swi_ret
+pac_arm_swi_ret	%		12		; a1, cpsr, lr の値渡し用
 
 
 				END

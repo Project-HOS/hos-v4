@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_mpf_h__
 
 
+#include "knl_hos.h"
+
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */
@@ -26,6 +29,16 @@
 /*                 型定義                     */
 /* ------------------------------------------ */
 
+/* 固定長メモリプール生成情報 */
+typedef struct t_cmpf
+{
+	ATR  mpfatr;		/* 固定長メモリプール属性 */
+	UINT blkcnt;		/* 獲得できるメモリブロック数(個数) */
+	UINT blksz;			/* メモリブロックのサイズ(バイト数) */
+	VP   mpf;			/* 固定長メモリプール領域の先頭番地 */
+} T_CMPF;
+
+
 /* 固定長メモリプールコントロールブロック(ROM部) */
 typedef struct t_kernel_mpfcb_rom
 {
@@ -41,7 +54,7 @@ typedef struct t_kernel_mpfcb_ram
 {
 	T_MKNL_QUE que;		/* 固定長メモリプール待ちタスクキュー */
 	VP         free;	/* 空きブロックへのポインタ */
-	const T_KERNEL_MPFCB_ROM *mpfcbrom;	/* セマフォコントロールブロックROM部へのポインタ */
+	const T_KERNEL_MPFCB_ROM *mpfcbrom;	/* 固定長メモリプールコントロールブロックROM部へのポインタ */
 } T_KERNEL_MPFCB_RAM;
 
 
@@ -60,7 +73,7 @@ extern const INT kernel_mpfcb_cnt;							/* 固定長メモリプールコントロールブロッ
 
 /* 固定長メモリプールコントロールブロック変換マクロ */
 #define KERNEL_MPFID_TO_MPFCB_RAM(mpfid)	(kernel_mpfcb_ram_tbl[(mpfid) - TMIN_MPFID])
-															/* 固定長メモリプールIDからSEMCB RAMアドレスを取得 */
+															/* 固定長メモリプールIDからMPFCB RAMアドレスを取得 */
 
 
 
@@ -74,11 +87,15 @@ extern const INT kernel_mpfcb_cnt;							/* 固定長メモリプールコントロールブロッ
 #endif
 
 /* 固定長メモリプール */
-void    kernel_ini_mpf(void);						/* 固定長メモリブロックの初期化 */
-ER      get_mpf(ID mpfid, VP *p_blk);				/* 固定長メモリブロックの獲得 */
-ER      pget_mpf(ID mpfid, VP *p_blk);				/* 固定長メモリブロックの獲得(ポーリング) */
-ER      tget_mpf(ID mpfid, VP *p_blk, TMO tmout);	/* 固定長メモリブロックの獲得(タイムアウトあり) */
-ER      rel_mpf(ID mpfid, VP blk);					/* 固定長メモリブロックの返却 */
+void    kernel_ini_mpf(void);								/* 固定長メモリプールの初期化 */
+ER      cre_mpf(ID mpfid, const T_CMPF *pk_cmpf);			/* 固定長メモリプールの生成 */
+ER_ID   acre_mpf(const T_CMPF *pk_cmpf);					/* 固定長メモリプールの生成(ID番号自動割付け) */
+ER      kernel_cre_mpf(ID mpfid, const T_CMPF *pk_cmpf);	/* 固定長メモリプールの生成(カーネル内部関数) */
+ER      del_mpf(ID mpfid);									/* 固定長メモリプールの削除 */
+ER      get_mpf(ID mpfid, VP *p_blk);						/* 固定長メモリブロックの獲得 */
+ER      pget_mpf(ID mpfid, VP *p_blk);						/* 固定長メモリブロックの獲得(ポーリング) */
+ER      tget_mpf(ID mpfid, VP *p_blk, TMO tmout);			/* 固定長メモリブロックの獲得(タイムアウトあり) */
+ER      rel_mpf(ID mpfid, VP blk);							/* 固定長メモリブロックの返却 */
 
 
 #endif	/* __HOS_V4__knl_mpf_h__ */

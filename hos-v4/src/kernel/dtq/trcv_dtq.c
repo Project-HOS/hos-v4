@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_dtq.h"
 
 
 
@@ -91,14 +91,7 @@ ER trcv_dtq(
 				/* 受信待ちに入る */
 				mtcb = mknl_get_run_tsk();		/* 現在のタスクを取得 */
 				mknl_wai_tsk(mtcb, TTW_RDTQ);	/* 待ち状態に設定 */
-				if ( dtqcb_rom->dtqatr & TA_TPRI )
-				{
-					mknl_adp_que(&dtqcb_ram->rcvque, mtcb);	/* タスク優先度順に追加 */
-				}
-				else
-				{
-					mknl_add_que(&dtqcb_ram->rcvque, mtcb);	/* FIFO順に追加 */
-				}
+				mknl_add_que(&dtqcb_ram->rcvque, mtcb, dtqcb_rom->dtqatr);	/* 待ち行列に追加 */
 				
 				/* 無限待ちでなければ */
 				if ( tmout != TMO_FEVR )

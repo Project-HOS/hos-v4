@@ -29,8 +29,8 @@ F_Bit			EQU 	0x40
 				IMPORT	kernel_end_int				; 割り込み終了処理
 				IMPORT	kernel_exe_int				; 割り込み処理の実行
 				IMPORT	kernel_int_sp				; 割り込み用スタックアドレス
-				IMPORT	_HOS_int_cnt				; 割り込みネスト回数
-				IMPORT	_HOS_int_sp					; 割り込み時スタック退避
+				IMPORT	kernel_int_cnt				; 割り込みネスト回数
+				IMPORT	kernel_int_ssp				; 割り込み時スタック退避
 				
 _HOS_FiqHandler
 				sub		lr, lr, #4					; リターンアドレス算出
@@ -54,7 +54,7 @@ _HOS_FiqHandler
 				stmfd	sp!, {r0-r2}				; a1, spsr_irq, lr_irq 保存
 				
 			; ---- 多重割り込みチェック
-				ldr		r0, =_HOS_int_cnt
+				ldr		r0, =kernel_int_cnt
 				ldr		r1, [r0]					; 割り込みネストカウンタ取得
 				cmp		r1, #0
 				add		r1, r1, #1					; 割り込みネストカウンタインクリメント
@@ -62,7 +62,7 @@ _HOS_FiqHandler
 				bne		MultipleInt					; 多重割り込みなら分岐
 				
 			; ---- スタックの入れ替え
-				ldr		r0, =_HOS_int_sp
+				ldr		r0, =kernel_int_ssp
 				str		sp, [r0]					; スタックポインタを退避
 				ldr		r0, =kernel_int_sp
 				ldr		sp, [r0]					; 割り込み用スタックを設定
@@ -76,11 +76,11 @@ _HOS_FiqHandler
 				bl		hos_arm_end_fiq				; FIQ終了処理
 			
 			; ---- スタックの復帰
-				ldr		r0, =_HOS_int_sp
+				ldr		r0, =kernel_int_ssp
 				ldr		sp, [r0]					; スタックポインタを復帰
 			
 			; ---- 割り込みネストカウントデクリメント
-				ldr		r0, =_HOS_int_cnt
+				ldr		r0, =kernel_int_cnt
 				mov		r1, #0
 				str		r1, [r0]					; 割り込みネストカウンタクリア
 			
@@ -89,9 +89,9 @@ _HOS_FiqHandler
 			
 			; ---- 割り込みからの復帰
 ReturnInt		
-				IMPORT	_HOS_swi_ret
+				IMPORT	pac_arm_swi_ret
 				ldmfd	sp!, {r0-r2}
-				ldr		r3, =_HOS_swi_ret
+				ldr		r3, =pac_arm_swi_ret
 				stmia	r3, {r0-r2}					; 割り込み復帰データ設定
 				ldmfd	sp!, {r1-r3, ip, lr}		; レジスタ復帰
 				mov		a1, #2
@@ -106,7 +106,7 @@ MultipleInt
 				bl		hos_arm_end_fiq				; FIQ終了処理
 
 			; ---- 割り込みネストカウントデクリメント
-				ldr		r0, =_HOS_int_sp
+				ldr		r0, =kernel_int_ssp
 				ldr		r1, [r0]
 				add		r1, r1, #1
 				str		r1, [r0]

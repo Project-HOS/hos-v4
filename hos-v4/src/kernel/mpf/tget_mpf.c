@@ -6,7 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include "kernel.h"
+#include "knl_mpf.h"
 
 
 
@@ -79,14 +79,7 @@ ER tget_mpf(
 			mpfcb_rom = mpfcb_ram->mpfcbrom;
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_MPF);
-			if ( mpfcb_rom->mpfatr & TA_TPRI )
-			{
-				mknl_adp_que(&mpfcb_ram->que, mtcb);	/* タスク優先度順に追加 */
-			}
-			else
-			{
-				mknl_add_que(&mpfcb_ram->que, mtcb);	/* FIFO順に追加 */
-			}
+			mknl_add_que(&mpfcb_ram->que, mtcb, mpfcb_rom->mpfatr);	/* 待ち行列に追加 */
 			
 			/* 無限待ちでなければタイムアウト設定 */
 			if ( tmout != TMO_FEVR )

@@ -7,7 +7,6 @@
 
 
 #include "mknl.h"
-#include "kernel.h"
 
 
 

@@ -13,8 +13,7 @@
 /* グローバル変数定義 */
 UW hospac_sh_imsk      = 0;		/* 割り込みマスク */
 UW hospac_sh_imsk_base = 0;		/* 割り込みマスクベース値 */
-UW HOS_int_sp;					/* 割り込みスタックポインタ退避 */
-UW HOS_int_cnt = 0;				/* 割り込みネスト回数 */
+
 
 
 /* 割り込みマスク指定 */

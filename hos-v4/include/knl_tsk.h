@@ -10,6 +10,9 @@
 #define __HOS_V4__knl_tsk_h__
 
 
+#include "knl_hos.h"
+
+
 
 /* ------------------------------------------ */
 /*                  定数定義                  */
@@ -126,41 +129,42 @@ extern const INT kernel_tcb_cnt;							/* タスクコントロールブロック個数 */
 /* ------------------------------------------ */
 
 /* タスク管理機能 */
-void    kernel_ini_tsk(void);						/* タスクの初期化 */
-ER      cre_tsk(ID tskid, const T_CTSK *pk_ctsk);	/* タスクの生成 */
-ER_ID   acre_tsk(const T_CTSK *pk_ctsk);			/* タスクの生成(ID番号自動割付け) */
-ER      kernel_cre_tsk(ID tskid, const T_CTSK *pk_ctsk);
-													/* タスク生成(カーネル内部) */
-ER      act_tsk(ID tskid);							/* タスクの起動 */
-#define	iact_tsk	act_tsk							/* タスクの起動(非タスクコンテキスト用マクロ) */
-ER_UINT can_act(ID tskid);							/* タスク起動要求のキャンセル */
-ER      sta_tsk(ID tskid, VP_INT stacd);			/* タスクの起動(起動コード指定) */
-void    ext_tsk(void);								/* 自タスクの終了 */
-ER      ter_tsk(ID tskid);							/* タスクの強制終了 */
-ER      chg_pri(ID tskid, PRI tskpri);				/* タスク優先度の変更 */
-ER      get_pri(ID tskid, PRI *p_tskpri);			/* タスク優先度の参照 */
-ER      ref_tsk(ID tskid, T_RTSK *p_rtsk);			/* タスクの状態参照 */
-ER      ref_tst(ID tskid, T_RTST *p_rtst);			/* タスクの状態参照(簡易版) */
+void    kernel_ini_tsk(void);								/* タスクの初期化 */
+ER      cre_tsk(ID tskid, const T_CTSK *pk_ctsk);			/* タスクの生成 */
+ER_ID   acre_tsk(const T_CTSK *pk_ctsk);					/* タスクの生成(ID番号自動割付け) */
+ER      kernel_cre_tsk(ID tskid, const T_CTSK *pk_ctsk);	/* タスク生成(カーネル内部) */
+ER      del_tsk(ID tskid);									/* タスクの削除 */
+ER      act_tsk(ID tskid);									/* タスクの起動 */
+#define	iact_tsk	act_tsk									/* タスクの起動(非タスクコンテキスト用マクロ) */
+ER_UINT can_act(ID tskid);									/* タスク起動要求のキャンセル */
+ER      sta_tsk(ID tskid, VP_INT stacd);					/* タスクの起動(起動コード指定) */
+void    ext_tsk(void);										/* 自タスクの終了 */
+void    exd_tsk(void);										/* 自タスクの終了と削除 */
+ER      ter_tsk(ID tskid);									/* タスクの強制終了 */
+ER      chg_pri(ID tskid, PRI tskpri);						/* タスク優先度の変更 */
+ER      get_pri(ID tskid, PRI *p_tskpri);					/* タスク優先度の参照 */
+ER      ref_tsk(ID tskid, T_RTSK *p_rtsk);					/* タスクの状態参照 */
+ER      ref_tst(ID tskid, T_RTST *p_rtst);					/* タスクの状態参照(簡易版) */
 
 /* タスク付属同期機能 */
-ER      slp_tsk(void);								/* タスクの起床待ち */
-ER      tslp_tsk(TMO tmout);						/* タスクの起床待ち(タイムアウトあり) */
-ER      wup_tsk(ID tskid);							/* タスクの起床 */
-#define	iwup_tsk	wup_tsk							/* タスクの起床(非タスクコンテキスト用マクロ) */
-ER_UINT can_wup(ID tskid);							/* タスク起床要求のキャンセル */
-ER      rel_wai(ID tskid);							/* 待ち状態の強制解除 */
-#define	irel_wai	rel_wai							/* 待ち状態の強制解除(非タスクコンテキスト用マクロ) */
-ER      sus_tsk(ID tskid);							/* 強制待ち状態への移行 */
-ER      rsm_tsk(ID tskid);							/* 強制待ち状態からの再開 */
-ER      frsm_tsk(ID tskid);							/* 強制待ち状態からの強制再開 */
-ER      dly_tsk(RELTIM dlytim);						/* 自タスクの遅延 */
+ER      slp_tsk(void);										/* タスクの起床待ち */
+ER      tslp_tsk(TMO tmout);								/* タスクの起床待ち(タイムアウトあり) */
+ER      wup_tsk(ID tskid);									/* タスクの起床 */
+#define	iwup_tsk	wup_tsk									/* タスクの起床(非タスクコンテキスト用マクロ) */
+ER_UINT can_wup(ID tskid);									/* タスク起床要求のキャンセル */
+ER      rel_wai(ID tskid);									/* 待ち状態の強制解除 */
+#define	irel_wai	rel_wai									/* 待ち状態の強制解除(非タスクコンテキスト用マクロ) */
+ER      sus_tsk(ID tskid);									/* 強制待ち状態への移行 */
+ER      rsm_tsk(ID tskid);									/* 強制待ち状態からの再開 */
+ER      frsm_tsk(ID tskid);									/* 強制待ち状態からの強制再開 */
+ER      dly_tsk(RELTIM dlytim);								/* 自タスクの遅延 */
 
 /* タスク例外処理機能 */
-ER      ras_tex(ID tskid, TEXPTN rasptn);			/* タスク例外処理の要求 */
-#define iras_tex	ras_tex							/* タスク例外処理の要求(非タスクコンテキスト用マクロ) */
-ER      dis_tex(void);								/* タスク例外処理の禁止 */
-ER      ena_tex(void);								/* タスク例外処理の禁止 */
-BOOL    sns_tex(void);								/* タスク例外処理禁止状態の参照 */
+ER      ras_tex(ID tskid, TEXPTN rasptn);					/* タスク例外処理の要求 */
+#define iras_tex	ras_tex									/* タスク例外処理の要求(非タスクコンテキスト用マクロ) */
+ER      dis_tex(void);										/* タスク例外処理の禁止 */
+ER      ena_tex(void);										/* タスク例外処理の禁止 */
+BOOL    sns_tex(void);										/* タスク例外処理禁止状態の参照 */
 
 
 
