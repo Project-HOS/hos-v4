@@ -1,28 +1,29 @@
-# --------------------------------------------------------------------------- 
-#  HOS-V4                                                                     
-#   ライブラリメイクファイル ARM SDT用                                        
-#   ARMモード リトルエンディアン                                              
-#                                                                             
-#                                     Copyright (C) 1998-2002 by Project HOS  
-#                                     http://sourceforge.jp/projects/hos/     
-# --------------------------------------------------------------------------- 
+# -----------------------------------------------------------------------------
+#  HOS-V4                                                                      
+#   ライブラリメイクファイル ARM SDT用                                         
+#   ARMモード リトルエンディアン                                               
+#                                                                              
+#                                      Copyright (C) 1998-2002 by Project HOS  
+#                                      http://sourceforge.jp/projects/hos/     
+# -----------------------------------------------------------------------------
 
 
 # メイクプログラムに極力依存しないように、単純に記述しています。
 # 動作確認は armmake.exe にて行っております。
 
 
-# インクルードパス
-INCDIR     = ..\..\include
-
-# ソースパス
-PACDIR     = ..\..\src\arm
-MKNLDIR    = ..\..\src\mknl
+# パス定義
+HOSROOT    = ..\..\..
+INCDIR     = $(HOSROOT)\include
+SRCDIR     = $(HOSROOT)\src
+PACDIR     = $(SRCDIR)\arm
+PACASMDIR  = $(PACDIR)\arm
+MKNLDIR    = $(SRCDIR)\mknl
+KERNELDIR  = $(SRCDIR)\kernel
 MKNLSYSDIR = $(MKNLDIR)\sys
 MKNLTSKDIR = $(MKNLDIR)\tsk
 MKNLQUEDIR = $(MKNLDIR)\que
 MKNLTMODIR = $(MKNLDIR)\tmout
-KERNELDIR  = ..\..\src\kernel
 KNLHOSDIR  = $(KERNELDIR)\hos
 KNLMEMDIR  = $(KERNELDIR)\mem
 KNLTSKDIR  = $(KERNELDIR)\tsk
@@ -39,7 +40,7 @@ KNLINTDIR  = $(KERNELDIR)\int
 # ツール
 CC   = armcc
 ASM  = armasm
-LIBR = armlib
+LIBR = armar
 
 # オプション
 CFLAGS = -c -O2 -I$(INCDIR)
@@ -47,7 +48,7 @@ AFLAGS =
 LFLAGS = 
 
 # ターゲット
-TARGET  = h4al.aof
+TARGET = h4al.a
 
 #インクルードファイル
 INCS = $(INCDIR)\itron.h \
@@ -72,8 +73,8 @@ INCS = $(INCDIR)\itron.h \
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
-       mini_sys.o msta_stu.o mext_stu.o \
-       msta_tsk.o mext_tsk.o mchg_pri.o mrot_rdq.o \
+       mini_sys.o midl_lop.o msta_stu.o mext_stu.o \
+       msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
@@ -114,25 +115,23 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
 # ライブラリ生成
 $(TARGET): $(OBJS)
 	$(LIBR) -c $(TARGET) $(OBJS)
-	rm -f *.o
 
 
 # プロセッサ依存
-pacctx.o: $(PACDIR)\pacctx.s
-	$(ASM) $(AFLAGS) $(PACDIR)\pacctx.s
+pacctx.o: $(PACASMDIR)\pacctx.s
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctx.s
 
-pacint.o: $(PACDIR)\pacint.s
-	$(ASM) $(AFLAGS) $(PACDIR)\pacint.s
+pacint.o: $(PACASMDIR)\pacint.s
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacint.s
 
-pacirq.o: $(PACDIR)\pacirq.s
-	$(ASM) $(AFLAGS) $(PACDIR)\pacirq.s
+pacirq.o: $(PACASMDIR)\pacirq.s
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacirq.s
 
-pacfiq.o: $(PACDIR)\pacfiq.s
-	$(ASM) $(AFLAGS) $(PACDIR)\pacfiq.s
+pacfiq.o: $(PACASMDIR)\pacfiq.s
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacfiq.s
 
-pacimsk.o: $(PACDIR)\pacimsk.c $(INCS)
-	$(CC) $(CFLAGS) $(PACDIR)\pacimsk.c
-
+pacimsk.o: $(PACASMDIR)\pacimsk.c $(INCS)
+	$(CC) $(CFLAGS) $(PACASMDIR)\pacimsk.c
 
 mknlsys.o: $(MKNLDIR)\mknlsys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLDIR)\mknlsys.c
@@ -141,6 +140,9 @@ mknlsys.o: $(MKNLDIR)\mknlsys.c $(INCS)
 # μカーネル システム制御
 mini_sys.o: $(MKNLSYSDIR)\mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mini_sys.c
+
+midl_lop.o: $(MKNLSYSDIR)\midl_lop.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\midl_lop.c
 
 msta_stu.o: $(MKNLSYSDIR)\msta_stu.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\msta_stu.c
@@ -153,8 +155,8 @@ mext_stu.o: $(MKNLSYSDIR)\mext_stu.c $(INCS)
 msta_tsk.o: $(MKNLTSKDIR)\msta_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)\msta_tsk.c
 
-mext_tsk.o: $(MKNLTSKDIR)\mext_tsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mext_tsk.c
+mter_tsk.o: $(MKNLTSKDIR)\mter_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mter_tsk.c
 
 mchg_pri.o: $(MKNLTSKDIR)\mchg_pri.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mchg_pri.c
@@ -585,7 +587,7 @@ ref_ver.o: $(KNLSYSDIR)\ref_ver.c $(INCS)
 
 
 clean:
-	del	*.o
+	del	$(OBJS)
 	del	$(TARGET)
 
 
