@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-//  HOS-V4 コンフィギュレーター                                               
+//  Hyper Operating System V4  コンフィギュレーター                           
 //    ATT_ISR API の処理                                                      
 //                                                                            
 //                                    Copyright (C) 1998-2002 by Project HOS  
@@ -54,6 +54,11 @@ int CApiKernelHeap::AnalyzeApi(const char* pszApiName, const char* pszParams)
 void  CApiKernelHeap::WriteCfgDef(FILE* fp)
 {
 	if ( m_iObjs <= 0 )
+	{
+		return;
+	}
+
+	if ( strcmp(m_pParamPacks[0]->GetParam(0), "0") == 0 )
 	{
 		return;
 	}
