@@ -44,8 +44,13 @@ idle_loop:
 				bra	idle_loop
 
 
+				.global	_kernel_int_sp
 
-		.end
+_kernel_int_sp:
+				.long	_stack		/* 割り込み時の er7 保存用 */
+
+
+				.end
 
 
 
