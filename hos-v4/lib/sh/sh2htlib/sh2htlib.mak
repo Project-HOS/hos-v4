@@ -8,8 +8,8 @@
 
 
 
-# ライブラリアンには m-araiさん提供のライブラリアン(ベーター版)を利用さ
-# せていただきました。
+# ライブラリアンには BLIBG ( https://sourceforge.jp/projects/hos/files/ )
+# を採用しています。
 # 
 # メイクファイルは、なるべくいろんな make が利用できるように極力原始的な
 # 書き方をしておりますが、動作確認は Borland-C++ Ver 5.5 付属の make.exe
@@ -50,7 +50,7 @@ CC     = shc.exe
 ASM    = asmsh.exe
 LNK    = lnk.exe
 CNV    = 
-LIBR   = blibg.exe		#m-araiさん提供のライブラリアンです。shc.exeと一緒のディレクトリに保存して置くと良いでしょう
+LIBR   = blibg.exe		# shc.exeと一緒のディレクトリに保存して置くと良いでしょう
 
 # オプション
 CFLAGS = -CPU=SH2 -INCLUDE=$(INCDIR)
