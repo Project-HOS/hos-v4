@@ -26,7 +26,7 @@ HOSCFG = ../../config/hos4cfg
 
 # オプション
 CFLAGS   = -Os -Wall -I$(INCDIR) -I$(PACDIR) -mh -c -pipe
-CPPFLAGS = -E -mh
+CPPFLAGS = -E -mh -x c
 AFLAGS   = -mh -c
 LFLAGS   = -mh -mrelax -nostartfiles -nostdlib -Wl,-Map,$(TARGET).map \
 		-Wl,-T$(LDSCRIPT) -L$(LIBDIR)
@@ -70,7 +70,7 @@ ostimer.o: ostimer.c $(INCS)
 	$(CC) $(CFLAGS) ostimer.c
 
 kernel_cfg.c kernel_id.h: system.cfg
-	cat system.cfg | $(CPP) $(CPPFLAGS) - | $(HOSCFG) -
+	$(CPP) $(CPPFLAGS) system.cfg | $(HOSCFG) -
 
 # フラッシュ書き込み
 write:
