@@ -1,33 +1,36 @@
 // ===========================================================================
 //  HOS-V4 コンフィギュレーター
-//    INCLUDE API の処理
+//    HOS_MAX_TPRI API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
 // ===========================================================================
 
 
-#ifndef __HOSV4CFG_ApiInclude_h__
-#define __HOSV4CFG_ApiInclude_h__
+#ifndef __HOSV4CFG_ApiMaxTpri_h__
+#define __HOSV4CFG_ApiMaxTpri_h__
 
 
 #include "apidef.h"
 #include "parpack.h"
 
 
-// CRE_TSK 用
-class CApiInclude : public CApiDef
+// HOS_MAX_TPRI 用
+class CApiMaxTpri : public CApiDef
 {
 public:
-	CApiInclude();		// コンストラクタ
-	~CApiInclude();		// デストラクタ
+	CApiMaxTpri();		// コンストラクタ
+	~CApiMaxTpri();		// デストラクタ
 
 	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
 	int   AutoId(void);							// 自動ID番号割り当て
 	void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し
+
+protected:
+	int m_iMaxPri;
 };
 
 
-#endif	// __HOSV4CFG_ApiInclude_h__
+#endif	// __HOSV4CFG_ApiMaxTpri_h__
 
 
 // ===========================================================================

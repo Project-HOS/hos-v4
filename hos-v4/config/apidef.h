@@ -24,8 +24,7 @@ public:
 	CApiDef();				// コンストラクタ
 	virtual ~CApiDef();		// デストラクタ
 
-	virtual char* GetApiName(void) = 0;					// API名取得
-	virtual int   AddParams(const char* pszParams);		// パラメーター追加
+	virtual int   AnalizeApi(const char* pszApiName, const char* pszParams) = 0;	// APIの解析
 	virtual int   AutoId(void);							// 自動ID番号割り当て
 	virtual void  WriteId(FILE* fp);					// ID 定義ファイル書き出し
 	virtual void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し
@@ -33,6 +32,8 @@ public:
 	virtual void  WriteCfgStart(FILE* fp);				// cfgファイル起動部書き出し
 
 protected:
+	virtual int   AddParams(const char* pszParams);		// パラメーター追加
+
 	CParamPack* m_pParamPacks[API_MAX_OBJS];	// パラメーターリスト
 	int         m_iId[API_MAX_OBJS];			// ID番号リスト
 	int         m_iObjs;		// オブジェクト数

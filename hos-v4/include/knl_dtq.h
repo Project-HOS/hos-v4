@@ -70,6 +70,7 @@ extern const INT kernel_dtqcb_cnt;							/* データキューコントロールブロック個数
 /* ------------------------------------------ */
 
 /* データキュー */
+void    kernel_ini_dtq(void);							/* データキューの初期化 */
 ER      snd_dtq(ID dtqid, VP_INT data);					/* データキューへの送信 */
 ER      psnd_dtq(ID dtqid, VP_INT data);				/* データキューへの送信(ポーリング) */
 #define ipsnd_dtq	psnd_dtq							/* データキューへの送信(ポーリング 非タスクコンテキスト用マクロ) */

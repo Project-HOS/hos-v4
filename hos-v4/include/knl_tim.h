@@ -80,6 +80,7 @@ ER      isig_tim(void);								/* タイムティックの供給 */
 
 
 /* 周期ハンドラ */
+void    kernel_ini_cyc(void);						/* 周期ハンドラの初期化 */
 ER      sta_cyc(ID cycid);							/* 周期ハンドラの動作開始 */
 ER      stp_cyc(ID cycid);							/* 周期ハンドラの動作停止 */
 

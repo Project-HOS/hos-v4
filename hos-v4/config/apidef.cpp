@@ -19,7 +19,8 @@ CApiDef::CApiDef()
 {
 	int i;
 
-	m_iObjs = 0;
+	m_iMaxId = 0;
+	m_iObjs  = 0;
 	for ( i = 0; i < API_MAX_OBJS; i++ )
 	{
 		m_pParamPacks[i] = NULL;
@@ -133,7 +134,6 @@ int CApiDef::AutoId(void)
 	{
 		blUsedId[i] = false;
 	}
-	m_iMaxId = 0;
 
 	// 固定値指定のIDをサーチ
 	for ( i = 0; i < m_iObjs; i++ )

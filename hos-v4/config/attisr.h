@@ -21,9 +21,16 @@ public:
 	CApiAttIsr();		// コンストラクタ
 	~CApiAttIsr();		// デストラクタ
 
-	char* GetApiName(void);						// API名取得
+	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
 	int   AutoId(void);
-	void  WriteCfgIni(FILE* fp);				// cfgファイル初期化部書き出し
+	void  WriteCfgDef(FILE* fp);	// cfgファイル定義部書き出し
+	void  WriteCfgIni(FILE* fp);	// cfgファイル初期化部書き出し
+
+protected:
+	int m_iIntStackSize;
+	int m_iMaxIntNo;
+	int m_iMinIntNo;
+	int m_iMaxIsrId;
 };
 
 

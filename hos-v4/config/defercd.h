@@ -9,7 +9,7 @@
 #ifndef __HOSV4CFG_DefErrorCode_h__
 #define __HOSV4CFG_DefErrorCode_h__
 
-
+#define CFG_ERR_NOPROC			(-2)	// 未処理
 #define CFG_ERR_COMPLETE		(-1)	// 完了
 #define CFG_ERR_OK				0		// 正常
 
@@ -22,6 +22,7 @@
 #define CFG_ERR_SEMICOLON		7		// セミコロンが無い
 #define CFG_ERR_TEXT			8		// 不正な文字列定数
 #define CFG_ERR_ID_CONFLICT		9		// ID衝突
+#define CFG_ERR_PARAM			10		// パラメーター不正
 
 
 

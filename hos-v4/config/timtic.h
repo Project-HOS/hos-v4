@@ -1,13 +1,13 @@
 // ===========================================================================
 //  HOS-V4 コンフィギュレーター
-//    INCLUDE API の処理
+//    HOS_TIM_TIC API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
 // ===========================================================================
 
 
-#ifndef __HOSV4CFG_ApiInclude_h__
-#define __HOSV4CFG_ApiInclude_h__
+#ifndef __HOSV4CFG_ApiTimTic_h__
+#define __HOSV4CFG_ApiTimTic_h__
 
 
 #include "apidef.h"
@@ -15,19 +15,24 @@
 
 
 // CRE_TSK 用
-class CApiInclude : public CApiDef
+class CApiTimTic : public CApiDef
 {
 public:
-	CApiInclude();		// コンストラクタ
-	~CApiInclude();		// デストラクタ
+	CApiTimTic();		// コンストラクタ
+	~CApiTimTic();		// デストラクタ
 
 	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
-	int   AutoId(void);							// 自動ID番号割り当て
+	int   AutoId(void);							// ID 定義ファイル書き出し
+	void  WriteId(FILE* fp);					// cfgファイル定義部書き出し
 	void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し
+
+protected:
+	int m_iNume;	// タイムティックの周期の分子
+	int m_iDeno;	// タイムティックの周期の分母
 };
 
 
-#endif	// __HOSV4CFG_ApiInclude_h__
+#endif	// __HOSV4CFG_ApiTimTic_h__
 
 
 // ===========================================================================

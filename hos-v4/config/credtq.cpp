@@ -1,6 +1,6 @@
 // ===========================================================================
 //  HOS-V4 コンフィギュレーター
-//    CRE_TSK API の処理
+//    CRE_DTQ API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
 // ===========================================================================
@@ -10,44 +10,41 @@
 #include <stdlib.h>
 #include <string.h>
 #include "defercd.h"
-#include "cretsk.h"
+#include "credtq.h"
 #include "analize.h"
 
 
-#define CRETSK_TSKID		0
-#define CRETSK_TSKATR		1
-#define CRETSK_EXINF		2
-#define CRETSK_TASK			3
-#define CRETSK_ITSKPRI		4
-#define CRETSK_STKSZ		5
-#define CRETSK_STK			6
+
+#define CREDTQ_DTQID		0
+#define CREDTQ_DTQATR		1
+#define CREDTQ_DTQCNT		2
+#define CREDTQ_DTQ			3
 
 
 
 // コンストラクタ
-CApiCreTsk::CApiCreTsk()
+CApiCreDtq::CApiCreDtq()
 {
 	// パラメーター構文設定
 	m_iParamSyntax[0] = 0;		// 単独パラメーター
-	m_iParamSyntax[1] = 6;		// 6パラメーターのブロック
+	m_iParamSyntax[1] = 3;		// 3パラメーターのブロック
 	m_iParams = 2;
 }
 
 // デストラクタ
-CApiCreTsk::~CApiCreTsk()
+CApiCreDtq::~CApiCreDtq()
 {
 }
 
 
-
 // APIの解析
-int CApiCreTsk::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreDtq::AnalizeApi(const char* pszApiName, const char* pszParams)
 {
-	if ( strcmp(pszApiName, "CRE_TSK") == 0 )
+	if ( strcmp(pszApiName, "CRE_DTQ") == 0 )
 	{
 		return AddParams(pszParams);
 	}
-	else if ( strcmp(pszApiName, "HOS_MAX_TSKID") == 0 )
+	else if ( strcmp(pszApiName, "HOS_MAX_DTQID") == 0 )
 	{
 		int iId;
 		if ( (iId = atoi(pszParams)) <= 0 )
@@ -66,14 +63,14 @@ int CApiCreTsk::AnalizeApi(const char* pszApiName, const char* pszParams)
 
 
 // ID 定義ファイル書き出し
-void CApiCreTsk::WriteId(FILE* fp)
+void CApiCreDtq::WriteId(FILE* fp)
 {
 	int i;
 
 	// ID 直接指定でないオブジェクトが在るかどうかサーチ
 	for ( i = 0; i < m_iObjs; i++ )
 	{
-		if ( atoi(m_pParamPacks[i]->GetParam(CRETSK_TSKID)) == 0 )
+		if ( atoi(m_pParamPacks[i]->GetParam(CREDTQ_DTQID)) == 0 )
 		{
 			break;
 		}
@@ -83,15 +80,15 @@ void CApiCreTsk::WriteId(FILE* fp)
 		return;
 	}
 
-	fputs("\n\n/* task ID definetion */\n", fp);
+	fputs("\n\n/* data queue ID definetion */\n", fp);
 	for ( i = 0; i < m_iObjs; i++ )
 	{
-		if ( atoi(m_pParamPacks[i]->GetParam(CRETSK_TSKID)) == 0 )
+		if ( atoi(m_pParamPacks[i]->GetParam(CREDTQ_DTQID)) == 0 )
 		{
 			fprintf(
 				fp,
 				"#define %s\t\t%d\n",
-				m_pParamPacks[i]->GetParam(CRETSK_TSKID),
+				m_pParamPacks[i]->GetParam(CREDTQ_DTQID),
 				m_iId[i]);
 		}
 	}
@@ -99,7 +96,7 @@ void CApiCreTsk::WriteId(FILE* fp)
 
 
 // cfgファイル定義部書き出し
-void  CApiCreTsk::WriteCfgDef(FILE* fp)
+void  CApiCreDtq::WriteCfgDef(FILE* fp)
 {
 	const char* pszParam;
 	bool blOutput;
@@ -109,28 +106,28 @@ void  CApiCreTsk::WriteCfgDef(FILE* fp)
 	fputs(
 		"\n\n\n"
 		"/* ------------------------------------------ */\n"
-		"/*          create task objects               */\n"
+		"/*        create data queue objects           */\n"
 		"/* ------------------------------------------ */\n"
 		, fp);
 
-	// スタック領域出力
+	// データキュー領域出力
 	blOutput = false;
 	for ( i = 0; i < m_iObjs; i++ )
 	{
-		pszParam = m_pParamPacks[i]->GetParam(CRETSK_STK);
+		pszParam = m_pParamPacks[i]->GetParam(CREDTQ_DTQ);
 		if ( strcmp(pszParam, "NULL") == 0 )
 		{
 			if ( !blOutput )
 			{
-				fputs("\n/* stack area */\n", fp);
+				fputs("\n/* data que area */\n", fp);
 				blOutput = true;
 			}
 
 			fprintf(
 				fp,
-				"static VP kernel_tsk%d_stk[((%s) + sizeof(VP) - 1) / sizeof(VP)];\n",
+				"static VP_INT kernel_dtq%d_dtq[%s];\n",
 				m_iId[i],
-				m_pParamPacks[i]->GetParam(CRETSK_STKSZ));
+				m_pParamPacks[i]->GetParam(CREDTQ_DTQCNT));
 		}
 	}
 
@@ -138,59 +135,49 @@ void  CApiCreTsk::WriteCfgDef(FILE* fp)
 	{
 		fprintf(
 			fp,
-			"\n/* task control block for rom area */\n"
-			"const T_KERNEL_TCB_ROM kernel_tcb_rom[%d] =\n"
+			"\n/* data queue control block for rom area */\n"
+			"const T_KERNEL_DTQCB_ROM kernel_dtqcb_rom[%d] =\n"
 			"\t{\n",
 			m_iObjs);
 
-		// タスクコントロールブロック(ROM部)出力
+		// コントロールブロック(ROM部)出力
 		for ( i = 0; i < m_iObjs; i++ )
 		{
 			fprintf(
 				fp,
-				"\t\t{(ATR)(%s), (VP_INT)(%s), (FP)(%s), (PRI)(%s), (SIZE)(%s), ",
-				m_pParamPacks[i]->GetParam(CRETSK_TSKATR),
-				m_pParamPacks[i]->GetParam(CRETSK_EXINF),
-				m_pParamPacks[i]->GetParam(CRETSK_TASK),
-				m_pParamPacks[i]->GetParam(CRETSK_ITSKPRI),
-				m_pParamPacks[i]->GetParam(CRETSK_STKSZ));
-
-			pszParam = m_pParamPacks[i]->GetParam(CRETSK_STK);
+				"\t\t{(ATR)(%s), (FLGPTN)(%s), ",
+				m_pParamPacks[i]->GetParam(CREDTQ_DTQATR),
+				m_pParamPacks[i]->GetParam(CREDTQ_DTQCNT));
+			pszParam = m_pParamPacks[i]->GetParam(CREDTQ_DTQ);
 			if ( strcmp(pszParam, "NULL") == 0 )
 			{
-				fprintf(
-					fp,
-					"(VP)kernel_tsk%d_stk},\n",
-					m_iId[i]);
+				fprintf(fp,	"kernel_dtq%d_dtq},\n", m_iId[i]);
 			}
 			else
 			{
-				fprintf(
-					fp,
-					"(VP)(%s)},\n",
-					m_pParamPacks[i]->GetParam(CRETSK_STK));
+				fprintf(fp,	"(VP_INT *)(%s)},\n", pszParam);
 			}
 		}
 		fprintf(fp, "\t};\n");
 	}
 
-	// タスクコントロールブロック(RAM部)出力
+	// コントロールブロック(RAM部)出力
 	if ( m_iObjs > 0 )
 	{
 		fprintf(
 			fp,
-			"\n/* task control block for ram area */\n"
-			"T_KERNEL_TCB_RAM kernel_tcb_ram[%d];\n",
+			"\n/* data queue control block for ram area */\n"
+			"T_KERNEL_DTQCB_RAM kernel_dtqcb_ram[%d];\n",
 			m_iObjs);
 	}
 
-	// タスクコントロールブロックテーブル出力
+	// コントロールブロックテーブル出力
 	if ( m_iMaxId > 0 )
 	{
 		fprintf(
 			fp,
-			"\n/* task control block table */\n"
-			"T_KERNEL_TCB_RAM *kernel_tcb_ram_tbl[%d] =\n"
+			"\n/* data queue control block table */\n"
+			"T_KERNEL_DTQCB_RAM *kernel_dtqcb_ram_tbl[%d] =\n"
 			"\t{\n",
 			m_iMaxId);
 
@@ -207,7 +194,7 @@ void  CApiCreTsk::WriteCfgDef(FILE* fp)
 			if ( j < m_iObjs )
 			{
 				// オブジェクトが存在した場合
-				fprintf(fp, "\t\t&kernel_tcb_ram[%d],\n", j);
+				fprintf(fp, "\t\t&kernel_dtqcb_ram[%d],\n", j);
 			}
 			else
 			{
@@ -218,17 +205,17 @@ void  CApiCreTsk::WriteCfgDef(FILE* fp)
 		fputs("\t};\n", fp);
 	}
 
-	// タスク情報出力
+	// テーブルサイズ情報出力
 	fprintf(
 		fp,
-		"\n/* task control block count */\n"
-		"const INT kernel_tcb_cnt = %d;\n",
+		"\n/* data queue control block count */\n"
+		"const INT kernel_dtqcb_cnt = %d;\n",
 		m_iMaxId);
 }
 
 
 // cfgファイル初期化部書き出し
-void  CApiCreTsk::WriteCfgIni(FILE* fp)
+void  CApiCreDtq::WriteCfgIni(FILE* fp)
 {
 	// オブジェクト存在チェック
 	if ( m_iObjs == 0 )
@@ -240,17 +227,17 @@ void  CApiCreTsk::WriteCfgIni(FILE* fp)
 	fprintf(
 		fp,
 		"\t\n\t\n"
-		"\t/* initialize task control block */\n"
+		"\t/* initialize data queue control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_tcb_ram[i].tcbrom = &kernel_tcb_rom[i];\n"
+		"\t\tkernel_dtqcb_ram[i].dtqcbrom = &kernel_dtqcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }
 
 
 // cfgファイル起動部書き出し
-void  CApiCreTsk::WriteCfgStart(FILE* fp)
+void  CApiCreDtq::WriteCfgStart(FILE* fp)
 {
 	// オブジェクト存在チェック
 	if ( m_iObjs == 0 )
@@ -258,7 +245,7 @@ void  CApiCreTsk::WriteCfgStart(FILE* fp)
 		return;
 	}
 
-	fputs("\tkernel_ini_tsk();\t\t/* initialize task */\n", fp);
+	fputs("\tkernel_ini_dtq();\t\t/* initialize data queue */\n", fp);
 }
 
 

@@ -13,34 +13,60 @@
 #include "read.h"
 #include "analize.h"
 #include "apiinc.h"
+#include "maxtpri.h"
+#include "maxtmout.h"
+#include "timtic.h"
 #include "cretsk.h"
+#include "cresem.h"
+#include "creflg.h"
+#include "credtq.h"
+#include "crecyc.h"
 #include "attisr.h"
+#include "attini.h"
 
 
 #define MAX_PATH	1024		// 最大パス名
-
-CApiInclude g_ApiInclude;
-CApiCreTsk  g_ApiCreTsk;
-CApiAttIsr  g_ApiAttIsr;
-
-// API定義リスト
-CApiDef* g_ApiList[] =
-	{
-		&g_ApiInclude,
-		&g_ApiCreTsk,
-		&g_ApiAttIsr,
-	};
-
-#define API_COUNT	(sizeof(g_ApiList) / sizeof(CApiDef*))		// API個数
 
 
 int  ReadConfigFile(FILE* fpConfig);	// コンフィギュレーションファイル読み込み
 void WriteIdFile(FILE* fp);				// ID 定義ヘッダファイル出力
 void WriteCfgFile(FILE* fp);			// C 言語ソース出力
 
-char szConfigFile[MAX_PATH] = "system.cfg";
-char szIdFile[MAX_PATH]     = "kernel_id.h";
-char szCfgFile[MAX_PATH]    = "kernel_cfg.c";
+
+CApiInclude   g_ApiInclude;
+CApiMaxTpri   g_ApiMaxTpri;
+CApiMaxTimout g_ApiMaxTimout;
+CApiTimTic    g_ApiTimTic;
+CApiCreTsk    g_ApiCreTsk;
+CApiCreSem    g_ApiCreSem;
+CApiCreFlg    g_ApiCreFlg;
+CApiCreDtq    g_ApiCreDtq;
+CApiCreCyc    g_ApiCreCyc;
+CApiAttIsr    g_ApiAttIsr;
+CApiAttIni    g_ApiAttIni;
+
+static char szConfigFile[MAX_PATH] = "system.cfg";
+static char szIdFile[MAX_PATH]     = "kernel_id.h";
+static char szCfgFile[MAX_PATH]    = "kernel_cfg.c";
+
+// API定義リスト
+static CApiDef* g_ApiList[] =
+	{
+		&g_ApiInclude,
+		&g_ApiMaxTpri,
+		&g_ApiMaxTimout,
+		&g_ApiTimTic,
+		&g_ApiCreTsk,
+		&g_ApiCreSem,
+		&g_ApiCreFlg,
+		&g_ApiCreDtq,
+		&g_ApiCreCyc,
+		&g_ApiAttIsr,
+		&g_ApiAttIni,
+	};
+
+#define API_COUNT	(sizeof(g_ApiList) / sizeof(CApiDef*))		// API個数
+
 
 
 
@@ -134,20 +160,20 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 		CAnalize::SpaceCut(szApiName);
 		CAnalize::SpaceCut(szParams);
-		printf("\nAPI :\"%s\"\nPAR :\"%s\"\n", szApiName, szParams);
 
 		// API検索
 		iErr = CFG_ERR_SYNTAX;
 		for ( i = 0; i < API_COUNT; i++ )
 		{
-			if ( strcmp(szApiName, g_ApiList[i]->GetApiName()) == 0 )
+			iErr = g_ApiList[i]->AnalizeApi(szApiName, szParams);
+			if ( iErr != CFG_ERR_NOPROC )
 			{
-				iErr = g_ApiList[i]->AddParams(szParams);
 				break;
 			}
 		}
 		if ( iErr != CFG_ERR_OK )
 		{
+			printf("err(%d)\n", iErr);
 			return 1;
 		}
 	}
@@ -208,6 +234,7 @@ void WriteCfgFile(FILE* fp)
 		"/* ======================================================================== */\n"
 		"\n\n"
 		"#include \"kernel.h\"\n"
+		"#include \"kernel_id.h\"\n"
 		, fp);
 
 	// ID 定義ファイル出力

@@ -1,6 +1,6 @@
 // ===========================================================================
 //  HOS-V4 コンフィギュレーター
-//    CRE_TSK API の処理
+//    HOS_MAX_TPRI API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
 // ===========================================================================
@@ -10,81 +10,69 @@
 #include <stdlib.h>
 #include <string.h>
 #include "defercd.h"
-#include "apiinc.h"
+#include "maxtmout.h"
 #include "analize.h"
 
 
 
 // コンストラクタ
-CApiInclude::CApiInclude()
+CApiMaxTimout::CApiMaxTimout()
 {
 	// パラメーター構文設定
 	m_iParamSyntax[0] = 0;		// 単独パラメーター
 	m_iParams         = 1;
+
+	m_iMaxTimout = 16;
 }
 
 
 // デストラクタ
-CApiInclude::~CApiInclude()
+CApiMaxTimout::~CApiMaxTimout()
 {
 }
 
 
 
 // APIの解析
-int CApiInclude::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiMaxTimout::AnalizeApi(const char* pszApiName, const char* pszParams)
 {
-	char szBuf[4096];
-	int  iErr;
-	
 	// API名チェック
-	if ( strcmp(pszApiName, "INCLUDE") != 0 )
+	if ( strcmp(pszApiName, "HOS_MAX_TIMOUT") != 0 )
 	{
 		return CFG_ERR_NOPROC;
 	}
 
-	// パラメーター追加
-	iErr = AddParams(pszParams);
-	if ( iErr != CFG_ERR_OK )
+	if ( atoi(pszParams) <= 0 )
 	{
-		return iErr;
+		return CFG_ERR_PARAM;
 	}
-
-	// 文字列の展開
-	iErr = CAnalize::DecodeText(szBuf, m_pParamPacks[m_iObjs - 1]->GetParam(0));
-	if ( iErr != CFG_ERR_OK )
-	{
-		return iErr;
-	}
-	m_pParamPacks[m_iObjs - 1]->SetParam(0, szBuf);
+	m_iMaxTimout = atoi(pszParams);
 
 	return CFG_ERR_OK;
 }
 
 
 // 文字列を展開
-int CApiInclude::AutoId(void)
+int CApiMaxTimout::AutoId(void)
 {
 	return CFG_ERR_OK;
 }
 
 
 // cfgファイル定義部書き出し
-void  CApiInclude::WriteCfgDef(FILE* fp)
+void  CApiMaxTimout::WriteCfgDef(FILE* fp)
 {
-	int i;
-
-	if ( m_iObjs == 0)
-	{
-		return;
-	}
-
-	fputs("\n", fp);
-
-	for ( i = 0; i < m_iObjs; i++ )
-	{
-		fprintf(fp, "#include %s\n", m_pParamPacks[i]->GetParam(0));
-	}
+	fprintf(
+		fp,
+		"\n\n\n"
+		"/* ------------------------------------------ */\n"
+		"/*          create time-out queue             */\n"
+		"/* ------------------------------------------ */\n"
+		"\n"
+		"T_MKNL_TIMOUT mknl_timout[%d];\n"
+		"const INT     mknl_timout_size = %d;\n",
+		m_iMaxTimout,
+		m_iMaxTimout);
 }
 
 

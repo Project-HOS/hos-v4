@@ -1,6 +1,6 @@
 // ===========================================================================
 //  HOS-V4 コンフィギュレーター
-//    CRE_TSK API の処理
+//    ATT_INI API の処理
 //
 //                                      Copyright (C) 2002 by Ryuji Fuchikami
 // ===========================================================================
@@ -10,67 +10,51 @@
 #include <stdlib.h>
 #include <string.h>
 #include "defercd.h"
-#include "apiinc.h"
+#include "attini.h"
 #include "analize.h"
 
+#define ATTINI_INIATR		0
+#define ATTINI_EXINF		1
+#define ATTINI_INIRTN		2
 
 
 // コンストラクタ
-CApiInclude::CApiInclude()
+CApiAttIni::CApiAttIni()
 {
 	// パラメーター構文設定
-	m_iParamSyntax[0] = 0;		// 単独パラメーター
+	m_iParamSyntax[0] = 3;		// 単独パラメーター
 	m_iParams         = 1;
 }
 
 
 // デストラクタ
-CApiInclude::~CApiInclude()
+CApiAttIni::~CApiAttIni()
 {
 }
 
 
 
 // APIの解析
-int CApiInclude::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiAttIni::AnalizeApi(const char* pszApiName, const char* pszParams)
 {
-	char szBuf[4096];
-	int  iErr;
-	
-	// API名チェック
-	if ( strcmp(pszApiName, "INCLUDE") != 0 )
+	if ( strcmp(pszApiName, "ATT_INI") == 0 )
 	{
-		return CFG_ERR_NOPROC;
+		return AddParams(pszParams);
 	}
 
-	// パラメーター追加
-	iErr = AddParams(pszParams);
-	if ( iErr != CFG_ERR_OK )
-	{
-		return iErr;
-	}
-
-	// 文字列の展開
-	iErr = CAnalize::DecodeText(szBuf, m_pParamPacks[m_iObjs - 1]->GetParam(0));
-	if ( iErr != CFG_ERR_OK )
-	{
-		return iErr;
-	}
-	m_pParamPacks[m_iObjs - 1]->SetParam(0, szBuf);
-
-	return CFG_ERR_OK;
+	return CFG_ERR_NOPROC;
 }
 
 
 // 文字列を展開
-int CApiInclude::AutoId(void)
+int CApiAttIni::AutoId(void)
 {
 	return CFG_ERR_OK;
 }
 
 
 // cfgファイル定義部書き出し
-void  CApiInclude::WriteCfgDef(FILE* fp)
+void  CApiAttIni::WriteCfgStart(FILE* fp)
 {
 	int i;
 
@@ -79,11 +63,16 @@ void  CApiInclude::WriteCfgDef(FILE* fp)
 		return;
 	}
 
-	fputs("\n", fp);
+	fputs("\n\t/* call initialize routine*/\n", fp);
 
 	for ( i = 0; i < m_iObjs; i++ )
 	{
-		fprintf(fp, "#include %s\n", m_pParamPacks[i]->GetParam(0));
+		fprintf(
+			fp,
+			"\t((FP)(%s))((VP_INT)(%s));\n",
+			m_pParamPacks[i]->GetParam(ATTINI_INIRTN),
+			m_pParamPacks[i]->GetParam(ATTINI_EXINF)
+			);
 	}
 }
 

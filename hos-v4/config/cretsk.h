@@ -21,7 +21,7 @@ public:
 	CApiCreTsk();		// コンストラクタ
 	~CApiCreTsk();		// デストラクタ
 
-	char* GetApiName(void);						// API名取得
+	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
 	void  WriteId(FILE* fp);					// ID 定義ファイル書き出し
 	void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し
 	void  WriteCfgIni(FILE* fp);				// cfgファイル初期化部書き出し
