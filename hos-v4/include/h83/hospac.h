@@ -70,15 +70,13 @@ void hospac_ena_int(void);			/* 割り込み許可 */
 
 void hospac_cre_ctx_asm(T_HOSPAC_CTXINF *pk_ctxinf,
 					VP sp, FP task, VP_INT exinf);			/* 実行コンテキストの作成(アセンブラ用) */
-#define hospac_cre_ctx(pk_ctxinf, exinf, task, stksz, stk) \
-	hospac_cre_ctx_asm(pk_ctxinf, ((VP)((UB *)(stk) + ((stksz) & 0xfffffffc))), task, exinf);
+#define hospac_cre_ctx(pk_ctxinf, exinf, task, stksz, stk)	\
+	hospac_cre_ctx_asm(pk_ctxinf, ((VP)((UB *)(stk) + ((stksz) & 0xfffffffc))), task, exinf)
 															/* アセンブラ側で都合がいいように引数を入れ替え */
-#define hospac_del_ctx(pk_ctxinf)							/* 実行コンテキストの削除 */
+#define hospac_del_ctx(pk_ctxinf)	do {} while (0)			/* 実行コンテキストの削除(不要) */
 void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 						T_HOSPAC_CTXINF *pk_nxt_ctxinf);	/* 実行コンテキストの切替 */
-void hospac_set_tex(T_HOSPAC_CTXINF *pk_pre_ctxinf,
-					void (*exp)(TEXPTN), TEXPTN rasptn);	/* 例外処理実行設定 */
-#define hospac_idle()	do {} while (0)						/* 何もしない */
+#define hospac_idle()	do {} while (0)						/* アイドル時の動作(何もしない) */
 
 
 ER chg_imsk(IMSK imsk);				/* 割り込みマスクのベース値の変更 */

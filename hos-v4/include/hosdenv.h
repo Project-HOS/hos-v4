@@ -22,6 +22,10 @@
 #include "h83/hospac.h"
 #endif
 
+#elif defined(__H8300H__)	/* gcc H8/300H コンパイラ */
+
+#include "h83/hospac.h"
+
 #elif defined(__sh__) || defined(_SH1) || defined(_SH2) ||  defined(_SH3) || defined(_SH4)	/* SH コンパイラ */
 
 #include "sh/hospac.h"

@@ -1,6 +1,7 @@
 ; --------------------------------------------------------------------------- 
-;  Hyper Operating System V4                                                  
-;    割り込みハンドラ  Hitachi H8/300H 用                                     
+;  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
+;    プロセッサ抽象化コンポーネント (日立 H8/300H 用)                         
+;    割り込みハンドラ                                                         
 ;                                                                             
 ;                                   Copyright (C) 1998-2002 by Project HOS    
 ;                                   http://sourceforge.jp/projects/hos/       
@@ -442,8 +443,8 @@ __HOS_int_sp:	.res.l	1		; 割り込み時のスタックポインタ(er7)保存用
 __HOS_int_cnt:	.res.w	1		; 割り込みネストカウンタ
 
 
-				.END
 
+				.END
 
 
 ; --------------------------------------------------------------------------- 

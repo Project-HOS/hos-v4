@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
-#  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                      
-#   ライブラリメイクファイル H8/300H 秋月Cコンパイラ用                         
+#  HOS-V4                                                                      
+#   ライブラリメイクファイル H8/300h 秋月Cコンパイラ用                         
 #                                                                              
 #                                       Copyright (C) 1998-2002 by Project HOS 
 #                                       http://sourceforge.jp/projects/hos/    
