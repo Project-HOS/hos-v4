@@ -21,8 +21,8 @@ CRead::CRead(FILE *fp, const char *name)
 	m_fpRead    = fp;
 	m_iPhysicalLineNum = m_iLogicalLineNum = 1;
 	m_blLineTop = true;
-	strncpy(m_szLogicalInputFile, name, MAX_PATH - 1);
-	m_szLogicalInputFile[MAX_PATH - 1] = '\0';
+	strncpy(m_szLogicalInputFile, name, READ_MAX_PATH - 1);
+	m_szLogicalInputFile[READ_MAX_PATH - 1] = '\0';
 }
 
 
@@ -201,8 +201,8 @@ int CRead::SkipPreProcessorLine(char* szText, int iCountOrg)
 			*p2 = '\0';
 
 			// ファイル名を反映
-			strncpy(m_szLogicalInputFile, p1, MAX_PATH - 1);
-			m_szLogicalInputFile[MAX_PATH - 1] = '\0';
+			strncpy(m_szLogicalInputFile, p1, READ_MAX_PATH - 1);
+			m_szLogicalInputFile[READ_MAX_PATH - 1] = '\0';
 
 			return CFG_ERR_OK;
 		}

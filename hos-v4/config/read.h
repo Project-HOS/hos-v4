@@ -12,7 +12,7 @@
 #define __HOSV4CFG_Read_h__
 
 
-#define MAX_PATH			1024	// 最大パス名
+#define READ_MAX_PATH		1024	// 最大パス名
 #define READ_MAX_STATE		4096	// １ステートの最大文字数
 
 
@@ -39,7 +39,7 @@ protected:
 	int  m_iPhysicalLineNum;			// 実際に読み込み中のファイルの行番号
 	int  m_iLogicalLineNum;				// cppを通す前のファイルの行番号
 	bool m_blLineTop;				// 行の先頭
-	char m_szLogicalInputFile[MAX_PATH];	// cppを通す前のファイル名
+	char m_szLogicalInputFile[READ_MAX_PATH];	// cppを通す前のファイル名
 };
 
 
