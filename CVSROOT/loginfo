@@ -25,4 +25,4 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-DEFAULT /usr/local/bin/cvs-commitmail %s -f /dev/null -m hos-cvs@lists.sourceforge.jp
+hos /usr/local/bin/cvs-commitmail %s -f /dev/null -m hos-cvs@lists.sourceforge.jp
