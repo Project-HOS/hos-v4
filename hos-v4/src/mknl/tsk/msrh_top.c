@@ -14,8 +14,6 @@
 /* レディーキュー先頭のタスクを探す */
 T_MKNL_TCB* mknl_srh_top(void)
 {
-	T_MKNL_TCB *mtcb;
-	T_MKNL_TCB *mtcb_head;
 	INT i;
 
 	/* 最高優先度の実行可能タスクを探す */
