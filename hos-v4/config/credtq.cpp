@@ -176,7 +176,7 @@ void  CApiCreDtq::WriteCfgDef(FILE* fp)
 		{
 			fprintf(
 				fp,
-				"\t\t{(ATR)(%s), (FLGPTN)(%s), ",
+				"\t\t{(ATR)(%s), (UINT)(%s), ",
 				m_pParamPacks[i]->GetParam(CREDTQ_DTQATR),
 				m_pParamPacks[i]->GetParam(CREDTQ_DTQCNT));
 			pszParam = m_pParamPacks[i]->GetParam(CREDTQ_DTQ);
