@@ -43,6 +43,7 @@ ER del_mbx(
 	mknl_clr_que(&mbxcb_ram->que);
 	
 	/* メモリの解放 */
+	kernel_fre_mem(mbxcb_ram->mbxcb_rom->mprihd);
 	kernel_fre_mem(mbxcb_ram);
 	KERNEL_MBXID_TO_MBXCB_RAM(mbxid) = NULL;
 	
