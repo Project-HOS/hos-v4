@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*    ITRONカーネル イベントフラグ                                          */
+/*    ITRONカーネル タスク例外処理機能                                      */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -10,21 +10,27 @@
 
 
 
-/* フラグが起床条件を満たしているかチェック */
-BOOL kernel_chk_flg(
-		T_KERNEL_FLGCB_RAM *flgcb_ram,	/* コントロールブロック RAM部 */
-		T_KERNEL_FLGINF    *pk_flginf)	/* 待ちフラグ情報パケットの先頭番地 */
+/* タスク例外処理エントリーポイント(μカーネルより呼び出し) */
+void kernel_tex_entry(void)
 {
-	if ( pk_flginf->wfmode == TWF_ANDW )
-	{
-		/* AND待ち判定 */
-		return ((flgcb_ram->flgptn & pk_flginf->waiptn) == pk_flginf->waiptn);
-	}
-	else
-	{
-		/* OR待ち判定 */
-		return ((flgcb_ram->flgptn & pk_flginf->waiptn) != 0);
-	}
+	T_KERNEL_TCB_RAM   *tcb_ram;
+	T_KERNEL_TEXCB_RAM *texcb;
+	TEXPTN rasptn;
+	
+	tcb_ram = kernel_get_run_tsk();
+	texcb   = tcb_ram->texcb;
+	
+	/* タスク例外要因クリア */
+	rasptn = texcb->rasptn;
+	texcb->rasptn = 0;
+	
+	mknl_dis_tex(&tcb_ram->mtcb);	/* タスク例外処理の禁止 */
+	mknl_unl_sys();					/* システムのロック解除 */
+
+	texcb->texrtn(rasptn);			/* タスク例外処理ルーチンの呼び出し */
+
+	mknl_loc_sys();					/* システムのロック */
+	mknl_ena_tex(&tcb_ram->mtcb);	/* タスク例外処理の許可 */
 }
 
 

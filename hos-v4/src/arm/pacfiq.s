@@ -25,7 +25,7 @@ F_Bit			EQU 	0x40
 ; ----------------------------------------------
 				IMPORT	hos_arm_sta_fiq				; FIQの初期化処理
 				IMPORT	hos_arm_end_fiq				; FIQの終了処理
-				IMPORT	kernel_sta_int				; 割り込み終了開始
+				IMPORT	kernel_sta_int				; 割り込み開始処理
 				IMPORT	kernel_end_int				; 割り込み終了処理
 				IMPORT	kernel_exe_int				; 割り込み処理の実行
 				IMPORT	kernel_int_sp				; 割り込み用スタックアドレス

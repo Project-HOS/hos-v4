@@ -8,12 +8,10 @@
 
 
 
-				.little
-
 				.global	_hospac_dis_int			/* 割り込み禁止 */
 				.global	_hospac_ena_int			/* 割り込み許可 */
-				.global	_hospac_cre_cnt_asm		/* 実行コンテキストの作成 */
-				.global	_hospac_swi_cnt			/* 実行コンテキストの切替 */
+				.global	_hospac_cre_ctx_asm		/* 実行コンテキストの作成 */
+				.global	_hospac_swi_ctx			/* 実行コンテキストの切替 */
 
 
 
@@ -55,7 +53,7 @@ ctx_entry:
 
 /************************************************
   実行コンテキストの作成
-  void hospac_cre_cnt_asm(
+  void hospac_cre_ctx_asm(
 		 T_HOSPAC_CTXINF *pk_ctxinf,	作成するコンテキスト
 		 VP 	sp, 					スタックポインタ
 		 void	(*task)(VP_INT),		実行アドレス
@@ -63,7 +61,7 @@ ctx_entry:
 ************************************************/
 				.text
 				.align 2
-_hospac_cre_cnt_asm:
+_hospac_cre_ctx_asm:
 				add 	#-20, r5				/* r14-10分コンテキストのstackを伸ばす */
 				mov.l	r7, @-r5				/* 実行パラメータの格納(r9) */
 				mov.l	r6, @-r5				/* 実行アドレスの格納(r8) */
@@ -80,13 +78,13 @@ ctx_entry_addr:
 
 /************************************************
   実行コンテキストの切替
-  void hospac_swi_cnt(
+  void hospac_swi_ctx(
 		T_HOSPAC_CTXINF *pk_pre_ctxinf,	現在のコンテキストの保存先
 		T_HOSPAC_CTXINF *pk_nxt_ctxinf)	切り替えるコンテキスト
 ************************************************/
 				.text
 				.align 2
-_hospac_swi_cnt:
+_hospac_swi_ctx:
 				mov.l	 r14, @-r15
 				mov.l	 r13, @-r15
 				mov.l	 r12, @-r15
@@ -98,7 +96,7 @@ _hospac_swi_cnt:
 				sts.l	 pr, @-r15		/* 戻り番地を保存 */
 
 				mov.l	 r15, @(0, r4)	/* スタックポインタ保存 */
-				mov.l	 @(0,r5), r15	/* スタックポインタ復帰 */
+				mov.l	 @(0, r5), r15	/* スタックポインタ復帰 */
 
 				lds.l	 @r15+, pr		/* 戻り番地を復帰 */
 

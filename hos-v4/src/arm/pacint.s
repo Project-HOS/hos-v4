@@ -6,12 +6,7 @@
 ; ---------------------------------------------------------------------------
 
 
-; 定数定義
-Mode_USR		EQU 	0x10
-Mode_IRQ		EQU 	0x12
-
-I_Bit			EQU 	0x80
-F_Bit			EQU 	0x40
+				INCLUDE	pacarm.inc
 
 
 				AREA	inthdr_code, CODE, READONLY
@@ -74,7 +69,7 @@ swi_ret
 
 
 ; ----------------------------------------------
-;  SWI ハンドラ
+;  Prefetch ハンドラ
 ; ----------------------------------------------
 _HOS_PrefetchHandler
 				b		_HOS_PrefetchHandler

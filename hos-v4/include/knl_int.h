@@ -61,7 +61,7 @@ typedef struct t_kernel_isrcb
 
 /* 割り込み管理 */
 extern T_KERNEL_INTCB  kernel_intcb_tbl[];	/* 割り込み管理コントロールブロックテーブル */
-extern const INT       kernel_intcb_cnt;	/* 最大割り込み番号数 */
+extern const INT       kernel_intcb_cnt;	/* 割り込み番号数 */
 extern const INTNO     kernel_min_intno;	/* 割り込み番号最小値 */
 
 /* 割り込みサービスルーチン */
@@ -78,8 +78,12 @@ extern const INT       kernel_isrcb_cnt;	/* 割り込みサービスルーチンコントロール
 extern "C" {
 #endif
 
+/* 割り込み制御 */
+void    kernel_sta_int(void);						/* 割り込みコンテキスト開始処理 */
+void    kernel_end_int(void);						/* 割り込みコンテキスト終了処理 */
+
 /* 割り込み管理 */
-void    kernel_exe_int(INTNO intno);				/* 割り込み処理実行（μカーネルより呼び出し） */
+void    kernel_exe_int(INTNO intno);				/* 割り込み処理実行 */
 ER      dis_int(INTNO intno);						/* 割り込みの禁止 */
 ER      ena_int(INTNO intno);						/* 割り込みの許可 */
 

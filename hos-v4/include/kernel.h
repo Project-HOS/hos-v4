@@ -15,10 +15,7 @@
 #include <stddef.h>
 #include "itron.h"
 #include "mknl.h"
-
-
-/* debug用 */
-#define HOS_ERCHK_ALL
+#include "hoserchk.h"
 
 
 /* ------------------------------------------ */
@@ -34,20 +31,6 @@
 #define TMIN_ALMID		1					/* アラームハンドラIDの最小値 */
 #define TMIN_OVRID		1					/* オーバーランハンドラIDの最小値 */
 
-
-/* エラーチェック(HOS独自) */
-#ifdef HOS_ERCHK_ALL
-#define HOS_ERCHK_E_RSATR					/* E_RSATR のエラーチェックを行う */
-#define HOS_ERCHK_E_PAR						/* E_PAR のエラーチェックを行う */
-#define HOS_ERCHK_E_ID						/* E_ID のエラーチェックを行う */
-#define HOS_ERCHK_E_CTX						/* E_CTX のエラーチェックを行う */
-#define HOS_ERCHK_E_ILUSE					/* E_ILUSE のエラーチェックを行う */
-#define HOS_ERCHK_E_NOMEM					/* E_NOMEM のエラーチェックを行う */
-#define HOS_ERCHK_E_NOID					/* E_NOID のエラーチェックを行う */
-#define HOS_ERCHK_E_OBJ						/* E_OBJ のエラーチェックを行う */
-#define HOS_ERCHK_E_NOEXS					/* E_NOEXS のエラーチェックを行う */
-#define HOS_ERCHK_E_QOVR					/* E_QOVR のエラーチェックを行う */
-#endif
 
 
 /* C++ の static_cast 演算子と同じ効果のマクロ */
@@ -70,7 +53,7 @@
 #include "knl_tim.h"
 #include "knl_sys.h"
 #include "knl_int.h"
-
+#include "knl_exc.h"
 
 
 /* ------------------------------------------ */

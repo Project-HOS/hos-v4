@@ -12,7 +12,6 @@
 
 # インクルードパス
 INCDIR     = ../../include
-INCPACDIR  = $(INCDIR)/sh
 
 
 # ソースパス
@@ -37,13 +36,13 @@ KNLINTDIR  = $(KERNELDIR)/int
 
 # ツール
 CC     = sh-hms-gcc
-ASM    = sh-hms-as
+ASM    = sh-hms-gcc
 LIBR   = sh-hms-ar
 RANLIB = sh-hms-ranlib
 
 # オプション
-CFLAGS = -c -g -O0 -I$(INCDIR) -I$(INCPACDIR)
-AFLAGS = -g
+CFLAGS = -c -g -O0 -I$(INCDIR)
+AFLAGS = -c -g
 
 
 # ターゲット
@@ -53,6 +52,7 @@ TARGET  = h4sh2gcc.a
 #インクルードファイル
 INCS = $(INCDIR)/itron.h \
        $(INCDIR)/mknl.h \
+       $(INCDIR)/hosdenv.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
        $(INCDIR)/knl_tsk.h \
@@ -81,7 +81,7 @@ OBJS = pacctx.o \
        ref_tst.o \
        slp_tsk.o tslp_tsk.o wup_tsk.o can_wup.o rel_wai.o \
        sus_tsk.o rsm_tsk.o frsm_tsk.o dly_tsk.o \
-       ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
+       ktex_ent.o ras_tex.o dis_tex.o ena_tex.o sns_tex.o \
        ini_sem.o cre_sem.o acre_sem.o kcre_sem.o del_sem.o \
        sig_sem.o wai_sem.o pol_sem.o twai_sem.o ref_sem.o \
        ini_flg.o set_flg.o clr_flg.o wai_flg.o pol_flg.o \
@@ -104,6 +104,7 @@ OBJS = pacctx.o \
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
+	rm *.o
 
 
 # プロセッサ依存
@@ -262,6 +263,9 @@ frsm_tsk.o: $(KNLTSKDIR)/frsm_tsk.c $(INCS)
 
 dly_tsk.o: $(KNLTSKDIR)/dly_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/dly_tsk.c
+
+ktex_ent.o: $(KNLTSKDIR)/ktex_ent.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTSKDIR)/ktex_ent.c
 
 ras_tex.o: $(KNLTSKDIR)/ras_tex.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTSKDIR)/ras_tex.c
@@ -452,8 +456,8 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 
 
 clean:
-	del *.o
-	del $(TARGET)
+	rm -f *.o
+	rm -f $(TARGET)
 
 
 # -----------------------------------------------------------------------------

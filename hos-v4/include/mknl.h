@@ -195,7 +195,8 @@ void    mknl_adp_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb);	/* タスクを優先度順でキ
 void    mknl_rmv_que(T_MKNL_TCB *mtcb);						/* タスクをキューから取り除く */
 void    mknl_rot_que(T_MKNL_QUE *que);						/* レディーキューの回転 */
 #define mknl_ref_qhd(que)	((que)->head)					/* キューの先頭タスクの参照(マクロ関数) */
-
+#define mknl_ref_nxt(que, mtcb)		\
+		((mtcb)->next != (que)->head ? (que)->head : NULL)	/* 次のキューを取得 */
 
 /* タイムアウト待ち行列 */
 void    mknl_tic_tmout(RELTIM tictim);						/* タイムアウトにタイムティック供給 */

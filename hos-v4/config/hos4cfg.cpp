@@ -27,6 +27,7 @@
 #include "crecyc.h"
 #include "attisr.h"
 #include "attini.h"
+#include "defexc.h"
 
 
 #define MAX_PATH	1024		// 最大パス名
@@ -52,8 +53,9 @@ CApiCreMpf     g_ApiCreMpf;
 CApiCreCyc     g_ApiCreCyc;
 CApiAttIsr     g_ApiAttIsr;
 CApiAttIni     g_ApiAttIni;
+CApiDefExc     g_ApiDefExc;
 
-static char s_szConfigFile[MAX_PATH] = "system.cfg";
+static char s_szInputFile[MAX_PATH]  = "system.cfg";
 static char s_szIdFile[MAX_PATH]     = "kernel_id.h";
 static char s_szCfgFile[MAX_PATH]    = "kernel_cfg.c";
 
@@ -75,6 +77,7 @@ static CApiDef* g_ApiList[] =
 		&g_ApiCreCyc,
 		&g_ApiAttIsr,
 		&g_ApiAttIni,
+		&g_ApiDefExc,
 	};
 
 #define API_COUNT	(sizeof(g_ApiList) / sizeof(CApiDef*))		// API個数
@@ -85,7 +88,9 @@ static CApiDef* g_ApiList[] =
 // メイン関数
 int main(int argc, char *argv[])
 {
-	FILE* fp;
+	FILE* fpInput;
+	FILE* fpCfg;
+	FILE* fpId;
 	int  iErr;
 	int  i;
 
@@ -116,21 +121,21 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			strncpy(s_szConfigFile, argv[i], MAX_PATH - 1);
-			s_szConfigFile[MAX_PATH - 1] = '\0';
+			strncpy(s_szInputFile, argv[i], MAX_PATH - 1);
+			s_szInputFile[MAX_PATH - 1] = '\0';
 		}
 	}
 
-	// コンフィギュレーションファイルオープン
-	if ( (fp = fopen(s_szConfigFile, "r")) == NULL )
+	// 入力ファイルオープン
+	if ( (fpInput = fopen(s_szInputFile, "r")) == NULL )
 	{
-		printf("\"%s\" が開けません\n", s_szConfigFile);
+		printf("could not open file \"%s\"\n", s_szInputFile);
 		return 1;
 	}
 
 	// コンフィギュレーションファイル読み込み
-	iErr = ReadConfigFile(fp) != 0;
-	fclose(fp);
+	iErr = ReadConfigFile(fpInput) != 0;
+	fclose(fpInput);
 	if ( iErr != 0 )
 	{
 		return 1;
@@ -143,25 +148,27 @@ int main(int argc, char *argv[])
 	}
 
 	// ID 定義ファイルオープン
-	if ( (fp = fopen(s_szIdFile, "w")) == NULL )
+	if ( (fpId = fopen(s_szIdFile, "w")) == NULL )
 	{
+		printf("could not open file \"%s\"\n", s_szIdFile);
 		return 1;
 	}
 
-	WriteIdFile(fp);
+	WriteIdFile(fpId);
 
-	fclose(fp);
+	fclose(fpId);
 
 
-	// ID 定義ファイルオープン
-	if ( (fp = fopen(s_szCfgFile, "w")) == NULL )
+	// Cfgファイルオープン
+	if ( (fpCfg = fopen(s_szCfgFile, "w")) == NULL )
 	{
+		printf("could not open file \"%s\"\n", s_szCfgFile);
 		return 1;
 	}
 
-	WriteCfgFile(fp);
+	WriteCfgFile(fpCfg);
 
-	fclose(fp);
+	fclose(fpCfg);
 
 	return 0;
 }
@@ -184,8 +191,8 @@ int ReadConfigFile(FILE* fpConfig)
 		// 読み込みエラーチェック
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s (%d) : error(%d)\n",
-					s_szConfigFile, read.GetLineNum(), iErr);
+			printf("%s line(%d) : %s\n",
+					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 
@@ -193,8 +200,8 @@ int ReadConfigFile(FILE* fpConfig)
 		iErr = CAnalize::SplitState(szApiName, szParams, szState);
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s (%d) : error(%d) Syntax Error\n",
-					s_szConfigFile, read.GetLineNum(), iErr);
+			printf("%s line(%d) : %s\n",
+					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 		CAnalize::SpaceCut(szApiName);
@@ -212,7 +219,8 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 		if ( iErr != CFG_ERR_OK )
 		{
-			printf("%s line(%d) : error(%d)\n", s_szConfigFile, read.GetLineNum(), iErr);
+			printf("%s line(%d) : %s\n",
+					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 	}

@@ -20,6 +20,7 @@ ER twai_flg(
 {
 	const T_KERNEL_FLGCB_ROM *flgcb_rom;
 	T_KERNEL_FLGCB_RAM       *flgcb_ram;
+	T_KERNEL_FLGINF flginf;
 	ER ercd;
 
 	/* ID のチェック */
@@ -54,6 +55,7 @@ ER twai_flg(
 #endif
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
+	flgcb_rom = flgcb_ram->flgcbrom;
 
 	/* オブジェクトの存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -63,9 +65,9 @@ ER twai_flg(
 	}
 #endif
 
-	/* サービスコール不正使用チェック(TA_WMUL 未サポート)  */
+	/* サービスコール不正使用チェック */
 #ifdef HOS_ERCHK_E_ILUSE
-	if ( flgcb_ram->mtcb != NULL )
+	if ( !(flgcb_rom->flgatr & TA_WMUL) && mknl_ref_qhd(&flgcb_ram->que) != NULL )
 	{
 		mknl_unl_sys();		/* システムのロック解除 */
 		return E_ILUSE;		/* サービスコール不正使用 */
@@ -73,14 +75,13 @@ ER twai_flg(
 #endif
 
 	/* 待ち条件設定 */
-	flgcb_ram->waiptn = waiptn;
-	flgcb_ram->wfmode = wfmode;
+	flginf.waiptn = waiptn;
+	flginf.wfmode = wfmode;
 	
 	/* フラグチェック */
-	if ( kernel_chk_flg(flgcb_ram) )
+	if ( kernel_chk_flg(flgcb_ram, &flginf) )
 	{
 		/* 既に条件を満たしているなら */
-		flgcb_rom = flgcb_ram->flgcbrom;
 		*p_flgptn = flgcb_ram->flgptn;		/* 解除時のフラグパターンを格納 */
 		if ( flgcb_rom->flgatr & TA_CLR )
 		{
@@ -99,7 +100,8 @@ ER twai_flg(
 		else
 		{
 			/* 待ちに入る */
-			flgcb_ram->mtcb = mknl_get_run_tsk();
+			flgcb_ram->mtcb = mknl_get_run_tsk();		/* 実行中タスクを取得 */
+			flgcb_ram->mtcb->data = &flginf;			/* 待ち状態を保存 */
 			mknl_wai_tsk(flgcb_ram->mtcb, TTW_FLG);
 			if ( tmout == TMO_FEVR )
 			{
@@ -112,12 +114,7 @@ ER twai_flg(
 			/* 条件を満たして解除されたのなら */
 			if ( ercd == E_OK )
 			{
-				flgcb_rom = flgcb_ram->flgcbrom;
-				*p_flgptn = flgcb_ram->flgptn;		/* 解除時のフラグパターンを格納 */
-				if ( flgcb_rom->flgatr & TA_CLR )
-				{
-					flgcb_ram->flgptn = 0;		/* クリア属性があればクリア */
-				}
+				*p_flgptn = flginf.waiptn;		/* 解除時のフラグパターンを格納 */
 			}
 			
 			mknl_exe_tex();		/* 例外処理の実行 */

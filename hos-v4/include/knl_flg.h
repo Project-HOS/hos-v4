@@ -40,13 +40,18 @@ typedef struct t_kernel_flgcb_rom
 /* イベントフラグコントロールブロック(RAM部) */
 typedef struct t_kernel_flgcb_ram
 {
+	T_MKNL_QUE que;			/* イベントフラグ待ち行列 */
 	T_MKNL_TCB *mtcb;		/* イベントフラグ待ちタスク */
 	FLGPTN     flgptn;		/* イベントフラグのビットパターン */
-	FLGPTN     waiptn;		/* 待ちビットパターン */
-	MODE       wfmode;		/* 待ちモード */
 	const T_KERNEL_FLGCB_ROM* flgcbrom;	/* イベントフラグコントロールブロックROM部へのポインタ */
 } T_KERNEL_FLGCB_RAM;
 
+/* 待ちフラグ情報構造体 */
+typedef struct t_kernel_flginf
+{
+	MODE   wfmode;		/* 待ちモード */
+	FLGPTN waiptn;		/* 待ちビットパターン（解除時パターンと兼用) */
+} T_KERNEL_FLGINF;
 
 
 #ifdef __cplusplus
@@ -81,7 +86,7 @@ ER      pol_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn);
 													/* イベントフラグ待ち(ポーリング) */
 ER      twai_flg(ID flgid, FLGPTN waiptn, MODE wfmode, FLGPTN *p_flgptn, TMO tmout);
 													/* イベントフラグ待ち(タイムアウトあり) */
-BOOL    kernel_chk_flg(T_KERNEL_FLGCB_RAM *flgcb_ram);
+BOOL    kernel_chk_flg(T_KERNEL_FLGCB_RAM *flgcb_ram, T_KERNEL_FLGINF *pk_flginf);
 													/* フラグが起床条件を満たしているかチェック */
 
 

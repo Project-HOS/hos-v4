@@ -56,7 +56,7 @@ int CApiAttIsr::AnalizeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_INTNO") == 0 )
 	{
 		int iIntNo;
-		if ( (iIntNo = atoi(pszParams)) <= 0 )
+		if ( (iIntNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
 		}
@@ -82,7 +82,7 @@ int CApiAttIsr::AnalizeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_ISRID") == 0 )
 	{
 		int iId;
-		if ( (iId = atoi(pszParams)) <= 0 )
+		if ( (iId = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
 		}

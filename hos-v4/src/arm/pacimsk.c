@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
-/*  HOS-V4 サンプル                                                         */
-/*   プロセッサ抽象化コンポーネント (ARM用)                                 */
+/*  HOS-V4                                                                  */
+/*   プロセッサ抽象化コンポーネント (ARM用)  割り込みマスク管理             */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -11,7 +11,7 @@
 
 
 /* グローバル変数定義 */
-UW hospac_arm_imsk = ARM_IMASK_USR_MODE;	/* 割り込みマスク */
+UW hospac_arm_imsk = ARM_IMSK_USR_MODE;	/* 割り込みマスク */
 
 
 
@@ -20,7 +20,7 @@ ER chg_imsk(IMASK imsk)
 {
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( (imsk & ~(ARM_IMASK_FIQ | ARM_IMASK_IRQ)) != 0 )
+	if ( (imsk & ~(ARM_IMSK_FIQ | ARM_IMSK_IRQ)) != 0 )
 	{
 		return E_PAR;
 	}
@@ -28,7 +28,7 @@ ER chg_imsk(IMASK imsk)
 
 	mknl_loc_sys();		/* システムのロック */
 
-	hospac_arm_imsk = (hospac_arm_imsk | ARM_IMASK_USR_MODE);
+	hospac_arm_imsk = (hospac_arm_imsk | ARM_IMSK_USR_MODE);
 
 	mknl_unl_sys();		/* システムのアンロック */
 
@@ -39,7 +39,7 @@ ER chg_imsk(IMASK imsk)
 /* 割り込みマスクの参照 */
 ER get_imsk(IMASK *p_imsk)
 {
-	*p_imsk = (hospac_arm_imsk & (ARM_IMASK_FIQ | ARM_IMASK_IRQ));
+	*p_imsk = (hospac_arm_imsk & (ARM_IMSK_FIQ | ARM_IMSK_IRQ));
 	
 	return E_OK;
 }

@@ -15,11 +15,15 @@
 
 #include "arm/hospac.h"	
 
-#elif defined(__CPU__)	/* 日立コンパイラ */
+#elif defined(__CPU__)	/* 日立H8コンパイラ */
 
 #if (__CPU__ == 3)		/* H8/300H */
 #include "h83/hospac.h"
 #endif
+
+#elif defined(__sh__)	/* gcc SH コンパイラ */
+
+#include "sh/hospac.h"
 
 #elif defined(_WIN32)	/* VC++ */
 

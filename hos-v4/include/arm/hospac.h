@@ -17,9 +17,9 @@
 /* ------------------------------------------ */
 
 /* ARM固有 割り込み管理機構 */
-#define ARM_IMASK_USR_MODE	0x00000010		/* ユーザーモード */
-#define ARM_IMASK_FIQ		0x00000040		/* FIQマスクビット */
-#define ARM_IMASK_IRQ		0x00000080		/* IRQマスクビット */
+#define ARM_IMSK_USR_MODE		0x00000010		/* ユーザーモード */
+#define ARM_IMSK_FIQ			0x00000040		/* FIQマスクビット */
+#define ARM_IMSK_IRQ			0x00000080		/* IRQマスクビット */
 
 
 

@@ -19,6 +19,7 @@ ER pol_flg(
 {
 	const T_KERNEL_FLGCB_ROM *flgcb_rom;
 	T_KERNEL_FLGCB_RAM       *flgcb_ram;
+	T_KERNEL_FLGINF flginf;
 	ER ercd;
 
 	/* ID のチェック */
@@ -40,6 +41,7 @@ ER pol_flg(
 	mknl_loc_sys();	/* システムのロック */
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
+	flgcb_rom = flgcb_ram->flgcbrom;
 
 	/* オブジェクトの存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -50,9 +52,9 @@ ER pol_flg(
 	}
 #endif
 
-	/* サービスコール不正使用チェック(TA_WMUL 未サポート) */
+	/* サービスコール不正使用チェック */
 #ifdef HOS_ERCHK_E_ILUSE
-	if ( flgcb_ram->mtcb != NULL )
+	if ( !(flgcb_rom->flgatr & TA_WMUL) && mknl_ref_qhd(&flgcb_ram->que) != NULL )
 	{
 		mknl_unl_sys();		/* システムのロック解除 */
 		return E_ILUSE;		/* サービスコール不正使用 */
@@ -60,14 +62,13 @@ ER pol_flg(
 #endif
 
 	/* 待ち条件設定 */
-	flgcb_ram->waiptn = waiptn;
-	flgcb_ram->wfmode = wfmode;
+	flginf.waiptn = waiptn;
+	flginf.wfmode = wfmode;
 	
 	/* フラグチェック */
-	if ( kernel_chk_flg(flgcb_ram) )
+	if ( kernel_chk_flg(flgcb_ram, &flginf) )
 	{
 		/* 既に条件を満たしているなら */
-		flgcb_rom = flgcb_ram->flgcbrom;
 		*p_flgptn = flgcb_ram->flgptn;		/* 解除時のフラグパターンを格納 */
 		if ( flgcb_rom->flgatr & TA_CLR )
 		{

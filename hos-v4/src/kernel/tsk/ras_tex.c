@@ -10,30 +10,6 @@
 
 
 
-/* タスク例外処理エントリーポイント(μカーネルより呼び出し) */
-void kernel_tex_entry(void)
-{
-	T_KERNEL_TCB_RAM   *tcb_ram;
-	T_KERNEL_TEXCB_RAM *texcb;
-	TEXPTN rasptn;
-	
-	tcb_ram = kernel_get_run_tsk();
-	texcb   = tcb_ram->texcb;
-	
-	/* タスク例外要因クリア */
-	rasptn = texcb->rasptn;
-	texcb->rasptn = 0;
-	
-	mknl_dis_tex(&tcb_ram->mtcb);	/* タスク例外処理の禁止 */
-	mknl_unl_sys();					/* システムのロック解除 */
-
-	texcb->texrtn(rasptn);			/* タスク例外処理ルーチンの呼び出し */
-
-	mknl_loc_sys();					/* システムのロック */
-	mknl_ena_tex(&tcb_ram->mtcb);	/* タスク例外処理の許可 */
-}
-
-
 /* タスク例外処理の要求 */
 ER ras_tex(
 		ID     tskid,		/* 要求対象のタスクのID番号 */
