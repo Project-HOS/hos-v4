@@ -101,13 +101,13 @@ const INT kernel_flgcb_cnt = 2;					/* イベントフラグコントロールブロック個数 */
 /* ------------------------------------------ */
 /*         データキューの静的生成             */
 /* ------------------------------------------ */
-VP_INT kernel_dtq1data[128];
-VP_INT kernel_dtq2data[128];
+VP_INT kernel_dtq1data[8];
+VP_INT kernel_dtq2data[8];
 
 const T_KERNEL_DTQCB_ROM kernel_dtqcb_rom[2] =	/* イベントフラグコントロールブロック(ROM部) */
 	{
-		{0, 128, kernel_dtq1data},
-		{0, 128, kernel_dtq2data},
+		{0, 8, kernel_dtq1data},
+		{0, 8, kernel_dtq2data},
 	};
 
 T_KERNEL_DTQCB_RAM kernel_dtqcb_ram[2];			/* イベントフラグコントロールブロック(RAM部) */

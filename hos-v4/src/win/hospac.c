@@ -11,7 +11,19 @@
 #include "hospac.h"
 
 
+#define WM_RUN_TASK		(WM_USER + 1)
 
+
+DWORD WINAPI TaskEntry(LPVOID param);
+
+
+/* スレッド起動データ */
+typedef struct t_task_start
+{
+	HANDLE hEvent;
+	FP     task;
+	VP_INT exinf;
+} T_TASK_START;
 
 /* スレッド削除用リスト */
 typedef struct t_hospac_dellist
@@ -51,21 +63,45 @@ void hospac_dis_int(void)
 
 
 /* 実行コンテキストの作成 */
-void hospac_cre_cnt(
+void hospac_cre_ctx(
 		T_HOSPAC_CTXINF *pk_ctxinf,		/* コンテキストを作成するアドレス */
 		VP_INT exinf,					/* タスクの実行時パラメータ */
 		FP    task,						/* タスクの起動番地 */
 		SIZE  stksz,					/* スタック領域のサイズ */
 		VP    stk)						/* スタック領域の先頭番地 */
 {
-	DWORD dwThreadId;
-	pk_ctxinf->hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)task,
-								(LPVOID)exinf, CREATE_SUSPENDED, &dwThreadId);
+	T_TASK_START taskinf;
+
+	taskinf.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	taskinf.task   = task;
+	taskinf.exinf  = exinf;
+
+	pk_ctxinf->hThread = CreateThread(NULL, 0, TaskEntry,
+								(LPVOID)&taskinf, 0, &pk_ctxinf->dwThreadId);
+	WaitForSingleObject(taskinf.hEvent, INFINITE);
+}
+
+
+DWORD WINAPI TaskEntry(LPVOID param)
+{
+	T_TASK_START taskinf;
+	MSG msg;
+
+	taskinf = *(T_TASK_START *)param;
+
+	PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE);
+	SetEvent(taskinf.hEvent);
+
+	GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
+
+	taskinf.task(taskinf.exinf);
+
+	return 0;
 }
 
 
 /* 実行コンテキストの削除 */
-void hospac_del_cnt(T_HOSPAC_CTXINF *pk_ctxinf)
+void hospac_del_ctx(T_HOSPAC_CTXINF *pk_ctxinf)
 {
 	T_HOSPAC_DELLIST *pDelList;
 
@@ -87,13 +123,13 @@ void hospac_del_cnt(T_HOSPAC_CTXINF *pk_ctxinf)
 
 
 /* 実行コンテキストの切替 */
-void hospac_swi_cnt(
+void hospac_swi_ctx(
 		T_HOSPAC_CTXINF *pk_pre_ctxinf,		/* 現在のコンテキストの保存先 */
 		T_HOSPAC_CTXINF *pk_nxt_ctxinf)		/* 新たに実行するコンテキスト */
 {
-	static volatile HANDLE hPrevThread;
 	T_HOSPAC_DELLIST *pDelList;
-	T_HOSPAC_DELLIST *pDelListTmp;;
+	T_HOSPAC_DELLIST *pDelListTmp;
+	MSG msg;
 
 	/* 初回のアイドルからの起動ならスレッドハンドルを作成 */
 	if ( pk_pre_ctxinf->hThread == NULL )
@@ -102,25 +138,15 @@ void hospac_swi_cnt(
 		hProcess = GetCurrentProcess();
 		DuplicateHandle(hProcess, GetCurrentThread(), hProcess,
 					&pk_pre_ctxinf->hThread, 0, TRUE, DUPLICATE_SAME_ACCESS);
+		pk_pre_ctxinf->dwThreadId = GetCurrentThreadId();
 	}
-
-	/* 現在のスレッドを保存 */
-	hPrevThread = pk_pre_ctxinf->hThread;
 	
 	/* スレッドが異なれば切り替える */
 	if ( pk_nxt_ctxinf != pk_pre_ctxinf )
 	{
 		/* 新たなスレッドに実行を切り替える */
-		ResumeThread(pk_nxt_ctxinf->hThread);
-		SuspendThread(pk_pre_ctxinf->hThread);
-
-		/* 直前のスレッドが完全にサスペンドするまで待つ */
-		while ( SuspendThread(hPrevThread) == 2 )
-		{
-			ResumeThread(hPrevThread);
-			Sleep(0);
-		}
-		ResumeThread(hPrevThread);
+		PostThreadMessage(pk_nxt_ctxinf->dwThreadId, WM_RUN_TASK, 0, 0);
+		GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
 	}
 
 	/* 削除リストにスレッドがあればこのタイミングで削除 */

@@ -69,9 +69,9 @@ ER psnd_dtq(
 		{
 			/* データキュー末尾にデータを格納 */
 			tail = dtqcb_ram->head + dtqcb_ram->datacnt;
-			if ( tail > dtqcb_rom->dtqcnt )
+			if ( tail >= dtqcb_rom->dtqcnt )
 			{
-				tail = 0;
+				tail -= dtqcb_rom->dtqcnt;
 			}
 			dtqcb_rom->dtq[tail] = data;
 			dtqcb_ram->datacnt++;

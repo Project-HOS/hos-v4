@@ -48,11 +48,11 @@ void mknl_ext_tsk(
 		mknl_del_que(mtcb);
 	}
 
-	/* 実行コンテキストの削除 */
-	hospac_del_ctx(&mtcb->ctxinf);
-
 	mtcb->tskstat = TTS_DMT;	/* 休止状態に設定 */
 	mtcb->tskwait = 0;			/* 待ち要因クリア */
+
+	/* 実行コンテキストの削除 */
+	hospac_del_ctx(&mtcb->ctxinf);
 }
 
 

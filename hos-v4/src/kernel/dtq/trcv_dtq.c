@@ -58,28 +58,29 @@ ER trcv_dtq(
 		return E_NOEXS;	/* オブジェクト未生成 */
 	}
 #endif
-	
-	if ( mknl_ref_qhd(&dtqcb_ram->sndque) != NULL )
-	{
-		/* 送信待ちタスクがあれば開放 */
-		mtcb = mknl_ref_qhd(&dtqcb_ram->sndque);	/* 待ち行列先頭からタスク取り出し */
-		mknl_del_que(mtcb);							/* 待ち行列から削除 */
-		mknl_del_tmout(mtcb);						/* タイムアウト解除 */
-		*p_data = mtcb->data;						/* データを取り出し */
-		mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
 
-		/* タスクディスパッチの実行 */
-		mknl_exe_dsp();
-		
-		ercd = E_OK;
-	}
-	else
+	dtqcb_rom = dtqcb_ram->dtqcbrom;
+
+	if ( dtqcb_ram->datacnt == 0 )
 	{
-		/* 送信待ちタスクが無ければデータキューから取り出し */
-		dtqcb_rom = dtqcb_ram->dtqcbrom;
-		if ( dtqcb_ram->datacnt == 0 )
+		/* データキューが空なら */
+		if ( mknl_ref_qhd(&dtqcb_ram->sndque) != NULL )
 		{
-			/* データキューが空なら */
+			/* 送信待ちタスクがあれば開放 */
+			mtcb = mknl_ref_qhd(&dtqcb_ram->sndque);	/* 待ち行列先頭からタスク取り出し */
+			mknl_del_que(mtcb);							/* 待ち行列から削除 */
+			mknl_del_tmout(mtcb);						/* タイムアウト解除 */
+			*p_data = mtcb->data;						/* データを取り出し */
+			mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
+
+			/* タスクディスパッチの実行 */
+			mknl_exe_dsp();
+		
+			ercd = E_OK;
+		}
+		else
+		{
+			/* 送信待ちタスクが無ければ待ちに入る */
 			if ( tmout == TMO_POL )
 			{
 				/* ポーリングなら即時タイムアウト */
@@ -115,19 +116,44 @@ ER trcv_dtq(
 				}
 			}
 		}
+	}
+	else
+	{
+		/* データキューからデータを取り出し */
+		*p_data = dtqcb_rom->dtq[dtqcb_ram->head];
+		dtqcb_ram->head++;
+		if ( dtqcb_ram->head >= dtqcb_rom->dtqcnt )
+		{
+			dtqcb_ram->head -= dtqcb_rom->dtqcnt;
+		}
+		
+		/* 送信待ちタスクがあるなら開放 */
+		mtcb = mknl_ref_qhd(&dtqcb_ram->sndque);
+		if ( mtcb!= NULL )
+		{
+			UINT tail;
+
+			/* データキュー末尾にデータを格納 */
+			tail = dtqcb_ram->head + dtqcb_ram->datacnt - 1;
+			if ( tail >= dtqcb_rom->dtqcnt )
+			{
+				tail -= dtqcb_rom->dtqcnt;
+			}
+			dtqcb_rom->dtq[tail] = mtcb->data;
+
+			mknl_del_que(mtcb);			/* 待ち行列から削除 */
+			mknl_del_tmout(mtcb);		/* タイムアウト解除 */
+			mknl_wup_tsk(mtcb, E_OK);	/* タスクの待ち解除 */
+
+			/* タスクディスパッチの実行 */
+			mknl_exe_dsp();
+		}
 		else
 		{
-			/* データキューからデータを取り出し */
-			*p_data = dtqcb_rom->dtq[dtqcb_ram->head];
-			dtqcb_ram->head++;
-			if ( dtqcb_ram->head >= dtqcb_rom->dtqcnt )
-			{
-				dtqcb_ram->head = 0;
-			}
 			dtqcb_ram->datacnt--;
-			
-			ercd = E_OK;
 		}
+		
+		ercd = E_OK;
 	}
 
 	mknl_unl_sys();	/* システムのロック解除 */
