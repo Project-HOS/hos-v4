@@ -149,7 +149,6 @@ void  CApiAttIsr::WriteCfgDef(FILE* fp)
 			"\n"
 			"/* interrupt service routine control */\n"
 			"const INT      kernel_isrcb_cnt = %d;\t\t/* ISR control block count */\n",
-			m_iMaxIsrId,
 			m_iMaxIsrId);
 	}
 }

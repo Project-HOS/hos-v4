@@ -25,13 +25,14 @@ AFLAGS =
 LFLAGS = 
 
 # ターゲット
-TARGET  = test.abs
+TARGET  = sample.abs
 
 #インクルードファイル
-INCS = kernel_id.h test.h
+# INCS = kernel_id.h test.h
 
 # オブジェクトファイル
-OBJS = $(LIBDIR)\h4akih8v.obj kernel_cfg.obj test.obj $(LIBDIR)\h4akih8.lib
+# OBJS = $(LIBDIR)\h4akih8v.obj kernel_cfg.obj test.obj $(LIBDIR)\h4akih8.lib
+OBJS = crt0.obj sample.obj
 
 
 # ライブラリ生成
@@ -40,11 +41,14 @@ $(TARGET): $(OBJS) link.sub
 
 
 # オブジェクト生成
-kernel_cfg.obj: kernel_cfg.c $(INCS)
-	$(CC) $(CFLAGS) kernel_cfg.c
+#kernel_cfg.obj: kernel_cfg.c $(INCS)
+#	$(CC) $(CFLAGS) kernel_cfg.c
 
-test.obj: test.c $(INCS)
-	$(CC) $(CFLAGS) test.c
+crt0.obj: crt0.src
+	$(ASM) $(AFLAGS) crt0.src
+
+sample.obj: sample.c $(INCS)
+	$(CC) $(CFLAGS) sample.c
 
 
 # クリーンナップ

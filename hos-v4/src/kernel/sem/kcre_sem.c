@@ -38,10 +38,12 @@ ER kernel_cre_sem(
 
 	/* セマフォ用メモリの確保 */
 	semcb = (T_KERNEL_SEMCB *)kernel_alc_mem(sizeof(T_KERNEL_SEMCB));
+#ifdef HOS_ERCHK_E_NOMEM
 	if ( semcb == NULL )
 	{
 		return E_NOMEM;		/* メモリ不足 */
 	}
+#endif
 
 	/* セマフォの設定 */
 	semcb_ram = &semcb->semcb_ram;

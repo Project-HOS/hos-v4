@@ -89,8 +89,8 @@ mul_int:
 		mov.w	r0, @__HOS_int_cnt
 		
 	; -------- Éüµ¢
-		pop.l	er0
 		pop.l	er1
+		pop.l	er0
 		rte
 
 

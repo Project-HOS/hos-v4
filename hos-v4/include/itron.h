@@ -81,7 +81,12 @@ typedef INT		INTNO;		/* 割り込み番号 */
 #undef NULL
 #endif
 
+#ifdef __cplusplus
+#define NULL		0			/* 無効ポインタ */
+#else
 #define NULL		((void *)0)	/* 無効ポインタ */
+#endif
+
 #define TRUE		1			/* 真 */
 #define FALSE		0			/* 偽 */
 #define E_OK		0			/* 正常終了 */

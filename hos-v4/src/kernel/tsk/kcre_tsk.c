@@ -6,6 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
+#include <string.h>
 #include "knl_tsk.h"
 #include "knl_mem.h"
 
@@ -52,6 +53,7 @@ ER kernel_cre_tsk(
 	}
 
 	/* μカーネルタスクの初期化 */
+	memset(&tcb_ram->mtcb, 0, sizeof(tcb_ram->mtcb));
 	mknl_ini_tsk(&tcb_ram->mtcb);
 
 	/* 値設定 */

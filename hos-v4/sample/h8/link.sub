@@ -1,7 +1,8 @@
-INPUT   ..\..\lib\h8\h4akih8v, kernel_cfg, test
+INPUT   crt0,sample
 LIBRARY c:\akih8c\C38HAB, ..\..\lib\h8\h4akih8
-OUTPUT  test.abs
-PRINT   test.map
+DEFINE  $STACK(0220000)
+OUTPUT  sample.abs
+PRINT   sample.map
 ROM     (D,X)
-START   VECT(200000),P,C,D(200100),X,B(220000)
+START   VECT(200000),P,C,D(200200),X,B(210000)
 EXIT

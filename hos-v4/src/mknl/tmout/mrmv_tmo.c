@@ -12,28 +12,41 @@
 
 /* タイムアウト待ち行列からタスクを取り除く */
 void mknl_rmv_tmout(
-		T_MKNL_TCB *mtcbs)	/* 待ち行列から削除するタスク */
+		T_MKNL_TCB *mtcb)	/* 待ち行列から削除するタスク */
 {
-	INT i;
-
-	/* タスクを検索 */
-	for ( i = 0; i < mknl_timout_tskcnt; i++ )
+	/* タイムアウトキューに未接続なら無視 */
+	if ( mtcb->tm_prev == NULL )
 	{
-		if ( mknl_timout[i].mtcb == mtcbs )
-		{
-			/* 削除 */
-			if ( i < mknl_timout_tskcnt - 1 )
-			{
-				mknl_timout[i + 1].diftim += mknl_timout[i].diftim;
-				for ( i++; i < mknl_timout_tskcnt; i++ )
-				{
-					mknl_timout[i - 1] = mknl_timout[i];
-				}
-			}
-			mknl_timout_tskcnt--;
-			break;
-		}
+		return;
 	}
+
+	/* キューの最後の１つタスクなら */
+	if ( mtcb->tm_next == mtcb )
+	{
+		mknl_timout_head = NULL;	/* タイムアウトキューを空にする */
+	}
+	else
+	{
+		/* 末尾でなければ */
+		if ( mtcb != mknl_timout_head->tm_prev )
+		{
+			/* 時間差分を清算 */
+			mtcb->tm_next->diftim += mtcb->diftim;
+		}
+	
+		/* 先頭なら */
+		if ( mtcb == mknl_timout_head )
+		{
+			mknl_timout_head = mtcb->tm_next;	/* 先頭位置更新 */
+		}
+		
+		/* キューから外す */
+		mtcb->tm_next->tm_prev = mtcb->tm_prev;
+		mtcb->tm_prev->tm_next = mtcb->tm_next;
+	}
+	
+	/* 未接続に設定 */
+	mtcb->tm_prev = NULL;
 }
 
 

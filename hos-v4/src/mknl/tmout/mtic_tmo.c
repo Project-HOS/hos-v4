@@ -10,8 +10,8 @@
 
 
 
-/* グローバル変数定義 */
-INT mknl_timout_tskcnt = 0;		/* タイムアウト待ち行列のタスク個数 */
+/* グローバル変数 */
+T_MKNL_TCB *mknl_timout_head;		/* タイムアウトキューの先頭 */
 
 
 
@@ -19,36 +19,56 @@ INT mknl_timout_tskcnt = 0;		/* タイムアウト待ち行列のタスク個数 */
 void mknl_tic_tmout(
 		RELTIM tictim)		/* 追加するタイムティック */
 {
-	int i;
+	register T_MKNL_TCB *mtcb;
 
-	/* タイムアウト待ち行列のタスク起床 */
-	while ( (volatile INT)mknl_timout_tskcnt > 0 )
+	/* ローカルにコピー */
+	mtcb = mknl_timout_head;
+
+	/* タイムアウトキューが空ならリターン */
+	if ( mtcb == NULL )
 	{
-		/* タイムアウトかどうか判定 */
-		if ( mknl_timout[0].diftim > tictim )
+		return;
+	}
+
+	/* タイムアウトキューの処理 */
+	for ( ; ; )
+	{
+		/* タイムアウトに達しないなら */
+		if ( tictim < mtcb->diftim )
 		{
-			/* タイムアウトでなければ時間を減じてループを抜ける */
-			mknl_timout[0].diftim -= tictim;
+			mtcb->diftim -= tictim;		/* タイムアウト時間を減算 */
 			break;
 		}
-
-		/* タイムアウトなら */
-		mknl_wup_tsk(mknl_timout[0].mtcb, E_TMOUT);	/* タイムアウト起床 */
-
-		/* 先頭の待ちタスクを外す */
-		mknl_timout[1].diftim += mknl_timout[0].diftim;	/* 次がいなくても害は無い */
-		for ( i = 1; i < mknl_timout_tskcnt; i++ )
+		
+		tictim -= mtcb->diftim;			/* タイムティックを減算 */
+		
+		mknl_wup_tsk(mtcb, E_TMOUT);	/* タイムアウト起床 */
+		mknl_exe_dsp();					/* 遅延ディスパッチ予約を行う */
+		
+		/* キューから外す */
+		if ( mtcb->tm_next == mtcb )	/* 最後の１つなら */
 		{
-			mknl_timout[i - 1] = mknl_timout[i];
+			/* キューを空にする */
+			mtcb->tm_prev = NULL;
+			mtcb          = NULL;
+			break;
 		}
-		mknl_timout_tskcnt--;
-
-		mknl_exe_dsp();		/* 遅延ディスパッチ予約を行う */
+		else
+		{
+			/* キューから取り外す */
+			mtcb->tm_next->tm_prev = mtcb->tm_prev;
+			mtcb->tm_prev->tm_next = mtcb->tm_next;
+			mtcb->tm_prev = NULL;
+			mtcb = mtcb->tm_next;
+		}
 
 		/* ここで一度、多重割り込みの機会を与える */
 		mknl_unl_sys();		/* システムのロック解除 */
 		mknl_loc_sys();		/* システムのロック */
 	}
+	
+	/* メモリに書き戻す */
+	mknl_timout_head = mtcb;
 }
 
 

@@ -2,18 +2,18 @@
 
 CC     = sh-hms-gcc
 ASM    = sh-hms-gcc
-LINK   = sh-hms-ld
+LINK   = sh-hms-gcc
 OBJCNV = sh-hms-objcopy
 
 TARGET = sample
 
 CFLAGS = -c -m2 -I../../include
 AFLAGS = -c -m2
-LFLAGS = -v -t -L/gnupro-99r1p1/H-i686-cygwin32/sh-hms/lib/m2 -L/gnupro-99r1p1/H-i686-cygwin32/lib/gcc-lib/sh-hms/2.9-gnupro-99r1p1/m2 -Map sample.map -Tsample.x
+LFLAGS = -m2 -nostartfiles -Wl,-v,-t,-Map,sample.map,-Tsample.x
 
 INCS   = kernel_id.h sample.h sci.h
 OBJS   = crt0.o vector.o sample.o ostimer.o sci.o stmfifo.o kernel_cfg.o
-LIBS   = ../../lib/sh/sh2gcc/h4sh2gcc.a -lc -lgcc
+LIBS   = ../../lib/sh/sh2gcc/h4sh2gcc.a
 
 ${TARGET}.mot: ${OBJS} sample.x
 	${LINK} ${LFLAGS} -o ${TARGET}.out ${OBJS} ${LIBS}

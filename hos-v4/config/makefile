@@ -48,7 +48,7 @@ OBJS = hos4cfg.obj \
 
 
 
-# ライブラリ生成
+# ターゲット生成
 $(TARGET): $(OBJS)
 	$(LINK) $(OBJS) -ohos4cfg
 

@@ -63,6 +63,9 @@ typedef struct t_mknl_tcb
 	struct t_mknl_que *que;			/* 属しているキュー  */
 	struct t_mknl_tcb *next;		/* キューでの次のTCB */
 	struct t_mknl_tcb *prev;		/* キューでの前のTCB */
+	struct t_mknl_tcb *tm_next;		/* タイムアウトキューの次のTCB */
+	struct t_mknl_tcb *tm_prev;		/* タイムアウトキューの前のTCB */
+	RELTIM            diftim;		/* 直前のTCBとのタイムアウトまでの時間差 */
 } T_MKNL_TCB;
 
 
@@ -97,10 +100,7 @@ extern const INT       mknl_rdq_cnt;		/* レディーキュー個数 */
 extern       INT       mknl_timout_tskcnt;	/* タイムアウト待ち行列のタスク個数 */
 
 /* タイムアウト管理 */
-extern T_MKNL_TIMOUT   mknl_timout[];		/* タイムアウト待ち行列 */
-extern const INT       mknl_timout_size;	/* タイムアウト待ち行列のサイズ */
-extern       INT       mknl_timout_tskcnt;	/* タイムアウト待ち行列のタスク個数 */
-
+extern T_MKNL_TCB      *mknl_timout_head;	/* タイムアウトキューの先頭 */
 
 
 /* ------------------------------------------ */
