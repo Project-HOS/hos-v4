@@ -10,6 +10,10 @@
 ません。改変の履歴が分かるように管理していただければ有り難いです。
 
 
+HOS-V4  Ver X.XX   200X/XX/XX  by Project HOS (http://sourceforge.jp/projects/hos/)
+           ・acre_cyc,cre_cyc,del_cycを追加
+
+
 HOS-V4  Ver 1.00   2002/11/17  by Project HOS (http://sourceforge.jp/projects/hos/)
            ・http://member.nifty.ne.jp/Ryuz/hos/index.html の 最終開発
              スナップショット(2002-06-30版)より、SourceForge.jpへ開発移行
