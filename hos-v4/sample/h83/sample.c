@@ -18,7 +18,7 @@
 int main()
 {
 	/* SCIの初期化 */
-	Sci_Initialize(SCI_31250 /*0x19*/);
+	Sci_Initialize(SCI_19200);
 	
 	/*
 	ASTCR = 0xff;
