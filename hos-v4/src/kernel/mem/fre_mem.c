@@ -29,7 +29,7 @@ void kernel_fre_mem(VP ptr)
 
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( mblk->flag == MEMBLK_USING )	/* 使用中で無ければ */
+	if ( mblk->flag != MEMBLK_USING )	/* 使用中で無ければ */
 	{
 		return;
 	}
