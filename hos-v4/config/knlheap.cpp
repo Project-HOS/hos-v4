@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "knlheap.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -38,7 +38,7 @@ int CApiKernelHeap::AutoId(void)
 
 
 // API§Œ≤Ú¿œ
-int CApiKernelHeap::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiKernelHeap::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "HOS_KERNEL_HEAP") == 0 )
 	{

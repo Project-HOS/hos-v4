@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "apiinc.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -32,7 +32,7 @@ CApiInclude::~CApiInclude()
 
 
 // API¤Î²òÀÏ
-int CApiInclude::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiInclude::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	char szBuf[4096];
 	int  iErr;
@@ -51,7 +51,7 @@ int CApiInclude::AnalizeApi(const char* pszApiName, const char* pszParams)
 	}
 
 	// Ê¸»úÎó¤ÎÅ¸³«
-	iErr = CAnalize::DecodeText(szBuf, m_pParamPacks[m_iObjs - 1]->GetParam(0));
+	iErr = CAnalyze::DecodeText(szBuf, m_pParamPacks[m_iObjs - 1]->GetParam(0));
 	if ( iErr != CFG_ERR_OK )
 	{
 		return iErr;

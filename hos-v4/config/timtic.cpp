@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "timtic.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define TIMTIC_NUME		0
@@ -39,7 +39,7 @@ CApiTimTic::~CApiTimTic()
 
 
 // API§Œ≤Ú¿œ
-int CApiTimTic::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiTimTic::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	int iNume;
 	int iDeno;

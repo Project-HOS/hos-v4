@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "defercd.h"
 #include "apidef.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -58,14 +58,14 @@ int CApiDef::AddParams(const char* pszParams)
 		if ( m_iParamSyntax[i] == 0 )
 		{
 			// 単独パラメーター切り出し
-			iErr = CAnalize::GetParameter(szParam, pszParams);
+			iErr = CAnalyze::GetParameter(szParam, pszParams);
 			if ( iErr != CFG_ERR_OK )
 			{
 				break;
 			}
 
 			// パラメーター追加
-			CAnalize::SpaceCut(szParam);
+			CAnalyze::SpaceCut(szParam);
 			m_pParamPacks[m_iObjs]->SetParam(iIndex++, szParam);
 		}
 		else
@@ -84,7 +84,7 @@ int CApiDef::AddParams(const char* pszParams)
 			}
 			
 			// ブロック切り出し
-			iErr = CAnalize::SearchChar(szParamBlock, pszParams, '}');
+			iErr = CAnalyze::SearchChar(szParamBlock, pszParams, '}');
 			if ( iErr != CFG_ERR_OK )
 			{
 				break;
@@ -95,14 +95,14 @@ int CApiDef::AddParams(const char* pszParams)
 			for ( j = 0; j < m_iParamSyntax[i] + 1; j++ )
 			{
 				// 単独パラメーター切り出し
-				iErr = CAnalize::GetParameter(szParam, pszParamBlock);
+				iErr = CAnalyze::GetParameter(szParam, pszParamBlock);
 				if ( iErr != CFG_ERR_OK )
 				{
 					break;
 				}
 
 				// パラメーター追加
-				CAnalize::SpaceCut(szParam);
+				CAnalyze::SpaceCut(szParam);
 				if ( szParam[0] == '\0')
 				{
 					break;

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "attini.h"
-#include "analize.h"
+#include "analyze.h"
 
 #define ATTINI_INIATR		0
 #define ATTINI_EXINF		1
@@ -35,7 +35,7 @@ CApiAttIni::~CApiAttIni()
 
 
 // API§Œ≤Ú¿œ
-int CApiAttIni::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiAttIni::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "ATT_INI") == 0 )
 	{

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "crecyc.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -40,7 +40,7 @@ CApiCreCyc::~CApiCreCyc()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreCyc::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreCyc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_CYC") == 0 )
 	{

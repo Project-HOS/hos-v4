@@ -23,7 +23,7 @@ TARGET  = hos4cfg.exe
 
 # オブジェクトファイル
 OBJS = hos4cfg.obj \
-       analize.obj \
+       analyze.obj \
        apidef.obj \
        apiinc.obj \
        attini.obj \

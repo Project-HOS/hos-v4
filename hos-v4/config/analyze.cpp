@@ -11,12 +11,12 @@
 #include <string.h>
 #include <ctype.h>
 #include "defercd.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
 // ステートメントをAPI名とパラメーターに分割
-int CAnalize::SplitState(char* pszApiName, char* pszParams, const char *pszState)
+int CAnalyze::SplitState(char* pszApiName, char* pszParams, const char *pszState)
 {
 	int iErr;
 
@@ -50,7 +50,7 @@ int CAnalize::SplitState(char* pszApiName, char* pszParams, const char *pszState
 
 
 // 特定文字のまでの切り出し
-int CAnalize::SearchChar(char* pszBuf, const char* &pszText, char c)
+int CAnalyze::SearchChar(char* pszBuf, const char* &pszText, char c)
 {
 	char cDelimiter;
 	bool blText = false;
@@ -153,7 +153,7 @@ int CAnalize::SearchChar(char* pszBuf, const char* &pszText, char c)
 
 
 // パラメーターの切り出し
-int CAnalize::GetParameter(char* pszBuf, const char* &pszText)
+int CAnalyze::GetParameter(char* pszBuf, const char* &pszText)
 {
 	int iErr;
 
@@ -170,7 +170,7 @@ int CAnalize::GetParameter(char* pszBuf, const char* &pszText)
 
 
 // 文字列定数を展開する
-int CAnalize::DecodeText(char *pszBuf, const char* pszText)
+int CAnalyze::DecodeText(char *pszBuf, const char* pszText)
 {
 	bool blEsc = false;
 
@@ -225,7 +225,7 @@ int CAnalize::DecodeText(char *pszBuf, const char* pszText)
 
 
 // 前後の空白を削除する
-void CAnalize::SpaceCut(char* pszText)
+void CAnalyze::SpaceCut(char* pszText)
 {
 	char *pszTmp;
 	int  i = 0;

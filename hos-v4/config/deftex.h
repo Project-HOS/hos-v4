@@ -21,7 +21,7 @@ public:
 	CApiDefTex();		// コンストラクタ
 	~CApiDefTex();		// デストラクタ
 
-	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
+	int   AnalyzeApi(const char* pszApiName, const char* pszParams);	// APIの解析
 	int   AutoId(void);							// 自動ID番号割り当て
 	void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し
 	void  WriteCfgIni(FILE* fp);				// cfgファイル初期化部書き出し

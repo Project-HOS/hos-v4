@@ -6,13 +6,13 @@
 // ---------------------------------------------------------------------------
 
 
-#ifndef __HOSV4CFG__Analize_h__
-#define __HOSV4CFG__Analize_h__
+#ifndef __HOSV4CFG__Analyze_h__
+#define __HOSV4CFG__Analyze_h__
 
 
 
 // 構文解析クラス
-class CAnalize
+class CAnalyze
 {
 public:
 	static int  SplitState(char* pszApiName, char* pszParams, const char *pszState);	// ステートメントをAPI名とパラメーターに分割
@@ -23,7 +23,7 @@ public:
 };
 
 
-#endif	// __HOSV4CFG__Analize_h__
+#endif	// __HOSV4CFG__Analyze_h__
 
 
 // ---------------------------------------------------------------------------

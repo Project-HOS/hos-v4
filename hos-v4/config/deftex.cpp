@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "deftex.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define DEFTEX_TSKID		0
@@ -36,7 +36,7 @@ CApiDefTex::~CApiDefTex()
 
 
 // API§Œ≤Ú¿œ
-int CApiDefTex::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiDefTex::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "DEF_TEX") == 0 )
 	{

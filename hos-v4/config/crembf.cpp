@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "crembf.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define CREMBF_MBFID		0
@@ -38,7 +38,7 @@ CApiCreMbf::~CApiCreMbf()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreMbf::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreMbf::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_MBF") == 0 )
 	{

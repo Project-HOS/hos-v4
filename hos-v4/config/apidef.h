@@ -24,7 +24,7 @@ public:
 	CApiDef();				// コンストラクタ
 	virtual ~CApiDef();		// デストラクタ
 
-	virtual int   AnalizeApi(const char* pszApiName, const char* pszParams) = 0;	// APIの解析
+	virtual int   AnalyzeApi(const char* pszApiName, const char* pszParams) = 0;	// APIの解析
 	virtual int   AutoId(void);							// 自動ID番号割り当て
 	virtual void  WriteId(FILE* fp);					// ID 定義ファイル書き出し
 	virtual void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し

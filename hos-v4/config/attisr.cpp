@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "attisr.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define ATTISR_ISRATR		0
@@ -47,7 +47,7 @@ int CApiAttIsr::AutoId(void)
 
 
 // API§Œ≤Ú¿œ
-int CApiAttIsr::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "ATT_ISR") == 0 )
 	{

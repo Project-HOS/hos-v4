@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "cresem.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define CRESEM_SEMID		0
@@ -37,7 +37,7 @@ CApiCreSem::~CApiCreSem()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreSem::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreSem::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_SEM") == 0 )
 	{

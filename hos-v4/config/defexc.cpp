@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "defexc.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define DEFEXC_EXCNO		0
@@ -45,7 +45,7 @@ int CApiDefExc::AutoId(void)
 
 
 // API§Œ≤Ú¿œ
-int CApiDefExc::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "DEF_EXC") == 0 )
 	{

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "credtq.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -38,7 +38,7 @@ CApiCreDtq::~CApiCreDtq()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreDtq::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreDtq::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_DTQ") == 0 )
 	{

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "maxtmout.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -34,7 +34,7 @@ CApiMaxTimout::~CApiMaxTimout()
 
 
 // APIの解析
-int CApiMaxTimout::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiMaxTimout::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TIMOUT") != 0 )

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "maxtpri.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -34,7 +34,7 @@ CApiMaxTpri::~CApiMaxTpri()
 
 
 // APIの解析
-int CApiMaxTpri::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiMaxTpri::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TPRI") != 0 )

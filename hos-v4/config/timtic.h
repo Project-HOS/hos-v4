@@ -21,7 +21,7 @@ public:
 	CApiTimTic();		// コンストラクタ
 	~CApiTimTic();		// デストラクタ
 
-	int   AnalizeApi(const char* pszApiName, const char* pszParams);	// APIの解析
+	int   AnalyzeApi(const char* pszApiName, const char* pszParams);	// APIの解析
 	int   AutoId(void);							// ID 定義ファイル書き出し
 	void  WriteId(FILE* fp);					// cfgファイル定義部書き出し
 	void  WriteCfgDef(FILE* fp);				// cfgファイル定義部書き出し

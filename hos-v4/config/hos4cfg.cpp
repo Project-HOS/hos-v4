@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "read.h"
-#include "analize.h"
+#include "analyze.h"
 #include "apiinc.h"
 #include "knlheap.h"
 #include "timtic.h"
@@ -220,21 +220,21 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 
 		// ¹½Ê¸²òÀÏ
-		iErr = CAnalize::SplitState(szApiName, szParams, szState);
+		iErr = CAnalyze::SplitState(szApiName, szParams, szState);
 		if ( iErr != CFG_ERR_OK )
 		{
                        fprintf(stderr, "%s line(%d) : %s\n",
 					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
-		CAnalize::SpaceCut(szApiName);
-		CAnalize::SpaceCut(szParams);
+		CAnalyze::SpaceCut(szApiName);
+		CAnalyze::SpaceCut(szParams);
 
 		// API¸¡º÷
 		iErr = CFG_ERR_SYNTAX;
 		for ( i = 0; i < API_COUNT; i++ )
 		{
-			iErr = g_ApiList[i]->AnalizeApi(szApiName, szParams);
+			iErr = g_ApiList[i]->AnalyzeApi(szApiName, szParams);
 			if ( iErr != CFG_ERR_NOPROC )
 			{
 				break;

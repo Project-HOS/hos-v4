@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "crempf.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define CREMPF_MPFID		0
@@ -39,7 +39,7 @@ CApiCreMpf::~CApiCreMpf()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreMpf::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreMpf::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_MPF") == 0 )
 	{

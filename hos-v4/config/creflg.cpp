@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "creflg.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 
@@ -37,7 +37,7 @@ CApiCreFlg::~CApiCreFlg()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreFlg::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreFlg::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_FLG") == 0 )
 	{

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "defercd.h"
 #include "cretsk.h"
-#include "analize.h"
+#include "analyze.h"
 
 
 #define CRETSK_TSKID		0
@@ -41,7 +41,7 @@ CApiCreTsk::~CApiCreTsk()
 
 
 // API§Œ≤Ú¿œ
-int CApiCreTsk::AnalizeApi(const char* pszApiName, const char* pszParams)
+int CApiCreTsk::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
 	if ( strcmp(pszApiName, "CRE_TSK") == 0 )
 	{
