@@ -1,0 +1,10 @@
+INPUT   crt0,vector,sample,ostimer,h8_sci,kernel_cfg
+LIBRARY ..\..\lib\h83\htc\h4h83aki
+FORM    STYPE
+DEFINE  STACK=220000
+OUTPUT  sample.mot
+ROM     D=X
+START  VECT/0FFF000
+START  P,C,D/200200
+START  X,B/210000
+EXIT
