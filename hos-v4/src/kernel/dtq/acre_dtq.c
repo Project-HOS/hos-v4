@@ -23,7 +23,7 @@ ER_ID acre_dtq(
 	/* 利用可能なIDの検索 */
 	for ( dtqid = KERNEL_TMAX_DTQID; dtqid >= KERNEL_TMIN_DTQID; dtqid-- )
 	{
-		if ( kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] == NULL )
+		if ( KERNEL_DTQID_TO_DTQCB_RAM(dtqid) == NULL )
 		{
 			break;
 		}

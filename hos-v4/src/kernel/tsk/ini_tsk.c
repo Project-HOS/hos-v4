@@ -18,9 +18,9 @@ void kernel_ini_tsk(void)
 	int i;
 
 	/* TCBのRAM部はゼロ領域にしておいてコードで初期化したほうが効率がよい */
-	for ( i = 0; i < kernel_tcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_TSKID; i <= KERNEL_TMAX_TSKID; i++ )
 	{
-		tcb_ram = kernel_tcb_ram_tbl[i];
+		tcb_ram = KERNEL_TSKID_TO_TCB_RAM(i);
 		if ( tcb_ram != NULL )
 		{
 			/* μカーネル部分の初期化 */

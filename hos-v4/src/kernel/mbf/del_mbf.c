@@ -27,7 +27,7 @@ ER del_mbf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mbfcb_ram = kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID];
+	mbfcb_ram = KERNEL_MBFID_TO_MBFCB_RAM(mbfid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_mbf(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(mbfcb_ram);
-	kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] = NULL;
+	KERNEL_MBFID_TO_MBFCB_RAM(mbfid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

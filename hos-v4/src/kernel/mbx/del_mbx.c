@@ -28,7 +28,7 @@ ER del_mbx(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mbxcb_ram = kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID];
+	mbxcb_ram = KERNEL_MBXID_TO_MBXCB_RAM(mbxid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_mbx(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(mbxcb_ram);
-	kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] = NULL;
+	KERNEL_MBXID_TO_MBXCB_RAM(mbxid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

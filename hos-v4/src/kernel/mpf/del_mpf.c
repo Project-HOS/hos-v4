@@ -29,7 +29,7 @@ ER del_mpf(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	mpfcb_ram = kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID];
+	mpfcb_ram = KERNEL_MPFID_TO_MPFCB_RAM(mpfid);
 	mpfcb_rom = mpfcb_ram->mpfcb_rom;
 
 	/* オブジェクト存在チェック */
@@ -47,7 +47,7 @@ ER del_mpf(
 	/* メモリの解放 */
 	kernel_fre_mem(mpfcb_rom->mpf);	
 	kernel_fre_mem(mpfcb_ram);
-	kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] = NULL;
+	KERNEL_MPFID_TO_MPFCB_RAM(mpfid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

@@ -30,7 +30,7 @@ ER cre_mbx(
 
 	/* メールボックスが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] != NULL )
+	if ( KERNEL_MBXID_TO_MBXCB_RAM(mbxid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

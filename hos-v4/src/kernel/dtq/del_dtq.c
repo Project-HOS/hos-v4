@@ -29,7 +29,7 @@ ER del_dtq(
 
 	mknl_loc_sys();		/* システムのロック */
 
-	dtqcb_ram = kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID];
+	dtqcb_ram = KERNEL_DTQID_TO_DTQCB_RAM(dtqid);
 	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	/* オブジェクト存在チェック */
@@ -48,7 +48,7 @@ ER del_dtq(
 	/* メモリの解放 */
 	kernel_fre_mem(dtqcb_rom->dtq);
 	kernel_fre_mem(dtqcb_ram);
-	kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] = NULL;
+	KERNEL_DTQID_TO_DTQCB_RAM(dtqid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

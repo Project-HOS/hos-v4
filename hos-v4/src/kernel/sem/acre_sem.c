@@ -23,7 +23,7 @@ ER_ID acre_sem(
 	/* 利用可能なIDの検索 */
 	for ( semid = KERNEL_TMAX_SEMID; semid >= KERNEL_TMIN_SEMID; semid-- )
 	{
-		if ( kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] == NULL )
+		if ( KERNEL_SEMID_TO_SEMCB_RAM(semid) == NULL )
 		{
 			break;
 		}

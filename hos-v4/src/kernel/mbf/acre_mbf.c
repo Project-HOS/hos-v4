@@ -23,7 +23,7 @@ ER_ID acre_mbf(
 	/* 利用可能なIDの検索 */
 	for ( mbfid = KERNEL_TMAX_MBFID; mbfid >= KERNEL_TMIN_MBFID; mbfid-- )
 	{
-		if ( kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] == NULL )
+		if ( KERNEL_MBFID_TO_MBFCB_RAM(mbfid) == NULL )
 		{
 			break;
 		}

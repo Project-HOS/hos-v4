@@ -23,7 +23,7 @@ ER_ID acre_flg(
 	/* 利用可能なIDの検索 */
 	for ( flgid = KERNEL_TMAX_FLGID; flgid >= KERNEL_TMIN_FLGID; flgid-- )
 	{
-		if ( kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] == NULL )
+		if ( KERNEL_FLGID_TO_FLGCB_RAM(flgid) == NULL )
 		{
 			break;
 		}

@@ -17,11 +17,11 @@ void kernel_ini_sem(void)
 	INT i;
 
 	/* セマフォコントロールブロックの初期化 */
-	for ( i = 0; i < kernel_semcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_SEMID; i <= KERNEL_TMAX_SEMID; i++ )
 	{
-		if ( kernel_semcb_ram_tbl[i] != NULL )
+		if ( KERNEL_SEMID_TO_SEMCB_RAM(i) != NULL )
 		{
-			kernel_semcb_ram_tbl[i]->semcnt = kernel_semcb_ram_tbl[i]->semcb_rom->isemcnt;
+			KERNEL_SEMID_TO_SEMCB_RAM(i)->semcnt = KERNEL_SEMID_TO_SEMCB_RAM(i)->semcb_rom->isemcnt;
 		}
 	}
 }

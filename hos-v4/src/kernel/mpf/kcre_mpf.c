@@ -83,7 +83,7 @@ ER kernel_cre_mpf(
 	*(VP *)ptr = NULL;	/* 最終ブロック */
 
 	/* 管理テーブルへ追加 */
-	kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] = mpfcb_ram;
+	KERNEL_MPFID_TO_MPFCB_RAM(mpfid) = mpfcb_ram;
 
 	return E_OK;
 }

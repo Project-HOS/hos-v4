@@ -18,9 +18,9 @@ void kernel_ini_cyc(void)
 	int i;
 	
 	/* 静的生成された周期ハンドラを初期化 */
-	for ( i = 0; i < kernel_cyccb_cnt; i++ )
+	for ( i = KERNEL_TMIN_CYCID; i <= KERNEL_TMAX_CYCID; i++ )
 	{
-		cyccb_ram = kernel_cyccb_ram_tbl[i];
+		cyccb_ram = KERNEL_CYCID_TO_CYCCB_RAM(i);
 		
 		if ( cyccb_ram != NULL )
 		{

@@ -27,7 +27,7 @@ ER del_sem(
 
 	mknl_loc_sys();	/* システムのロック */
 
-	semcb_ram = kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID];
+	semcb_ram = KERNEL_SEMID_TO_SEMCB_RAM(semid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -43,7 +43,7 @@ ER del_sem(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(semcb_ram);
-	kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] = NULL;
+	KERNEL_SEMID_TO_SEMCB_RAM(semid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

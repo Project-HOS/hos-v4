@@ -53,7 +53,7 @@ ER_ID del_tsk(
 	kernel_fre_mem(tcb_ram);
 
 	/* タスクコントロールブロックテーブルから登録解除 */
-	kernel_tcb_ram_tbl[tskid - KERNEL_TMIN_TSKID] = NULL;
+	KERNEL_TSKID_TO_TCB_RAM(tskid) = NULL;
 
 
 	return E_OK;		/* 成功 */

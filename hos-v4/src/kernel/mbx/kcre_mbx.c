@@ -87,7 +87,7 @@ ER kernel_cre_mbx(
 	}
 
 	/* 管理テーブルへ追加 */
-	kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] = mbxcb_ram;
+	KERNEL_MBXID_TO_MBXCB_RAM(mbxid) = mbxcb_ram;
 
 	return E_OK;
 }

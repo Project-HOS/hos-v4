@@ -59,7 +59,7 @@ ER kernel_cre_mbf(
 	mbfcb_rom->mbf       = pk_cmbf->mbf;
 
 	/* 管理テーブルへ追加 */
-	kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] = mbfcb_ram;
+	KERNEL_MBFID_TO_MBFCB_RAM(mbfid) = mbfcb_ram;
 
 	return E_OK;
 }

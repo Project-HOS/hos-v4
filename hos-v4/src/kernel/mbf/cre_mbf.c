@@ -30,7 +30,7 @@ ER cre_mbf(
 
 	/* メッセージバッファが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_mbfcb_ram_tbl[mbfid - KERNEL_TMIN_MBFID] != NULL )
+	if ( KERNEL_MBFID_TO_MBFCB_RAM(mbfid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

@@ -28,7 +28,7 @@ ER del_flg(
 
 	mknl_loc_sys();		/* システムのロック */
 
-	flgcb_ram = kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID];
+	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
@@ -44,7 +44,7 @@ ER del_flg(
 	
 	/* メモリの解放 */
 	kernel_fre_mem(flgcb_ram);
-	kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] = NULL;
+	KERNEL_FLGID_TO_FLGCB_RAM(flgid) = NULL;
 	
 	mknl_exe_dsp();		/* タスクディスパッチの実行 */
 	mknl_exe_tex();		/* 例外処理の実行 */

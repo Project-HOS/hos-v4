@@ -17,9 +17,9 @@ void kernel_ini_flg(void)
 	INT i;
 
 	/* イベントフラグの初期化 */
-	for ( i = 0; i < kernel_flgcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_FLGID; i <= KERNEL_TMAX_FLGID; i++ )
 	{
-		kernel_flgcb_ram_tbl[i]->flgptn = kernel_flgcb_ram_tbl[i]->flgcb_rom->iflgptn;
+		KERNEL_FLGID_TO_FLGCB_RAM(i)->flgptn = KERNEL_FLGID_TO_FLGCB_RAM(i)->flgcb_rom->iflgptn;
 	}
 }
 

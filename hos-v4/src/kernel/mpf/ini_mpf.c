@@ -21,9 +21,9 @@ void kernel_ini_mpf(void)
 	UINT j;
 
 	/* 固定長メモリプールコントロールブロックの初期化 */
-	for ( i = 0; i < kernel_mpfcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_MPFID; i <= KERNEL_TMAX_MPFID; i++ )
 	{
-		mpfcb_ram = kernel_mpfcb_ram_tbl[i];
+		mpfcb_ram = KERNEL_MPFID_TO_MPFCB_RAM(i);
 		if ( mpfcb_ram != NULL )
 		{
 			mpfcb_rom = mpfcb_ram->mpfcb_rom;

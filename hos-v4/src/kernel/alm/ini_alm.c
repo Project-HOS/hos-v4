@@ -18,9 +18,9 @@ void kernel_ini_alm(void)
 	int i;
 	
 	/* 静的生成されたアラームハンドラを初期化 */
-	for ( i = 0; i < kernel_almcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_ALMID; i <= KERNEL_TMAX_ALMID; i++ )
 	{
-		almcb_ram = kernel_almcb_ram_tbl[i];
+		almcb_ram = KERNEL_ALMID_TO_ALMCB_RAM(i);
 		
 		if ( almcb_ram != NULL )
 		{

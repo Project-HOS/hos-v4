@@ -55,7 +55,7 @@ ER kernel_cre_flg(
 	flgcb_ram->flgcb_rom = flgcb_rom;
 
 	/* 管理テーブルへ追加 */
-	kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] = flgcb_ram;
+	KERNEL_FLGID_TO_FLGCB_RAM(flgid) = flgcb_ram;
 
 	return E_OK;
 }

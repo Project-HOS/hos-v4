@@ -30,7 +30,7 @@ ER cre_mpf(
 
 	/* メモリプールが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] != NULL )
+	if ( KERNEL_MPFID_TO_MPFCB_RAM(mpfid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

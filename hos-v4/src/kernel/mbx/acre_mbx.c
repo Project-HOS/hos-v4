@@ -23,7 +23,7 @@ ER_ID acre_mbx(
 	/* 利用可能なIDの検索 */
 	for ( mbxid = KERNEL_TMAX_MBXID; mbxid >= KERNEL_TMIN_MBXID; mbxid-- )
 	{
-		if ( kernel_mbxcb_ram_tbl[mbxid - KERNEL_TMIN_MBXID] == NULL )
+		if ( KERNEL_MBXID_TO_MBXCB_RAM(mbxid) == NULL )
 		{
 			break;
 		}

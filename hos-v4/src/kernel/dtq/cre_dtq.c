@@ -30,7 +30,7 @@ ER cre_dtq(
 
 	/* データキューが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_dtqcb_ram_tbl[dtqid - KERNEL_TMIN_DTQID] != NULL )
+	if ( KERNEL_DTQID_TO_DTQCB_RAM(dtqid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

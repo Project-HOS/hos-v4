@@ -19,9 +19,9 @@ void kernel_ini_mbf(void)
 	INT                      i;
 
 	/* メッセージバッファコントロールブロックの初期化 */
-	for ( i = 0; i < kernel_mbfcb_cnt; i++ )
+	for ( i = KERNEL_TMIN_MBFID; i <= KERNEL_TMAX_MBFID; i++ )
 	{
-		mbfcb_ram = kernel_mbfcb_ram_tbl[i];
+		mbfcb_ram = KERNEL_MBFID_TO_MBFCB_RAM(i);
 		if ( mbfcb_ram != NULL )
 		{
 			mbfcb_rom = mbfcb_ram->mbfcb_rom;

@@ -23,7 +23,7 @@ ER_ID acre_mpf(
 	/* 利用可能なIDの検索 */
 	for ( mpfid = KERNEL_TMAX_MPFID; mpfid >= KERNEL_TMIN_MPFID; mpfid-- )
 	{
-		if ( kernel_mpfcb_ram_tbl[mpfid - KERNEL_TMIN_MPFID] == NULL )
+		if ( KERNEL_MPFID_TO_MPFCB_RAM(mpfid) == NULL )
 		{
 			break;
 		}

@@ -30,7 +30,7 @@ ER cre_sem(
 
 	/* セマフォが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_semcb_ram_tbl[semid - KERNEL_TMIN_SEMID] != NULL )
+	if ( KERNEL_SEMID_TO_SEMCB_RAM(semid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */

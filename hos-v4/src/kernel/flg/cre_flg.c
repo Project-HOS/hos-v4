@@ -30,7 +30,7 @@ ER cre_flg(
 
 	/* イベントフラグが登録可能かどうかチェック */
 #ifdef HOS_ERCHK_E_OBJ
-	if ( kernel_flgcb_ram_tbl[flgid - KERNEL_TMIN_FLGID] != NULL )
+	if ( KERNEL_FLGID_TO_FLGCB_RAM(flgid) != NULL )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_OBJ;	/* 既に登録済み */
