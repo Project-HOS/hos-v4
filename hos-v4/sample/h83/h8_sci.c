@@ -45,7 +45,7 @@ void SCI_Init(unsigned char rate)
 	BRR  = rate;
 	for ( i = 0; i < 280; i++ )
 		v++;
-	SCR  = 0x50;
+	SCR  = 0x30;
 	SSR &= 0x80;
 }
 
