@@ -91,7 +91,7 @@ _hospac_swi_ctx:
 				push.l	er5
 				push.l	er6
 
-#if ( __GNUC__ >=3 && __GNUC_MINOR__ >=3 )
+#if ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 3))
 				mov.w	r7,@(0, er0)	/* スタックポインタ保存 */
 				mov.w	@(0, er1), r7	/* スタックポインタ復帰 */
 #else
