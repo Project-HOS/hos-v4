@@ -27,6 +27,7 @@ KNLSEMDIR  = $(KERNELDIR)\sem
 KNLFLGDIR  = $(KERNELDIR)\flg
 KNLDTQDIR  = $(KERNELDIR)\dtq
 KNLMBXDIR  = $(KERNELDIR)\mbx
+KNLMBFDIR  = $(KERNELDIR)\mbf
 KNLMPFDIR  = $(KERNELDIR)\mpf
 KNLTIMDIR  = $(KERNELDIR)\tim
 KNLCYCDIR  = $(KERNELDIR)\cyc
@@ -88,6 +89,9 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
        rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj ref_dtq.obj \
        cre_mbx.obj acre_mbx.obj kcre_mbx.obj del_mbx.obj \
        snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj ref_mbx.obj \
+       ini_mbf.obj cre_mbf.obj acre_mbf.obj kcre_mbf.obj del_mbf.obj \
+       snd_mbf.obj psnd_mbf.obj tsnd_mbf.obj ksnd_mbf.obj \
+       rcv_mbf.obj prcv_mbf.obj trcv_mbf.obj krcv_mbf.obj ref_mbf.obj \
        ini_mpf.obj cre_mpf.obj acre_mpf.obj kcre_mpf.obj del_mpf.obj \
        get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj ref_mpf.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
@@ -460,6 +464,50 @@ trcv_mbx.obj: $(KNLMBXDIR)\trcv_mbx.c $(INCS)
 
 ref_mbx.obj: $(KNLMBXDIR)\ref_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)\ref_mbx.c
+
+
+# メッセージバッファ
+ini_mbf.obj: $(KNLMBFDIR)\ini_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ini_mbf.c
+
+cre_mbf.obj: $(KNLMBFDIR)\cre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\cre_mbf.c
+
+acre_mbf.obj: $(KNLMBFDIR)\acre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\acre_mbf.c
+
+kcre_mbf.obj: $(KNLMBFDIR)\kcre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\kcre_mbf.c
+
+del_mbf.obj: $(KNLMBFDIR)\del_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\del_mbf.c
+
+snd_mbf.obj: $(KNLMBFDIR)\snd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\snd_mbf.c
+
+psnd_mbf.obj: $(KNLMBFDIR)\psnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\psnd_mbf.c
+
+tsnd_mbf.obj: $(KNLMBFDIR)\tsnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\tsnd_mbf.c
+
+ksnd_mbf.obj: $(KNLMBFDIR)\ksnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ksnd_mbf.c
+
+rcv_mbf.obj: $(KNLMBFDIR)\rcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\rcv_mbf.c
+
+prcv_mbf.obj: $(KNLMBFDIR)\prcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\prcv_mbf.c
+
+trcv_mbf.obj: $(KNLMBFDIR)\trcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\trcv_mbf.c
+
+krcv_mbf.obj: $(KNLMBFDIR)\krcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\krcv_mbf.c
+
+ref_mbf.obj: $(KNLMBFDIR)\ref_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ref_mbf.c
 
 
 # 固定長メモリプール
