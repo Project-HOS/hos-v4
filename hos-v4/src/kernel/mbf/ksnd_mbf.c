@@ -7,9 +7,8 @@
 /* ------------------------------------------------------------------------ */
 
 
-#include <string.h>
 #include "knl_mbf.h"
-
+#include "hoslib.h"
 
 
 static void kernel_sch_mbf(const T_KERNEL_MBFCB_ROM *mbfcb_rom,
@@ -41,7 +40,7 @@ ER kernel_snd_mbf(
 	if ( mtcb != NULL )
 	{
 		/* 受信タスクの待ちを解除 */
-		memcpy((VP)mtcb->data, msg, msgsz);		/* データコピー */
+		__hos_bcopy((VP)mtcb->data, msg, msgsz);		/* データコピー */
 		mknl_rmv_que(mtcb);						/* 待ち行列から削除 */
 		mknl_rmv_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
 		mknl_wup_tsk(mtcb, (ER_UINT)msgsz);		/* タスクの待ち解除 */
@@ -73,12 +72,12 @@ ER kernel_snd_mbf(
 	fresz = (UINT)mbfcb_rom->mbfsz - tail;	/* バッファ折り返しまでの空きサイズ算出 */
 	if ( fresz >= msgsz )					/* 折り返し不要か判定 */
 	{
-		memcpy((UB *)mbfcb_rom->mbf + tail, msg, msgsz);				/* データコピー */
+		__hos_bcopy((UB *)mbfcb_rom->mbf + tail, msg, msgsz);				/* データコピー */
 	}
 	else
 	{
-		memcpy((UB *)mbfcb_rom->mbf + tail, msg, fresz);				/* 折り返し点までコピー */
-		memcpy((UB *)mbfcb_rom->mbf, (UB *)msg + fresz, msgsz - fresz);	/* 残りを先頭からコピー */
+		__hos_bcopy((UB *)mbfcb_rom->mbf + tail, msg, fresz);				/* 折り返し点までコピー */
+		__hos_bcopy((UB *)mbfcb_rom->mbf, (UB *)msg + fresz, msgsz - fresz);	/* 残りを先頭からコピー */
 	}
 
 	/* 空きサイズ更新 */
