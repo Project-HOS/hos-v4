@@ -1,8 +1,8 @@
-INPUT   crt0,sample
-LIBRARY c:\akih8c\C38HAB, ..\..\lib\h8\h4akih8
-DEFINE  $STACK(0220000)
-OUTPUT  sample.abs
+INPUT   crt0,vector,sample,h8_sci,kernel_cfg
+LIBRARY c:\akih8c\C38HAB, ..\..\lib\h83\h4akih8
+DEFINE  STACK(220000)
 PRINT   sample.map
+OUTPUT  sample.abs
 ROM     (D,X)
 START   VECT(200000),P,C,D(200200),X,B(210000)
 EXIT
