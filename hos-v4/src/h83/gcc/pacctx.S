@@ -49,8 +49,8 @@ _hospac_ena_int:
   実行コンテキストエントリーアドレス
 *************************************************/
 ctx_entry:	
-				mov.l	er3, er0		/* 実行時パラメータを第一引数に設定 */
-				jmp		@er4			/* 実行アドレスにジャンプ */
+				mov.l	er4, er0		/* 実行時パラメータを第一引数に設定 */
+				jmp		@er5			/* 実行アドレスにジャンプ */
 
 
 /************************************************
@@ -63,15 +63,13 @@ ctx_entry:
 		)
 *************************************************/
 _hospac_cre_ctx_asm:
-		                push.l  er3
 				mov.l   #ctx_entry, er3	/* 実行エントリーポイントの設定 */
 				mov.l   er3, @-er1
 				mov.l   @(8,er7), er3	/* 実行時パラメータの取り出し */
-				mov.l   er3, @-er1		/* 実行時パラメータ格納 (er3の退避分) */
-				mov.l   er2, @-er1		/* 実行ドレスを格納 (er4 の退避分) */
-				sub.l   #8, er1			/* er5,er6の退避分 */
+				mov.l   er3, @-er1		/* 実行時パラメータ格納 (er4の退避分) */
+				mov.l   er2, @-er1		/* 実行ドレスを格納 (er5 の退避分) */
+				sub.l   #4, er1			/* er6の退避分 */
 				mov.l   er1, @(0, er0)	/* スタックポインタの格納 */
-				pop.l   er3
 				rts
 
 
@@ -83,7 +81,6 @@ _hospac_cre_ctx_asm:
 		)
 *************************************************/
 _hospac_swi_ctx:
-				push.l	er3
 				push.l	er4
 				push.l	er5
 				push.l	er6
@@ -92,7 +89,6 @@ _hospac_swi_ctx:
 				pop.l	er6
 				pop.l	er5
 				pop.l	er4
-				pop.l	er3
 				rts
 
 

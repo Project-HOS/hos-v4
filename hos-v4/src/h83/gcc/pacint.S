@@ -347,13 +347,12 @@ _hos_vector063:	push.l	er0
 
 int_handler:
 				/* 割り込み番号のマスク */
-				mov.b	#0,r0h
-				mov.w	#0,e0
 				extu.w	r0
 
 				/* レジスタ保存 */
 				push.l	er1
 				push.l	er2
+				push.l	er3
 
 				/* 割り込みマスク設定 */
 				stc.b	ccr, r1l
@@ -374,9 +373,9 @@ int_handler:
 				mov.l	@_kernel_int_sp, er7
 
 				/* 割り込み処理の開始 */
-				push.l	er0
+				push.w	r0
 				jsr		@_kernel_sta_int
-				pop.l	er0
+				pop.w	r0
 
 				/* 割り込みハンドラの処理 */
 				jsr		@_kernel_exe_int
@@ -403,6 +402,7 @@ int_handler:
 				mov.b	r1l, @(12, er7)				/* スタック上のCCRを更新 */
 
 				/* 復帰 */
+				pop.l	er3
 				pop.l	er2
 				pop.l	er1
 				pop.l	er0
@@ -424,6 +424,7 @@ mul_int:
 				mov.w	r0, @_kernel_int_cnt
 
 				/* 復帰 */
+				pop.l	er3
 				pop.l	er2
 				pop.l	er1
 				pop.l	er0
