@@ -32,7 +32,6 @@ CRead::~CRead()
 int CRead::ReadState(char *szState)
 {
 	bool blEsc   = false;
-	bool blText  = false;
 	bool blSpace = true;	// true で始めて先頭の空白を読み飛ばす
 	int  iCount = 0;
 	int  iErr;
