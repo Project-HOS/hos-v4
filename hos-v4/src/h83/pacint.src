@@ -374,8 +374,7 @@ int_handler:
 				
 		; ---- スタックポインタの入れ替え
 				mov.l	er7, @__HOS_int_sp
-				mov.l	@_kernel_int_sp, er1
-				mov.l	@er1, er7
+				mov.l	@_kernel_int_sp, er7
 				
 		; ---- 割り込み処理の開始
 				push.l	er0
