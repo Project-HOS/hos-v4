@@ -392,7 +392,7 @@ int_handler:
 				mov.b	@(12, er7), r1l
 				and.b	#0x3f,r1l					/* スタック上のCCRからIとU以外を取り出し */
 				or.b	r0l, r1l					/* ベースマスク値を設定 */
-				mov.b	r1l, @(812, er7)				/* スタック上のCCRを更新 */
+				mov.b	r1l, @(12, er7)				/* スタック上のCCRを更新 */
 				
 				/* 復帰 */
 				pop.l	er2
