@@ -17,7 +17,7 @@ ER fchg_imsk(
 {
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( (imsk & ~(H83_IMSK_I_BIT | H83_IMSK_I_BIT)) != 0 )
+	if ( (imsk & ~(H83_IMSK_I_BIT | H83_IMSK_UI_BIT)) != 0 )
 	{
 		return E_PAR;
 	}

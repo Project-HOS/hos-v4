@@ -25,9 +25,9 @@
 #define H83_IMSK_I_BIT		0x80	/* 割り込みマスクビット */
 #define H83_IMSK_UI_BIT		0x40	/* ユーザービット／割り込みマスクビット */
 
-#define H38_IMSK_LEVEL0		0x00								/* プライオリティーレベル0/1を許可 */
-#define H38_IMSK_LEVEL1		(H83_IMSK_I_BIT)					/* プライオリティーレベル1のみ許可 */
-#define H38_IMSK_LEVEL2		(H83_IMSK_I_BIT | H83_IMSK_UI_BIT)	/* すべて禁止 */
+#define H83_IMSK_LEVEL0		0x00								/* プライオリティーレベル0/1を許可 */
+#define H83_IMSK_LEVEL1		(H83_IMSK_I_BIT)					/* プライオリティーレベル1のみ許可 */
+#define H83_IMSK_LEVEL2		(H83_IMSK_I_BIT | H83_IMSK_UI_BIT)	/* すべて禁止 */
 
 
 

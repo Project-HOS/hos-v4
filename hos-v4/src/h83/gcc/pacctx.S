@@ -30,7 +30,7 @@
   void hospac_dis_int(void)
 *************************************************/
 _hospac_dis_int:
-				orc	#0x80, ccr			/* 割り込みの禁止 */
+				orc	#0xc0, ccr			/* 割り込みの禁止 */
 				rts
 
 

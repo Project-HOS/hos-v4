@@ -27,7 +27,7 @@
 ;  void hospac_dis_int(void)
 ; -----------------------------------------------
 _hospac_dis_int:
-				orc		#h'80, ccr	; 割り込みの禁止
+				orc		#h'c0, ccr	; 割り込みの禁止
 				rts
 
 
