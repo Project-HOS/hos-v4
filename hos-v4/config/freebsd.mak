@@ -10,6 +10,7 @@ SRCS  =	analyze.cpp	apidef.cpp	apiinc.cpp	attini.cpp	\
 
 NOMAN =
 CFLAGS += -Wall
+#BINDIR = /usr/local/bin
 
 .include <bsd.prog.mk>
 	
