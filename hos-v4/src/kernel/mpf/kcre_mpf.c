@@ -89,8 +89,8 @@ ER kernel_cre_mpf(
 	/* ブロックの初期化 */
 	for ( i = 0; i < mpfcb_rom->blkcnt - 1; i++ )
 	{
-		*(VP *)mpf = (VP)(mpf + mpfcb_rom->blksz);
-		mpf += mpfcb_rom->blksz;
+		*(VP *)mpf = (VP)((UB *)mpf + mpfcb_rom->blksz);
+		mpf        = (VP)((UB *)mpf + mpfcb_rom->blksz);
 	}
 	*(VP *)mpf = NULL;	/* 最終ブロック */
 
