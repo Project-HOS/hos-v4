@@ -47,7 +47,7 @@ AFLAGS = -c -ml -m4-single-only
 
 
 # ターゲット
-TARGET  = libh4sh4gcc.a
+TARGET  = libh4sh4.a
 
 
 #インクルードファイル
