@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    ITRONカーネル タスク付属同期機能                                      */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2004 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -31,12 +31,12 @@ ER sus_tsk(
 	if ( tskid == TSK_SELF )
 	{
 		/* 自タスク指定時の変換 */
-#ifdef HOS_ERCHK_E_ID
-		if ( mknl_sns_ctx() )
+#ifdef HOS_ERCHK_E_CTX
+		if ( mknl_sns_dsp() )
 		{
-			/* 非タスクコンテキストで TSK_SELF指定は不正 */
+			/* ディスパッチ禁止状態で TSK_SELF指定は不正 */
 			mknl_unl_sys();		/* システムのロック解除 */
-			return E_ID;		/* 不正ID番号 */
+			return E_CTX;		/* コンテキスト不正 */
 		}
 #endif
 		tcb_ram = kernel_get_run_tsk();
@@ -58,7 +58,7 @@ ER sus_tsk(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( tcb_ram == kernel_get_run_tsk() )
+	if ( tcb_ram == kernel_get_run_tsk() && mknl_sns_dsp() )
 	{
 		mknl_unl_sys();		/* システムのロック解除 */
 		return E_CTX;		/* コンテキスト不正 */
@@ -93,6 +93,13 @@ ER sus_tsk(
 		mknl_sus_tsk(&tcb_ram->mtcb);
 	}
 
+	/* 対象が自タスクの場合、ディスパッチ実行 */
+	if ( tcb_ram == kernel_get_run_tsk())
+	{
+		mknl_exe_dsp();	/* タスクディスパッチの実行 */
+		mknl_exe_tex();	/* 例外処理の実行 */
+	}
+
 	mknl_unl_sys();	/* システムのロック解除 */
 
 	return E_OK;
@@ -100,5 +107,5 @@ ER sus_tsk(
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2004 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */
