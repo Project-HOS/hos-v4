@@ -1,7 +1,7 @@
 # Makefile for FreeBSD
 # $Id$
 PROG  = hos4cfg
-SRCS  =	analize.cpp	apidef.cpp	apiinc.cpp	attini.cpp	\
+SRCS  =	analyze.cpp	apidef.cpp	apiinc.cpp	attini.cpp	\
 	attisr.cpp	crecyc.cpp	credtq.cpp	creflg.cpp	\
 	crembf.cpp	crembx.cpp	crempf.cpp	cresem.cpp	\
 	cretsk.cpp	defercd.cpp	defexc.cpp	deftex.cpp	\
