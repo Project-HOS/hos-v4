@@ -55,6 +55,7 @@ extern "C" {
 ER      rot_rdq(PRI tskpri);						/* タスク優先順位の回転 */
 #define irot_rdq	rot_rdq							/* タスク優先順位の回転(非タスクコンテキスト用マクロ) */
 ER      get_tid(ID *p_tskid);						/* 実行状態タスクIDの参照 */
+#define iget_tid	get_tid							/* 実行状態タスクIDの参照(非タスクコンテキスト用マクロ) */
 ID      kernel_get_tid(T_KERNEL_TCB_RAM *tcb_ram);	/* タスクIDの取得(カーネル内部関数) */
 ER      loc_cpu(void);								/* CPUロック状態への移行 */
 #define iloc_cpu	loc_cpu							/* CPUロック状態への移行(非タスクコンテキスト用マクロ) */
