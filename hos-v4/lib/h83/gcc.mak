@@ -36,6 +36,7 @@ ASM    = h8300-hms-coff-gcc
 LIBR   = h8300-hms-coff-ar
 RANLIB = h8300-hms-coff-ranlib
 
+
 # オプション
 CFLAGS = -c -mh -O2 -I$(INCDIR)
 AFLAGS = -c -mh
@@ -96,7 +97,7 @@ OBJS = pacini.o pacint.o pacctx.o \
 
 
 # ターゲット
-TARGET  = h4_h83.a
+TARGET  = libh4h83.a
 
 
 # ライブラリ
@@ -537,7 +538,7 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 
 
 clean:
-	rm -f *.o
+	rm -f $(OBJS)
 	rm -f $(TARGET)
 
 

@@ -22,7 +22,6 @@
 				.global	_hospac_cre_ctx_asm	/* 実行コンテキストの作成 */
 				.global	_hospac_swi_ctx		/* 実行コンテキストの切替 */
 				.global	_hospac_set_tex		/* 例外処理実行設定 */
-				.extern	_kernel_h83_imsk	/* 割り込みマスク */
 
 
 
@@ -31,7 +30,7 @@
   void hospac_dis_int(void)
 *************************************************/
 _hospac_dis_int:
-				orc		#h'80, ccr		/* 割り込みの禁止 */
+				orc	#0x80, ccr		/* 割り込みの禁止 */
 				rts
 
 
@@ -50,8 +49,8 @@ _hospac_ena_int:
   実行コンテキストエントリーアドレス
 *************************************************/
 ctx_entry:	
-				mov.l	er2, er0		/* 実行時パラメータを第一引数に設定 */
-				jmp		@er3			/* 実行アドレスにジャンプ */
+				mov.l	er3, er0		/* 実行時パラメータを第一引数に設定 */
+				jmp	@er4			/* 実行アドレスにジャンプ */
 
 
 /************************************************
@@ -64,16 +63,15 @@ ctx_entry:
 		)
 *************************************************/
 _hospac_cre_ctx_asm:
-				push.l	er2
-				mov.l	#ctx_entry, er2	/* 実行エントリーポイントの設定 */
-				mov.l	er2, @-er1
-				mov.l	@(12, er7), er2	/* 実行時パラメータの取り出し */
-				mov.l	er2, @-er1		/* 実行時パラメータ格納 (er2の退避分) */
-				mov.l	@(8, er7), er2	/* 実行アドレス取り出し */
-				mov.l	er2, @-er1		/* 実行ドレスを格納 (er3 の退避分) */
-				sub.l	#12, er1		/* er4〜er6 までの退避分 */
-				mov.l	er1, @(0, er0)	/* スタックポインタの格納 */
-				pop.l	er2
+		                push.l  er3
+				mov.l   #ctx_entry, er3	/* 実行エントリーポイントの設定 */
+	        		mov.l   er3, @-er1
+				mov.l   @(8,er7), er3	/* 実行時パラメータの取り出し */
+				mov.l   er3, @-er1	/* 実行時パラメータ格納 (er3の退避分) */
+				mov.l   er2, @-er1	/* 実行ドレスを格納 (er4 の退避分) */
+				sub.l   #8, er1		/* er5,er6の退避分 */
+				mov.l   er1, @(0, er0)	/* スタックポインタの格納 */
+				pop.l   er3
 				rts
 
 
@@ -85,7 +83,6 @@ _hospac_cre_ctx_asm:
 		)
 *************************************************/
 _hospac_swi_ctx:
-				push.l	er2
 				push.l	er3
 				push.l	er4
 				push.l	er5
@@ -96,7 +93,6 @@ _hospac_swi_ctx:
 				pop.l	er5
 				pop.l	er4
 				pop.l	er3
-				pop.l	er2
 				rts
 
 
