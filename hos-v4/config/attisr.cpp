@@ -126,6 +126,16 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 // cfgファイル定義部書き出し
 void  CApiAttIsr::WriteCfgDef(FILE* fp)
 {
+	int i,j;
+
+	// 最大割り込み番号を確認
+	if ( m_iMaxIntNo == 0 )
+	{
+		for ( i = 0; i < m_iObjs; i++ )
+			if (( j = atoi( m_pParamPacks[i]->GetParam(ATTISR_INTNO))) > m_iMaxIntNo )
+				m_iMaxIntNo = j;
+	}
+
 	// コメント出力
 	fputs(
 		"\n\n\n"
