@@ -108,21 +108,13 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
 
 
 # ターゲット
-TARGET  = h4akih8.lib
-
-
-all: $(TARGET) h4akih8v.obj
+TARGET  = h4h83aki.lib
 
 
 # ライブラリ
 $(TARGET): $(OBJS)
 	$(LIBR) $(TARGET) $(OBJS)
 
-
-# ベクタテーブル
-h4akih8v.obj: $(PACDIR)\h4akih8v.src
-	$(ASM) $(AFLAGS) $(PACDIR)\h4akih8v.src
-	move $(PACDIR)\h4akih8v.obj .
 
 
 # プロセッサ依存
