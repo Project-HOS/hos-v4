@@ -132,10 +132,10 @@ pacini.obj: $(PACDIR)\pacini.c
 	$(CC) $(CFLAGS) $(PACDIR)\pacini.c
 
 pacctx.obj: $(PACASMDIR)\pacctxn.src
-        $(ASM) $(AFLAGS) $(PACASMDIR)\pacctxn.src -OBJECT=pacctx.obj
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctxn.src -OBJECT=pacctx.obj
 
 pacint.obj: $(PACASMDIR)\pacintn.src
-        $(ASM) $(AFLAGS) $(PACASMDIR)\pacintn.src -OBJECT=pacint.obj
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacintn.src -OBJECT=pacint.obj
 
 chg_imsk.obj: $(PACDIR)\chg_imsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\chg_imsk.c
