@@ -31,10 +31,10 @@ KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
 
 # ツール
-CC     = h8300-hms-coff-gcc
-ASM    = h8300-hms-coff-gcc
-LIBR   = h8300-hms-coff-ar
-RANLIB = h8300-hms-coff-ranlib
+CC     = h8300-hms-gcc
+ASM    = h8300-hms-gcc
+LIBR   = h8300-hms-ar
+RANLIB = h8300-hms-ranlib
 
 
 # オプション
@@ -110,11 +110,11 @@ $(TARGET): $(OBJS)
 pacini.o: $(PACDIR)/pacini.c
 	$(CC) $(CFLAGS) $(PACDIR)/pacini.c
 
-pacctx.o: $(PACDIR)/gcc/pacctx.s
-	$(ASM) $(AFLAGS) $(PACDIR)/gcc/pacctx.s
+pacctx.o: $(PACDIR)/gcc/pacctx.S
+	$(ASM) $(AFLAGS) $(PACDIR)/gcc/pacctx.S
 
-pacint.o: $(PACDIR)/gcc/pacint.s
-	$(ASM) $(AFLAGS) $(PACDIR)/gcc/pacint.s
+pacint.o: $(PACDIR)/gcc/pacint.S
+	$(ASM) $(AFLAGS) $(PACDIR)/gcc/pacint.S
 
 chg_imsk.o: $(PACDIR)/chg_imsk.c
 	$(CC) $(CFLAGS) $(PACDIR)/chg_imsk.c
