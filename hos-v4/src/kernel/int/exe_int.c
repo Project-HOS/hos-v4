@@ -40,8 +40,9 @@ void kernel_exe_int(
 	{
 		return;
 	}
+
 	
-	intcb = kernel_intcb_tbl[intno];	/* ローカルにコピー */
+	intcb = KERNEL_INTNO_TO_INTCB(intno);	/* ローカルにコピー */
 	
 	mknl_unl_sys();		/* 多重割り込み許可 */
 	

@@ -72,10 +72,9 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 		{
 			return CFG_ERR_PARAM;
 		}
-		if ( iIntNo > m_iMaxIntNo )
-		{
-			m_iMaxIntNo = iIntNo;
-		}
+
+		m_iMaxIntNo = iIntNo;
+
 		return CFG_ERR_OK;
 	}
 	else if ( strcmp(pszApiName, "HOS_MIN_INTNO") == 0 )
@@ -93,10 +92,9 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 		{
 			return CFG_ERR_PARAM;
 		}
-		if ( iIntNo < m_iMinIntNo )
-		{
-			m_iMinIntNo = iIntNo;
-		}
+
+		m_iMinIntNo = iIntNo;
+
 		return CFG_ERR_OK;
 	}
 	else if ( strcmp(pszApiName, "HOS_MAX_ISRID") == 0 )
@@ -189,14 +187,30 @@ void  CApiAttIsr::WriteCfgIni(FILE* fp)
 	// 初期化部出力
 	for ( i = 0; i < m_iObjs; i++ )
 	{
-		fprintf(
-			fp,
-			"\tkernel_intcb_tbl[%s].exinf = (VP_INT)(%s);\n"
-			"\tkernel_intcb_tbl[%s].isr   = (FP)(%s);\n",
-			m_pParamPacks[i]->GetParam(ATTISR_INTNO),
-			m_pParamPacks[i]->GetParam(ATTISR_EXINF),
-			m_pParamPacks[i]->GetParam(ATTISR_INTNO),
-			m_pParamPacks[i]->GetParam(ATTISR_ISR));
+		if ( m_iMinIntNo )
+		{
+			fprintf(
+				fp,
+				"\tkernel_intcb_tbl[%s-%d].exinf = (VP_INT)(%s);\n"
+				"\tkernel_intcb_tbl[%s-%d].isr   = (FP)(%s);\n",
+				m_pParamPacks[i]->GetParam(ATTISR_INTNO),
+				m_iMinIntNo,
+				m_pParamPacks[i]->GetParam(ATTISR_EXINF),
+				m_pParamPacks[i]->GetParam(ATTISR_INTNO),
+				m_iMinIntNo,
+				m_pParamPacks[i]->GetParam(ATTISR_ISR));
+		}
+		else
+		{
+			fprintf(
+				fp,
+				"\tkernel_intcb_tbl[%s].exinf = (VP_INT)(%s);\n"
+				"\tkernel_intcb_tbl[%s].isr   = (FP)(%s);\n",
+				m_pParamPacks[i]->GetParam(ATTISR_INTNO),
+				m_pParamPacks[i]->GetParam(ATTISR_EXINF),
+				m_pParamPacks[i]->GetParam(ATTISR_INTNO),
+				m_pParamPacks[i]->GetParam(ATTISR_ISR));
+		}
 	}
 }
 

@@ -76,6 +76,7 @@ extern const INT       kernel_isrcb_cnt;	/* 割り込みサービスルーチンコントロール
 extern INT kernel_int_cnt;		/* 割り込みネスト回数 */
 extern VP  kernel_int_ssp;		/* 割り込み時スタック退避 */
 
+#define KERNEL_INTNO_TO_INTCB(intno)	(kernel_intcb_tbl[(intno) - KERNEL_TMIN_INTNO])
 
 
 /* ------------------------------------------ */
