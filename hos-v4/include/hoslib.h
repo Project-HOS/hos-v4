@@ -19,7 +19,7 @@
 #define __hos_hcopy(dst, src, size)		memcpy(dst, src, (size) * 2)	/* ハーフワード単位コピー */
 #define __hos_wcopy(dst, src, size)		memcpy(dst, src, (size) * 4)	/* ワード単位コピー */
 
-#else	/* 標準ライブラリ未使用なら */
+#else	/* 標準ライブラリ不使用なら */
 
 /* バイト単位コピー */
 #define __hos_bcopy(dst, src, size)					\
