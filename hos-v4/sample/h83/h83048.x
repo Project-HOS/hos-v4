@@ -3,10 +3,10 @@ OUTPUT_ARCH(h8300h)
 ENTRY("_startup")
 MEMORY
 {
-	vectors : o = 0x20000, 	l = 0x20200
-	rom    	: o = 0x20200, 	l = 0x1fdff
-	ram    	: o = 0x30000, l = 0x0fffc
-	stack	: o = 0x3fffc, l = 0x4
+	vectors : o = 0x0000, 	l = 0x200
+	rom    	: o = 0x0200, 	l = 0x1fdff
+	ram    	: o = 0xffef10, l = 0x1000
+	stack	: o = 0xffff0c, l = 0x4
 }
 SECTIONS 				
 { 					
