@@ -15,8 +15,9 @@ HOS-V4  Ver X.XX   2002/XX/XX  by Project HOS (http://sourceforge.jp/projects/ho
              スナップショット(2002-06-30版)より、SourceForge.jpへ開発移行
              履歴管理を開始。
            ・著作権情報を Project HOS に統一
-           ・コンフィギュレーターのバグ修正(パッチ提供 h-iwamoto様）
-           ・タイムアウト管理機構の変更(Ryuz)
+           ・コンフィギュレーターのバグ修正(パッチ提供 h-iwamoto様）by Ryuz
+           ・C++用NULL定義の追加(パッチ提供 h-iwamoto様）by Ryuz
+           ・タイムアウト管理機構の変更 by Ryuz
 
 
 -------------------------------------------------------------------------------
