@@ -35,7 +35,7 @@ KNLCYCDIR  = $(KERNELDIR)/cyc
 KNLALMDIR  = $(KERNELDIR)/alm
 KNLSYSDIR  = $(KERNELDIR)/sys
 KNLINTDIR  = $(KERNELDIR)/int
-
+KNLEXCDIR  = $(KERNELDIR)/exc
 
 # ツール
 CC     = gcc
@@ -120,7 +120,7 @@ OBJS = pacctx.o pacent.o pacini.o pacint.o\
        get_tid.o kget_tid.o rot_rdq.o \
        loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
        sns_ctx.o sns_loc.o sns_dsp.o sns_dpn.o \
-       ref_ver.o
+       ref_ver.o exe_exc.o
 
 
 # ライブラリ生成
@@ -649,6 +649,8 @@ sns_dpn.o: $(KNLSYSDIR)/sns_dpn.c $(INCS)
 ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)/ref_ver.c
 
+exe_exc.o: $(KNLEXCDIR)/exe_exc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLEXCDIR)/exe_exc.c
 
 
 clean:
