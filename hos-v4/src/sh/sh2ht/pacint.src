@@ -169,8 +169,8 @@
 
 				.IMPORT	_hospac_sh_imsk			; 割り込みマスク
 				.IMPORT	_hospac_sh_imsk_base	; 割り込みマスクベース値
-				.IMPORT	_HOS_int_cnt			; 割り込みネスト回数
-				.IMPORT	_HOS_int_sp				; 割り込み用スタックポインタ退避
+				.IMPORT	_kernel_int_cnt			; 割り込みネスト回数
+				.IMPORT	_kernel_int_ssp				; 割り込み用スタックポインタ退避
 				.IMPORT	_kernel_int_sp			; 割り込み用スタックポインタ
 				.IMPORT	_kernel_sta_int			; 割り込み開始処理
 				.IMPORT	_kernel_end_int			; 割り込み終了処理
@@ -938,8 +938,8 @@ int_multi:
 				.ALIGN	4
 L_imsk			.DATA.L	_hospac_sh_imsk			; 割り込みマスク
 L_imsk_base		.DATA.L	_hospac_sh_imsk_base	; 割り込みマスクベース値
-L_int_cnt		.DATA.L	_HOS_int_cnt			; 割り込みネスト回数
-L_save_sp		.DATA.L	_HOS_int_sp				; 割り込み用スタックポインタ退避
+L_int_cnt		.DATA.L	_kernel_int_cnt			; 割り込みネスト回数
+L_save_sp		.DATA.L	_kernel_int_ssp			; 割り込み用スタックポインタ退避
 L_int_sp		.DATA.L	_kernel_int_sp			; 割り込み用スタックポインタ
 L_sta_int		.DATA.L	_kernel_sta_int			; 割り込み開始処理
 L_end_int		.DATA.L	_kernel_end_int			; 割り込み終了処理
