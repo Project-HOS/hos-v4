@@ -43,7 +43,7 @@ RANLIB = sh-hitachi-elf-ranlib
 
 # オプション
 CFLAGS = -c -O2 -Wall -m4-single-only -ml -I$(INCDIR) -pipe
-AFLAGS = -c -ml -m4-single-only
+AFLAGS = -c -ml -m4-single-only -x assembler-with-cpp
 
 
 # ターゲット
@@ -70,8 +70,8 @@ INCS = $(INCDIR)/itron.h \
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o pacimsk.o \
-       mini_sys.o msta_stu.o mext_stu.o \
-       msta_tsk.o mext_tsk.o mchg_pri.o mrot_rdq.o \
+       midl_lop.o mini_sys.o msta_stu.o mext_stu.o \
+       msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
@@ -114,7 +114,6 @@ OBJS = pacctx.o pacint.o pacimsk.o \
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
-	rm -f *.o
 
 
 # プロセッサ依存
@@ -129,6 +128,9 @@ pacimsk.o: $(PACDIR)/pacimsk.c
 
 
 # μカーネル システム制御
+midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
+
 mini_sys.o: $(MKNLSYSDIR)/mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mini_sys.c
 
@@ -143,8 +145,8 @@ mext_stu.o: $(MKNLSYSDIR)/mext_stu.c $(INCS)
 msta_tsk.o: $(MKNLTSKDIR)/msta_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/msta_tsk.c
 
-mext_tsk.o: $(MKNLTSKDIR)/mext_tsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mext_tsk.c
+mter_tsk.o: $(MKNLTSKDIR)/mter_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mter_tsk.c
 
 mchg_pri.o: $(MKNLTSKDIR)/mchg_pri.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mchg_pri.c
@@ -569,8 +571,7 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 
 
 clean:
-	rm -f *.o
-	rm -f $(TARGET)
+	rm -f $(TARGET) $(OBJS)
 
 
 # -----------------------------------------------------------------------------
