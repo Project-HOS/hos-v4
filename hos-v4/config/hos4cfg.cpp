@@ -31,7 +31,6 @@
 #include "defexc.h"
 
 
-#define MAX_PATH	1024		// 最大パス名
 
 
 int  ReadConfigFile(FILE* fpConfig);	// コンフィギュレーションファイル読み込み
@@ -58,9 +57,9 @@ CApiAttIsr     g_ApiAttIsr;
 CApiAttIni     g_ApiAttIni;
 CApiDefExc     g_ApiDefExc;
 
-static char s_szInputFile[MAX_PATH]  = "system.cfg";
-static char s_szIdFile[MAX_PATH]     = "kernel_id.h";
-static char s_szCfgFile[MAX_PATH]    = "kernel_cfg.c";
+static const char *s_szPhysicalInputFile  = "system.cfg";
+static const char *s_szIdFile             = "kernel_id.h";
+static const char *s_szCfgFile            = "kernel_cfg.c";
 
 // API定義リスト
 static CApiDef* g_ApiList[] =
@@ -110,8 +109,7 @@ int main(int argc, char *argv[])
                                PrintUsage();
 				return 1;
 			}
-			strncpy(s_szCfgFile, argv[i], MAX_PATH - 1);
-			s_szCfgFile[MAX_PATH - 1] = '\0';
+			s_szCfgFile = argv[i];
 		}
 		else if ( strcmp(argv[i], "-i") == 0 )
 		{
@@ -122,14 +120,12 @@ int main(int argc, char *argv[])
                                PrintUsage();
 				return 1;
 			}
-			strncpy(s_szIdFile, argv[i], MAX_PATH - 1);
-			s_szIdFile[MAX_PATH - 1] = '\0';
+			s_szIdFile = argv[i];
 		}
 		else if ( strcmp(argv[i], "-") == 0 )
 		{
 			fpInput = stdin;
-			strncpy(s_szInputFile, "stdin", MAX_PATH - 1);
-			s_szInputFile[MAX_PATH - 1] = '\0';
+			s_szPhysicalInputFile = "stdin";
 		}
                else if ( strcmp(argv[i], "-help") == 0 )
                {
@@ -144,15 +140,14 @@ int main(int argc, char *argv[])
                }
 		else
 		{
-			strncpy(s_szInputFile, argv[i], MAX_PATH - 1);
-			s_szInputFile[MAX_PATH - 1] = '\0';
+			s_szPhysicalInputFile = argv[i];
 		}
 	}
 	
 	// 入力ファイルオープン
-	if ( fpInput == NULL && (fpInput = fopen(s_szInputFile, "r")) == NULL )
+	if ( fpInput == NULL && (fpInput = fopen(s_szPhysicalInputFile, "r")) == NULL )
 	{
-               fprintf(stderr, "could not open file \"%s\"\n", s_szInputFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szPhysicalInputFile);
 		return 1;
 	}
 	
@@ -206,7 +201,7 @@ int ReadConfigFile(FILE* fpConfig)
 	int  iErr;
 	int  i;
 
-	CRead read(fpConfig);	// 読み出しオブジェクト生成
+	CRead read(fpConfig, s_szPhysicalInputFile);	// 読み出しオブジェクト生成
 
 	// 読み込み
 	while (	(iErr = read.ReadState(szState)) != CFG_ERR_COMPLETE )
@@ -215,7 +210,8 @@ int ReadConfigFile(FILE* fpConfig)
 		if ( iErr != CFG_ERR_OK )
 		{
                        fprintf(stderr, "%s line(%d) : %s\n",
-					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
+					read.GetLogicalInputFile(),
+					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 
@@ -224,7 +220,8 @@ int ReadConfigFile(FILE* fpConfig)
 		if ( iErr != CFG_ERR_OK )
 		{
                        fprintf(stderr, "%s line(%d) : %s\n",
-					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
+					read.GetLogicalInputFile(),
+					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 		CAnalyze::SpaceCut(szApiName);
@@ -243,7 +240,8 @@ int ReadConfigFile(FILE* fpConfig)
 		if ( iErr != CFG_ERR_OK )
 		{
                        fprintf(stderr, "%s line(%d) : %s\n",
-					s_szInputFile, read.GetLineNum(), GetErrMessage(iErr));
+					read.GetLogicalInputFile(),
+					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
 		}
 	}

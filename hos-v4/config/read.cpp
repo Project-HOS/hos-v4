@@ -7,6 +7,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "defercd.h"
@@ -14,11 +15,13 @@
 
 
 // コンストラクタ
-CRead::CRead(FILE *fp)
+CRead::CRead(FILE *fp, const char *name)
 {
 	m_fpRead    = fp;
-	m_iLineNum  = 1;
+	m_iPhysicalLineNum = m_iLogicalLineNum = 1;
 	m_blLineTop = true;
+	strncpy(m_szLogicalInputFile, name, MAX_PATH - 1);
+	m_szLogicalInputFile[MAX_PATH - 1] = '\0';
 }
 
 
@@ -63,7 +66,7 @@ int CRead::ReadState(char *szState)
 		// 行頭が # ならスキップ
 		if ( m_blLineTop && c == '#' )
 		{
-			iErr = SkipPriProcessorLine();
+			iErr = SkipPriProcessorLine(szState, iCount);
 			if ( iErr != CFG_ERR_OK )
 			{
 				break;
@@ -74,8 +77,13 @@ int CRead::ReadState(char *szState)
 		// 改行文字の処理
 		if ( c == '\n' )
 		{
-			m_iLineNum++;
+			m_iPhysicalLineNum++;
+			m_iLogicalLineNum++;
 			m_blLineTop = true;
+		}
+		else
+		{
+			m_blLineTop = false;
 		}
 
 		// 空白文字のスキップ
@@ -126,44 +134,80 @@ int CRead::ReadState(char *szState)
 
 
 // プリプロセッサラインのスキップ
-int CRead::SkipPriProcessorLine(void)
+int CRead::SkipPriProcessorLine(char* szText, int iCountOrg)
 {
-	bool blEsc  = false;
 	int  c;
+	int iCount = iCountOrg;
+	long tmpLineNum;
+	char *p1, *p2;
 
 	for ( ; ; )
 	{
 		// １文字読み込み
 		if ( (c = fgetc(m_fpRead)) == EOF )
 		{
-			if ( blEsc )
-			{
-				return CFG_ERR_EOF;	// 予期せぬEOF
-			}
 			return CFG_ERR_OK;
 		}
 
-		// \ の次は無条件にスキップ
-		if ( blEsc )
+		// サイズチェック
+		if ( iCount >= READ_MAX_STATE - 1 )
 		{
-			blEsc  = false;
-			continue;
-		}
-		blEsc  = false;
-
-		// \ のチェック
-		if ( c == '\\' )
-		{
-			blEsc  = true;
-			continue;
+			return CFG_ERR_STATE_LEN;
 		}
 
 		// 行末のチェック
 		if ( c == '\n' )
 		{
-			m_iLineNum++;
+			m_iPhysicalLineNum++;
+			m_iLogicalLineNum++;
+
+			szText[iCount] = '\0';
+
+			// #line 123 "filename"
+			// # 123 "filename"
+			// の形式のどちらでも受け付ける
+			if (strncmp(&szText[iCountOrg], "line", 4) == 0)
+				iCountOrg += 4;
+
+			// #line123
+			// #12
+			// などを排除
+			if (!isspace(szText[iCountOrg]))
+				return CFG_ERR_OK;
+
+			// 行番号読み込み
+			tmpLineNum = strtol(&szText[iCountOrg], &p1, 10);
+			if (p1 == &szText[iCountOrg])
+				return CFG_ERR_OK;
+
+			// # 123a
+			// など行番号の後ろに余分なものがついている場合を排除
+			if (!isspace(*p1) && *p1 != '\0')
+				return CFG_ERR_OK;
+
+			// 読み込んだ行番号を反映
+			m_iLogicalLineNum = tmpLineNum;
+
+			// ファイル名を探す
+			while (isspace(*p1))
+				p1++;
+			if (*p1 != '\"')
+				return CFG_ERR_OK;
+			p1++;
+			p2 = strchr(p1, '\"');
+			if (p2 == NULL)
+				return CFG_ERR_OK;
+			*p2 = '\0';
+
+			// ファイル名を反映
+			strncpy(m_szLogicalInputFile, p1, MAX_PATH - 1);
+			m_szLogicalInputFile[MAX_PATH - 1] = '\0';
+
 			return CFG_ERR_OK;
 		}
+
+		// 文字の読み込み
+		szText[iCount++] = c;
 	}
 }
 
