@@ -45,7 +45,8 @@ idle_loop:
 
 
 				.global	_kernel_int_sp
-
+				.section .rodata
+				.align 2
 _kernel_int_sp:
 				.long	_stack		/* 割り込み時の er7 保存用 */
 
