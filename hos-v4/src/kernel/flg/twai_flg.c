@@ -80,7 +80,7 @@ ER twai_flg(
 	/* 待ち条件設定 */
 	flginf.waiptn = waiptn;
 	flginf.wfmode = wfmode;
-	
+
 	/* フラグチェック */
 	if ( kernel_chk_flg(flgcb_ram, &flginf) )
 	{
@@ -107,20 +107,20 @@ ER twai_flg(
 			mtcb->data = (VP_INT)&flginf;	/* 待ち状態を保存 */
 			mknl_wai_tsk(mtcb, TTW_FLG);
 			mknl_add_que(&flgcb_ram->que, mtcb, flgcb_rom->flgatr);
-			if ( tmout == TMO_FEVR )
+			if ( tmout != TMO_FEVR )
 			{
 				/* 無限待ちでなければタイムアウト設定 */
 				mknl_add_tmout(mtcb, (RELTIM)tmout);
 			}
-			
+
 			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチ実行 */
-			
+
 			/* 条件を満たして解除されたのなら */
 			if ( ercd == E_OK )
 			{
 				*p_flgptn = flginf.waiptn;		/* 解除時のフラグパターンを格納 */
 			}
-			
+
 			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 	}
