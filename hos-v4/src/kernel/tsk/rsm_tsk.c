@@ -1,0 +1,73 @@
+/* ------------------------------------------------------------------------ */
+/*  HOS-V4                                                                  */
+/*    ITRONカーネル タスク制御                                              */
+/*                                                                          */
+/*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
+/* ------------------------------------------------------------------------ */
+
+
+#include "kernel.h"
+
+
+
+/* 強制待ち状態からの再開 */
+ER rsm_tsk(
+		ID tskid)	/* 再開対象のタスクのID番号 */
+{
+	T_KERNEL_TCB_RAM *tcb_ram;
+
+	/* ID 範囲チェック */
+#ifdef HOS_ERCHK_E_ID
+	if ( tskid < TMIN_TSKID || tskid > TMAX_TSKID )
+	{
+		return E_ID;	/* 不正ID番号 */
+	}
+#endif
+
+	mknl_loc_sys();	/* システムのロック */
+
+	tcb_ram = KERNEL_TSKID_TO_TCB_RAM(tskid);
+
+	/* オブジェクト存在チェック */
+#ifdef HOS_ERCHK_E_NOEXS
+	if ( tcb_ram == NULL )
+	{
+		mknl_unl_sys();	/* システムのロック解除 */
+		return E_NOEXS;	/* オブジェクト未生成 */
+	}
+#endif
+
+	/* オブジェクト状態チェック */
+#ifdef HOS_ERCHK_E_OBJ
+	if ( !(mknl_get_tskstat(&tcb_ram->mtcb) & TTS_SUS) )
+	{
+		/* 強制待ち状態でなければ */
+		mknl_unl_sys();	/* システムのロック解除 */
+		return E_OBJ;	/* オブジェクト状態不正 */
+	}
+#endif
+
+	/* 強制待ちがネストしていたらキューイング数のみ減らす */
+	if ( tcb_ram->suscnt > 0 )
+	{
+		tcb_ram->suscnt--;
+		mknl_unl_sys();		/* システムのロック解除 */
+		return E_OK;
+	}
+
+	/* タスクの強制待ち解除 */
+	mknl_rsm_tsk(&tcb_ram->mtcb);
+
+	/* タスクディスパッチの実行 */
+	mknl_exe_dsp();
+
+	mknl_unl_sys();	/* システムのロック解除 */
+
+	return E_OK;
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+/*  Copyright (C) 1998-2002 by Ryuji Fuchikami                              */
+/* ------------------------------------------------------------------------ */
