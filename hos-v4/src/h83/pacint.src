@@ -2,13 +2,6 @@
 ;  Hyper Operating System V4                                                  
 ;    割り込みハンドラ  Hitachi H8/300H 用                                     
 ;                                                                             
-;  1. 著作者は本ソースファイルの利用によって発生する如何なる損害にもその      
-;     責任を負いません。                                                      
-;  2. 再配布において著作権情報及び免責事項の情報改竄を固く禁じます。          
-;  3. 上記を守る限り、改版したものの再配布を含め、商用／非商用を問わず        
-;     あらゆる用途に自由に利用できます。                                      
-;  4. 改版物の再配布時は、改版者の著作情報と連絡先を必ず追記してください。    
-;                                                                             
 ;                                   Copyright (C) 1998-2002 by Project HOS    
 ;                                   http://sourceforge.jp/projects/hos/       
 ; --------------------------------------------------------------------------- 
@@ -351,10 +344,9 @@ _hos_vecter063:	push.l	er0
 ; -----------------------------------------------
 ;          割り込み処理
 ;
-;  割り込み発生時は er0 を push した後、er0に
-;  割り込み番号をセットした後、ここにジャンプする
+;  割り込み発生時は er0 を push した後、er0 に
+;  割り込み番号をセットして、ここにジャンプする
 ; -----------------------------------------------
-				.IMPORT	_kernel_sys_sp		; システム用スタックのアドレス
 				.IMPORT	_kernel_sta_int		; 割り込み処理開始
 				.IMPORT	_kernel_end_int		; 割り込み処理終了
 				.IMPORT	_kernel_exe_int		; 割り込み処理実行
@@ -383,28 +375,29 @@ int_handler:
 				mov.l	@_kernel_int_sp, er1
 				mov.l	@er1, er7
 				
-				push.l	er0
-				
 		; ---- 割り込み処理の開始
-				jsr	@_kernel_sta_int
+				push.l	er0
+				jsr		@_kernel_sta_int
+				pop.l	er0
 				
 		; -------- 割り込みハンドラの処理
-				pop.l	er0
-				jsr	@_kernel_exe_int
+				jsr		@_kernel_exe_int
 				
 		; -------- スタックポインタ復帰
 				mov.l	@__HOS_int_sp, er7
 				
 		; -------- 割り込みネストカウンタクリア
 				xor.w	r1, r1
-				mov.w	r1, @__HOS_int_cnt	; 割り込みカウンタクリア
+				mov.w	r1, @__HOS_int_cnt
 				
 		; -------- タスクコンテキストに移行
-				jsr	@_kernel_end_int
+				jsr		@_kernel_end_int
 				
-		; -------- 復帰
+		; -------- 割り込みマスク値の復帰
 				xor.b	r0l, r0l
 				mov.b	r0l, @_kernel_h83_imsk
+				
+		; -------- 復帰
 				pop.l	er1
 				pop.l	er0
 				rte
@@ -417,7 +410,8 @@ mul_int:
 				mov.w	r1, @__HOS_int_cnt
 				
 		; -------- 割り込みハンドラ呼び出し
-				jsr	@_kernel_exe_int
+				mov.l	er2, er0			; 割り込み番号を引数とする
+				jsr		@_kernel_exe_int
 				
 		; -------- 割り込みネストカウンタ減算
 				mov.w	@__HOS_int_cnt, r0

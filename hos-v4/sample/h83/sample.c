@@ -2,8 +2,6 @@
 /*  Hyper Operating System V4  サンプルプログラム                           */
 /*   Hitachi H8 用 サンプルプログラム                                       */
 /*                                                                          */
-/*  利用規約や再配布条件は別途 license.txt をご参照ください                 */
-/*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
@@ -45,8 +43,6 @@ void Initialize(VP_INT exinf)
 	act_tsk(TSKID_SAMPLE1);
 }
 
-int x;
-int z;
 
 /* サンプルタスク */
 void Task1(VP_INT exinf)
@@ -55,8 +51,10 @@ void Task1(VP_INT exinf)
 	
 	for ( ; ; )
 	{
+		/* タイマ値取得 */
 		get_tim(&st);
 		
+		/* タイマ値出力 */
 		SCI_Putc('0' + (st.ltime / 10000) % 10);
 		SCI_Putc('0' + (st.ltime / 1000) % 10);
 		SCI_Putc('0' + (st.ltime / 100) % 10);
@@ -87,7 +85,6 @@ void timer_handler(VP_INT exinf)
 	/* タイムティック供給 */
 	isig_tim();
 }
-
 
 
 /* ------------------------------------------------------------------------ */
