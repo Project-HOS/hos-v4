@@ -242,7 +242,7 @@ void  CApiCreMpf::WriteCfgIni(FILE* fp)
 		"\t/* initialize fixed size memory-pool control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_mpfcb_ram[i].mpfcbrom = &kernel_mpfcb_rom[i];\n"
+		"\t\tkernel_mpfcb_ram[i].mpfcb_rom = &kernel_mpfcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

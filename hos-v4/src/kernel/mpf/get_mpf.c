@@ -60,7 +60,7 @@ ER get_mpf(
 	else
 	{
 		/* 空きブロックが無ければ待ちに入る */
-		mpfcb_rom = mpfcb_ram->mpfcbrom;
+		mpfcb_rom = mpfcb_ram->mpfcb_rom;
 		mtcb = mknl_get_run_tsk();
 		mknl_wai_tsk(mtcb, TTW_MPF);
 		mknl_add_que(&mpfcb_ram->que, mtcb, mpfcb_rom->mpfatr);	/* 待ち行列に追加 */

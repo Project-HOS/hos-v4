@@ -20,7 +20,7 @@ void kernel_ini_sem(void)
 	{
 		if ( kernel_semcb_ram_tbl[i] != NULL )
 		{
-			kernel_semcb_ram_tbl[i]->semcnt = kernel_semcb_ram_tbl[i]->semcbrom->isemcnt;
+			kernel_semcb_ram_tbl[i]->semcnt = kernel_semcb_ram_tbl[i]->semcb_rom->isemcnt;
 		}
 	}
 }

@@ -28,6 +28,7 @@ KNLSEMDIR  = $(KERNELDIR)/sem
 KNLFLGDIR  = $(KERNELDIR)/flg
 KNLDTQDIR  = $(KERNELDIR)/dtq
 KNLMBXDIR  = $(KERNELDIR)/mbx
+KNLMBFDIR  = $(KERNELDIR)/mbf
 KNLMPFDIR  = $(KERNELDIR)/mpf
 KNLTIMDIR  = $(KERNELDIR)/tim
 KNLSYSDIR  = $(KERNELDIR)/sys
@@ -94,6 +95,9 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        rcv_dtq.o prcv_dtq.o trcv_dtq.o \
        cre_mbx.o acre_mbx.o kcre_mbx.o del_mbx.o \
        snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o \
+       cre_mbf.o acre_mbf.o kcre_mbf.o del_mbf.o \
+       snd_mbf.o psnd_mbf.o tsnd_mbf.o \
+       rcv_mbf.o prcv_mbf.o trcv_mbf.o \
        ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
        get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
@@ -110,6 +114,7 @@ OBJS = pacctx.o pacint.o pacimsk.o \
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
+	rm -f *.o
 
 
 # プロセッサ依存
@@ -431,6 +436,38 @@ prcv_mbx.o: $(KNLMBXDIR)/prcv_mbx.c $(INCS)
 
 trcv_mbx.o: $(KNLMBXDIR)/trcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)/trcv_mbx.c
+
+
+# メッセージバッファ
+cre_mbf.o: $(KNLMBFDIR)/cre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/cre_mbf.c
+
+acre_mbf.o: $(KNLMBFDIR)/acre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/acre_mbf.c
+
+kcre_mbf.o: $(KNLMBFDIR)/kcre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/kcre_mbf.c
+
+del_mbf.o: $(KNLMBFDIR)/del_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/del_mbf.c
+
+snd_mbf.o: $(KNLMBFDIR)/snd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/snd_mbf.c
+
+psnd_mbf.o: $(KNLMBFDIR)/psnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/psnd_mbf.c
+
+tsnd_mbf.o: $(KNLMBFDIR)/tsnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/tsnd_mbf.c
+
+rcv_mbf.o: $(KNLMBFDIR)/rcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/rcv_mbf.c
+
+prcv_mbf.o: $(KNLMBFDIR)/prcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/prcv_mbf.c
+
+trcv_mbf.o: $(KNLMBFDIR)/trcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)/trcv_mbf.c
 
 
 # 固定長メモリプール

@@ -50,8 +50,8 @@ ER kernel_cre_flg(
 	flgcb_rom->flgatr  = pk_cflg->flgatr;
 	flgcb_rom->iflgptn = pk_cflg->iflgptn;
 	mknl_ini_que(&flgcb_ram->que);
-	flgcb_ram->flgptn   = flgcb_rom->iflgptn;
-	flgcb_ram->flgcbrom = flgcb_rom;
+	flgcb_ram->flgptn    = flgcb_rom->iflgptn;
+	flgcb_ram->flgcb_rom = flgcb_rom;
 
 	/* 管理テーブルへ追加 */
 	kernel_flgcb_ram_tbl[flgid - TMIN_FLGID] = flgcb_ram;

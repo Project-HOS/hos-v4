@@ -26,7 +26,7 @@ void kernel_ini_tsk(void)
 			mknl_ini_tsk(&tcb_ram->mtcb);
 			
 			/* TA_ACT属性のものを起動する */
-			if ( tcb_ram->tcbrom->tskatr & TA_ACT )
+			if ( tcb_ram->tcb_rom->tskatr & TA_ACT )
 			{
 				act_tsk(TMIN_TSKID + i);
 			}
@@ -44,7 +44,7 @@ void kernel_task_entry(
 
 	/* スタートアドレスの算出 */
 	tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mknl_get_run_tsk());
-	tcb_rom = tcb_ram->tcbrom;
+	tcb_rom = tcb_ram->tcb_rom;
 
 	mknl_unl_sys();			/* システムのロック解除 */
 

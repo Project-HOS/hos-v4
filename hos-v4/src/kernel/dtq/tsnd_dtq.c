@@ -42,7 +42,7 @@ ER      tsnd_dtq(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if (  tmout != TMO_POL && mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -77,7 +77,7 @@ ER      tsnd_dtq(
 	else
 	{
 		/* 待ちタスクが無ければデータキューに格納 */
-		dtqcb_rom = dtqcb_ram->dtqcbrom;
+		dtqcb_rom = dtqcb_ram->dtqcb_rom;
 		if ( dtqcb_ram->datacnt >= dtqcb_rom->dtqcnt )
 		{
 			/* データキューが一杯なら */

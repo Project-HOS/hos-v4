@@ -31,7 +31,7 @@ ER trcv_dtq(
 
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR 
-	if ( tmout != TMO_FEVR && tmout < 0 )
+	if ( (tmout != TMO_FEVR && tmout < 0) || p_data == NULL )
 	{
 		return E_PAR;
 	}
@@ -41,7 +41,7 @@ ER trcv_dtq(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if ( tmout != TMO_POL &&  mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -59,7 +59,7 @@ ER trcv_dtq(
 	}
 #endif
 
-	dtqcb_rom = dtqcb_ram->dtqcbrom;
+	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	if ( dtqcb_ram->datacnt == 0 )
 	{

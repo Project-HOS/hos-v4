@@ -101,7 +101,7 @@ typedef struct t_kernel_tcb_ram
 	UB         suscnt;		/* SUSPEND要求ネスト数 */
 	UH         wupcnt;		/* 起床要求キューイング数 */
 	T_KERNEL_TEXCB_RAM     *texcb;		/* タスク例外処理コントロールブロックへのポインタ */
-	const T_KERNEL_TCB_ROM *tcbrom;		/* タスクコントロールブロックROM部へのポインタ */
+	const T_KERNEL_TCB_ROM *tcb_rom;	/* タスクコントロールブロックROM部へのポインタ */
 } T_KERNEL_TCB_RAM;
 
 

@@ -41,7 +41,7 @@ ER pol_flg(
 	mknl_loc_sys();	/* システムのロック */
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
-	flgcb_rom = flgcb_ram->flgcbrom;
+	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* オブジェクトの存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

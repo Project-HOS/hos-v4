@@ -50,7 +50,7 @@ ER sta_tsk(
 #endif
 	
 	/* タスクコントロールブロックROM部取得 */
-	tcb_rom = tcb_ram->tcbrom;
+	tcb_rom = tcb_ram->tcb_rom;
 	
 	/* 実行コンテキスト登録 */
 	mknl_sta_tsk(

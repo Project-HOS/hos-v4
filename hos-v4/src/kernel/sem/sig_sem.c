@@ -39,7 +39,7 @@ ER sig_sem(
 	}
 #endif
 	
-	semcb_rom = semcb_ram->semcbrom;
+	semcb_rom = semcb_ram->semcb_rom;
 	
 	/* キューイングオーバーフローチェック */
 #ifdef HOS_ERCHK_E_QOVR

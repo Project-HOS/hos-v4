@@ -66,7 +66,7 @@ ER snd_mbx(
 		else
 		{
 			msg = mbxcb_ram->msg;
-			if ( mbxcb_ram->mbxcbrom->mbxatr & TA_MPRI )
+			if ( mbxcb_ram->mbxcb_rom->mbxatr & TA_MPRI )
 			{
 				/* 優先度位置を検索 */
 				for ( ; ; )

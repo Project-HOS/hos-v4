@@ -68,7 +68,7 @@ typedef struct t_kernel_mbxcb_ram
 {
 	T_MKNL_QUE que;			/* メールボックス待ちタスクキュー */
 	T_MSG      *msg;		/* メッセージの先頭番地 */
-	const T_KERNEL_MBXCB_ROM *mbxcbrom;
+	const T_KERNEL_MBXCB_ROM *mbxcb_rom;	/* メールボックスコントロールブロックROM部へのポインタ */
 } T_KERNEL_MBXCB_RAM;
 
 

@@ -61,7 +61,7 @@ ER rcv_mbx(
 		/* メールボックスが空なら待ちに入る */
 		mtcb = mknl_get_run_tsk();
 		mknl_wai_tsk(mtcb, TTW_MBX);
-		mknl_add_que(&mbxcb_ram->que, mtcb, mbxcb_ram->mbxcbrom->mbxatr);	/* 待ち行列に追加 */
+		mknl_add_que(&mbxcb_ram->que, mtcb, mbxcb_ram->mbxcb_rom->mbxatr);	/* 待ち行列に追加 */
 		
 		ercd = (ER)mknl_exe_dsp();		/* タスクディスパッチの実行 */
 		

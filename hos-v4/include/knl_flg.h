@@ -52,7 +52,7 @@ typedef struct t_kernel_flgcb_ram
 {
 	T_MKNL_QUE que;			/* イベントフラグ待ち行列 */
 	FLGPTN     flgptn;		/* イベントフラグのビットパターン */
-	const T_KERNEL_FLGCB_ROM* flgcbrom;	/* イベントフラグコントロールブロックROM部へのポインタ */
+	const T_KERNEL_FLGCB_ROM* flgcb_rom;	/* イベントフラグコントロールブロックROM部へのポインタ */
 } T_KERNEL_FLGCB_RAM;
 
 

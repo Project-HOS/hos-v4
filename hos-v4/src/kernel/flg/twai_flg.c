@@ -48,7 +48,7 @@ ER twai_flg(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if (  tmout != TMO_POL && mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -56,7 +56,7 @@ ER twai_flg(
 #endif
 
 	flgcb_ram = KERNEL_FLGID_TO_FLGCB_RAM(flgid);
-	flgcb_rom = flgcb_ram->flgcbrom;
+	flgcb_rom = flgcb_ram->flgcb_rom;
 
 	/* オブジェクトの存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

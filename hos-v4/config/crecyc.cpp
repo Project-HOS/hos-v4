@@ -209,7 +209,7 @@ void  CApiCreCyc::WriteCfgIni(FILE* fp)
 		"\t/* initialize cyclic handler control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_cyccb_ram[i].cyccbrom = &kernel_cyccb_rom[i];\n"
+		"\t\tkernel_cyccb_ram[i].cyccb_rom = &kernel_cyccb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

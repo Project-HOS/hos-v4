@@ -22,6 +22,7 @@
 #include "knl_flg.h"
 #include "knl_dtq.h"
 #include "knl_mbx.h"
+#include "knl_mbf.h"
 #include "knl_mpf.h"
 #include "knl_tim.h"
 #include "knl_sys.h"

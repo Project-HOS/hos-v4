@@ -38,7 +38,7 @@ ER stp_cyc(
 	}
 #endif
 
-	cyccb_rom = cyccb_ram->cyccbrom;
+	cyccb_rom = cyccb_ram->cyccb_rom;
 	
 	/* 動作設定 */
 	cyccb_ram->cycstat = TCYC_STP;

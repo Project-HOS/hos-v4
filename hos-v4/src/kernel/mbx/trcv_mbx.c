@@ -32,7 +32,7 @@ ER trcv_mbx(
 #ifdef HOS_ERCHK_E_PAR 
 	if ( tmout != TMO_FEVR && tmout < 0 )
 	{
-		return E_PAR;
+		return E_PAR;	/* パラメーター不正 */
 	}
 #endif
 
@@ -40,7 +40,7 @@ ER trcv_mbx(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if ( tmout != TMO_POL &&  mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -78,7 +78,7 @@ ER trcv_mbx(
 			/* 待ちに入る */
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_MBX);
-			mknl_add_que(&mbxcb_ram->que, mtcb, mbxcb_ram->mbxcbrom->mbxatr);	/* 待ち行列に追加 */
+			mknl_add_que(&mbxcb_ram->que, mtcb, mbxcb_ram->mbxcb_rom->mbxatr);	/* 待ち行列に追加 */
 
 			/* 無限待ちでなければ */
 			if ( tmout != TMO_FEVR )

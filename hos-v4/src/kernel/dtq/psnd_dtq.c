@@ -59,7 +59,7 @@ ER psnd_dtq(
 	else
 	{
 		/* 待ちタスクが無ければデータキューに格納 */
-		dtqcb_rom = dtqcb_ram->dtqcbrom;
+		dtqcb_rom = dtqcb_ram->dtqcb_rom;
 		if ( dtqcb_ram->datacnt >= dtqcb_rom->dtqcnt )
 		{
 			/* データキューが一杯ならタイムアウト */

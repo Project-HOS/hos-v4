@@ -26,7 +26,7 @@ void ext_tsk(void)
 	mknl_ext_tsk(mtcb_run);
 
 	tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mtcb_run);
-	tcb_rom = tcb_ram->tcbrom;
+	tcb_rom = tcb_ram->tcb_rom;
 
 	/* 起動がキューイングされていたなら */
 	if ( tcb_ram->actcnt > 0 )

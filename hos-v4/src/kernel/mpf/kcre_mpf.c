@@ -65,11 +65,11 @@ ER kernel_cre_mpf(
 	mpfcb_ram = &mpfcb->mpfcb_ram;
 	mpfcb_rom = &mpfcb->mpfcb_rom;
 	mknl_ini_que(&mpfcb_ram->que);
-	mpfcb_ram->free     = mpf;
-	mpfcb_ram->mpfcbrom = mpfcb_rom;
-	mpfcb_rom->mpfatr   = pk_cmpf->mpfatr;
-	mpfcb_rom->blkcnt   = pk_cmpf->blkcnt;
-	mpfcb_rom->blksz    = pk_cmpf->blksz;
+	mpfcb_ram->free      = mpf;
+	mpfcb_ram->mpfcb_rom = mpfcb_rom;
+	mpfcb_rom->mpfatr    = pk_cmpf->mpfatr;
+	mpfcb_rom->blkcnt    = pk_cmpf->blkcnt;
+	mpfcb_rom->blksz     = pk_cmpf->blksz;
 
 	/* ブロックの初期化 */
 	ptr = (UB *)mpfcb_rom->mpf;

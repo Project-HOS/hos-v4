@@ -24,7 +24,15 @@ ER rcv_dtq(
 #ifdef HOS_ERCHK_E_ID
 	if ( dtqid < TMIN_DTQID || dtqid > TMAX_DTQID )
 	{
-		return E_ID;
+		return E_ID;	/* ID不正 */
+	}
+#endif
+	
+	/* パラメーターチェック */
+#ifdef HOS_ERCHK_E_PAR 
+	if ( p_data == NULL )
+	{
+		return E_PAR;	/* パラメーター不正 */
 	}
 #endif
 	
@@ -50,7 +58,7 @@ ER rcv_dtq(
 	}
 #endif
 
-	dtqcb_rom = dtqcb_ram->dtqcbrom;
+	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	if ( dtqcb_ram->datacnt == 0 )
 	{

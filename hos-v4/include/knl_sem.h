@@ -58,7 +58,7 @@ typedef struct t_kernel_semcb_ram
 {
 	T_MKNL_QUE que;		/* セマフォ待ちタスクキュー */
 	UINT       semcnt;	/* セマフォの資源数 */
-	const T_KERNEL_SEMCB_ROM *semcbrom;	/* セマフォコントロールブロックROM部へのポインタ */
+	const T_KERNEL_SEMCB_ROM *semcb_rom;	/* セマフォコントロールブロックROM部へのポインタ */
 } T_KERNEL_SEMCB_RAM;
 
 

@@ -64,7 +64,7 @@ ER ter_tsk(
 	/* 起動がキューイングされていたなら */
 	if ( tcb_ram->actcnt > 0 )
 	{
-		tcb_rom = tcb_ram->tcbrom;
+		tcb_rom = tcb_ram->tcb_rom;
 
 		tcb_ram->actcnt--;	/* キューイング減算 */
 

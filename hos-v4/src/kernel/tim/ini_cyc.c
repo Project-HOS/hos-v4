@@ -20,7 +20,7 @@ void kernel_ini_cyc(void)
 	for ( i = 0; i < kernel_cyccb_cnt; i++ )
 	{
 		cyccb_ram = kernel_cyccb_ram_tbl[i];
-		if ( cyccb_ram != NULL && (cyccb_ram->cyccbrom->cycatr & TA_STA) )
+		if ( cyccb_ram != NULL && (cyccb_ram->cyccb_rom->cycatr & TA_STA) )
 		{
 			sta_cyc(TMIN_CYCID + i);
 		}

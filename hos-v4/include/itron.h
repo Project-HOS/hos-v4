@@ -16,20 +16,20 @@
 /*          データ型定義                */
 /* ------------------------------------ */
 
-typedef	signed char		B;			/* 符号付き8ビット整数 */
-typedef	signed short	H;			/* 符号付き16ビット整数 */
-typedef	signed long		W;			/* 符号付き32ビット整数 */
+typedef signed char		B;			/* 符号付き8ビット整数 */
+typedef signed short	H;			/* 符号付き16ビット整数 */
+typedef signed long		W;			/* 符号付き32ビット整数 */
 
-typedef	unsigned char	UB;			/* 符号無し8ビット整数 */
-typedef	unsigned short 	UH;			/* 符号無し16ビット整数 */
-typedef	unsigned long	UW;			/* 符号無し32ビット整数 */
+typedef unsigned char	UB;			/* 符号無し8ビット整数 */
+typedef unsigned short 	UH;			/* 符号無し16ビット整数 */
+typedef unsigned long	UW;			/* 符号無し32ビット整数 */
 
-typedef	signed char		VB;			/* データタイプが定まらない8ビットの値 */
-typedef	signed short	VH;			/* データタイプが定まらない16ビットの値 */
-typedef	signed long		VW;			/* データタイプが定まらない32ビットの値 */
+typedef signed char		VB;			/* データタイプが定まらない8ビットの値 */
+typedef signed short	VH;			/* データタイプが定まらない16ビットの値 */
+typedef signed long		VW;			/* データタイプが定まらない32ビットの値 */
 
-typedef	void			*VP;		/* データタイプが定まらないものへのポインタ */
-typedef	void			(*FP)();	/* プログラムの起動番地（ポインタ） */
+typedef void			*VP;		/* データタイプが定まらないものへのポインタ */
+typedef void			(*FP)();	/* プログラムの起動番地（ポインタ） */
 
 typedef signed   int	INT;		/* プロセッサに自然なサイズの符号付き整数(16bit以上) */
 typedef unsigned int	UINT;		/* プロセッサに自然なサイズの符号無し整数(16bit以上) */
@@ -37,15 +37,15 @@ typedef unsigned int	UINT;		/* プロセッサに自然なサイズの符号無し整数(16bit以上)
 typedef INT		BOOL;		/* 真偽値 */
 
 typedef INT		FN;			/* 機能コード */
-typedef	INT		ER;			/* エラーコード */
-typedef	INT		ID;			/* オブジェクトのID番号 */
-typedef	UH		ATR;		/* オブジェクトの属性 */
-typedef	UH		STAT;		/* オブジェクトの状態 */
-typedef	UH		MODE;		/* サービスコールの動作モード */
-typedef	B		PRI;		/* 優先度 */
-typedef	UW		SIZE;		/* メモリ領域のサイズ */
-typedef	W		TMO;		/* タイムアウト指定 */
-typedef	UW		RELTIM;		/* 相対時間 */
+typedef INT		ER;			/* エラーコード */
+typedef INT		ID;			/* オブジェクトのID番号 */
+typedef UH		ATR;		/* オブジェクトの属性 */
+typedef UH		STAT;		/* オブジェクトの状態 */
+typedef UH		MODE;		/* サービスコールの動作モード */
+typedef B		PRI;		/* 優先度 */
+typedef UW		SIZE;		/* メモリ領域のサイズ */
+typedef W		TMO;		/* タイムアウト指定 */
+typedef UW		RELTIM;		/* 相対時間 */
 
 typedef struct t_systim		/* システム時刻 */
 {
@@ -53,11 +53,11 @@ typedef struct t_systim		/* システム時刻 */
 	H  utime;				/* 上位 16bit */
 } SYSTIM;
 
-typedef	VP		VP_INT;		/* VP または INT */
+typedef VP		VP_INT;		/* VP または INT */
 
-typedef	W		ER_UINT;	/* ER または UINT */
+typedef W		ER_UINT;	/* ER または UINT */
 
-typedef	INT		ER_ID;		/* ER または ID */
+typedef INT		ER_ID;		/* ER または ID */
 
 typedef UH		TEXPTN;		/* タスク例外要因のパターン */
 
@@ -79,10 +79,10 @@ typedef INT		INTNO;		/* 割り込み番号 */
 #undef NULL
 #endif
 
-#define	NULL		((void *)0)	/* 無効ポインタ */
-#define	TRUE		1			/* 真 */
-#define	FALSE		0			/* 偽 */
-#define	E_OK		0			/* 正常終了 */
+#define NULL		((void *)0)	/* 無効ポインタ */
+#define TRUE		1			/* 真 */
+#define FALSE		0			/* 偽 */
+#define E_OK		0			/* 正常終了 */
 
 
 /* オブジェクト属性 */
@@ -166,27 +166,27 @@ typedef INT		INTNO;		/* 割り込み番号 */
 
 
 /* エラーコード */
-#define	E_SYS		(-5)		/* システムエラー */
-#define	E_NOSPT		(-9)		/* 未サポート機能 */
-#define	E_RSFN		(-10)		/* 予約機能コード */
-#define	E_RSATR		(-11)		/* 予約属性 */
-#define	E_PAR		(-17)		/* パラメータエラー */
-#define	E_ID		(-18)		/* 不正ID番号 */
-#define	E_CTX		(-25)		/* コンテキストエラー */
-#define	E_MACV		(-26)		/* メモリアクセス違反 */
-#define	E_OACV		(-27)		/* オブジェクトアクセス違反 */
-#define	E_ILUSE		(-28)		/* サービスコール不正使用 */
-#define	E_NOMEM		(-33)		/* メモリ不足 */
-#define	E_NOID		(-34)		/* ID番号不足 */
-#define	E_OBJ		(-41)		/* オブジェクト状態エラー */
-#define	E_NOEXS		(-42)		/* オブジェクト未生成 */
-#define	E_QOVR		(-43)		/* キューイングオーバーフロー */
-#define	E_RLWAI		(-49)		/* 待ち状態の強制解除 */
-#define	E_TMOUT		(-50)		/* ポーリング失敗またはタイムアウト */
-#define	E_DLT		(-51)		/* 待ちオブジェクトの削除 */
-#define	E_CLS		(-52)		/* 待ちオブジェクトの状態変化 */
-#define	E_WBLK		(-57)		/* ノンブロッキング受付け */
-#define	E_BOVR		(-58)		/* バッファオーバーフロー */
+#define E_SYS		(-5)		/* システムエラー */
+#define E_NOSPT		(-9)		/* 未サポート機能 */
+#define E_RSFN		(-10)		/* 予約機能コード */
+#define E_RSATR		(-11)		/* 予約属性 */
+#define E_PAR		(-17)		/* パラメータエラー */
+#define E_ID		(-18)		/* 不正ID番号 */
+#define E_CTX		(-25)		/* コンテキストエラー */
+#define E_MACV		(-26)		/* メモリアクセス違反 */
+#define E_OACV		(-27)		/* オブジェクトアクセス違反 */
+#define E_ILUSE		(-28)		/* サービスコール不正使用 */
+#define E_NOMEM		(-33)		/* メモリ不足 */
+#define E_NOID		(-34)		/* ID番号不足 */
+#define E_OBJ		(-41)		/* オブジェクト状態エラー */
+#define E_NOEXS		(-42)		/* オブジェクト未生成 */
+#define E_QOVR		(-43)		/* キューイングオーバーフロー */
+#define E_RLWAI		(-49)		/* 待ち状態の強制解除 */
+#define E_TMOUT		(-50)		/* ポーリング失敗またはタイムアウト */
+#define E_DLT		(-51)		/* 待ちオブジェクトの削除 */
+#define E_CLS		(-52)		/* 待ちオブジェクトの状態変化 */
+#define E_WBLK		(-57)		/* ノンブロッキング受付け */
+#define E_BOVR		(-58)		/* バッファオーバーフロー */
 
 
 

@@ -29,7 +29,7 @@ ER del_dtq(
 	mknl_loc_sys();		/* システムのロック */
 
 	dtqcb_ram = kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID];
-	dtqcb_rom = dtqcb_ram->dtqcbrom;
+	dtqcb_rom = dtqcb_ram->dtqcb_rom;
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

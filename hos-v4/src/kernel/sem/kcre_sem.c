@@ -47,11 +47,11 @@ ER kernel_cre_sem(
 	semcb_ram = &semcb->semcb_ram;
 	semcb_rom = &semcb->semcb_rom;
 	mknl_ini_que(&semcb_ram->que);
-	semcb_ram->semcnt   = pk_csem->isemcnt;
-	semcb_ram->semcbrom = semcb_rom;
-	semcb_rom->sematr   = pk_csem->sematr;
-	semcb_rom->isemcnt  = pk_csem->isemcnt;
-	semcb_rom->maxsem   = pk_csem->maxsem;
+	semcb_ram->semcnt    = pk_csem->isemcnt;
+	semcb_ram->semcb_rom = semcb_rom;
+	semcb_rom->sematr    = pk_csem->sematr;
+	semcb_rom->isemcnt   = pk_csem->isemcnt;
+	semcb_rom->maxsem    = pk_csem->maxsem;
 
 	/* 管理テーブルへ追加 */
 	kernel_semcb_ram_tbl[semid - TMIN_SEMID] = semcb_ram;

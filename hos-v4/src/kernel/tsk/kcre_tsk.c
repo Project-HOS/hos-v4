@@ -58,7 +58,7 @@ ER kernel_cre_tsk(
 	tcb_ram->actcnt  = 0;					/* 起動要求キューイング数 */
 	tcb_ram->suscnt  = 0;					/* SUSPEND要求ネスト数 */
 	tcb_ram->wupcnt  = 0;					/* 起床要求キューイング数 */
-	tcb_ram->tcbrom  = tcb_rom;				/* タスクコントロールブロックROM部へのポインタ */
+	tcb_ram->tcb_rom = tcb_rom;				/* タスクコントロールブロックROM部へのポインタ */
 	tcb_rom->tskatr  = pk_ctsk->tskatr;		/* タスク属性 */
 	tcb_rom->exinf   = pk_ctsk->exinf;		/* タスクの拡張情報 */
 	tcb_rom->task    = pk_ctsk->task;		/* タスクの起動番地 */

@@ -230,7 +230,7 @@ void  CApiCreDtq::WriteCfgIni(FILE* fp)
 		"\t/* initialize data queue control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_dtqcb_ram[i].dtqcbrom = &kernel_dtqcb_rom[i];\n"
+		"\t\tkernel_dtqcb_ram[i].dtqcb_rom = &kernel_dtqcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

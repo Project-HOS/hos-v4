@@ -23,6 +23,7 @@
 #include "creflg.h"
 #include "credtq.h"
 #include "crembx.h"
+#include "crembf.h"
 #include "crempf.h"
 #include "crecyc.h"
 #include "attisr.h"
@@ -49,6 +50,7 @@ CApiCreSem     g_ApiCreSem;
 CApiCreFlg     g_ApiCreFlg;
 CApiCreDtq     g_ApiCreDtq;
 CApiCreMbx     g_ApiCreMbx;
+CApiCreMbf     g_ApiCreMbf;
 CApiCreMpf     g_ApiCreMpf;
 CApiCreCyc     g_ApiCreCyc;
 CApiAttIsr     g_ApiAttIsr;
@@ -73,6 +75,7 @@ static CApiDef* g_ApiList[] =
 		&g_ApiCreFlg,
 		&g_ApiCreDtq,
 		&g_ApiCreMbx,
+		&g_ApiCreMbf,
 		&g_ApiCreMpf,
 		&g_ApiCreCyc,
 		&g_ApiAttIsr,

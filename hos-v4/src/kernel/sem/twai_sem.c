@@ -12,7 +12,7 @@
 
 /* セマフォ資源の獲得(タイムアウトあり) */
 ER twai_sem(
-		ID semid,	/* 資源獲得対象のセマフォID番号 */
+		ID  semid,	/* 資源獲得対象のセマフォID番号 */
 		TMO tmout)	/* タイムアウト指定 */
 {
 	const T_KERNEL_SEMCB_ROM *semcb_rom;
@@ -40,7 +40,7 @@ ER twai_sem(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if ( tmout != TMO_POL && mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -75,7 +75,7 @@ ER twai_sem(
 		else
 		{
 			/* タイムアウト付きで待ちに入る */
-			semcb_rom = semcb_ram->semcbrom;
+			semcb_rom = semcb_ram->semcb_rom;
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_SEM);
 			mknl_add_que(&semcb_ram->que, mtcb, semcb_rom->sematr);	/* 待ち行列に追加 */

@@ -197,7 +197,7 @@ void  CApiCreMbx::WriteCfgIni(FILE* fp)
 		"\t/* initialize mail box control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_mbxcb_ram[i].mbxcbrom = &kernel_mbxcb_rom[i];\n"
+		"\t\tkernel_mbxcb_ram[i].mbxcb_rom = &kernel_mbxcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

@@ -60,13 +60,13 @@ ER isig_tim(void)
 		{
 			if ( cyccb_ram->lefttim <= tic )
 			{
-				cyccb_rom = cyccb_ram->cyccbrom;
+				cyccb_rom = cyccb_ram->cyccb_rom;
 				
 				/* 次の値を設定 */
 				cyccb_ram->lefttim += cyccb_rom->cyctim - tic;
 
 				/* 周期ハンドラ呼び出し */
-				cyccb_rom = cyccb_ram->cyccbrom;
+				cyccb_rom = cyccb_ram->cyccb_rom;
 				cyccb_rom->cychdr(cyccb_rom->exinf);				
 			}
 			else

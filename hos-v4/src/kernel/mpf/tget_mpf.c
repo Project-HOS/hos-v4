@@ -12,8 +12,8 @@
 
 /* 固定長メモリブロックの獲得(タイムアウトあり) */
 ER tget_mpf(
-		ID mpfid,		/* メモリブロック獲得対象の固定長メモリプールのID番号 */
-		VP *p_blk,		/* 獲得したメモリブロックの先頭番地 */
+		ID  mpfid,		/* メモリブロック獲得対象の固定長メモリプールのID番号 */
+		VP  *p_blk,		/* 獲得したメモリブロックの先頭番地 */
 		TMO tmout)		/* タイムアウト指定 */
 {
 	const T_KERNEL_MPFCB_ROM *mpfcb_rom;
@@ -41,7 +41,7 @@ ER tget_mpf(
 
 	/* コンテキストチェック */
 #ifdef HOS_ERCHK_E_CTX
-	if ( mknl_sns_wai() )
+	if ( tmout != TMO_POL &&  mknl_sns_wai() )
 	{
 		mknl_unl_sys();	/* システムのロック解除 */
 		return E_CTX;	/* コンテキスト不正 */
@@ -76,7 +76,7 @@ ER tget_mpf(
 		else
 		{
 			/* 空きブロックが無ければ待ちに入る */
-			mpfcb_rom = mpfcb_ram->mpfcbrom;
+			mpfcb_rom = mpfcb_ram->mpfcb_rom;
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_MPF);
 			mknl_add_que(&mpfcb_ram->que, mtcb, mpfcb_rom->mpfatr);	/* 待ち行列に追加 */

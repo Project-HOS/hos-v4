@@ -48,9 +48,9 @@ ER kernel_cre_mbx(
 	mbxcb_ram = &mbxcb->mbxcb_ram;
 	mbxcb_rom = &mbxcb->mbxcb_rom;
 	mknl_ini_que(&mbxcb_ram->que);
-	mbxcb_ram->msg      = NULL;
-	mbxcb_ram->mbxcbrom = mbxcb_rom;
-	mbxcb_rom->mbxatr   = pk_cmbx->mbxatr;
+	mbxcb_ram->msg       = NULL;
+	mbxcb_ram->mbxcb_rom = mbxcb_rom;
+	mbxcb_rom->mbxatr    = pk_cmbx->mbxatr;
 
 	/* 管理テーブルへ追加 */
 	kernel_mbxcb_ram_tbl[mbxid - TMIN_MBXID] = mbxcb_ram;

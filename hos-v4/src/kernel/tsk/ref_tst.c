@@ -59,7 +59,7 @@ ER ref_tst(
 	/* タスク情報取得 */
 	p_rtst->tskstat = mknl_get_tskstat(&tcb_ram->mtcb);
 	p_rtst->tskwait = mknl_get_tskwait(&tcb_ram->mtcb);
-	p_rtst->exinf   = tcb_ram->tcbrom->exinf;
+	p_rtst->exinf   = tcb_ram->tcb_rom->exinf;
 
 	mknl_unl_sys();	/* システムのロック解除 */
 

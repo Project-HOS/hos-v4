@@ -67,7 +67,7 @@ ER chg_pri(
 	/* 起動時優先度指定の場合 */
 	if ( tskpri == TPRI_INI )
 	{
-		tskpri = tcb_ram->tcbrom->itskpri;
+		tskpri = tcb_ram->tcb_rom->itskpri;
 	}
 
 	/* オブジェクトの状態チェック */

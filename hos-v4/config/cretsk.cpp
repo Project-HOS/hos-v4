@@ -243,7 +243,7 @@ void  CApiCreTsk::WriteCfgIni(FILE* fp)
 		"\t/* initialize task control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_tcb_ram[i].tcbrom = &kernel_tcb_rom[i];\n"
+		"\t\tkernel_tcb_ram[i].tcb_rom = &kernel_tcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

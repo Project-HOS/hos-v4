@@ -29,7 +29,7 @@ ER del_mpf(
 	mknl_loc_sys();	/* システムのロック */
 
 	mpfcb_ram = kernel_mpfcb_ram_tbl[mpfid - TMIN_MPFID];
-	mpfcb_rom = mpfcb_ram->mpfcbrom;
+	mpfcb_rom = mpfcb_ram->mpfcb_rom;
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS

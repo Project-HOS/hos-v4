@@ -69,9 +69,9 @@ ER kernel_cre_dtq(
 	dtqcb_rom->dtq    = dtq;
 	mknl_ini_que(&dtqcb_ram->sndque);
 	mknl_ini_que(&dtqcb_ram->rcvque);
-	dtqcb_ram->head     = 0;
-	dtqcb_ram->datacnt  = 0;
-	dtqcb_ram->dtqcbrom = dtqcb_rom;
+	dtqcb_ram->head      = 0;
+	dtqcb_ram->datacnt   = 0;
+	dtqcb_ram->dtqcb_rom = dtqcb_rom;
 
 	/* 管理テーブルへ追加 */
 	kernel_dtqcb_ram_tbl[dtqid - TMIN_DTQID] = dtqcb_ram;

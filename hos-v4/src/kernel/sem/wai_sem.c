@@ -15,7 +15,7 @@ ER wai_sem(
 		ID semid)	/* 資源獲得対象のセマフォID番号 */
 {
 	const T_KERNEL_SEMCB_ROM *semcb_rom;
-	T_KERNEL_SEMCB_RAM *semcb_ram;
+	T_KERNEL_SEMCB_RAM       *semcb_ram;
 	T_MKNL_TCB *mtcb;
 	ER ercd;
 
@@ -53,20 +53,21 @@ ER wai_sem(
 	if ( semcb_ram->semcnt > 0 )
 	{
 		semcb_ram->semcnt--;	/* セマフォ資源の獲得 */
-		mknl_unl_sys();			/* システムのロック解除 */
-		return E_OK;
+		ercd = E_OK;
 	}
+	else
+	{
+		semcb_rom = semcb_ram->semcb_rom;
 
-	semcb_rom = semcb_ram->semcbrom;
-
-	/* タスクを待ち状態にする */
-	mtcb = mknl_get_run_tsk();
-	mknl_wai_tsk(mtcb, TTW_SEM);
-	mknl_add_que(&semcb_ram->que, mtcb, semcb_rom->sematr);	/* 待ち行列に追加 */
+		/* タスクを待ち状態にする */
+		mtcb = mknl_get_run_tsk();
+		mknl_wai_tsk(mtcb, TTW_SEM);
+		mknl_add_que(&semcb_ram->que, mtcb, semcb_rom->sematr);	/* 待ち行列に追加 */
 	
-	ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
-	mknl_exe_tex();				/* 例外処理の実行 */
-	
+		ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+		mknl_exe_tex();				/* 例外処理の実行 */
+	}
+		
 	mknl_unl_sys();		/* システムのロック解除 */
 
 	return ercd;

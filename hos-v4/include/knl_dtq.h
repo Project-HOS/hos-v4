@@ -26,6 +26,15 @@
 
 
 /* ------------------------------------------ */
+/*                 マクロ定義                 */
+/* ------------------------------------------ */
+
+/* メモリ領域のサイズ */
+#define TSZ_DTQ(dtqcnt)		((SIZE)((UINT)(dtqcnt) * sizeof(VP_INT)))
+
+
+
+/* ------------------------------------------ */
 /*                 型定義                     */
 /* ------------------------------------------ */
 
@@ -53,7 +62,7 @@ typedef struct t_kernel_dtqcb_ram
 	T_MKNL_QUE rcvque;	/* データキュー送信待ちタスクキュー */
 	UINT       head;	/* データの先頭 */
 	UINT       datacnt;	/* データの個数 */
-	const T_KERNEL_DTQCB_ROM *dtqcbrom;	/* データキューコントロールブロックROM部へのポインタ */
+	const T_KERNEL_DTQCB_ROM *dtqcb_rom;	/* データキューコントロールブロックROM部へのポインタ */
 } T_KERNEL_DTQCB_RAM;
 
 

@@ -197,7 +197,7 @@ void  CApiCreFlg::WriteCfgIni(FILE* fp)
 		"\t/* initialize event flag control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_flgcb_ram[i].flgcbrom = &kernel_flgcb_rom[i];\n"
+		"\t\tkernel_flgcb_ram[i].flgcb_rom = &kernel_flgcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

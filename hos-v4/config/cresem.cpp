@@ -198,7 +198,7 @@ void  CApiCreSem::WriteCfgIni(FILE* fp)
 		"\t/* initialize semaphore control block */\n"
 		"\tfor ( i = 0; i < %d; i++ )\n"
 		"\t{\n"
-		"\t\tkernel_semcb_ram[i].semcbrom = &kernel_semcb_rom[i];\n"
+		"\t\tkernel_semcb_ram[i].semcb_rom = &kernel_semcb_rom[i];\n"
 		"\t}\n",
 		m_iObjs);
 }

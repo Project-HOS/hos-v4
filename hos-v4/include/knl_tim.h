@@ -43,7 +43,7 @@ typedef struct t_kernel_cyccb_ram
 {
 	RELTIM lefttim;		/* 周期ハンドラのを次に起動する時刻までの時間 */
 	STAT   cycstat;		/* 周期ハンドラの動作状態 */
-	const T_KERNEL_CYCCB_ROM  *cyccbrom;	/* 周期ハンドラコントロールブロックROM部へのポインタ */
+	const T_KERNEL_CYCCB_ROM  *cyccb_rom;	/* 周期ハンドラコントロールブロックROM部へのポインタ */
 } T_KERNEL_CYCCB_RAM;
 
 

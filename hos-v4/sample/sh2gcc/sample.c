@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "kernel.h"
 #include "kernel_id.h"
+#include "user_id.h"
 #include "sh7045.h"
 #include "sci.h"
 #include "sample.h"

@@ -54,7 +54,7 @@ typedef struct t_kernel_mpfcb_ram
 {
 	T_MKNL_QUE que;		/* 固定長メモリプール待ちタスクキュー */
 	VP         free;	/* 空きブロックへのポインタ */
-	const T_KERNEL_MPFCB_ROM *mpfcbrom;	/* 固定長メモリプールコントロールブロックROM部へのポインタ */
+	const T_KERNEL_MPFCB_ROM *mpfcb_rom;	/* 固定長メモリプールコントロールブロックROM部へのポインタ */
 } T_KERNEL_MPFCB_RAM;
 
 

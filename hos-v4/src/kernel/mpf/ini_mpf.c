@@ -25,7 +25,7 @@ void kernel_ini_mpf(void)
 		mpfcb_ram = kernel_mpfcb_ram_tbl[i];
 		if ( mpfcb_ram != NULL )
 		{
-			mpfcb_rom = mpfcb_ram->mpfcbrom;
+			mpfcb_rom = mpfcb_ram->mpfcb_rom;
 			
 			/* ブロックの初期化 */
 			mpfcb_ram->free = mpfcb_rom->mpf;
