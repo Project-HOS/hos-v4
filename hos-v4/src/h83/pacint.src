@@ -371,7 +371,7 @@ int_handler:
 				
 		; -------- 多重割り込みの判別
 				mov.w	@__HOS_int_cnt, r1
-				bne	mul_int
+				bne		mul_int
 				
 		; ======== 最初の割り込み ========
 		; ---- 割り込みネストカウンタ設定
@@ -383,10 +383,13 @@ int_handler:
 				mov.l	@_kernel_int_sp, er1
 				mov.l	@er1, er7
 				
+				push.l	er0
+				
 		; ---- 割り込み処理の開始
 				jsr	@_kernel_sta_int
 				
 		; -------- 割り込みハンドラの処理
+				pop.l	er0
 				jsr	@_kernel_exe_int
 				
 		; -------- スタックポインタ復帰
@@ -400,6 +403,8 @@ int_handler:
 				jsr	@_kernel_end_int
 				
 		; -------- 復帰
+				xor.b	r0l, r0l
+				mov.b	r0l, @_kernel_h83_imsk
 				pop.l	er1
 				pop.l	er0
 				rte
