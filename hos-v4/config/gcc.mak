@@ -9,12 +9,12 @@
 
 
 # ツール
-CC   = gcc
-LINK = gcc
+CC   = g++
+LINK = g++
 
 
 # オプション
-CFLAGS = -O2 -pipe
+CFLAGS = -O2 -pipe -Wall
 LFLAGS = 
 
 
