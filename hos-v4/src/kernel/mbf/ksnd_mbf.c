@@ -70,7 +70,7 @@ ER kernel_snd_mbf(
 	}
 
 	/* 送信個数インクリメント */
-	mbfcb_ram->smsgcnt;
+	mbfcb_ram->smsgcnt++;
 
 	return E_OK;
 }

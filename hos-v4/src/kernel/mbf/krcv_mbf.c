@@ -62,7 +62,7 @@ ER_UINT kernel_rcv_mbf(
 	}
 
 	/* 送信個数デクリメント */
-	mbfcb_ram->smsgcnt;
+	mbfcb_ram->smsgcnt--;
 
 	return E_OK;
 }
