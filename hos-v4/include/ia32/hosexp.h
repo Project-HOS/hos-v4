@@ -8,6 +8,7 @@
 #ifndef __HOS_V4__IA32__hosexp_h__
 #define __HOS_V4__IA32__hosexp_h__
 #include "linkage.h"
+#include "pic.h"
 #ifdef ASM
 
 /* 割込み/例外共通開始処理  */
@@ -71,7 +72,7 @@
 	pushl   %edx                            ;\
 	pushl   %ecx                            ;\
 	pushl   %ebx                            ;\
-	movl	$excno,%ebx  	                ;\
+	movl	$(excno+PIC1_VBASE_ADDR),%ebx   ;\
 	jmp     _kernel_ia32__common_intr	;
 
 

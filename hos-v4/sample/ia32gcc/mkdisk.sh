@@ -23,7 +23,6 @@ case "$os_type" in
 	GRUBDIR=/usr/local/share/grub/i386-pc
 	;;
 esac
-GRUB=/sbin/grub
 CAT=cat
 RM=rm
 

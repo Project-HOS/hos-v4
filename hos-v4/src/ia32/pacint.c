@@ -33,7 +33,7 @@ int
 _kernel_ia32__send_eoi(unsigned long exp)
 {
   volatile unsigned char isr=0;
-  unsigned char irq=(unsigned char)exp;
+  unsigned char irq=(unsigned char)exp - PIC1_VBASE_ADDR;
 
   if (MAX_IRQ_NR <= irq)
     return E_PAR;
