@@ -171,10 +171,7 @@ void  CApiCreMbx::WriteCfgDef(FILE* fp)
 			}
 			else
 			{
-				fprintf(
-					fp,
-					"(VP)(%s)},\n",
-					m_pParamPacks[i]->GetParam(CREMBX_MAXPRI));
+				fprintf( fp, "(VP)(%s)},\n", pszParam);
 			}
 
 		}
