@@ -22,7 +22,7 @@ LIBDIR = ../../lib/ia32/ia32gcc
 INCDIR = ../../include
 IA32INC = /usr/cross-i386-elf/i386-elf/include
 
-CFLAGS = -O2 -Wall -c  -I$(INCDIR) -I$(IA32INC) -pipe
+CFLAGS = -g -O2 -Wall -c  -I$(INCDIR) -I$(IA32INC) -pipe
 AFLAGS = -c -Wall 
 LFLAGS = -nostdlib -m elf_i386 -L$(LIBDIR) -T hos4.lds -lgcc 
 

@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  サンプルプログラム                              */
+/*  Hyper Operating System V4  サンプルプログラム                           */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */

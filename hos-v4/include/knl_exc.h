@@ -13,8 +13,6 @@
 
 #include "knl_hos.h"
 
-
-
 /* ------------------------------------------ */
 /*                  定数定義                  */
 /* ------------------------------------------ */
@@ -60,7 +58,7 @@ extern "C" {
 /* CPU例外ハンドラ管理 */
 void    kernel_sta_exc(void);			/* CPU例外ハンドラの開始 */
 void    kernel_end_exc(void);			/* CPU例外ハンドラの終了 */
-void    kernel_exe_exc(INTNO excno);	/* CPU例外ハンドラ処理実行 */
+void    kernel_exe_exc(EXCNO excno);	/* CPU例外ハンドラ処理実行 */
 
 #ifdef __cplusplus
 }

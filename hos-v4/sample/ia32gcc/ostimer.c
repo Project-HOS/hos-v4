@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  サンプルプログラム                             */
-/*  IA32 OS タイマ                                                           */
+/*  Hyper Operating System V4  サンプルプログラム                           */
+/*  IA32 OS タイマ                                                          */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */

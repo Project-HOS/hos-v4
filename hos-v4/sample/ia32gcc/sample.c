@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  サンプルプログラム                             */
+/*  Hyper Operating System V4  サンプルプログラム                           */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -21,7 +21,8 @@ void Task1(VP_INT exinf)
 {
 	SYSTIM st;
 	char timer[6];
-	for ( ; ; )
+	unsigned int count=0;
+	for (count=0 ;count<100 ;++count )
 	{
 		/* タイマ値取得 */
 		get_tim(&st);
@@ -41,6 +42,7 @@ void Task1(VP_INT exinf)
 		/* 1秒待つ */
 		dly_tsk(1000);
 	}
+	__asm__("int3\n\t");
 }
 
 

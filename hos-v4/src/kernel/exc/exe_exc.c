@@ -36,7 +36,7 @@ void kernel_exe_exc(
 {
 	T_KERNEL_EXCCB exccb;
 	
-	if ( excno < TMIN_EXCNO || excno > TMAX_EXCNO )
+	if ( excno < KERNEL_TMIN_EXCNO || excno > KERNEL_TMAX_EXCNO )
 	{
 		return;
 	}

@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*   プロセッサ抽象化コンポーネント (IA32用)  割込み関連処理                      */
+/*   プロセッサ抽象化コンポーネント (IA32用)  割込み関連処理                */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -30,14 +30,11 @@ get_imsk(IMSK *p_imsk)
 }
 
 int
-send_eoi(unsigned char exp)
+_kernel_ia32__send_eoi(unsigned long exp)
 {
   volatile unsigned char isr=0;
-  unsigned char irq=0;
-  
-  if (PIC1_VBASE_ADDR > exp)
-    return E_PAR;
-  irq = exp - PIC1_VBASE_ADDR;
+  unsigned char irq=(unsigned char)exp;
+
   if (MAX_IRQ_NR <= irq)
     return E_PAR;
 

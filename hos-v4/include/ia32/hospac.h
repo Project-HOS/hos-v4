@@ -18,7 +18,7 @@
 /*                   型定義                   */
 /* ------------------------------------------ */
 /* IA32固有 割り込み管理機構 */
-typedef UW		IMSK;		/* 割り込みマスクパターン */
+typedef UH		IMSK;		/* 割り込みマスクパターン */
 
 /* コンテキスト情報保存ブロック */
 typedef struct t_hos_pac_ctxinf
@@ -103,7 +103,7 @@ extern void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 ER   chg_imsk(IMSK imsk);		/* 割り込みマスク指定 */
 ER   get_imsk(IMSK *p_imsk);		/* 割り込みマスクの参照 */
 
-ER   send_eoi(UB irq);		        /* 割り込み完了通知 */
+ER   _kernel_ia32__send_eoi(UW irq);	/* 割り込み完了通知 */
 
 
 #ifdef __cplusplus

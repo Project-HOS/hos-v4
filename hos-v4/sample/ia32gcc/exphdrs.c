@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  サンプルプログラム                              */
+/*  Hyper Operating System V4  サンプルプログラム                           */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -13,7 +13,7 @@
 #define def_exp_hdr(no,str,name)        \
 void exp_hdr_##name(VP_INT exinf)         \
 {                                       \
-  printk("Exception occuer(" str ")"); \
+  printk("An exception occurs(" str ")"); \
   __asm__ __volatile__("cli\n\t") ;     \
   while(1);                             \
 }                                       
