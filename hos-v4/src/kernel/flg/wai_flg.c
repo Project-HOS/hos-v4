@@ -90,7 +90,7 @@ ER wai_flg(
 	{
 		/* 条件を満たしていなければ待ちに入る */
 		mtcb       = mknl_get_run_tsk();		/* 実行中タスクを取得 */
-		mtcb->data = &flginf;					/* 待ち状態を保存 */
+		mtcb->data = (VP_INT)&flginf;			/* 待ち状態を保存 */
 		mknl_wai_tsk(mtcb, TTW_FLG);
 		mknl_add_que(&flgcb_ram->que, mtcb, flgcb_rom->flgatr);	/* 待ち行列に追加 */
 		

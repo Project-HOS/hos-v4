@@ -85,7 +85,7 @@ ER snd_mbf(
 			mtcb = mknl_get_run_tsk();
 			mbfdat.msg   = msg;
 			mbfdat.msgsz = msgsz;
-			mtcb->data   = &mbfdat;
+			mtcb->data   = (VP_INT)&mbfdat;
 			mknl_wai_tsk(mtcb, TTW_SMBF);
 			mknl_add_que(&mbfcb_ram->sndque, mtcb, mbfcb_rom->mbfatr);	/* 待ち行列に追加 */
 	

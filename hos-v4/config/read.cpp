@@ -162,6 +162,7 @@ int CRead::SkipPriProcessorLine(void)
 		// 行末のチェック
 		if ( c == '\n' )
 		{
+			m_iLineNum++;
 			return CFG_ERR_OK;
 		}
 	}

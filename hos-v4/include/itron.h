@@ -53,7 +53,7 @@ typedef struct t_systim		/* システム時刻 */
 	UH utime;				/* 上位 16bit */
 } SYSTIM;
 
-typedef VP		VP_INT;		/* VP または INT */
+typedef INT		VP_INT;		/* VP または INT */
 
 typedef ER		ER_BOOL;	/* ER または BOOL */
 

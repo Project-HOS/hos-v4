@@ -24,7 +24,7 @@ CApiDefExc::CApiDefExc()
 {
 	// パラメーター構文設定
 	m_iParamSyntax[0] = 0;		// 単独パラメーター
-	m_iParamSyntax[1] = 4;		// 4つのパラメーターブロック
+	m_iParamSyntax[1] = 2;		// 2つのパラメーターブロック
 	m_iParams = 2;
 
 	m_iMaxExcNo = 0;
@@ -47,7 +47,7 @@ int CApiDefExc::AutoId(void)
 // APIの解析
 int CApiDefExc::AnalizeApi(const char* pszApiName, const char* pszParams)
 {
-	if ( strcmp(pszApiName, "ATT_ISR") == 0 )
+	if ( strcmp(pszApiName, "DEF_EXC") == 0 )
 	{
 		return AddParams(pszParams);
 	}
@@ -132,7 +132,7 @@ void  CApiDefExc::WriteCfgIni(FILE* fp)
 	{
 		fprintf(
 			fp,
-			"\tkernel_intcb_tbl[%s].exchdr = (FP)(%s);\n",
+			"\tkernel_exccb_tbl[%s].exchdr = (FP)(%s);\n",
 			m_pParamPacks[i]->GetParam(DEFEXC_EXCNO),
 			m_pParamPacks[i]->GetParam(DEFEXC_EXCHDR));
 	}
