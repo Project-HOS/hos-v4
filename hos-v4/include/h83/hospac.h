@@ -58,7 +58,7 @@ extern UB kernel_h83_imsk;		/* 割り込みマスク */
 /* ------------------------------------------ */
 
 void hospac_ini_sys(void);			/* システムの初期化 */
-void hospac_des_int(void);			/* 割り込み禁止 */
+void hospac_dis_int(void);			/* 割り込み禁止 */
 void hospac_ena_int(void);			/* 割り込み許可 */
 void hospac_cre_ctx_asm(T_HOSPAC_CTXINF *pk_ctxinf,
 					VP sp, FP task, VP_INT exinf);	/* 実行コンテキストの作成(アセンブラ用) */
