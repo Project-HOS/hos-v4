@@ -419,7 +419,6 @@ mul_int:
 				mov.w	r1, @__HOS_int_cnt
 				
 		; -------- 割り込みハンドラ呼び出し
-				mov.l	er2, er0			; 割り込み番号を引数とする
 				jsr		@_kernel_exe_int
 				
 		; -------- 割り込みネストカウンタ減算

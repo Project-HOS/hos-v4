@@ -18,7 +18,13 @@ VP kernel_alc_mem(
 {
 	T_KERNEL_MEM_BLK *mblk;
 	T_KERNEL_MEM_BLK *mblk_next;
-
+	
+	/* ヒープの存在チェック */
+	if ( kernel_mem_base == NULL )
+	{
+		return NULL;
+	}
+	
 	/* サイズのアライメントを調整 */
 	size = (size + MEMBLK_ALIGN - 1) & ~(MEMBLK_ALIGN - 1);
 	

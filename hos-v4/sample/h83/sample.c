@@ -6,6 +6,7 @@
 /* ------------------------------------------------------------------------ */
 
 
+
 #include "kernel.h"
 #include "kernel_id.h"
 #include "h8_3048.h"
@@ -16,7 +17,7 @@
 /* メイン関数 */
 int main()
 {
-/*	SCI_Init(0x19); */	/* moniter ROM が初期化しているのでいじらない (^^;; */
+	SCI_Init(0x19);		/* moniter ROM が初期化しているのでいじらない (^^;; */
 	
 	/* ITU0 (システムタイマ）初期化 */
 	TCR0   = 0x23;		/* φ/8でカウント */
@@ -33,6 +34,8 @@ int main()
 	SCI_Putc('\n');
 	
 	sta_hos();
+	
+	return 0;
 }
 
 

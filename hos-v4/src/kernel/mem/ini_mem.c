@@ -12,8 +12,8 @@
 
 
 /* グローバル変数 */
-T_KERNEL_MEM_BLK *kernel_mem_base;	/* カーネル用メモリ先頭ブロックのアドレス */
-SIZE             kernel_mem_szie;	/* カーネル用メモリサイズ */
+T_KERNEL_MEM_BLK *kernel_mem_base = NULL;	/* カーネル用メモリ先頭ブロックのアドレス */
+SIZE             kernel_mem_szie;			/* カーネル用メモリサイズ */
 
 
 /* メモリ管理を初期化 */
@@ -22,14 +22,20 @@ void kernel_ini_mem(
 		SIZE size)			/* 管理する領域のサイズ */
 {
 	T_KERNEL_MEM_BLK *mblklast;
-
+	
 	/* サイズのアライメントを調整 */
 	size &= ~(MEMBLK_ALIGN - 1);
-
+	
+	/* サイズチェック */
+	if ( size <= sizeof(T_KERNEL_MEM_BLK) )
+	{
+		return;
+	}
+	
 	/* 設定保存 */
 	kernel_mem_base = (T_KERNEL_MEM_BLK *)p_base;
 	kernel_mem_szie = size;
-
+	
 	/* 終端位置に番人を設定 */
 	mblklast = (T_KERNEL_MEM_BLK *)((UB *)p_base + size - MEMBLKSIZE);
 	
