@@ -14,6 +14,8 @@
 /* アイドルループ */
 void mknl_idl_loop(void)
 {
+	mknl_unl_sys();	/* システムのロック解除 */
+
 	for ( ; ; )
 	{
 		hospac_idle();

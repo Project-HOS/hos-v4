@@ -57,8 +57,17 @@ clr_bsec:		eepmov.w
 				bne		clr_bsec
 				
 		; ----- 初期化ルーチン呼び出し
-				JSR		@_main
-				BRA		$
+				jsr		@_main
+				bra		$
+
+
+
+				.SECTION	C,DATA,ALIGN=2
+
+				.EXPORT	_kernel_int_sp
+
+_kernel_int_sp:
+				.data.l	STACK
 
 
 				.END

@@ -125,7 +125,7 @@ void    mknl_idl_loop(void);								/* アイドルループ */
 void    mknl_sta_tsk(T_MKNL_TCB *mtcb, VP_INT exinf,
 							FP task, PRI tskpri,
 							SIZE stksz, VP stk);			/* タスクの開始 */
-void    mknl_ext_tsk(T_MKNL_TCB *mtcb);						/* タスクの終了 */
+void    mknl_ter_tsk(T_MKNL_TCB *mtcb);						/* タスクの終了 */
 void    mknl_chg_pri(T_MKNL_TCB *mtcb, PRI tskpri);			/* タスク優先度変更 */
 void    mknl_wai_tsk(T_MKNL_TCB *mtcb, STAT tskwait);		/* タスクの待ち */
 void    mknl_wup_tsk(T_MKNL_TCB *mtcb, ER_UINT ercd);		/* タスクの待ち解除 */

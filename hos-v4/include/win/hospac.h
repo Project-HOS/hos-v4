@@ -24,6 +24,7 @@
 #include <itron.h>
 
 
+
 /* ------------------------------------------ */
 /*                   型定義                   */
 /* ------------------------------------------ */
@@ -32,7 +33,17 @@
 typedef struct t_hos_pac_ctxinf
 {
 	HANDLE hThread;			/* スレッドハンドル */
+	DWORD  dwThreadId;		/* スレッドID */
+	BOOL   blIntSuspend;	/* 割り込みでのサスペンドフラグ */
 } T_HOSPAC_CTXINF;
+
+
+/* ---------------------------------- */
+/*        グローバル変数宣言          */
+/* ---------------------------------- */
+
+extern HANDLE hospac_hSem;		/* システムの排他制御用セマフォ */
+extern BOOL   hospac_blInt;		/* 割り込み処理中フラグ */
 
 
 
@@ -47,6 +58,7 @@ extern "C" {
 void hospac_ini_sys(void);			/* システムの初期化 */
 void hospac_ena_int(void);			/* 割り込み許可 */
 void hospac_dis_int(void);			/* 割り込み禁止 */
+
 void hospac_cre_ctx(T_HOSPAC_CTXINF *pk_ctxinf,
 					VP_INT exinf, FP task,
 					SIZE stksz, VP stk);					/* 実行コンテキストの作成 */
@@ -56,6 +68,9 @@ void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 void hospac_set_tex(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 					void (*exp)(TEXPTN), TEXPTN rasptn);	/* 例外処理実行設定 */
 void hospac_idle(void);				/* アイドル時の処理 */
+
+
+void hospac_win_int(INTNO intno);	/* 擬似割り込みのエミュレート(ITRONタスクとは無関係のスレッドから呼ぶこと) */
 
 #ifdef __cplusplus
 }

@@ -62,7 +62,7 @@ INCS = $(INCDIR)/itron.h \
 OBJS = pacini.o pacint.o pacctx.o \
        chg_imsk.o get_imsk.o fchg_imk.o fget_imk.o \
        mini_sys.o msta_stu.o mext_stu.o \
-       msta_tsk.o mext_tsk.o mchg_pri.o mrot_rdq.o \
+       msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
@@ -144,8 +144,8 @@ mext_stu.o: $(MKNLSYSDIR)/mext_stu.c $(INCS)
 msta_tsk.o: $(MKNLTSKDIR)/msta_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/msta_tsk.c
 
-mext_tsk.o: $(MKNLTSKDIR)/mext_tsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mext_tsk.c
+mter_tsk.o: $(MKNLTSKDIR)/mter_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mter_tsk.c
 
 mchg_pri.o: $(MKNLTSKDIR)/mchg_pri.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mchg_pri.c

@@ -12,7 +12,7 @@
 
 
 /* タスクの終了 */
-void mknl_ext_tsk(
+void mknl_ter_tsk(
 				T_MKNL_TCB *mtcb)	/* 終了させるタスク */
 {
 	/* タイムアウトキューにあれば削除 */

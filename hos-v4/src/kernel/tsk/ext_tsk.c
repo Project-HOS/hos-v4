@@ -24,7 +24,7 @@ void ext_tsk(void)
 	mknl_loc_sys();	/* システムのロック */
 
 	/* 実行タスクの終了 */
-	mknl_ext_tsk(mtcb_run);
+	mknl_ter_tsk(mtcb_run);
 
 	tcb_ram = KERNEL_STATIC_CAST(T_KERNEL_TCB_RAM, mtcb, mtcb_run);
 	tcb_rom = tcb_ram->tcb_rom;

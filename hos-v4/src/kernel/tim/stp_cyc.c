@@ -39,6 +39,15 @@ ER stp_cyc(
 	}
 #endif
 
+	/* コンテキストチェック */
+#ifdef HOS_ERCHK_E_CTX
+	if ( mknl_sns_wai() )
+	{
+		mknl_unl_sys();	/* システムのロック解除 */
+		return E_CTX;	/* コンテキスト不正 */
+	}
+#endif
+	
 	cyccb_rom = cyccb_ram->cyccb_rom;
 	
 	/* 動作設定 */
