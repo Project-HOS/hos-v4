@@ -26,7 +26,7 @@
 
 /* IDの範囲 */
 #define TMIN_ISRID		1					/* 割り込みサービスルーチンIDの最小値 */
-#define TMAX_ISRID		(TMIN_ISRID - kernel_isrcb_cnt - 1)
+#define TMAX_ISRID		(TMIN_ISRID + kernel_isrcb_cnt - 1)
 											/* 割り込みサービスルーチンIDの最大値 */
 
 
