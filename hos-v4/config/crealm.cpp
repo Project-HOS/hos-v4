@@ -133,7 +133,7 @@ void  CApiCreAlm::WriteCfgDef(FILE* fp)
 		{
 			fprintf(
 				fp,
-				"\t\t{(ATR)(%s), (VP_INT)(%s), (FP)(%s), (RELTIM)(%s)},\n",
+				"\t\t{(ATR)(%s), (VP_INT)(%s), (FP)(%s)},\n",
 				m_pParamPacks[i]->GetParam(CREALM_ALMATR),
 				m_pParamPacks[i]->GetParam(CREALM_EXINF),
 				m_pParamPacks[i]->GetParam(CREALM_ALMHDR));
