@@ -87,10 +87,11 @@ static CApiDef* g_ApiList[] =
 
 
 
+
 // メイン関数
 int main(int argc, char *argv[])
 {
-	FILE* fpInput;
+	FILE* fpInput = NULL;
 	FILE* fpCfg;
 	FILE* fpId;
 	int  iErr;
@@ -121,20 +122,26 @@ int main(int argc, char *argv[])
 			strncpy(s_szIdFile, argv[i], MAX_PATH - 1);
 			s_szIdFile[MAX_PATH - 1] = '\0';
 		}
+		else if ( strcmp(argv[i], "-") == 0 )
+		{
+			fpInput = stdin;
+			strncpy(s_szInputFile, "stdin", MAX_PATH - 1);
+			s_szInputFile[MAX_PATH - 1] = '\0';
+		}
 		else
 		{
 			strncpy(s_szInputFile, argv[i], MAX_PATH - 1);
 			s_szInputFile[MAX_PATH - 1] = '\0';
 		}
 	}
-
+	
 	// 入力ファイルオープン
-	if ( (fpInput = fopen(s_szInputFile, "r")) == NULL )
+	if ( fpInput == NULL && (fpInput = fopen(s_szInputFile, "r")) == NULL )
 	{
 		printf("could not open file \"%s\"\n", s_szInputFile);
 		return 1;
 	}
-
+	
 	// コンフィギュレーションファイル読み込み
 	iErr = ReadConfigFile(fpInput) != 0;
 	fclose(fpInput);
