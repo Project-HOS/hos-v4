@@ -1,34 +1,29 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    μカーネル タスク制御                                                 */
+/*  Hyper Operating System V4  サンプルプログラム                           */
+/*   タイムティック提供                                                     */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2002 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-#include "mknl.h"
+#include "kernel.h"
+#include "ostimer.h"
+#include "wintimer.h"
 
 
 
-/* タスクの終了 */
-void mknl_ext_tsk(
-				T_MKNL_TCB *mtcb)	/* 終了させるタスク */
+/* 初期化 */
+void OsTimer_Initialize(VP_INT exinf)
 {
-	/* タイムアウトキューにあれば削除 */
-	mknl_rmv_tmout(mtcb);		
+	WinTimer_Initialize(0);
+}
 
-	/* タスクキューから外す */
-	if ( mtcb->que != NULL )
-	{
-		mknl_rmv_que(mtcb);
-	}
 
-	mtcb->tskstat = TTS_DMT;	/* 休止状態に設定 */
-	mtcb->tskwait = 0;			/* 待ち要因クリア */
-
-	/* 実行コンテキストの削除 */
-	hospac_del_ctx(&mtcb->ctxinf);
+/* タイマ割り込みハンドラ */
+void OsTimer_Handler(VP_INT exinf)
+{
+	isig_tim();
 }
 
 

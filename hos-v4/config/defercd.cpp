@@ -21,16 +21,17 @@ static const char *szErrMsg[] =
 		"expect \';\' but found.",	// セミコロンが無い
 		"illegal text.",			// 不正な文字列定数
 		"conflict ID.",				// ID衝突
-		"illegal parameter",		 // パラメーター不正
+		"illegal parameter.",		 // パラメーター不正
+		"multiple definition.",		// 唯一であるべきAPI定義が複数
 	};
 
 
 // エラー文字列取得
 const char* GetErrMessage(int iErr)
 {
-	if ( iErr < 1 || iErr > 10 )
+	if ( iErr < 1 || iErr > 11 )
 	{
-		return "";
+		return "unknown expression error.";
 	}
 
 	return szErrMsg[iErr - 1];

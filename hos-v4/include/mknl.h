@@ -90,9 +90,11 @@ extern "C" {
 /* システム管理 */
 extern STAT            mknl_ctx_stat;		/* システムのコンテキスト状態 */
 extern T_MKNL_TCB      *mknl_run_mtcb;		/* 実行中タスクコントロールブロック */
+
+/* アイドルループ管理 */
 extern T_HOSPAC_CTXINF mknl_idlctx;			/* アイドルループのコンテキスト */
-extern const VP        mknl_int_stk;		/* 割り込みスタックアドレス */
-extern const SIZE      mknl_int_stksz;		/* 割り込みスタックサイズ */
+extern const VP        mknl_idl_stk;		/* アイドルループのスタック */
+extern const SIZE      mknl_idl_stksz;		/* アイドルループのスタックサイズ */
 
 /* タスク管理 */
 extern T_MKNL_QUE      mknl_rdq_tbl[];		/* レディーキューテーブル */
@@ -115,7 +117,7 @@ extern T_MKNL_TCB      *mknl_timout_head;	/* タイムアウトキューの先頭 */
 void    mknl_ini_sys(void);									/* μカーネルシステムの初期化 */
 void    mknl_sta_startup(void);								/* スタートアップルーチンの開始処理 */
 void    mknl_ext_startup(void);								/* スタートアップルーチンの終了処理 */
-
+void    mknl_idl_loop(void);								/* アイドルループ */
 
 /* タスク制御 */
 #define mknl_ini_tsk(mtcb)	do { (mtcb)->tskstat = TTS_DMT; } while (0)
@@ -123,7 +125,7 @@ void    mknl_ext_startup(void);								/* スタートアップルーチンの終了処理 */
 void    mknl_sta_tsk(T_MKNL_TCB *mtcb, VP_INT exinf,
 							FP task, PRI tskpri,
 							SIZE stksz, VP stk);			/* タスクの開始 */
-void    mknl_ext_tsk(T_MKNL_TCB *mtcb);						/* タスクの終了 */
+void    mknl_ter_tsk(T_MKNL_TCB *mtcb);						/* タスクの終了 */
 void    mknl_chg_pri(T_MKNL_TCB *mtcb, PRI tskpri);			/* タスク優先度変更 */
 void    mknl_wai_tsk(T_MKNL_TCB *mtcb, STAT tskwait);		/* タスクの待ち */
 void    mknl_wup_tsk(T_MKNL_TCB *mtcb, ER_UINT ercd);		/* タスクの待ち解除 */

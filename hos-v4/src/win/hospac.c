@@ -8,35 +8,27 @@
 
 
 #include <stdlib.h>
-#include "kernel.h"
 #include "hospac.h"
 
 
-#define WM_RUN_TASK		(WM_USER + 1)
 
-
-DWORD WINAPI TaskEntry(LPVOID param);
-
-
-/* スレッド起動データ */
-typedef struct t_task_start
+/* タスク情報 */
+typedef struct t_TaskInfo
 {
-	HANDLE hEvent;
-	FP     task;
-	VP_INT exinf;
-} T_TASK_START;
-
-/* スレッド削除用リスト */
-typedef struct t_hospac_dellist
-{
-	HANDLE hThread;					/* 削除するスレッドハンドル */
-	struct t_hospac_dellist *next;	/* 次の削除リスト */
-} T_HOSPAC_DELLIST;
+	VP_INT exinf;			/* タスクの実行時パラメータ */
+	FP     task;			/* タスクの起動番地 */
+} T_TaskInfo;
 
 
 
-static HANDLE           hospac_hSem      = NULL;	/* システムの排他制御用セマフォ */
-static T_HOSPAC_DELLIST *hospac_pDelList = NULL;	/* スレッド削除用リスト */
+DWORD WINAPI TaskEntry(LPVOID param);	/* スレッドの開始関数 */
+
+
+HANDLE hospac_hSem   = NULL;			/* システムの排他制御用セマフォ */
+BOOL   hospac_blInt  = FALSE;			/* 割り込み処理中フラグ */
+
+
+static HANDLE hThreadDelete = NULL;		/* 削除するスレッドハンドル */
 
 
 
@@ -51,51 +43,56 @@ void hospac_ini_sys(void)
 /* 割り込み許可 */
 void hospac_ena_int(void)
 {
-	ReleaseSemaphore(hospac_hSem, 1, NULL);
+	if ( !hospac_blInt )
+	{
+		ReleaseSemaphore(hospac_hSem, 1, NULL);
+	}
 }
 
 
 /* 割り込み禁止 */
 void hospac_dis_int(void)
 {
-	WaitForSingleObject(hospac_hSem, INFINITE);
+	if ( !hospac_blInt )
+	{
+		WaitForSingleObject(hospac_hSem, INFINITE);
+	}
 }
-
 
 
 /* 実行コンテキストの作成 */
 void hospac_cre_ctx(
 		T_HOSPAC_CTXINF *pk_ctxinf,		/* コンテキストを作成するアドレス */
-		VP_INT exinf,					/* タスクの実行時パラメータ */
-		FP    task,						/* タスクの起動番地 */
-		SIZE  stksz,					/* スタック領域のサイズ */
-		VP    stk)						/* スタック領域の先頭番地 */
+		VP_INT          exinf,			/* タスクの実行時パラメータ */
+		FP              task,			/* タスクの起動番地 */
+		SIZE            stksz,			/* スタック領域のサイズ */
+		VP              stk)			/* スタック領域の先頭番地 */
 {
-	T_TASK_START taskinf;
+	T_TaskInfo *pInfo;
 
-	taskinf.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	taskinf.task   = task;
-	taskinf.exinf  = exinf;
+	/* タスク情報を格納 */
+	pInfo = (T_TaskInfo *)GlobalAlloc(GMEM_FIXED, sizeof(T_TaskInfo));
+	pInfo->task  = task;
+	pInfo->exinf = exinf;
 
-	pk_ctxinf->hThread = CreateThread(NULL, 0, TaskEntry,
-								(LPVOID)&taskinf, 0, &pk_ctxinf->dwThreadId);
-	WaitForSingleObject(taskinf.hEvent, INFINITE);
+	pk_ctxinf->blIntSuspend;
+
+	/* 生成 */
+	pk_ctxinf->hThread = CreateThread(NULL, 0, TaskEntry, (LPVOID)pInfo,
+									CREATE_SUSPENDED, &pk_ctxinf->dwThreadId);
 }
 
 
+/* スレッドの開始関数 */
 DWORD WINAPI TaskEntry(LPVOID param)
 {
-	T_TASK_START taskinf;
-	MSG msg;
+	T_TaskInfo Info;
 
-	taskinf = *(T_TASK_START *)param;
+	Info = *(T_TaskInfo *)param;
 
-	PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE);
-	SetEvent(taskinf.hEvent);
+	GlobalFree((HGLOBAL)param);
 
-	GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
-
-	taskinf.task(taskinf.exinf);
+	Info.task(Info.exinf);
 
 	return 0;
 }
@@ -104,22 +101,16 @@ DWORD WINAPI TaskEntry(LPVOID param)
 /* 実行コンテキストの削除 */
 void hospac_del_ctx(T_HOSPAC_CTXINF *pk_ctxinf)
 {
-	T_HOSPAC_DELLIST *pDelList;
-
-	/* 削除リストの作成 */
-	pDelList = (T_HOSPAC_DELLIST *)malloc(sizeof(T_HOSPAC_DELLIST));
-	pDelList->hThread = pk_ctxinf->hThread;
-
-	/* 削除リストに追加 */
-	if ( hospac_pDelList == NULL )
+	if ( GetCurrentThreadId() != pk_ctxinf->dwThreadId )
 	{
-		pDelList->next = NULL;
+		/* 実行中スレッドでなければ即削除 */
+		TerminateThread(pk_ctxinf->hThread, 0);
 	}
 	else
 	{
-		pDelList->next = hospac_pDelList;
+		/* 実行中スレッドなら削除を予約 */
+
 	}
-	hospac_pDelList = pDelList;
 }
 
 
@@ -128,53 +119,54 @@ void hospac_swi_ctx(
 		T_HOSPAC_CTXINF *pk_pre_ctxinf,		/* 現在のコンテキストの保存先 */
 		T_HOSPAC_CTXINF *pk_nxt_ctxinf)		/* 新たに実行するコンテキスト */
 {
-	T_HOSPAC_DELLIST *pDelList;
-	T_HOSPAC_DELLIST *pDelListTmp;
-	MSG msg;
+	DWORD dwCount;
 
-	/* 初回のアイドルからの起動ならスレッドハンドルを作成 */
-	if ( pk_pre_ctxinf->hThread == NULL )
+	if ( hospac_blInt )
 	{
-		HANDLE hProcess;
-		hProcess = GetCurrentProcess();
-		DuplicateHandle(hProcess, GetCurrentThread(), hProcess,
-					&pk_pre_ctxinf->hThread, 0, TRUE, DUPLICATE_SAME_ACCESS);
-		pk_pre_ctxinf->dwThreadId = GetCurrentThreadId();
+		return;
 	}
-	
+
 	/* スレッドが異なれば切り替える */
 	if ( pk_nxt_ctxinf != pk_pre_ctxinf )
 	{
-		/* 新たなスレッドに実行を切り替える */
-		PostThreadMessage(pk_nxt_ctxinf->dwThreadId, WM_RUN_TASK, 0, 0);
-		GetMessage(&msg, NULL, WM_RUN_TASK, WM_RUN_TASK);
+		/* 切り替え対象がサスペンド中であることを確認 */
+		for ( ; ; )
+		{
+			/* サスペンドカウンタを得る為にサスペンドさせてみる */
+			dwCount = SuspendThread(pk_nxt_ctxinf->hThread);
+			ResumeThread(pk_nxt_ctxinf->hThread);
+			
+			/* カウンタが0でなければサスペンドしている */
+			if ( dwCount > 0 )
+			{
+				break;
+			}
+
+			/* サスペンド完了まで待つ */
+			Sleep(1);
+		}
+
+		/* 切り替え先のスレッドを起こす */
+		ResumeThread(pk_nxt_ctxinf->hThread);
+		
+		/* セマフォを返却 */
+		if ( pk_nxt_ctxinf->blIntSuspend )
+		{
+			pk_nxt_ctxinf->blIntSuspend = FALSE;
+			ReleaseSemaphore(hospac_hSem, 1, NULL);
+		}
+
+		/* 自分自身をサスペンドさせる */
+		SuspendThread(GetCurrentThread());
 	}
 
-	/* 削除リストにスレッドがあればこのタイミングで削除 */
-	pDelList = hospac_pDelList;
-	while ( pDelList != NULL )
+	/* 削除予約のスレッドがあれば削除 */
+	if ( hThreadDelete != NULL )
 	{
-		TerminateThread(pDelList->hThread, 0);
-		CloseHandle(pDelList->hThread);
-		pDelListTmp = pDelList;
-		pDelList = pDelList->next;
-		free(pDelListTmp);
+		TerminateThread(hThreadDelete, 0);
+		CloseHandle(hThreadDelete);
+		hThreadDelete = NULL;
 	}
-	hospac_pDelList = NULL;
-}
-
-
-/* 例外処理実行設定 */
-void hospac_set_tex(
-		T_HOSPAC_CTXINF *pk_pre_ctxinf,		/* 例外処理を設定するコンテキスト */
-		void (*exp)(TEXPTN),				/* 例外処理ハンドラのアドレス */
-		TEXPTN rasptn)						/* 例外処理ハンドラに渡す例外要因 */
-{
-	/* 頑張ればごまかしは作れそうだがひとまず保留 */
-	/* どっちみち Windowsではスタックを同じままの分岐が困難なので */
-	/* longjmp などが発行できないとおもふ */
-
-	return;
 }
 
 
@@ -182,16 +174,9 @@ void hospac_set_tex(
 void hospac_idle(void)
 {
 	/* マイコンなら省消費電力モードに切り替えるなど可能 */
-
-	/* Windows ではここで他のプロセスにプロセッサタイムを供給とともに */
-	/* インターバルタイマのエミュレーション */
-	for ( ; ; )
-	{
-		dis_dsp();
-		isig_tim();		/* タイムティック供給 */
-		ena_dsp();
-		Sleep(10);
-	}
+	
+	/* 他のプロセスに実行タイミングを与える */
+	Sleep(0);
 }
 
 

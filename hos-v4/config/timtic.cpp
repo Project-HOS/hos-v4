@@ -45,10 +45,18 @@ int CApiTimTic::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	int iNume;
 	int iDeno;
 	int iErr;
+	static bool blEx = false;
 
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_TIM_TIC") == 0 )
 	{
+		if ( blEx == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blEx = true;
+
 		iErr = AddParams(pszParams);
 		if ( iErr != CFG_ERR_OK )
 		{

@@ -28,7 +28,6 @@ CApiAttIsr::CApiAttIsr()
 	m_iParamSyntax[0] = 4;		// 4つのパラメーターブロック
 	m_iParams = 1;
 
-	m_iIntStackSize = 128;
 	m_iMaxIntNo = 0;
 	m_iMinIntNo = 0;
 	m_iMaxIsrId = 0;
@@ -50,6 +49,10 @@ int CApiAttIsr::AutoId(void)
 // APIの解析
 int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blExMax = false;
+	static bool blExMin = false;
+	static bool blExMid = false;
+
 	if ( strcmp(pszApiName, "ATT_ISR") == 0 )
 	{
 		return AddParams(pszParams);
@@ -57,6 +60,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_INTNO") == 0 )
 	{
 		int iIntNo;
+
+		if ( blExMax == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMax = true;
+
 		if ( (iIntNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -70,6 +81,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MIN_INTNO") == 0 )
 	{
 		int iIntNo;
+
+		if ( blExMin == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMin = true;
+
 		if ( (iIntNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -83,6 +102,14 @@ int CApiAttIsr::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_ISRID") == 0 )
 	{
 		int iId;
+
+		if ( blExMid == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+
+		blExMid = true;
+
 		if ( (iId = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -108,16 +135,6 @@ void  CApiAttIsr::WriteCfgDef(FILE* fp)
 		"/*        interrupt control objects           */\n"
 		"/* ------------------------------------------ */\n"
 		, fp);
-
-	// 割り込み用スタック生成
-	fprintf(
-		fp,
-		"\n"
-		"/* interrupt stack */\n"
-		"VP       kernel_int_stk[(%d + sizeof(VP) - 1) / sizeof(VP)];\n"
-		"const VP kernel_int_sp = &kernel_int_stk[(%d + sizeof(VP) - 1) / sizeof(VP)];\n",
-		m_iIntStackSize,
-		m_iIntStackSize);
 
 	// 割り込み管理テーブル生成
 	fprintf(

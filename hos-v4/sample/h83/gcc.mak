@@ -16,11 +16,11 @@ PACDIR   = ../../include/h83
 LIBDIR   = ../../lib/h83/
 
 # ¥Ä¡¼¥ë
-CC     = h8300-hms-coff-gcc
-CPP    = h8300-hms-coff-gcc
-ASM    = h8300-hms-coff-gcc
-LINK   = h8300-hms-coff-gcc
-OBJCNV = h8300-hms-coff-objcopy -O srec
+CC     = h8300-hms-gcc
+CPP    = h8300-hms-gcc
+ASM    = h8300-hms-gcc
+LINK   = h8300-hms-gcc
+OBJCNV = h8300-hms-objcopy -O srec
 HOSCFG = ../../config/hos4cfg
 
 

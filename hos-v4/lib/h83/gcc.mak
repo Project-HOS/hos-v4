@@ -61,8 +61,8 @@ INCS = $(INCDIR)/itron.h \
 # オブジェクトファイル
 OBJS = pacini.o pacint.o pacctx.o \
        chg_imsk.o get_imsk.o fchg_imk.o fget_imk.o \
-       mini_sys.o msta_stu.o mext_stu.o \
-       msta_tsk.o mext_tsk.o mchg_pri.o mrot_rdq.o \
+       mini_sys.o midl_lop.o msta_stu.o mext_stu.o \
+       msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
        mras_tex.o mexe_tex.o \
@@ -133,6 +133,9 @@ fget_imk.o: $(PACDIR)/fget_imk.c
 mini_sys.o: $(MKNLSYSDIR)/mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mini_sys.c
 
+midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
+
 msta_stu.o: $(MKNLSYSDIR)/msta_stu.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/msta_stu.c
 
@@ -144,8 +147,8 @@ mext_stu.o: $(MKNLSYSDIR)/mext_stu.c $(INCS)
 msta_tsk.o: $(MKNLTSKDIR)/msta_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/msta_tsk.c
 
-mext_tsk.o: $(MKNLTSKDIR)/mext_tsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mext_tsk.c
+mter_tsk.o: $(MKNLTSKDIR)/mter_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mter_tsk.c
 
 mchg_pri.o: $(MKNLTSKDIR)/mchg_pri.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)/mchg_pri.c

@@ -37,11 +37,21 @@ CApiMaxTpri::~CApiMaxTpri()
 // APIの解析
 int CApiMaxTpri::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TPRI") != 0 )
 	{
 		return CFG_ERR_NOPROC;
 	}
+
+	// 多重定義チェック
+	if ( blEx == true )
+	{
+		return CFG_ERR_MULTIDEF;
+	}
+
+	blEx = true;
 
 	if ( atoi(pszParams) <= 0 )
 	{
@@ -71,7 +81,7 @@ void  CApiMaxTpri::WriteCfgDef(FILE* fp)
 		"/* ------------------------------------------ */\n"
 		"\n"
 		"T_MKNL_QUE mknl_rdq_tbl[%d];\n"
-		"const INT mknl_rdq_cnt = %d;\n",
+		"const INT  mknl_rdq_cnt = %d;\n",
 		m_iMaxPri,
 		m_iMaxPri);
 }

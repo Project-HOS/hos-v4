@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 //  Hyper Operating System V4  コンフィギュレーター                           
-//    ATT_ISR API の処理                                                      
+//    HOS_KERNEL_HEAP API の処理                                              
 //                                                                            
 //                                    Copyright (C) 1998-2002 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
@@ -41,8 +41,17 @@ int CApiKernelHeap::AutoId(void)
 // APIの解析
 int CApiKernelHeap::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+ 
 	if ( strcmp(pszApiName, "HOS_KERNEL_HEAP") == 0 )
 	{
+		if ( blEx == true )
+	  	{
+			return CFG_ERR_MULTIDEF;
+	  	}
+
+		blEx = true;
+
 		return AddParams(pszParams);
 	}
 

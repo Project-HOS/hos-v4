@@ -14,9 +14,10 @@
 #include "read.h"
 #include "analyze.h"
 #include "apiinc.h"
+#include "idlstk.h"
+#include "intstk.h"
 #include "knlheap.h"
 #include "timtic.h"
-#include "maxtmout.h"
 #include "maxtpri.h"
 #include "cretsk.h"
 #include "deftex.h"
@@ -44,10 +45,11 @@ void PrintUsage(void);
 
 
 CApiInclude    g_ApiInclude;
+CApiIdleStack  g_ApiIdleStack;
+CApiMaxTpri    g_ApiMaxTpri;
+CApiIntStack   g_IntStack;
 CApiKernelHeap g_ApiKernelHeap;
 CApiTimTic     g_ApiTimTic;
-CApiMaxTimout  g_ApiMaxTimout;
-CApiMaxTpri    g_ApiMaxTpri;
 CApiCreTsk     g_ApiCreTsk;
 CApiDefTex     g_ApiDefTex;
 CApiCreSem     g_ApiCreSem;
@@ -69,10 +71,11 @@ static const char *s_szCfgFile            = DEFAULT_CFGFILE;
 static CApiDef* g_ApiList[] =
 	{
 		&g_ApiInclude,
+		&g_ApiIdleStack,
+		&g_ApiMaxTpri,
+		&g_IntStack,
 		&g_ApiKernelHeap,
 		&g_ApiTimTic,
-		&g_ApiMaxTimout,
-		&g_ApiMaxTpri,
 		&g_ApiCreTsk,
 		&g_ApiDefTex,
 		&g_ApiCreSem,

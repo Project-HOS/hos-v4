@@ -60,7 +60,7 @@ ER ter_tsk(
 
 	/* 実行タスクの終了 */
 	mknl_rmv_tmout(&tcb_ram->mtcb);		/* タイムアウト待ち行列につながれていれば解除 */
-	mknl_ext_tsk(&tcb_ram->mtcb);		/* タスクを削除 */
+	mknl_ter_tsk(&tcb_ram->mtcb);		/* タスクを削除 */
 
 	/* 起動がキューイングされていたなら */
 	if ( tcb_ram->actcnt > 0 )

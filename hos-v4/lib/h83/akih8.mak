@@ -72,8 +72,8 @@ INCS = $(INCDIR)\itron.h \
 # オブジェクトファイル
 OBJS = pacini.obj pacint.obj pacctx.obj \
        chg_imsk.obj get_imsk.obj fchg_imk.obj fget_imk.obj \
-       mini_sys.obj msta_stu.obj mext_stu.obj \
-       msta_tsk.obj mext_tsk.obj mchg_pri.obj mrot_rdq.obj \
+       mini_sys.obj midl_lop.obj msta_stu.obj mext_stu.obj \
+       msta_tsk.obj mter_tsk.obj mchg_pri.obj mrot_rdq.obj \
        mwai_tsk.obj mwup_tsk.obj msus_tsk.obj mrsm_tsk.obj \
        mexe_dsp.obj mdly_dsp.obj msrh_top.obj \
        mras_tex.obj mexe_tex.obj \
@@ -146,6 +146,9 @@ fget_imk.obj: $(PACDIR)\fget_imk.c
 mini_sys.obj: $(MKNLSYSDIR)\mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mini_sys.c
 
+midl_lop.obj: $(MKNLSYSDIR)\midl_lop.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\midl_lop.c
+
 msta_stu.obj: $(MKNLSYSDIR)\msta_stu.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\msta_stu.c
 
@@ -157,8 +160,8 @@ mext_stu.obj: $(MKNLSYSDIR)\mext_stu.c $(INCS)
 msta_tsk.obj: $(MKNLTSKDIR)\msta_tsk.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)\msta_tsk.c
 
-mext_tsk.obj: $(MKNLTSKDIR)\mext_tsk.c $(INCS)
-	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mext_tsk.c
+mter_tsk.obj: $(MKNLTSKDIR)\mter_tsk.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mter_tsk.c
 
 mchg_pri.obj: $(MKNLTSKDIR)\mchg_pri.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLTSKDIR)\mchg_pri.c
