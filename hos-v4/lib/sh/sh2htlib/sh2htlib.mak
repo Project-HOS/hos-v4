@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 #  HOS-V4                                                                      
-#   ライブラリメイクファイル SH2 日立評価版 Ver.5 Cコンパイラ用                         
+#   ライブラリメイクファイル SH2 日立評価版 Ver.5 Cコンパイラ用                
 #                                                                              
 #                                       Copyright (C) 1998-2002 by Project HOS 
 #                                       http://sourceforge.jp/projects/hos/    
@@ -19,13 +19,13 @@
 
 
 # パス定義
-HOSROOT    = ..\..\..				#ソースコードを CVSでディレクトリごと取得した場合はこのままで構いません
+HOSROOT    = ..\..\..			#ソースコードを CVSでディレクトリごと取得した場合はこのままで構いません
 INCDIR     = $(HOSROOT)\include
 SRCDIR     = $(HOSROOT)\src
 PACDIR     = $(SRCDIR)\sh
 PACASMDIR  = $(SRCDIR)\sh\sh2ht
-KERNELDIR  = $(SRCDIR)\kernel
 MKNLDIR    = $(SRCDIR)\mknl
+KERNELDIR  = $(SRCDIR)\kernel
 MKNLSYSDIR = $(MKNLDIR)\sys
 MKNLTSKDIR = $(MKNLDIR)\tsk
 MKNLQUEDIR = $(MKNLDIR)\que
@@ -37,8 +37,11 @@ KNLSEMDIR  = $(KERNELDIR)\sem
 KNLFLGDIR  = $(KERNELDIR)\flg
 KNLDTQDIR  = $(KERNELDIR)\dtq
 KNLMBXDIR  = $(KERNELDIR)\mbx
+KNLMBFDIR  = $(KERNELDIR)\mbf
 KNLMPFDIR  = $(KERNELDIR)\mpf
 KNLTIMDIR  = $(KERNELDIR)\tim
+KNLCYCDIR  = $(KERNELDIR)\cyc
+KNLALMDIR  = $(KERNELDIR)\alm
 KNLSYSDIR  = $(KERNELDIR)\sys
 KNLINTDIR  = $(KERNELDIR)\int
 
@@ -56,19 +59,26 @@ LFLAGS =
 
 #インクルードファイル
 INCS = $(INCDIR)\itron.h \
+       $(INCDIR)\hosdenv.h \
+       $(INCDIR)\hoserchk.h \
        $(INCDIR)\mknl.h \
        $(INCDIR)\kernel.h \
        $(INCDIR)\knl_hos.h \
+       $(INCDIR)\knl_mem.h \
        $(INCDIR)\knl_tsk.h \
        $(INCDIR)\knl_sem.h \
        $(INCDIR)\knl_flg.h \
        $(INCDIR)\knl_dtq.h \
        $(INCDIR)\knl_mbx.h \
+       $(INCDIR)\knl_mpf.h \
+       $(INCDIR)\knl_mbf.h \
        $(INCDIR)\knl_tim.h \
+       $(INCDIR)\knl_cyc.h \
+       $(INCDIR)\knl_alm.h \
        $(INCDIR)\knl_sys.h \
        $(INCDIR)\knl_int.h \
-       $(INCDIR)\sh\hospac.h
-
+       $(INCDIR)\knl_exc.h \
+       $(INCDIR)\arm\hospac.h
 
 # オブジェクトファイル
 OBJS = pacint.obj pacctx.obj pacimsk.obj \
@@ -91,16 +101,21 @@ OBJS = pacint.obj pacctx.obj pacimsk.obj \
        sig_sem.obj wai_sem.obj pol_sem.obj twai_sem.obj ref_sem.obj \
        ini_flg.obj cre_flg.obj acre_flg.obj kcre_flg.obj del_flg.obj \
        set_flg.obj clr_flg.obj wai_flg.obj pol_flg.obj \
-       twai_flg.obj chk_flg.obj \
+       twai_flg.obj chk_flg.obj ref_flg.obj \
        cre_dtq.obj acre_dtq.obj kcre_dtq.obj del_dtq.obj \
        snd_dtq.obj psnd_dtq.obj tsnd_dtq.obj fsnd_dtq.obj \
-       rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj \
+       rcv_dtq.obj prcv_dtq.obj trcv_dtq.obj ref_dtq.obj \
        cre_mbx.obj acre_mbx.obj kcre_mbx.obj del_mbx.obj \
        snd_mbx.obj rcv_mbx.obj prcv_mbx.obj trcv_mbx.obj \
+       cre_mbf.obj acre_mbf.obj kcre_mbf.obj del_mbf.obj ref_mbx.obj \
+       snd_mbf.obj psnd_mbf.obj tsnd_mbf.obj ksnd_mbf.obj \
+       rcv_mbf.obj prcv_mbf.obj trcv_mbf.obj krcv_mbf.obj ref_mbf.obj \
        ini_mpf.obj cre_mpf.obj acre_mpf.obj kcre_mpf.obj del_mpf.obj \
-       get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj \
+       get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj ref_mpf.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
-       ini_cyc.obj sta_cyc.obj stp_cyc.obj \
+       add_tml.obj rmv_tml.obj \
+       ini_cyc.obj cyc_hdr.obj sta_cyc.obj stp_cyc.obj \
+       ini_alm.obj alm_hdr.obj sta_alm.obj stp_alm.obj \
        ram_int.obj exe_int.obj \
        get_tid.obj kget_tid.obj rot_rdq.obj \
        loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
@@ -384,6 +399,9 @@ twai_flg.obj: $(KNLFLGDIR)\twai_flg.c $(INCS)
 chk_flg.obj: $(KNLFLGDIR)\chk_flg.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLFLGDIR)\chk_flg.c
 
+ref_flg.obj: $(KNLFLGDIR)\ref_flg.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLFLGDIR)\ref_flg.c
+
 
 # データキュー
 cre_dtq.obj: $(KNLDTQDIR)\cre_dtq.c $(INCS)
@@ -419,6 +437,9 @@ prcv_dtq.obj: $(KNLDTQDIR)\prcv_dtq.c $(INCS)
 trcv_dtq.obj: $(KNLDTQDIR)\trcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\trcv_dtq.c
 
+ref_dtq.obj: $(KNLDTQDIR)\ref_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\ref_dtq.c
+
 
 # メールボックス
 cre_mbx.obj: $(KNLMBXDIR)\cre_mbx.c $(INCS)
@@ -444,6 +465,50 @@ prcv_mbx.obj: $(KNLMBXDIR)\prcv_mbx.c $(INCS)
 
 trcv_mbx.obj: $(KNLMBXDIR)\trcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)\trcv_mbx.c
+
+ref_mbx.obj: $(KNLMBXDIR)\ref_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\ref_mbx.c
+
+
+# メッセージバッファ
+cre_mbf.obj: $(KNLMBFDIR)\cre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\cre_mbf.c
+
+acre_mbf.obj: $(KNLMBFDIR)\acre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\acre_mbf.c
+
+kcre_mbf.obj: $(KNLMBFDIR)\kcre_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\kcre_mbf.c
+
+del_mbf.obj: $(KNLMBFDIR)\del_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\del_mbf.c
+
+snd_mbf.obj: $(KNLMBFDIR)\snd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\snd_mbf.c
+
+psnd_mbf.obj: $(KNLMBFDIR)\psnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\psnd_mbf.c
+
+tsnd_mbf.obj: $(KNLMBFDIR)\tsnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\tsnd_mbf.c
+
+ksnd_mbf.obj: $(KNLMBFDIR)\ksnd_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ksnd_mbf.c
+
+rcv_mbf.obj: $(KNLMBFDIR)\rcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\rcv_mbf.c
+
+prcv_mbf.obj: $(KNLMBFDIR)\prcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\prcv_mbf.c
+
+trcv_mbf.obj: $(KNLMBFDIR)\trcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\trcv_mbf.c
+
+krcv_mbf.obj: $(KNLMBFDIR)\krcv_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\krcv_mbf.c
+
+ref_mbf.obj: $(KNLMBFDIR)\ref_mbf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBFDIR)\ref_mbf.c
 
 
 # 固定長メモリプール
@@ -474,6 +539,9 @@ tget_mpf.obj: $(KNLMPFDIR)\tget_mpf.c $(INCS)
 rel_mpf.obj: $(KNLMPFDIR)\rel_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)\rel_mpf.c
 
+ref_mpf.obj: $(KNLMPFDIR)\ref_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\ref_mpf.c
+
 
 # 時間管理
 ini_tim.obj: $(KNLTIMDIR)\ini_tim.c $(INCS)
@@ -488,14 +556,39 @@ get_tim.obj: $(KNLTIMDIR)\get_tim.c $(INCS)
 isig_tim.obj: $(KNLTIMDIR)\isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\isig_tim.c
 
-ini_cyc.obj: $(KNLTIMDIR)\ini_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_cyc.c
+add_tml.obj: $(KNLTIMDIR)\add_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\add_tml.c
 
-sta_cyc.obj: $(KNLTIMDIR)\sta_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\sta_cyc.c
+rmv_tml.obj: $(KNLTIMDIR)\rmv_tml.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\rmv_tml.c
 
-stp_cyc.obj: $(KNLTIMDIR)\stp_cyc.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLTIMDIR)\stp_cyc.c
+
+# 周期ハンドラ
+ini_cyc.obj: $(KNLCYCDIR)\ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\ini_cyc.c
+
+cyc_hdr.obj: $(KNLCYCDIR)\cyc_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\cyc_hdr.c
+
+sta_cyc.obj: $(KNLCYCDIR)\sta_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\sta_cyc.c
+
+stp_cyc.obj: $(KNLCYCDIR)\stp_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\stp_cyc.c
+
+
+# アラームハンドラ
+ini_alm.obj: $(KNLALMDIR)\ini_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\ini_alm.c
+
+alm_hdr.obj: $(KNLALMDIR)\alm_hdr.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\alm_hdr.c
+
+sta_alm.obj: $(KNLALMDIR)\sta_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\sta_alm.c
+
+stp_alm.obj: $(KNLALMDIR)\stp_alm.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLALMDIR)\stp_alm.c
 
 
 # 割り込み管理
