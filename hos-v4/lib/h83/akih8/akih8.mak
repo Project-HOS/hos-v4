@@ -8,9 +8,8 @@
 
 
 
-# ライブラリアンには http://www.vector.co.jp/soft/win95/prog/se098521.html
-# にて公開されている 江藤 善一 氏 の lib38.exe を勝手ながら利用させて
-# いただきました。
+# ライブラリアンには BLIBG ( http://sourceforge.jp/projects/hos/files/ )
+# を採用しています。
 # 
 # メイクファイルは、なるべくいろんな make が利用できるように極力原始的な
 # 書き方をしておりますが、動作確認は Borland-C++ Ver 5.5 付属の make.exe
@@ -47,7 +46,7 @@ KNLINTDIR  = $(KERNELDIR)\int
 # ツール
 CC   = cc38h
 ASM  = a38h
-LIBR = lib38
+LIBR = blibg
 
 # オプション
 CFLAGS = -CPU=300HA -INCLUDE=$(INCH8DIR),$(INCDIR)
@@ -125,12 +124,10 @@ pacini.obj: $(PACDIR)\pacini.c
 	$(CC) $(CFLAGS) $(PACDIR)\pacini.c
 
 pacctx.obj: $(PACASMDIR)\pacctx.src
-	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctx.src
-	move $(PACASMDIR)\pacctx.obj .
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacctx.src -OBJECT=pacctx.obj
 
 pacint.obj: $(PACASMDIR)\pacint.src
-	$(ASM) $(AFLAGS) $(PACASMDIR)\pacint.src
-	move $(PACASMDIR)\pacint.obj .
+	$(ASM) $(AFLAGS) $(PACASMDIR)\pacint.src -OBJECT=pacint.obj
 
 chg_imsk.obj: $(PACDIR)\chg_imsk.c
 	$(CC) $(CFLAGS) $(PACDIR)\chg_imsk.c
