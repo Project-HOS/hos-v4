@@ -901,10 +901,10 @@ int_multi:
 				jsr		@r1
 				mov.l	@r15+, r4			/* 割り込み番号を引数とする */
 				
-				/* 割り込みカウンタのクリア */
+				/* 割り込みカウンタの減算 */
 				mov.l	int_cnt_addr, r1
 				mov.l	@r1, r0
-				add		#1, r0
+				add		#-1, r0
 				mov.l	r0, @r1
 				
 				/* レジスタ復帰 */
