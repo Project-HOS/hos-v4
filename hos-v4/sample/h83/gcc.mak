@@ -41,7 +41,7 @@ INCS = kernel_id.h sample.h h8_sci.h
 LDSCRIPT = h83048.x
 
 # オブジェクトファイル
-OBJS = vector.o crt0.o sample.o h8_sci.o kernel_cfg.o
+OBJS = crt0.o vector.o sample.o h8_sci.o kernel_cfg.o ostimer.o
 
 
 # ターゲットモジュール生成
@@ -66,9 +66,11 @@ sample.o: sample.c $(INCS)
 h8_sci.o: h8_sci.c $(INCS)
 	$(CC) $(CFLAGS) h8_sci.c
 
+ostimer.o: ostimer.c $(INCS)
+	$(CC) $(CFLAGS) ostimer.c
+
 kernel_cfg.c kernel_id.h: system.cfg
 	cat system.cfg | $(CPP) $(CPPFLAGS) - | $(HOSCFG) -
-
 
 # フラッシュ書き込み
 write:
