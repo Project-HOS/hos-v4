@@ -11,6 +11,7 @@
 #define __HOS_V4__win__hoslib_h__
 
 
+
 #ifdef _HOS_USE_STDLIB	/* 標準ライブラリ使用なら */
 
 #include <string.h>
@@ -52,6 +53,7 @@
 	} while (0)
 
 #endif	/* _HOS_USE_STDLIB */
+
 
 
 #endif	/* __HOS_V4__win__hospac_h__ */
