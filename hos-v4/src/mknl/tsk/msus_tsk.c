@@ -15,7 +15,7 @@
 void mknl_sus_tsk(
 		T_MKNL_TCB *mtcb)	/* 強制待ち状態にするタスク */
 {
-	/* タスクの強制待ち(レディーキューからは外さない) */
+	/* タスクの強制待ち(レディーキューから外す) */
 	if ( mtcb->tskstat == TTS_WAI )
 	{
 		mtcb->tskstat = TTS_WAS;
@@ -23,6 +23,7 @@ void mknl_sus_tsk(
 	else
 	{
 		mtcb->tskstat = TTS_SUS;
+		mknl_rmv_que(mtcb);
 	}
 }
 

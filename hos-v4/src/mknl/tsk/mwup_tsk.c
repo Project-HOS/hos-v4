@@ -19,10 +19,10 @@ void mknl_wup_tsk(
 	/* タスクのスリープ解除 */
 	mtcb->ercd = ercd;
 	mknl_rmv_que(mtcb);
-	mknl_adf_que(&mknl_rdq_tbl[mtcb->tskpri - TMIN_TPRI], mtcb);
 	if ( mtcb->tskstat == TTS_WAI )
 	{
 		mtcb->tskstat = TTS_RDY;	/* 待ち解除なら実行可能状態 */
+		mknl_adf_que(&mknl_rdq_tbl[mtcb->tskpri - TMIN_TPRI], mtcb);
 	}
 	else
 	{

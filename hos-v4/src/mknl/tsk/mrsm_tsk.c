@@ -23,6 +23,7 @@ void mknl_rsm_tsk(
 	else
 	{
 		mtcb->tskstat = TTS_RDY;		/* 強制待ち状態なら実行可能状態 */
+		mknl_adf_que(&mknl_rdq_tbl[mtcb->tskpri - TMIN_TPRI], mtcb);
 	}
 }
 
