@@ -43,6 +43,27 @@ ER snd_mbx(
 	}
 #endif
 
+	mbxcb_rom = mbxcb_ram->mbxcb_rom;
+
+	/* メッセージ優先度取得 */
+	if ( mbxcb_rom->mbxatr & TA_MPRI )	/* 優先度順なら */
+	{
+		msgpri = (PRI)(((T_MSG_PRI*)pk_msg)->msgpri - TMIN_MPRI);
+
+		/* 優先度チェック */
+#ifdef HOS_ERCHK_E_PAR
+		if ( msgpri < 0	|| msgpri > mbxcb_rom->maxmpri - TMIN_MPRI )
+		{
+			mknl_unl_sys();		/* システムのロック解除 */
+			return E_PAR;
+		}
+#endif
+	}
+	else	/* 優先度なし(FIFO順)なら */
+	{
+		msgpri = 0;
+	}
+
 	mtcb = mknl_ref_qhd(&mbxcb_ram->que);		/* 待ち行列先頭タスクを取得 */
 	if ( mtcb != NULL )
 	{
@@ -58,16 +79,6 @@ ER snd_mbx(
 	else
 	{
 		/* 待ちタスクがなければメールボックスに接続 */
-		mbxcb_rom = mbxcb_ram->mbxcb_rom;
-		if ( mbxcb_rom->mbxatr & TA_MPRI )	/* 優先度順なら */
-		{
-			msgpri = (PRI)(((T_MSG_PRI*)pk_msg)->msgpri - TMIN_MPRI);
-		}
-		else
-		{
-			msgpri = 0;
-		}
-
 		if ( mbxcb_rom->mprihd[msgpri] == NULL )
 		{
 			/* 最初の１個の登録 */
