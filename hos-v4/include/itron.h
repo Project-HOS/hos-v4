@@ -42,7 +42,7 @@ typedef INT		ID;			/* オブジェクトのID番号 */
 typedef UH		ATR;		/* オブジェクトの属性 */
 typedef UH		STAT;		/* オブジェクトの状態 */
 typedef UH		MODE;		/* サービスコールの動作モード */
-typedef B		PRI;		/* 優先度 */
+typedef INT		PRI;		/* 優先度 */
 typedef UW		SIZE;		/* メモリ領域のサイズ */
 typedef W		TMO;		/* タイムアウト指定 */
 typedef UW		RELTIM;		/* 相対時間 */

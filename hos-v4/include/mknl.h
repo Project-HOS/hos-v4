@@ -54,10 +54,10 @@ typedef struct t_mknl_que
 typedef struct t_mknl_tcb
 {
 	T_HOSPAC_CTXINF   ctxinf;		/* コンテキスト情報保存ブロック */
-	unsigned int      tskwait : 16;	/* 待ち要因 */
-	unsigned int      tskpri  : 8;	/* 現在の優先度 */
-	unsigned int      tskstat : 6;	/* タスクの状態 */
-	unsigned int      texstat : 2;	/* 例外処理の状態 */
+	STAT              tskwait;		/* 待ち要因 */
+	UB                tskstat;		/* タスクの状態 */
+	UB                texstat;		/* 例外処理の状態 */
+	PRI               tskpri;		/* 現在の優先度 */
 	ER_UINT           ercd;			/* 待ち解除要因用エラーコード */
 	VP_INT            data;			/* 汎用データ領域 */
 	struct t_mknl_que *que;			/* 属しているキュー  */
