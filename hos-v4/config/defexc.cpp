@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    DEF_EXC API の処理                                                      
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -48,9 +48,6 @@ int CApiDefExc::AutoId(void)
 // APIの解析
 int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blExMax = false;
-	static bool blExMin = false;
-
 	if ( strcmp(pszApiName, "DEF_EXC") == 0 )
 	{
 		return AddParams(pszParams);
@@ -59,40 +56,36 @@ int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	{
 		int iExcNo;
 
-		if ( blExMax == true )
+		if ( m_iMaxExcNo > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-		blExMax = true;
 
 		if ( (iExcNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
 		}
-		if ( iExcNo > m_iMaxExcNo )
-		{
-			m_iMaxExcNo = iExcNo;
-		}
+
+		m_iMaxExcNo = iExcNo;
+
 		return CFG_ERR_OK;
 	}
 	else if ( strcmp(pszApiName, "HOS_MIN_EXCNO") == 0 )
 	{
 		int iExcNo;
 
-		if ( blExMin == true )
+		if ( m_iMinExcNo > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-		blExMin = true;
 
 		if ( (iExcNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
 		}
-		if ( iExcNo < m_iMinExcNo )
-		{
-			m_iMinExcNo = iExcNo;
-		}
+
+		m_iMinExcNo = iExcNo;
+
 		return CFG_ERR_OK;
 	}
 
@@ -159,5 +152,5 @@ void  CApiDefExc::WriteCfgIni(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

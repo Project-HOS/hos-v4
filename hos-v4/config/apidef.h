@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    API定義クラス                                                           
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -38,6 +38,7 @@ protected:
 	CParamPack* m_pParamPacks[API_MAX_OBJS];	// パラメーターリスト
 	int         m_iId[API_MAX_OBJS];			// ID番号リスト
 	int         m_iObjs;		// オブジェクト数
+	int         m_iResObj;		// 予約オブジェクト数
 	int         m_iMaxId;		// 最大 ID 番号
 	int         m_iParams;						// パラメーター数
 	int         m_iParamSyntax[PARAMPACK_MAX];	// パラメーター構文
@@ -48,5 +49,5 @@ protected:
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

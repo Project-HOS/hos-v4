@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    エラーコード管理                                                        
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -23,13 +23,14 @@ static const char *szErrMsg[] =
 		"conflict ID.",				// ID衝突
 		"illegal parameter.",		 // パラメーター不正
 		"multiple definition.",		// 唯一であるべきAPI定義が複数
+		"conflict definition.",		 // 定義衝突
 	};
 
 
 // エラー文字列取得
 const char* GetErrMessage(int iErr)
 {
-	if ( iErr < 1 || iErr > 11 )
+	if ( iErr < 1 || iErr > (int)(sizeof(szErrMsg)/sizeof(char *)) )
 	{
 		return "unknown expression error.";
 	}
@@ -39,5 +40,5 @@ const char* GetErrMessage(int iErr)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

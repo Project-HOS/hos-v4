@@ -44,16 +44,12 @@ int CApiIdleStack::AutoId(void)
 // API¤Î²òÀÏ
 int CApiIdleStack::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blEx = false;
-
 	if ( strcmp(pszApiName, "HOS_IDL_STK") == 0 )
 	{
-		if ( blEx == true )
+		if ( m_iObjs > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-
-		blEx = true;
 
 		return AddParams(pszParams);
 	}
@@ -104,7 +100,7 @@ void  CApiIdleStack::WriteCfgDef(FILE* fp)
 			fp,
 			"const VP   mknl_idl_stk   = (VP)(%s);\t/* idle stack */\n"
 			"const SIZE mknl_idl_stksz = (SIZE)(%s);\t/* idle stack */\n",
-			pszStack,pszSize); 
+			pszStack,pszSize);
 	}
 }
 

@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    HOS_TIM_TIC API の処理                                                  
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -45,17 +45,14 @@ int CApiTimTic::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	int iNume;
 	int iDeno;
 	int iErr;
-	static bool blEx = false;
 
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_TIM_TIC") == 0 )
 	{
-		if ( blEx == true )
+		if ( m_iObjs > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-
-		blEx = true;
 
 		iErr = AddParams(pszParams);
 		if ( iErr != CFG_ERR_OK )
@@ -118,5 +115,5 @@ void  CApiTimTic::WriteCfgDef(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

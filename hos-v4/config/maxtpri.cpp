@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    HOS_MAX_TPRI API の処理                                                 
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ CApiMaxTpri::CApiMaxTpri()
 	m_iParamSyntax[0] = 0;		// 単独パラメーター
 	m_iParams         = 1;
 
-	m_iMaxPri = 16;
+	m_iMaxPri = 0;
 }
 
 
@@ -37,8 +37,6 @@ CApiMaxTpri::~CApiMaxTpri()
 // APIの解析
 int CApiMaxTpri::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blEx = false;
-
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TPRI") != 0 )
 	{
@@ -46,12 +44,10 @@ int CApiMaxTpri::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	}
 
 	// 多重定義チェック
-	if ( blEx == true )
+	if ( m_iMaxPri > 0 )
 	{
 		return CFG_ERR_MULTIDEF;
 	}
-
-	blEx = true;
 
 	if ( atoi(pszParams) <= 0 )
 	{
@@ -73,6 +69,12 @@ int CApiMaxTpri::AutoId(void)
 // cfgファイル定義部書き出し
 void  CApiMaxTpri::WriteCfgDef(FILE* fp)
 {
+	if ( m_iMaxPri == 0 )
+	{
+		m_iMaxPri = DEFAULT_MAXTPRI;
+
+	}
+
 	fprintf(
 		fp,
 		"\n\n\n"
@@ -88,5 +90,5 @@ void  CApiMaxTpri::WriteCfgDef(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

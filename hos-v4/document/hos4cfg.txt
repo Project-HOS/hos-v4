@@ -2,7 +2,7 @@
   Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                      
     コンフィギュレーター ドキュメント                                         
                                                                               
-                                       Copyright (C) 1998-2002 by Project HOS 
+                                       Copyright (C) 1998-2003 by Project HOS 
                                        http://sourceforge.jp/projects/hos/    
 ------------------------------------------------------------------------------
 
@@ -236,7 +236,43 @@ kernel_id.h(IDなどを宣言したヘッダファイル)と、kernel_cfg.c(カーネル
     そのもののメモリはカーネルヒープから別途確保されます。
 
 
+4.8 オブジェクトの予約
+
+  【API】
+      HOS_RES_TSKOBJ(ID tskobjno);
+      HOS_RES_SEMOBJ(ID semobjno);
+      HOS_RES_FLGOBJ(ID flgobjno);
+      HOS_RES_DTQOBJ(ID dtqobjno);
+      HOS_RES_MBXOBJ(ID mbxobjno);
+      HOS_RES_MBFOBJ(ID mbfobjno);
+      HOS_RES_MPFOBJ(ID mpfobjno);
+      HOS_RES_CYCOBJ(ID cycobjno);
+
+  【パラメータ】
+      ID      tskobjno    予約するタスクオブジェクト数
+      ID      semobjno    予約するセマフォオブジェクト数
+      ID      flgobjno    予約するセマフォオブジェクト数
+      ID      dtqobjno    予約するデータキューオブジェクト数
+      ID      mbxobjno    予約するメールボックスオブジェクト数
+      ID      mbfobjno    予約するメッセージバッファオブジェクト数
+      ID      mpfobjno    予約するメモリプールオブジェクト数
+      ID      cycobjno    予約する周期ハンドラオブジェクト数
+
+  【機能】
+      予約するオブジェクト数の指定を行ないます。この指定があると、
+    静的生成分に加えて予約数 xxxobjnoのオブジェクトがカーネルに登録
+    可能になります。
+
+  【補足】
+      基本的にはHOS_MAX_XXXIDと同じ用途のAPIですが、IDの最大値では
+    なく予約数(=静的生成分を除く利用可能なID数)を指定する点が異なり
+    ます。また、本APIは複数指定が許され、実際に予約されるオブジェクト
+    数は指定された予約数の総和となります。
+      HOS_MAX_XXXIDとは排他的な関係にあります。両方を同時に使用するこ
+    とは出来ません。
+
+
 
 ------------------------------------------------------------------------------
- Copyright (C) 1998-2002 by Project HOS                                       
+ Copyright (C) 1998-2003 by Project HOS                                       
 ------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    HOS_INT_STK API の処理                                                  
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -47,24 +47,32 @@ int CApiIntStack::AutoId(void)
 // APIの解析
 int CApiIntStack::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blEx = false;
- 
 	if ( strcmp(pszApiName, "HOS_INT_STK") == 0 )
 	{
-		if ( blEx == true )
+		if ( m_iObjs > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-		blEx = true;
+
+		if ( m_szStackPointer[0] != '\0' )
+		{
+			return CFG_ERR_DEF_CONFLICT;
+		}
+
 		return AddParams(pszParams);
 	}
 	else if ( strcmp(pszApiName, "HOS_INT_SP") == 0 )
 	{
-		if ( blEx == true )
+		if ( m_iObjs > 0 )
+		{
+			return CFG_ERR_DEF_CONFLICT;
+		}
+
+		if ( m_szStackPointer[0] != '\0' )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
-		blEx = true;
+
 		strcpy(m_szStackPointer, pszParams);
 		return CFG_ERR_OK;
 	}
@@ -126,5 +134,5 @@ void  CApiIntStack::WriteCfgDef(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

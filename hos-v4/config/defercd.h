@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    エラーコード管理                                                        
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -28,6 +28,7 @@
 #define CFG_ERR_ID_CONFLICT		9		// ID衝突
 #define CFG_ERR_PARAM			10		// パラメーター不正
 #define CFG_ERR_MULTIDEF		11		// 唯一であるべき定義が複数
+#define CFG_ERR_DEF_CONFLICT		12		// ID衝突
 
 
 const char* GetErrMessage(int iErr);
@@ -37,5 +38,5 @@ const char* GetErrMessage(int iErr);
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

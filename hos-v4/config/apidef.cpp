@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
-//  Hyper Operating System V4  コンフィギュレーター                           
-//    API定義クラス                                                           
-//                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
-//                                    http://sourceforge.jp/projects/hos/     
+//  Hyper Operating System V4  コンフィギュレーター
+//    API定義クラス
+//
+//                                    Copyright (C) 1998-2003 by Project HOS
+//                                    http://sourceforge.jp/projects/hos/
 // ---------------------------------------------------------------------------
 
 
@@ -22,6 +22,7 @@ CApiDef::CApiDef()
 
 	m_iMaxId = 0;
 	m_iObjs  = 0;
+	m_iResObj = 0;
 	for ( i = 0; i < API_MAX_OBJS; i++ )
 	{
 		m_pParamPacks[i] = NULL;
@@ -185,6 +186,12 @@ int CApiDef::AutoId(void)
 		m_iMaxId = iId;
 	}
 
+	// 最大ID番号を予約オブジェクト数分増加
+	if ( m_iMaxId < m_iObjs + m_iResObj )
+	{
+		m_iMaxId = m_iObjs + m_iResObj;
+	}
+
 	return 0;
 }
 
@@ -212,5 +219,5 @@ void CApiDef::WriteCfgStart(FILE* fpCfg)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS
 // ---------------------------------------------------------------------------

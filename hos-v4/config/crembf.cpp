@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    CRE_MBF API の処理                                                      
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -41,8 +41,6 @@ CApiCreMbf::~CApiCreMbf()
 // APIの解析
 int CApiCreMbf::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blExMid = false;
-
 	if ( strcmp(pszApiName, "CRE_MBF") == 0 )
 	{
 		return AddParams(pszParams);
@@ -51,23 +49,43 @@ int CApiCreMbf::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	{
 		int iId;
 
-		if ( blExMid == true )
+		if ( m_iMaxId > 0 )
 		{
 			return CFG_ERR_MULTIDEF;
 		}
 
-		blExMid = true;
+		if ( m_iResObj > 0 )
+		{
+			return CFG_ERR_DEF_CONFLICT;
+		}
 
 		if ( (iId = atoi(pszParams)) <= 0 )
 		{
 			return CFG_ERR_PARAM;
 		}
-		if ( iId > m_iMaxId )
-		{
-			m_iMaxId = iId;
-		}
+
+		m_iMaxId = iId;
+
 		return CFG_ERR_OK;
 	}
+	else if ( strcmp(pszApiName, "HOS_RES_MBFOBJ") == 0 )
+	{
+		int iId;
+
+                if ( m_iMaxId > 0 )
+		{
+                        return CFG_ERR_DEF_CONFLICT;
+		}
+
+                if ( (iId = atoi(pszParams)) <= 0 )
+		{
+                        return CFG_ERR_PARAM;
+		}
+
+                m_iResObj += iId;
+
+                return CFG_ERR_OK;
+        }
 
 	return CFG_ERR_NOPROC;
 }
@@ -269,5 +287,5 @@ void  CApiCreMbf::WriteCfgStart(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------

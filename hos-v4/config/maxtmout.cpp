@@ -2,7 +2,7 @@
 //  Hyper Operating System V4  コンフィギュレーター                           
 //    HOS_MAX_TIMOUT API の処理                                               
 //                                                                            
-//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ CApiMaxTimout::CApiMaxTimout()
 	m_iParamSyntax[0] = 0;		// 単独パラメーター
 	m_iParams         = 1;
 
-	m_iMaxTimout = 16;
+	m_iMaxTimout = 0;
 }
 
 
@@ -37,19 +37,16 @@ CApiMaxTimout::~CApiMaxTimout()
 // APIの解析
 int CApiMaxTimout::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
-	static bool blEx = false;
-
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TIMOUT") != 0 )
 	{
 		return CFG_ERR_NOPROC;
 	}
 
-	if ( blEx == true )
+	if ( m_iMaxTimout > 0 )
 	{
 		return CFG_ERR_MULTIDEF;
 	}
-	blEx = true;
 
 	if ( atoi(pszParams) <= 0 )
 	{
@@ -71,6 +68,11 @@ int CApiMaxTimout::AutoId(void)
 // cfgファイル定義部書き出し
 void  CApiMaxTimout::WriteCfgDef(FILE* fp)
 {
+	if ( m_iMaxTimout == 0 )
+	{
+		m_iMaxTimout = DEFAULT_MAXTIMOUT;
+	}
+
 	fprintf(
 		fp,
 		"\n\n\n"
@@ -86,5 +88,5 @@ void  CApiMaxTimout::WriteCfgDef(FILE* fp)
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS                                    
+//  Copyright (C) 1998-2003 by Project HOS                                    
 // ---------------------------------------------------------------------------
