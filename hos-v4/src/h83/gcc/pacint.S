@@ -359,16 +359,16 @@ int_handler:
 				mov.b	r1l, @_kernel_h83_imsk
 
 				/* 多重割り込みの判別 */
-				mov.w	@__HOS_int_cnt, r1
+				mov.w	@_kernel_int_cnt, r1
 				bne		mul_int
 
 		/* ======== 最初の割り込み ======== */
 				/* 割り込みネストカウンタ設定 */
 				mov.w	#1, r1
-				mov.w	r1, @__HOS_int_cnt
+				mov.w	r1, @_kernel_int_cnt
 
 				/* スタックポインタの入れ替え */
-				mov.l	er7, @__HOS_int_sp
+				mov.l	er7, @_kernel_int_sp
 				mov.l	@_kernel_int_sp, er7
 
 				/* 割り込み処理の開始 */
@@ -380,11 +380,11 @@ int_handler:
 				jsr		@_kernel_exe_int
 
 				/* スタックポインタ復帰 */
-				mov.l	@__HOS_int_sp, er7
+				mov.l	@_kernel_int_sp, er7
 
 				/* 割り込みネストカウンタクリア */
 				xor.w	r1, r1
-				mov.w	r1, @__HOS_int_cnt
+				mov.w	r1, @_kernel_int_cnt
 
 				/* 割り込みマスク値の復帰 */
 				mov.b	@_kernel_h83_ibmsk, r0l
@@ -411,15 +411,15 @@ int_handler:
 mul_int:
 				/* 割り込みネストカウンタ加算 */
 				inc.w	#1, r1
-				mov.w	r1, @__HOS_int_cnt
+				mov.w	r1, @_kernel_int_cnt
 
 				/* 割り込みハンドラ呼び出し */
 				jsr		@_kernel_exe_int
 
 				/* 割り込みネストカウンタ減算 */
-				mov.w	@__HOS_int_cnt, r0
+				mov.w	@_kernel_int_cnt, r0
 				dec.w	#1, r0
-				mov.w	r0, @__HOS_int_cnt
+				mov.w	r0, @_kernel_int_cnt
 
 				/* 復帰 */
 				pop.l	er2
@@ -427,13 +427,6 @@ mul_int:
 				pop.l	er0
 				rte
 
-
-
-/************************************************
-       割り込み処理データ
-*************************************************/
-				.comm	__HOS_int_sp, 4		/* 割り込み時の er7 保存用 */
-				.comm	__HOS_int_cnt, 2	/* 割り込みネストカウンタ */
 
 
 				.end
