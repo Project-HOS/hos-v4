@@ -100,6 +100,7 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
        ini_cyc.o sta_cyc.o stp_cyc.o \
+       cre_cyc.o acre_cyc.o kcre_cyc.o del_cyc.o \
        ram_int.o exe_int.o \
        get_tid.o kget_tid.o rot_rdq.o \
        loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
@@ -499,6 +500,17 @@ add_tml.o: $(KNLTIMDIR)/add_tml.c $(INCS)
 rmv_tml.o: $(KNLTIMDIR)/rmv_tml.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)/rmv_tml.c
 
+cre_cyc.o: $(KNLCYCDIR)/cre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/cre_cyc.c
+
+acre_cyc.o: $(KNLCYCDIR)/acre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/acre_cyc.c
+
+kcre_cyc.o: $(KNLCYCDIR)/kcre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/kcre_cyc.c
+
+del_cyc.o: $(KNLCYCDIR)/del_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)/del_cyc.c
 
 # 周期ハンドラ
 ini_cyc.o: $(KNLCYCDIR)/ini_cyc.c $(INCS)

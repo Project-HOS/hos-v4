@@ -39,17 +39,16 @@ typedef struct t_kernel_cyccb_rom
 	VP_INT exinf;		/* 周期ハンドラの拡張情報 */
 	FP     cychdr;		/* 周期ハンドラの起動番地 */
 	RELTIM cyctim;		/* 周期ハンドラの起動周期 */
-} T_KERNEL_CYCCB_ROM;
+/*	RELTIM cycphs;	*/	/* 周期ハンドラの起動位相(未使用) */
+} T_KERNEL_CYCCB_ROM, T_CCYC;
 
 /* 周期ハンドラコントロールブロック(RAM部) */
 typedef struct t_kernel_cyccb_ram
 {
 	T_KERNEL_TIM timobj;		/* タイマオブジェクトを継承 */
-	RELTIM       lefttim;		/* 周期ハンドラのを次に起動する時刻までの時間 */
+	RELTIM       lefttim;		/* 周期ハンドラを次に起動する時刻までの時間 */
 	const T_KERNEL_CYCCB_ROM *cyccb_rom;	/* 周期ハンドラコントロールブロックROM部へのポインタ */
 } T_KERNEL_CYCCB_RAM;
-
-
 
 /* ---------------------------------- */
 /*        グローバル変数宣言          */
@@ -77,6 +76,10 @@ void    kernel_ini_cyc(void);								/* 周期ハンドラの初期化 */
 void    kernel_cyc_hdr(T_KERNEL_TIM *timobj, RELTIM tic);	/* 周期ハンドラのタイマハンドラ */
 ER      sta_cyc(ID cycid);									/* 周期ハンドラの動作開始 */
 ER      stp_cyc(ID cycid);									/* 周期ハンドラの動作停止 */
+ER      cre_cyc(ID cycid, const T_CCYC *pk_ccyc);			/* 周期ハンドラの生成 */
+ER_ID   acre_cyc(const T_CCYC *pk_ccyc);					/* 周期ハンドラの生成(ID番号自動割付け) */
+ER      kernel_cre_cyc(ID cycid, const T_CCYC *pk_ccyc);	/* 周期ハンドラ生成(カーネル内部) */
+ER      del_cyc(ID cycid);	/* 周期ハンドラの削除 */
 
 #ifdef __cplusplus
 }

@@ -102,6 +102,7 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
        get_mpf.obj pget_mpf.obj tget_mpf.obj rel_mpf.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
        ini_cyc.obj sta_cyc.obj stp_cyc.obj \
+       cre_cyc.obj acre_cyc.obj kcre_cyc.obj del_cyc.obj \
        ram_int.obj exe_int.obj \
        get_tid.obj kget_tid.obj rot_rdq.obj \
        loc_cpu.obj unl_cpu.obj dis_dsp.obj ena_dsp.obj \
@@ -510,6 +511,18 @@ sta_cyc.obj: $(KNLTIMDIR)\sta_cyc.c $(INCS)
 
 stp_cyc.obj: $(KNLTIMDIR)\stp_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\stp_cyc.c
+
+cre_cyc.obj: $(KNLCYCDIR)\cre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\cre_cyc.c
+
+acre_cyc.obj: $(KNLCYCDIR)\acre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\acre_cyc.c
+
+kcre_cyc.obj: $(KNLCYCDIR)\kcre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\kcre_cyc.c
+
+del_cyc.obj: $(KNLCYCDIR)\del_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\del_cyc.c
 
 
 # 割り込み管理

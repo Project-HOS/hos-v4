@@ -111,6 +111,7 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
        add_tml.o rmv_tml.o \
        ini_cyc.o cyc_hdr.o sta_cyc.o stp_cyc.o \
+       cre_cyc.o acre_cyc.o kcre_cyc.o del_cyc.o \
        ini_alm.o alm_hdr.o sta_alm.o stp_alm.o \
        ram_int.o exe_int.o \
        get_tid.o kget_tid.o rot_rdq.o \
@@ -572,6 +573,18 @@ sta_cyc.o: $(KNLCYCDIR)\sta_cyc.c $(INCS)
 
 stp_cyc.o: $(KNLCYCDIR)\stp_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLCYCDIR)\stp_cyc.c
+
+cre_cyc.o: $(KNLCYCDIR)\cre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\cre_cyc.c
+ 
+acre_cyc.o: $(KNLCYCDIR)\acre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\acre_cyc.c
+
+kcre_cyc.o: $(KNLCYCDIR)\kcre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\kcre_cyc.c
+
+del_cyc.o: $(KNLCYCDIR)\del_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\del_cyc.c
 
 
 # アラームハンドラ

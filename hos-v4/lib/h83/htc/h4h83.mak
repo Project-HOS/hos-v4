@@ -93,6 +93,7 @@ OBJS = pacini.obj pacint.obj pacctx.obj \
        ini_tim.obj isig_tim.obj set_tim.obj get_tim.obj \
        add_tml.obj rmv_tml.obj \
        ini_cyc.obj cyc_hdr.obj sta_cyc.obj stp_cyc.obj \
+       cre_cyc.obj acre_cyc.obj kcre_cyc.obj del_cyc.obj \
        ini_alm.obj alm_hdr.obj sta_alm.obj stp_alm.obj \
        ram_int.obj exe_int.obj \
        get_tid.obj kget_tid.obj rot_rdq.obj \
@@ -525,6 +526,18 @@ sta_cyc.obj: $(KNLCYCDIR)\sta_cyc.c $(INCS)
 
 stp_cyc.obj: $(KNLCYCDIR)\stp_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLCYCDIR)\stp_cyc.c
+
+cre_cyc.obj: $(KNLCYCDIR)\cre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\cre_cyc.c
+
+acre_cyc.obj: $(KNLCYCDIR)\acre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\acre_cyc.c
+
+kcre_cyc.obj: $(KNLCYCDIR)\kcre_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\kcre_cyc.c
+
+del_cyc.obj: $(KNLCYCDIR)\del_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLCYCDIR)\del_cyc.c
 
 
 # アラームハンドラ
