@@ -57,9 +57,9 @@ ER sig_sem(
 		mknl_del_que(mtcb);						/* セマフォの待ち行列から削除 */
 		mknl_del_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
 		mknl_wup_tsk(mtcb, E_OK);				/* タスクの待ち解除 */
-
-		/* タスクディスパッチの実行 */
-		mknl_exe_dsp();
+		
+		mknl_exe_dsp();		/* タスクディスパッチの実行 */
+		mknl_exe_tex();		/* 例外処理の実行 */
 	}
 	else
 	{

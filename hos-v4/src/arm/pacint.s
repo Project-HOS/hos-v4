@@ -33,24 +33,51 @@ _HOS_UndefinedHandler
 ; ----------------------------------------------
 ;  SWI ハンドラ
 ; ----------------------------------------------
-				IMPORT	hospac_arm_imask
+				IMPORT	hospac_arm_imsk
 _HOS_SwiHandler
 			; ---- SWI番号読み出し
 				ldr		r13, [lr, #-4]
 				bic		r13, r13, #0xff000000
 
 				teq 	r13, #0x10		; カーネルコールは #10 とする
-				bne 	NoKarnelCall
-				
-			; ---- a1 が 真なら割り込み許可
-				cmp 	a1, #0
-				moveq	r13, #Mode_USR:OR:I_Bit:OR:F_Bit
-				ldrne	r13, =hospac_arm_imask
-				ldrne	r13, [r13]
+				bne 	swi_ret
+
+			; ---- パラメーターを判定
+				cmp		a1, #3
+				and		a1, a1, #0x03
+				addls	pc, pc, a1, lsl #2
+				b		swi_ret
+				b		swi_dis_int
+				b		swi_ena_int
+
+			; ---- IRQ/FIQからの復帰 (a1 = 2)
+				ldr		r13, =_HOS_swi_ret
+				ldmia	r13, {a1, r13, lr}
+				msr		spsr_csxf, r13
+				subs	pc, lr, #0
+
+			; ---- 割り込み禁止(a1 = 0)
+swi_dis_int
+				mov		r13, #Mode_USR:OR:I_Bit:OR:F_Bit
 				msr 	spsr_cf, r13
 				subs	pc, lr, #0
 
-NoKarnelCall
+			; ---- 割り込み許可(a1 = 1)
+swi_ena_int
+				ldr		r13, =hospac_arm_imsk
+				ldr		r13, [r13]
+				msr 	spsr_cf, r13
+				
+				
+;			; ---- a1 が 真なら割り込み許可
+;				cmp 	a1, #0
+;				moveq	r13, #Mode_USR:OR:I_Bit:OR:F_Bit
+;				ldrne	r13, =hospac_arm_imsk
+;				ldrne	r13, [r13]
+;				msr 	spsr_cf, r13
+;				subs	pc, lr, #0
+
+swi_ret
 			; ---- 将来ここに例外処理機構 
 				subs	pc, lr, #0
 
@@ -77,9 +104,11 @@ _HOS_AbortHandler
 				AREA	inthdr_bss, NOINIT
 
 				EXPORT	_HOS_int_cnt
-				EXPORT	_HOS_int_sp	
+				EXPORT	_HOS_int_sp
+				EXPORT	_HOS_swi_ret
 _HOS_int_cnt	%		4		; 割り込みネスト回数
 _HOS_int_sp		%		4		; 割り込み時スタック退避
+_HOS_swi_ret	%		12		; a1, cpsr, lr の値渡し用
 
 
 				END

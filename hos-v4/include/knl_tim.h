@@ -74,6 +74,7 @@ extern const INT kernel_cyccb_cnt;							/* 周期ハンドラコントロールブロック個数
 /* ------------------------------------------ */
 
 /* システム時刻管理 */
+void    kernel_ini_tim(void);						/* 時間管理機能の初期化 */
 ER      set_tim(const SYSTIM *p_systim);			/* システム時刻の設定 */
 ER      get_tim(SYSTIM *p_systim);					/* システム時刻の取得 */
 ER      isig_tim(void);								/* タイムティックの供給 */

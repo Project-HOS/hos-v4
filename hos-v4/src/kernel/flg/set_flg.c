@@ -40,7 +40,7 @@ ER set_flg(
 #endif
 
 	/* フラグのセット */
-	flgcb_ram->flgptn |= setptn;
+	flgcb_ram->flgptn = (FLGPTN)(flgcb_ram->flgptn | setptn);
 
 	/* 待ちタスクがあれば起床チェック */
 	if ( flgcb_ram->mtcb != NULL )
@@ -52,14 +52,14 @@ ER set_flg(
 			mknl_del_que(flgcb_ram->mtcb);			/* 待ち行列から外す */
 			mknl_del_tmout(flgcb_ram->mtcb);		/* タイムアウト解除 */
 			mknl_wup_tsk(flgcb_ram->mtcb, E_OK);	/* 待ちタスクの起床 */
-
-			/* タスクディスパッチの実行 */
-			mknl_exe_dsp();
+			
+			mknl_exe_dsp();		/* タスクディスパッチの実行 */
+			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 	}
-
+	
 	mknl_unl_sys();	/* システムのロック解除 */
-
+	
 	return E_OK;	/* 正常終了 */
 }
 

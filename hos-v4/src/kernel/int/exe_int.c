@@ -36,14 +36,16 @@ void kernel_exe_int(
 {
 	T_KERNEL_INTCB intcb;
 
-	mknl_loc_sys();						/* システムロック */
 	intcb = kernel_intcb_tbl[intno];	/* ローカルにコピー */
-	mknl_unl_sys();						/* システムロック解除 */	
+
+	mknl_unl_sys();		/* 多重割り込み許可 */
 
 	if ( intcb.isr != NULL )
 	{
 		intcb.isr(intcb.exinf);			/* 割り込みサービスルーチン実行 */
 	}
+
+	mknl_loc_sys();		/* 多重割り込み禁止 */
 }
 
 

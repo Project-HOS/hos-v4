@@ -66,6 +66,15 @@ typedef struct t_rtst
 	VP_INT exinf;			/* タスクの拡張情報 */
 } T_RTST;
 
+
+/* タスク例外処理コントロールブロック(RAM部) */
+typedef struct t_kernel_texcb_ram
+{
+	TEXPTN rasptn;			/* タスク例外処理のタスク例外要因 */
+	FP     texrtn;			/* タスク例外処理の起動番地 */
+} T_KERNEL_TEXCB_RAM;
+
+
 /* タスクコントロールブロック(ROM部) */
 typedef struct t_kernel_tcb_rom
 {
@@ -74,7 +83,7 @@ typedef struct t_kernel_tcb_rom
 	FP     task;			/* タスクの起動番地 */
 	PRI    itskpri;			/* タスクの起動時優先度 */
 	SIZE   stksz;			/* タスクのスタックのサイズ（バイト数） */
-	VP	stk;				/* タスクのスタック領域の先頭番地 */
+	VP	   stk;				/* タスクのスタック領域の先頭番地 */
 } T_KERNEL_TCB_ROM;
 
 
@@ -85,6 +94,7 @@ typedef struct t_kernel_tcb_ram
 	UB         actcnt;		/* 起動要求キューイング数 */
 	UB         suscnt;		/* SUSPEND要求ネスト数 */
 	UH         wupcnt;		/* 起床要求キューイング数 */
+	T_KERNEL_TEXCB_RAM     *texcb;		/* タスク例外処理コントロールブロックへのポインタ */
 	const T_KERNEL_TCB_ROM *tcbrom;		/* タスクコントロールブロックROM部へのポインタ */
 } T_KERNEL_TCB_RAM;
 
@@ -142,6 +152,14 @@ ER      sus_tsk(ID tskid);							/* 強制待ち状態への移行 */
 ER      rsm_tsk(ID tskid);							/* 強制待ち状態からの再開 */
 ER      frsm_tsk(ID tskid);							/* 強制待ち状態からの強制再開 */
 ER      dly_tsk(RELTIM dlytim);						/* 自タスクの遅延 */
+
+/* タスク例外処理機能 */
+void    kernel_tex_entry(void);						/* タスク例外処理エントリーポイント(μカーネルより呼び出し) */
+ER      ras_tex(ID tskid, TEXPTN rasptn);			/* タスク例外処理の要求 */
+#define iras_tex	ras_tex							/* タスク例外処理の要求(非タスクコンテキスト用マクロ) */
+ER      dis_tex(void);								/* タスク例外処理の禁止 */
+ER      ena_tex(void);								/* タスク例外処理の禁止 */
+BOOL    sns_tex(void);								/* タスク例外処理禁止状態の参照 */
 
 
 

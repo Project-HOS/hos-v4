@@ -59,9 +59,9 @@ ER snd_dtq(
 		mknl_del_tmout(mtcb);						/* タイムアウト解除 */
 		mtcb->data = data;							/* データを格納 */
 		mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
-
-		/* タスクディスパッチの実行 */
-		mknl_exe_dsp();
+		
+		mknl_exe_dsp();		/* タスクディスパッチの実行 */
+		mknl_exe_tex();		/* 例外処理の実行 */
 		
 		ercd = E_OK;
 	}
@@ -83,9 +83,9 @@ ER snd_dtq(
 			{
 				mknl_add_que(&dtqcb_ram->sndque, mtcb);	/* FIFO順に追加 */
 			}
-
-			/* タスクディスパッチの実行 */
-			ercd = (ER)mknl_exe_dsp();
+			
+			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+			mknl_exe_tex();				/* 例外処理の実行 */
 		}
 		else
 		{

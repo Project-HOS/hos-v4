@@ -25,7 +25,7 @@ ER pol_sem(
 	}
 #endif
 	
-	mknl_loc_sys();	/* システムのロック */
+	mknl_loc_sys();		/* システムのロック */
 
 	semcb_ram = KERNEL_SEMID_TO_SEMCB_RAM(semid);
 
@@ -49,7 +49,7 @@ ER pol_sem(
 		ercd = E_OK;
 	}
 
-	mknl_unl_sys();			/* システムのロック解除 */
+	mknl_unl_sys();		/* システムのロック解除 */
 
 	return ercd;
 }

@@ -27,6 +27,7 @@ void mknl_sta_tsk(
 
 	/* タスクの状態設定 */
 	mtcb->tskstat = TTS_RDY;	/* レディー状態に設定 */
+	mtcb->texstat = 0;			/* 例外状態初期化 */
 	mtcb->tskpri  = tskpri;		/* 優先度設定 */
 	mtcb->tskwait = 0;			/* 待ち要因初期化 */
 
@@ -146,10 +147,10 @@ ER_UINT mknl_exe_dsp(void)
 	T_MKNL_TCB *mtcb_run;
 
 	/* コンテキストチェック */
-	if ( mknl_ctx_stat & (TSS_INDP | TSS_DDSP) )
+	if ( mknl_ctx_stat & (MKNL_TSS_INDP | MKNL_TSS_DDSP) )
 	{
 		/* ディスパッチ実行可能状態で無ければ保留する */
-		mknl_ctx_stat |= TSS_DDLY;	/* ディスパッチ遅延フラグをセット */
+		mknl_ctx_stat |= MKNL_TSS_DDLY;	/* ディスパッチ遅延フラグをセット */
 		return E_OK;
 	}
 
@@ -214,19 +215,19 @@ ER_UINT mknl_exe_dsp(void)
 void mknl_dly_dsp(void)
 {
 	/* システムコンテキストチェック */
-	if ( mknl_ctx_stat & (TSS_INDP | TSS_DDSP) )
+	if ( mknl_ctx_stat & (MKNL_TSS_INDP | MKNL_TSS_DDSP) )
 	{
 		return;		/* ディスパッチ実行可能でなければ保留続行 */
 	}
 
 	/* 遅延フラグチェック */
-	if ( !(mknl_ctx_stat & TSS_DDLY) )
+	if ( !(mknl_ctx_stat & MKNL_TSS_DDLY) )
 	{
 		return;		/* 遅延が無ければ何もしない */
 	}
 
 	/* 遅延フラグクリア */
-	mknl_ctx_stat = TSS_TSK;
+	mknl_ctx_stat = MKNL_TSS_TSK;
 
 	/* 遅延ディスパッチ実行 */
 	mknl_exe_dsp();
@@ -262,6 +263,51 @@ T_MKNL_TCB* mknl_srh_top(void)
 	return NULL;	/* 実行可能タスク無し */
 }
 
+
+/* タスク優先順位の回転 */
+void mknl_rot_rdq(
+		PRI tskpri)		/* 優先順位を回転する対象の優先度 */
+{
+	mknl_rot_que(&mknl_rdq_tbl[tskpri - TMIN_TPRI]);
+}
+
+
+
+/* タスク例外処理の要求 */
+void mknl_ras_tex(
+		T_MKNL_TCB *mtcb)	/* 例外処理を要求するタスク */
+{
+	if ( mtcb == mknl_run_mtcb && !(mtcb->texstat & MKNL_TTS_DRAS) )
+	{
+		/* 実行中タスクで、例外禁止でなければ例外発行 */
+		do
+		{
+			mtcb->texstat = 0;
+			kernel_tex_entry();
+		} while ( mtcb->texstat != 0 );	/* 例外要因がなくなるまでループ */
+	}
+	else
+	{
+		/* 例外を保留する */
+		mtcb->texstat &= MKNL_TTS_RDLY;
+	}
+}
+
+
+/* タスク例外処理の実行 */
+void mknl_exe_tex(void)
+{
+	if (  (mknl_run_mtcb->texstat & MKNL_TTS_RDLY)
+				&& !(mknl_run_mtcb->texstat & MKNL_TTS_DRAS) )
+	{
+		/* 例外保留があり、例外禁止でなければ例外発行 */
+		do
+		{
+			mknl_run_mtcb->texstat = 0;
+			kernel_tex_entry();
+		} while ( mknl_run_mtcb->texstat != 0 );	/* 例外要因がなくなるまでループ */
+	}
+}
 
 
 /* ------------------------------------------------------------------------ */

@@ -72,10 +72,10 @@ ER trcv_dtq(
 			mknl_del_tmout(mtcb);						/* タイムアウト解除 */
 			*p_data = mtcb->data;						/* データを取り出し */
 			mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
-
-			/* タスクディスパッチの実行 */
-			mknl_exe_dsp();
-		
+			
+			mknl_exe_dsp();		/* タスクディスパッチの実行 */
+			mknl_exe_tex();		/* 例外処理の実行 */
+			
 			ercd = E_OK;
 		}
 		else
@@ -99,21 +99,22 @@ ER trcv_dtq(
 				{
 					mknl_add_que(&dtqcb_ram->rcvque, mtcb);	/* FIFO順に追加 */
 				}
-
+				
 				/* 無限待ちでなければ */
 				if ( tmout != TMO_FEVR )
 				{
 					mknl_add_tmout(mtcb, (RELTIM)tmout);	/* タイムアウトキューに追加 */
 				}
-
-				/* タスクディスパッチの実行 */
-				ercd = (ER)mknl_exe_dsp();
-	
+				
+				ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+				
 				/* 成功したならデータを格納 */		
 				if ( ercd == E_OK )
 				{
 					*p_data = mtcb->data;
 				}
+				
+				mknl_exe_tex();		/* 例外処理の実行 */
 			}
 		}
 	}
@@ -132,7 +133,7 @@ ER trcv_dtq(
 		if ( mtcb!= NULL )
 		{
 			UINT tail;
-
+			
 			/* データキュー末尾にデータを格納 */
 			tail = dtqcb_ram->head + dtqcb_ram->datacnt - 1;
 			if ( tail >= dtqcb_rom->dtqcnt )
@@ -140,13 +141,13 @@ ER trcv_dtq(
 				tail -= dtqcb_rom->dtqcnt;
 			}
 			dtqcb_rom->dtq[tail] = mtcb->data;
-
+			
 			mknl_del_que(mtcb);			/* 待ち行列から削除 */
 			mknl_del_tmout(mtcb);		/* タイムアウト解除 */
 			mknl_wup_tsk(mtcb, E_OK);	/* タスクの待ち解除 */
-
-			/* タスクディスパッチの実行 */
-			mknl_exe_dsp();
+			
+			mknl_exe_dsp();		/* タスクディスパッチの実行 */
+			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 		else
 		{
@@ -155,9 +156,9 @@ ER trcv_dtq(
 		
 		ercd = E_OK;
 	}
-
+	
 	mknl_unl_sys();	/* システムのロック解除 */
-
+	
 	return ercd;
 }
 

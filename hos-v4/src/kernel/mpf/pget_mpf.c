@@ -10,13 +10,13 @@
 
 
 
-/* 固定長メモリブロックの返却 */
-ER rel_mpf(
+/* 固定長メモリブロックの獲得(ポーリング) */
+ER pget_mpf(
 		ID mpfid,		/* メモリブロック獲得対象の固定長メモリプールのID番号 */
-		VP blk)			/* 返却するメモリブロックの先頭番地 */
+		VP *p_blk)		/* 獲得したメモリブロックの先頭番地 */
 {
-	T_KERNEL_MPFCB_RAM *mpfcb_ram;
-	T_MKNL_TCB *mtcb;
+	T_KERNEL_MPFCB_RAM       *mpfcb_ram;
+	ER ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
@@ -39,28 +39,22 @@ ER rel_mpf(
 	}
 #endif
 
-	mtcb = mknl_ref_qhd(&mpfcb_ram->que);	/* 待ち行列先頭からタスク取り出し */
-	if ( mtcb != NULL )
+	if ( mpfcb_ram->free != NULL )
 	{
-		/* 待ちタスクがあれば待ち解除 */
-		mknl_del_que(mtcb);						/* セマフォの待ち行列から削除 */
-		mknl_del_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
-		mtcb->data = (VP_INT)blk;				/* ブロックの先頭番地を設定 */
-		mknl_wup_tsk(mtcb, E_OK);				/* タスクの待ち解除 */
-		
-		mknl_exe_dsp();		/* タスクディスパッチの実行 */
-		mknl_exe_tex();		/* 例外処理の実行 */
+		/* 空きブロックがあれば割り当てる */
+		*p_blk          = mpfcb_ram->free;
+		mpfcb_ram->free = *(VP *)mpfcb_ram->free;	/* 次の空きエリアを設定 */
+		ercd = E_OK;
 	}
 	else
 	{
-		/* 待ちタスクが無ければメモリプールに返却 */
-		*(VP *)blk      = mpfcb_ram->free;
-		mpfcb_ram->free = blk;
+		/* 空きブロックが無ければタイムアウト */
+		ercd = E_TMOUT;
 	}
 
 	mknl_unl_sys();		/* システムのロック解除 */
 
-	return E_OK;
+	return ercd;
 }
 
 

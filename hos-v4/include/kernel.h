@@ -25,15 +25,11 @@
 /*                  定数定義                  */
 /* ------------------------------------------ */
 
-
-/* 以下、最大値を示すものでコンフィギュレーションで決まるものは */
-/* kernel_cfg.h に出力される                                    */
-
 /* バージョン情報 */
 #define TKERNEL_MAKER	0x0008				/* メーカーコード(個人) */
 #define TKERNEL_PRID	0x0000				/* カーネルの識別番号(未定) */
 #define TKERNEL_SPVER	0x5401				/* ITRON仕様のバージョン(μITRON Ver 4.01) */
-#define TKERNEL_PRVER	0x1001				/* カーネルのバージョン番号 (HOS Ver 0.01) */
+#define TKERNEL_PRVER	0x0001				/* カーネルのバージョン番号 (HOS-V4 Ver 0.01) */
 
 /* ビットパターンのビット数 */
 #define TBIT_TEXPTN		16					/* タスク例外要因のビット数 */
@@ -42,7 +38,6 @@
 /* IDの範囲 */
 #define TMIN_MTXID		1					/* ミューテックスIDの最小値 */
 #define TMIN_PORID		1					/* ランデブIDの最小値 */
-#define TMIN_MPFID		1					/* 固定長メモリプールIDの最小値 */
 #define TMIN_MPLID		1					/* 可変長メモリプールIDの最小値 */
 #define TMIN_ALMID		1					/* アラームハンドラIDの最小値 */
 #define TMIN_OVRID		1					/* オーバーランハンドラIDの最小値 */
@@ -92,14 +87,6 @@
 extern "C" {
 #endif
 
-
-
-/* タスク例外処理機能 */
-ER      ras_tex(ID tskid, TEXPTN rasptn);			/* タスク例外処理の要求 */
-#define iras_tex	ras_tex							/* タスク例外処理の要求(非タスクコンテキスト用マクロ) */
-ER      dis_tex(void);								/* タスク例外処理の禁止 */
-ER      ena_tex(void);								/* タスク例外処理の禁止 */
-BOOL    sns_tex(void);								/* タスク例外処理禁止状態の参照 */
 
 /* ミューテックス */
 ER      loc_mtx(ID mtxid);							/* ミューテックスのロック */

@@ -71,19 +71,20 @@ ER get_mpf(
 		{
 			mknl_add_que(&mpfcb_ram->que, mtcb);	/* FIFO順に追加 */
 		}
-
-		/* タスクディスパッチの実行 */
-		ercd = (ER)mknl_exe_dsp();
-
+		
+		ercd = (ER)mknl_exe_dsp();		/* タスクディスパッチの実行 */
+		
 		if ( ercd == E_OK )
 		{
 			*p_blk = (VP)mtcb->data;	/* 獲得ブロック先頭番地格納 */
 		}
+		
+		mknl_exe_tex();		/* 例外処理の実行 */
 	}
-
+	
 	mknl_unl_sys();		/* システムのロック解除 */
-
-	return E_OK;
+	
+	return ercd;
 }
 
 

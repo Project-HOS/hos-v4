@@ -26,13 +26,17 @@
 											/* タスク優先度の最大値 */
 
 
-/* システムの状態定義(HOS独自) */
-#define TSS_TSK			0x00				/* タスク部実行中 */
-#define TSS_INDP		0x04				/* タスク独立部実行中 */
-#define TSS_DDSP		0x01				/* ディスパッチ禁止 (dis_dsp 有効) */
-#define TSS_DINT		0x02				/* 割り込み禁止(loc_cpu 有効) */
-#define TSS_DDLY		0x80				/* ディスパッチ遅延中 */
+/* システムの状態(HOS独自) */
+#define MKNL_TSS_TSK		0x00				/* タスク部実行中 */
+#define MKNL_TSS_INDP		0x04				/* タスク独立部実行中 */
+#define MKNL_TSS_DDSP		0x01				/* ディスパッチ禁止 (dis_dsp 有効) */
+#define MKNL_TSS_DINT		0x02				/* 割り込み禁止(loc_cpu 有効) */
+#define MKNL_TSS_DDLY		0x80				/* ディスパッチ遅延中 */
 
+
+/* タスクの例外処理状態 */
+#define MKNL_TTS_RDLY		0x01				/* 例外処理保留状態 */
+#define MKNL_TTS_DRAS		0x02				/* 例外処理禁止状態 */
 
 
 /* ------------------------------------------ */
@@ -51,9 +55,10 @@ typedef struct t_mknl_que
 typedef struct t_mknl_tcb
 {
 	T_HOSPAC_CTXINF ctxinf;		/* コンテキスト情報保存ブロック */
-	STAT    tskwait;			/* 待ち要因 */
-	STAT    tskstat;			/* タスクの状態 */
-	PRI     tskpri;				/* 現在の優先度 */
+	unsigned int tskwait : 16;	/* 待ち要因 */
+	unsigned int tskpri  : 8;	/* 現在の優先度 */
+	unsigned int tskstat : 6;	/* タスクの状態 */
+	unsigned int texstat : 2;	/* 例外処理の状態 */
 	ER_UINT ercd;				/* 待ち解除要因用エラーコード */
 	VP_INT  data;				/* 汎用データ領域 */
 	struct t_mknl_que *que;		/* 属しているキュー  */
@@ -107,60 +112,71 @@ extern       INT       mknl_timout_tskcnt;	/* タイムアウト待ち行列のタスク個数 *
 /* ロックされた状態で呼び出されること                   */
 
 /* システム制御 */
-void mknl_ini_sys(void);							/* μカーネルシステムの初期化 */
-void mknl_sta_startup(void);						/* スタートアップルーチンの開始処理 */
-void mknl_ext_startup(void);						/* スタートアップルーチンの終了処理 */
+void mknl_ini_sys(void);									/* μカーネルシステムの初期化 */
+void mknl_sta_startup(void);								/* スタートアップルーチンの開始処理 */
+void mknl_ext_startup(void);								/* スタートアップルーチンの終了処理 */
 
 
 /* タスク制御 */
 #define mknl_ini_tsk(mtcb)	do { (mtcb)->tskstat = TTS_DMT; } while (0)
-													/* タスクの初期化(マクロ関数) */
-void mknl_sta_tsk(T_MKNL_TCB *mtcb, VP_INT exinf,
+															/* タスクの初期化(マクロ関数) */
+void    mknl_sta_tsk(T_MKNL_TCB *mtcb, VP_INT exinf,
 							FP task, PRI tskpri,
-							SIZE stksz, VP stk);	/* タスクの開始 */
-void    mknl_ext_tsk(T_MKNL_TCB *mtcb);				/* タスクの終了 */
-void    mknl_chg_pri(T_MKNL_TCB *mtcb, PRI tskpri);	/* タスク優先度変更 */
-void    mknl_wai_tsk(T_MKNL_TCB *mtcb, STAT tskwait);	/* タスクの待ち */
-void    mknl_wup_tsk(T_MKNL_TCB *mtcb, ER_UINT ercd);	/* タスクの待ち解除 */
-void    mknl_sus_tsk(T_MKNL_TCB *mtcb);				/* タスクの強制待ち */
-void    mknl_rsm_tsk(T_MKNL_TCB *mtcb);				/* タスクの強制待ち解除 */
-ER_UINT mknl_exe_dsp(void);							/* タスクディスパッチの実行 */
-void    mknl_dly_dsp(void);							/* 遅延していたディスパッチの実行 */
-T_MKNL_TCB* mknl_srh_top(void);						/* レディーキュー先頭のタスクを探す */
-#define mknl_get_run_tsk()		(mknl_run_mtcb)		/* 実行中タスクの取得(マクロ関数) */
-#define mknl_get_pri(mtcb)		((mtcb)->tskpri)	/* タスク優先度取得(マクロ関数) */
-#define mknl_get_tskstat(mtcb)	((mtcb)->tskstat)	/* タスク状態取得(マクロ関数) */
-#define mknl_get_tskwait(mtcb)	((mtcb)->tskwait)	/* 待ち要因取得(マクロ関数) */
+							SIZE stksz, VP stk);			/* タスクの開始 */
+void    mknl_ext_tsk(T_MKNL_TCB *mtcb);						/* タスクの終了 */
+void    mknl_chg_pri(T_MKNL_TCB *mtcb, PRI tskpri);			/* タスク優先度変更 */
+void    mknl_wai_tsk(T_MKNL_TCB *mtcb, STAT tskwait);		/* タスクの待ち */
+void    mknl_wup_tsk(T_MKNL_TCB *mtcb, ER_UINT ercd);		/* タスクの待ち解除 */
+void    mknl_sus_tsk(T_MKNL_TCB *mtcb);						/* タスクの強制待ち */
+void    mknl_rsm_tsk(T_MKNL_TCB *mtcb);						/* タスクの強制待ち解除 */
+void    mknl_rot_rdq(PRI tskpri);							/* タスク優先順位の回転 */
+ER_UINT mknl_exe_dsp(void);									/* タスクディスパッチの実行 */
+void    mknl_dly_dsp(void);									/* 遅延していたディスパッチの実行 */
+T_MKNL_TCB* mknl_srh_top(void);								/* レディーキュー先頭のタスクを探す */
+#define mknl_get_run_tsk()		(mknl_run_mtcb)				/* 実行中タスクの取得(マクロ関数) */
+#define mknl_get_pri(mtcb)		((PRI)(mtcb)->tskpri)		/* タスク優先度取得(マクロ関数) */
+#define mknl_get_tskstat(mtcb)	((STAT)(mtcb)->tskstat)		/* タスク状態取得(マクロ関数) */
+#define mknl_get_tskwait(mtcb)	((STAT)(mtcb)->tskwait)		/* 待ち要因取得(マクロ関数) */
 
+
+/* タスク例外処理 */
+void    mknl_ras_tex(T_MKNL_TCB *mtcb);						/* タスク例外処理の要求 */
+void    mknl_exe_tex(void);									/* タスク例外処理の実行 */
+#define mknl_dis_tex(mtcb)	\
+	do { (mtcb)->texstat |= MKNL_TTS_DRAS; } while (0)		/* タスク例外処理の禁止 */
+#define mknl_ena_tex(mtcb)	\
+	do { (mtcb)->texstat &= ~MKNL_TTS_DRAS; } while (0)		/* タスク例外処理の許可 */
+#define mknl_sns_tex()	\
+	((mknl_run_mtcb == NULL || (mknl_run_mtcb->texstat & MKNL_TTS_DRAS)) ? TRUE: FALSE)
+															/* タスク例外処理禁止状態の参照 */
+	
 
 /* システム制御 */
 #define mknl_loc_sys()	\
-	do { if ( !(mknl_ctx_stat & TSS_DINT) ) { hospac_dis_int(); } } while (0)
-													/* システムのロック(マクロ関数) */
+	do { if ( !(mknl_ctx_stat & MKNL_TSS_DINT) ) { hospac_dis_int(); } } while (0)
+															/* システムのロック(マクロ関数) */
 #define mknl_unl_sys()	\
-	do { if ( !(mknl_ctx_stat & TSS_DINT) ) { hospac_ena_int(); } } while (0)
-													/* システムのロック解除(マクロ関数) */
-#define mknl_dis_int()	do { hospac_dis_int(); } while (0)
-#define mknl_ena_int()	
-#define mknl_sta_ind()	(mknl_ctx_stat |= TSS_INDP)	/* 非タスク部の開始(マクロ関数) */
-#define mknl_ext_ind()	(mknl_ctx_stat &= ~TSS_INDP)
-													/* 非タスク部の終了(マクロ関数) */
-#define mknl_loc_cpu()	(mknl_ctx_stat |= TSS_DINT)	/* CPUのロック(マクロ関数) */
-#define mknl_unl_cpu()	(mknl_ctx_stat &= ~TSS_DINT)
-													/* CPUのロック解除(マクロ関数) */
-#define mknl_dis_dsp()	(mknl_ctx_stat |= TSS_DDSP) /* ディスパッチの禁止(マクロ関数) */
-#define mknl_ena_dsp()	do { mknl_ctx_stat &= ~TSS_DINT; mknl_dly_dsp(); } while (0)
-													/* ディスパッチの許可(マクロ関数) */
-#define mknl_sns_ctx()	((mknl_ctx_stat & TSS_INDP) ? TRUE : FALSE)
-													/* コンテキストの参照(マクロ関数) */
-#define mknl_sns_loc()	((mknl_ctx_stat & TSS_DINT) ? TRUE : FALSE)
-													/* CPUロック状態の参照(マクロ関数) */
-#define mknl_sns_dsp()	((mknl_ctx_stat & TSS_DDSP) ? TRUE : FALSE)
-													/* ディスパッチ禁止状態の参照(マクロ関数) */
-#define mknl_sns_dpn()	((mknl_ctx_stat & TSS_DDLY) ? TRUE : FALSE)
-													/* ディスパッチ保留状態の参照(マクロ関数) */
-#define mknl_sns_wai()	((mknl_ctx_stat & (TSS_INDP | TSS_DDSP)) ? TRUE : FALSE)
-													/* 待ち状態移行可能参照(マクロ関数) */
+	do { if ( !(mknl_ctx_stat & MKNL_TSS_DINT) ) { hospac_ena_int(); } } while (0)
+															/* システムのロック解除(マクロ関数) */
+#define mknl_dis_int()	do { hospac_dis_int(); } while (0)	/* 割り込み禁止 */
+#define mknl_ena_int()	do { hospac_ena_int(); } while (0)	/* 割り込み許可 */
+#define mknl_sta_ind()	(mknl_ctx_stat |= MKNL_TSS_INDP)	/* 非タスク部の開始(マクロ関数) */
+#define mknl_ext_ind()	(mknl_ctx_stat &= ~MKNL_TSS_INDP)	/* 非タスク部の終了(マクロ関数) */
+#define mknl_loc_cpu()	(mknl_ctx_stat |= MKNL_TSS_DINT)	/* CPUのロック(マクロ関数) */
+#define mknl_unl_cpu()	(mknl_ctx_stat &= ~MKNL_TSS_DINT)	/* CPUのロック解除(マクロ関数) */
+#define mknl_dis_dsp()	(mknl_ctx_stat |= MKNL_TSS_DDSP) 	/* ディスパッチの禁止(マクロ関数) */
+#define mknl_ena_dsp()	do { mknl_ctx_stat &= ~MKNL_TSS_DINT; mknl_dly_dsp(); } while (0)
+															/* ディスパッチの許可(マクロ関数) */
+#define mknl_sns_ctx()	((mknl_ctx_stat & MKNL_TSS_INDP) ? TRUE : FALSE)
+															/* コンテキストの参照(マクロ関数) */
+#define mknl_sns_loc()	((mknl_ctx_stat & MKNL_TSS_DINT) ? TRUE : FALSE)
+															/* CPUロック状態の参照(マクロ関数) */
+#define mknl_sns_dsp()	((mknl_ctx_stat & MKNL_TSS_DDSP) ? TRUE : FALSE)
+															/* ディスパッチ禁止状態の参照(マクロ関数) */
+#define mknl_sns_dpn()	((mknl_ctx_stat & MKNL_TSS_DDLY) ? TRUE : FALSE)
+															/* ディスパッチ保留状態の参照(マクロ関数) */
+#define mknl_sns_wai()	((mknl_ctx_stat & (MKNL_TSS_INDP | MKNL_TSS_DDSP)) ? TRUE : FALSE)
+															/* 待ち状態移行可能参照(マクロ関数) */
 
 /* キュー操作 */
 void mknl_add_que(T_MKNL_QUE *que, T_MKNL_TCB *mtcb);		/* タスクをFIFO順でキューに追加 */

@@ -56,7 +56,7 @@ typedef struct t_kernel_mbxcb_ram
 {
 	T_MKNL_QUE que;			/* メールボックス待ちタスクキュー */
 	T_MSG      *msg;		/* メッセージの先頭番地 */
-	const T_KERNEL_MBXCB_ROM *mbxrom;
+	const T_KERNEL_MBXCB_ROM *mbxcbrom;
 } T_KERNEL_MBXCB_RAM;
 
 
@@ -83,6 +83,7 @@ extern const INT kernel_mbxcb_cnt;							/* メールボックスコントロールブロック個
 /* ------------------------------------------ */
 
 /* メールボックス */
+#define kernel_ini_mbx()							/* メールボックスの初期化 */
 ER      snd_mbx(ID mbxid, T_MSG *pk_msg);			/* メールボックスへの送信 */
 ER      rcv_mbx(ID mbxid, T_MSG **ppk_msg);			/* メールボックスからの受信 */
 ER      prcv_mbx(ID mbxid, T_MSG **ppk_msg);		/* メールボックスからの受信(ポーリング) */

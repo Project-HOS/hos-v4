@@ -21,9 +21,12 @@ extern "C" {
 
 /* システム状態管理機能 */
 ER      rot_rdq(PRI tskpri);						/* タスク優先順位の回転 */
+#define irot_rdq	rot_rdq							/* タスク優先順位の回転(非タスクコンテキスト用マクロ) */
 ER      get_tid(ID *p_tskid);						/* 実行状態タスクIDの参照 */
 ER      loc_cpu(void);								/* CPUロック状態への移行 */
+#define iloc_cpu	loc_cpu							/* CPUロック状態への移行(非タスクコンテキスト用マクロ) */
 ER      unl_cpu(void);								/* CPUロック状態の解除 */
+#define iunl_cpu	unl_cpu							/* CPUロック状態の解除(非タスクコンテキスト用マクロ)  */
 ER      dis_dsp(void);								/* ディスパッチの禁止 */
 ER      ena_dsp(void);								/* ディスパッチの許可 */
 BOOL    sns_ctx(void);								/* コンテキストの参照 */

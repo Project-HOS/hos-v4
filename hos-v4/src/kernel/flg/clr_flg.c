@@ -12,7 +12,7 @@
 
 /* イベントフラグのクリア */
 ER clr_flg(
-	   ID      flgid,	/* クリア対象のイベントフラグのID番号 */
+		ID     flgid,	/* クリア対象のイベントフラグのID番号 */
 		FLGPTN clrptn)	/* クリアするビットパターン(ビット毎の反転値) */
 {
 	T_KERNEL_FLGCB_RAM *flgcb_ram;
@@ -39,7 +39,7 @@ ER clr_flg(
 #endif
 
 	/* フラグのクリア */
-	flgcb_ram->flgptn &= clrptn;
+	flgcb_ram->flgptn = (FLGPTN)(flgcb_ram->flgptn & clrptn);
 
 	mknl_unl_sys();	/* システムのロック解除 */
 

@@ -6,14 +6,13 @@
 ; --------------------------------------------------------------------------- 
 
 
-		EXPORT	hospac_dis_int		; 割り込み禁止
-		EXPORT	hospac_ena_int		; 割り込み許可
-		EXPORT	hospac_cre_ctx_asm	; 実行コンテキストの作成
-		EXPORT	hospac_swi_ctx		; 実行コンテキストの切替
-		EXPORT	hospac_set_tex		; 例外処理実行設定
+				EXPORT	hospac_dis_int		; 割り込み禁止
+				EXPORT	hospac_ena_int		; 割り込み許可
+				EXPORT	hospac_cre_ctx_asm	; 実行コンテキストの作成
+				EXPORT	hospac_swi_ctx		; 実行コンテキストの切替
 
 
-		AREA	code, CODE, READONLY
+				AREA	code, CODE, READONLY
 
 
 ; -----------------------------------------------
@@ -21,9 +20,9 @@
 ;  void hospac_dis_int(void)
 ; -----------------------------------------------
 hospac_dis_int
-		mov	a1, #0		; 割り込み禁止を指定
-		swi	0x10		; スーパバイーザーコール
-		mov	pc, lr
+				mov		a1, #0		; 割り込み禁止を指定
+				swi		0x10		; スーパバイーザーコール
+				mov		pc, lr
 
 
 ; -----------------------------------------------
@@ -31,68 +30,55 @@ hospac_dis_int
 ;  void hospac_ena_int(void)
 ; -----------------------------------------------
 hospac_ena_int
-		mov	a1, #1		; 割り込み許可を指定
-		swi	0x10		; スーパバイーザーコール
-		mov	pc, lr
+				mov		a1, #1		; 割り込み許可を指定
+				swi		0x10		; スーパバイーザーコール
+				mov		pc, lr
 
 
 ; -----------------------------------------------
 ;  実行コンテキストエントリーアドレス
 ; -----------------------------------------------
 ctx_entry	
-		mov	a1, v2		; 実行時パラメータを第一引数に設定
-		mov	pc, v1		; 実行アドレスに分岐
+				mov		a1, v2		; 実行時パラメータを第一引数に設定
+				mov		pc, v1		; 実行アドレスに分岐
 
 
 ; -----------------------------------------------
 ;  実行コンテキストの作成
 ;  void hospac_cre_ctx_asm(
-;	T_HOSPAC_CTXINF *pk_ctxinf,	/* 作成するコンテキスト */
-;	VP     sp,			/* スタックポインタ */
-;	void   (*task)(VP_INT),		/* 実行アドレス */
-;	VP_INT exinf			/* 実行時パラメータ */
-;	)
+;		T_HOSPAC_CTXINF *pk_ctxinf,	/* 作成するコンテキスト */
+;		VP     sp,			/* スタックポインタ */
+;		void   (*task)(VP_INT),		/* 実行アドレス */
+;		VP_INT exinf			/* 実行時パラメータ */
+;		)
 ; -----------------------------------------------
 hospac_cre_ctx_asm
-		stmfd	sp!, {v1}		; 作業レジスタ退避
-		ldr	v1, =ctx_entry
-		stmfd	a2!, {v1}		; エントリーポイントを設定
-		sub	a2, a2, #28		; v3-v8, ip 分減算
-		stmfd	a2!, {a3,a4}	; v1, v2 の領域に実行アドレスとパラメータ格納
-		str	a2, [a1]		; コンテキストとして sp を保存
-		ldmfd	sp!, {v1}		; 作業レジスタ復帰
-		mov		pc, lr	; リターン
+				stmfd	sp!, {v1}		; 作業レジスタ退避
+				ldr		v1, =ctx_entry
+				stmfd	a2!, {v1}		; エントリーポイントを設定
+				sub		a2, a2, #28		; v3-v8, ip 分減算
+				stmfd	a2!, {a3,a4}	; v1, v2 の領域に実行アドレスとパラメータ格納
+				str		a2, [a1]		; コンテキストとして sp を保存
+				ldmfd	sp!, {v1}		; 作業レジスタ復帰
+				mov		pc, lr			; リターン
 
 
 ; -----------------------------------------------
 ;  実行コンテキストの切替
 ;  void hospac_swi_ctx(
-;	T_HOSPAC_CTXINF *pk_pre_ctxinf,	/* 現在のコンテキストの保存先 */
-;	T_HOSPAC_CTXINF *pk_nxt_ctxinf	/* 切り替えるコンテキスト */
-;	)
+;		T_HOSPAC_CTXINF *pk_pre_ctxinf,	/* 現在のコンテキストの保存先 */
+;		T_HOSPAC_CTXINF *pk_nxt_ctxinf	/* 切り替えるコンテキスト */
+;		)
 ; -----------------------------------------------
 hospac_swi_ctx
-		stmfd	sp!, {v1-v8,ip,lr}	; レジスタ保存
-		str	sp, [a1]		; スタックポインタ保存
-		ldr	sp, [a2]		; スタックポインタ復帰
-		ldmfd	sp!, {v1-v8,ip,pc}	; レジスタ復帰＆リターン
-
-
-; -----------------------------------------------
-;  例外処理実行設定
-;  void hospac_set_tex(
-;	T_HOSPAC_CTXINF *pk_pre_ctxinf,
-;	void (*exp)(TEXPTN),
-;	TEXPTN rasptn
-;	)
-; -----------------------------------------------
-hospac_set_tex
-		; すいませんまだ未実装です m(_ _)m
-		mov	pc, lr
+				stmfd	sp!, {v1-v8,ip,lr}	; レジスタ保存
+				str		sp, [a1]			; スタックポインタ保存
+				ldr		sp, [a2]			; スタックポインタ復帰
+				ldmfd	sp!, {v1-v8,ip,pc}	; レジスタ復帰＆リターン
 
 
 
-		END
+				END
 
 
 

@@ -11,16 +11,16 @@
 
 
 /* グローバル変数定義 */
-UW hospac_arm_imask = ARM_IMASK_USR_MODE;	/* 割り込みマスク */
+UW hospac_arm_imsk = ARM_IMASK_USR_MODE;	/* 割り込みマスク */
 
 
 
 /* 割り込みマスク指定 */
-ER chg_imask(IMASK imask)
+ER chg_imsk(IMASK imsk)
 {
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR
-	if ( (imask & ~(ARM_IMASK_FIQ | ARM_IMASK_IRQ)) != 0 )
+	if ( (imsk & ~(ARM_IMASK_FIQ | ARM_IMASK_IRQ)) != 0 )
 	{
 		return E_PAR;
 	}
@@ -28,7 +28,7 @@ ER chg_imask(IMASK imask)
 
 	mknl_loc_sys();		/* システムのロック */
 
-	hospac_arm_imask = (hospac_arm_imask | ARM_IMASK_USR_MODE);
+	hospac_arm_imsk = (hospac_arm_imsk | ARM_IMASK_USR_MODE);
 
 	mknl_unl_sys();		/* システムのアンロック */
 
@@ -37,9 +37,9 @@ ER chg_imask(IMASK imask)
 
 
 /* 割り込みマスクの参照 */
-ER get_imask(IMASK *p_imask)
+ER get_imsk(IMASK *p_imsk)
 {
-	*p_imask = (hospac_arm_imask & (ARM_IMASK_FIQ | ARM_IMASK_IRQ));
+	*p_imsk = (hospac_arm_imsk & (ARM_IMASK_FIQ | ARM_IMASK_IRQ));
 	
 	return E_OK;
 }

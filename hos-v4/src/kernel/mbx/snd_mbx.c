@@ -50,9 +50,9 @@ ER snd_mbx(
 		mknl_del_que(mtcb);						/* セマフォの待ち行列から削除 */
 		mknl_del_tmout(mtcb);					/* タイムアウト待ち行列から削除 */
 		mknl_wup_tsk(mtcb, E_OK);				/* タスクの待ち解除 */
-
-		/* タスクディスパッチの実行 */
-		mknl_exe_dsp();
+		
+		mknl_exe_dsp();		/* タスクディスパッチの実行 */
+		mknl_exe_tex();		/* 例外処理の実行 */
 	}
 	else
 	{
@@ -66,7 +66,7 @@ ER snd_mbx(
 		else
 		{
 			msg = mbxcb_ram->msg;
-			if ( mbxcb_ram->mbxrom->mbxatr & TA_MPRI )
+			if ( mbxcb_ram->mbxcbrom->mbxatr & TA_MPRI )
 			{
 				/* 優先度位置を検索 */
 				for ( ; ; )

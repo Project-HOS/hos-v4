@@ -16,7 +16,7 @@ ER twai_sem(
 		TMO tmout)	/* タイムアウト指定 */
 {
 	const T_KERNEL_SEMCB_ROM *semcb_rom;
-	T_KERNEL_SEMCB_RAM *semcb_ram;
+	T_KERNEL_SEMCB_RAM       *semcb_ram;
 	T_MKNL_TCB *mtcb;
 	ER ercd;
 
@@ -76,8 +76,6 @@ ER twai_sem(
 		{
 			/* タイムアウト付きで待ちに入る */
 			semcb_rom = semcb_ram->semcbrom;
-
-			/* タスクを待ち状態にする */
 			mtcb = mknl_get_run_tsk();
 			mknl_wai_tsk(mtcb, TTW_SEM);
 			if ( semcb_rom->sematr & TA_TPRI )
@@ -89,14 +87,14 @@ ER twai_sem(
 				mknl_add_que(&semcb_ram->que, mtcb);	/* FIFO順に追加 */
 			}
 
-			/* 無限待ちでなければ */
+			/* 無限待ちでなければタイムアウト設定 */
 			if ( tmout != TMO_FEVR )
 			{
 				mknl_add_tmout(mtcb, (RELTIM)tmout);	/* タイムアウトキューに追加 */
 			}
-
-			/* タスクディスパッチの実行 */
-			ercd = (ER)mknl_exe_dsp();
+			
+			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+			mknl_exe_tex();				/* 例外処理の実行 */
 		}
 	}
 

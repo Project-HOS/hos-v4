@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*    ITRONカーネル メールボックス                                          */
+/*    ITRONカーネル 固定長メモリプール                                      */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -10,24 +10,25 @@
 
 
 
-/* メールボックスからの受信 */
-ER trcv_mbx(			
-		ID    mbxid,		/* 受信対象のメールボックスのID番号 */
-		T_MSG **pk_msg,		/* メールボックスから受信したメッセージパケットの先頭番地 */
-		TMO   tmout)		/* タイムアウト指定 */
+/* 固定長メモリブロックの獲得(タイムアウトあり) */
+ER tget_mpf(
+		ID mpfid,		/* メモリブロック獲得対象の固定長メモリプールのID番号 */
+		VP *p_blk,		/* 獲得したメモリブロックの先頭番地 */
+		TMO tmout)		/* タイムアウト指定 */
 {
-	T_KERNEL_MBXCB_RAM *mbxcb_ram;
+	const T_KERNEL_MPFCB_ROM *mpfcb_rom;
+	T_KERNEL_MPFCB_RAM       *mpfcb_ram;
 	T_MKNL_TCB *mtcb;
 	ER ercd;
 
 	/* ID のチェック */
 #ifdef HOS_ERCHK_E_ID
-	if ( mbxid < TMIN_MBXID || mbxid > TMAX_MBXID )
+	if ( mpfid < TMIN_MPFID || mpfid > TMAX_MPFID )
 	{
-		return E_ID;
+		return E_ID;	/* ID不正 */
 	}
 #endif
-	
+
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_PAR 
 	if ( tmout != TMO_FEVR && tmout < 0 )
@@ -47,27 +48,26 @@ ER trcv_mbx(
 	}
 #endif
 
-	mbxcb_ram = KERNEL_MBXID_TO_MBXCB_RAM(mbxid);
+	mpfcb_ram = KERNEL_MPFID_TO_MPFCB_RAM(mpfid);
 
 	/* オブジェクト存在チェック */
 #ifdef HOS_ERCHK_E_NOEXS
-	if ( mbxcb_ram == NULL )
+	if ( mpfcb_ram == NULL )
 	{
-		mknl_unl_sys();		/* システムのロック解除 */
-		return E_NOEXS;
+		mknl_unl_sys();	/* システムのロック解除 */
+		return E_NOEXS;	/* オブジェクト未生成 */
 	}
 #endif
 
-	if ( mbxcb_ram->msg != NULL )
+	if ( mpfcb_ram->free != NULL )
 	{
-		/* メールボックスにデータがあれば取り出す */
-		*pk_msg = mbxcb_ram->msg;
-		mbxcb_ram->msg = mbxcb_ram->msg->next;
-		ercd = E_OK;	/* 成功 */
+		/* 空きブロックがあれば割り当てる */
+		*p_blk          = mpfcb_ram->free;
+		mpfcb_ram->free = *(VP *)mpfcb_ram->free;	/* 次の空きエリアを設定 */
+		ercd = E_OK;
 	}
 	else
 	{
-		/* メールボックスが空なら */
 		if ( tmout == TMO_POL )
 		{
 			/* ポーリングなら即時タイムアウト */
@@ -75,19 +75,20 @@ ER trcv_mbx(
 		}
 		else
 		{
-			/* 待ちに入る */
+			/* 空きブロックが無ければ待ちに入る */
+			mpfcb_rom = mpfcb_ram->mpfcbrom;
 			mtcb = mknl_get_run_tsk();
-			mknl_wai_tsk(mtcb, TTW_MBX);
-			if ( mbxcb_ram->mbxcbrom->mbxatr & TA_TPRI )
+			mknl_wai_tsk(mtcb, TTW_MPF);
+			if ( mpfcb_rom->mpfatr & TA_TPRI )
 			{
-				mknl_adp_que(&mbxcb_ram->que, mtcb);	/* タスク優先度順に追加 */
+				mknl_adp_que(&mpfcb_ram->que, mtcb);	/* タスク優先度順に追加 */
 			}
 			else
 			{
-				mknl_add_que(&mbxcb_ram->que, mtcb);	/* FIFO順に追加 */
+				mknl_add_que(&mpfcb_ram->que, mtcb);	/* FIFO順に追加 */
 			}
-
-			/* 無限待ちでなければ */
+			
+			/* 無限待ちでなければタイムアウト設定 */
 			if ( tmout != TMO_FEVR )
 			{
 				mknl_add_tmout(mtcb, (RELTIM)tmout);	/* タイムアウトキューに追加 */
@@ -95,18 +96,17 @@ ER trcv_mbx(
 			
 			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
 			
-			/* 成功したら受信データを格納 */
 			if ( ercd == E_OK )
 			{
-				*pk_msg = (T_MSG *)mtcb->data;
+				*p_blk = (VP)mtcb->data;	/* 獲得ブロック先頭番地格納 */
 			}
 			
 			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 	}
-
-	mknl_unl_sys();	/* システムのロック解除 */
-
+	
+	mknl_unl_sys();		/* システムのロック解除 */
+	
 	return ercd;
 }
 

@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*    ITRONカーネル タスク制御                                              */
+/*    ITRONカーネル タスク付属同期機能                                      */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -34,15 +34,17 @@ ER dly_tsk(RELTIM dlytim)
 	mknl_wai_tsk(&tcb_ram->mtcb, TTW_DLY);
 	mknl_add_tmout(&tcb_ram->mtcb, dlytim);
 	
-	/* タスクディスパッチの実行 */
-	ercd = (ER)mknl_exe_dsp();
+	ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+	
 	if ( ercd == E_TMOUT )
 	{
-		ercd = E_OK;		/* dly_tsk はタイムアウトするのが正常 */
+		ercd = E_OK;	/* dly_tsk はタイムアウトするのが正常 */
 	}
-
-	mknl_unl_sys();	/* システムのロック解除 */
-
+	
+	mknl_exe_tex();		/* 例外処理の実行 */
+	
+	mknl_unl_sys();		/* システムのロック解除 */
+	
 	return ercd;
 }
 

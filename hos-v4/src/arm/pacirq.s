@@ -38,19 +38,20 @@ _HOS_IrqHandler
 			; ---- Systemモードに移行してレジスタ退避
 				mov		r13, #I_Bit:OR:F_Bit:OR:Mode_SYS
 				msr		cpsr_c, r13
-				stmfd	sp!, {r0-r3, ip, lr, pc}	; 汎用レジスタ退避
-				mov		r0, sp
+				stmfd	sp!, {r1-r3, ip, lr}		; 汎用レジスタ退避
 
-			; ---- IRQモードに戻るってとspsr保存				
+			; ---- IRQモードに戻ってspsr保存				
 				mov		r1, #I_Bit:OR:F_Bit:OR:Mode_IRQ
 				msr		cpsr_c, r1
-				str		lr, [r0, #24]				; 割り込み復帰先保存
-				mrs		r0, spsr					; spsr 取り出し
+				mrs		r1, spsr					; spsr 取り出し
+				mov		r2, lr						; 割り込み復帰先保存
 				
 			; ---- USRモードに移行
-				mov		r1, #I_Bit:OR:F_Bit:OR:Mode_USR
-				msr		cpsr_c, r1
-				stmfd	sp!, {r0}					; 割り込み元フラグ保存
+				mov		r3, #I_Bit:OR:F_Bit:OR:Mode_USR
+				msr		cpsr_c, r3
+				
+			; ---- レジスタ退避
+				stmfd	sp!, {r0-r2}				; a1, spsr_irq, lr_irq 保存
 				
 			; ---- 多重割り込みチェック
 				ldr		r0, =_HOS_int_cnt
@@ -87,13 +88,22 @@ _HOS_IrqHandler
 				bl		kernel_end_int				; 遅延ディスパッチ実行
 			
 			; ---- 割り込みからの復帰
-ReturnInt			
-				mov		a1, #1						; 割り込み許可を指定
-				swi		0x10						; スーパバイーザーコール
+ReturnInt		
+				IMPORT	_HOS_swi_ret
+				ldmfd	sp!, {r0-r2}
+				ldr		r3, =_HOS_swi_ret
+				stmia	r3, {r0-r2}					; 割り込み復帰データ設定
+				ldmfd	sp!, {r1-r3, ip, lr}		; レジスタ復帰
+				mov		a1, #2
+				swi		0x10
 				
-				ldmfd	sp!, {r0}
-				msr		cpsr_sxf, r0
-				ldmfd	sp!, {r0-r3, ip, lr, pc}	; レジスタ復帰＆リターン
+				
+;				mov		a1, #1						; 割り込み許可を指定
+;				swi		0x10						; スーパバイーザーコール
+;				
+;				ldmfd	sp!, {r0}
+;				msr		cpsr_sxf, r0
+;				ldmfd	sp!, {r0-r3, ip, lr, pc}	; レジスタ復帰＆リターン
 
 
 			;---- 多重割り込み処理

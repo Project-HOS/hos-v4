@@ -106,10 +106,9 @@ ER twai_flg(
 				/* 無限待ちでなければタイムアウト設定 */
 				mknl_add_tmout(flgcb_ram->mtcb, (RELTIM)tmout);
 			}
-
-			/* タスクディスパッチ実行 */
-			ercd = (ER)mknl_exe_dsp();
-
+			
+			ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチ実行 */
+			
 			/* 条件を満たして解除されたのなら */
 			if ( ercd == E_OK )
 			{
@@ -120,6 +119,8 @@ ER twai_flg(
 					flgcb_ram->flgptn = 0;		/* クリア属性があればクリア */
 				}
 			}
+			
+			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 	}
 

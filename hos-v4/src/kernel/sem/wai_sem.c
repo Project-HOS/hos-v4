@@ -70,10 +70,10 @@ ER wai_sem(
 	{
 		mknl_add_que(&semcb_ram->que, mtcb);	/* FIFO順に追加 */
 	}
-
-	/* タスクディスパッチの実行 */
-	ercd = (ER)mknl_exe_dsp();
-
+	
+	ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+	mknl_exe_tex();				/* 例外処理の実行 */
+	
 	mknl_unl_sys();		/* システムのロック解除 */
 
 	return ercd;

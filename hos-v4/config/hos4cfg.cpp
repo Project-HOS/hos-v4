@@ -20,6 +20,8 @@
 #include "cresem.h"
 #include "creflg.h"
 #include "credtq.h"
+#include "crembx.h"
+#include "crempf.h"
 #include "crecyc.h"
 #include "attisr.h"
 #include "attini.h"
@@ -41,6 +43,8 @@ CApiCreTsk    g_ApiCreTsk;
 CApiCreSem    g_ApiCreSem;
 CApiCreFlg    g_ApiCreFlg;
 CApiCreDtq    g_ApiCreDtq;
+CApiCreMbx    g_ApiCreMbx;
+CApiCreMpf    g_ApiCreMpf;
 CApiCreCyc    g_ApiCreCyc;
 CApiAttIsr    g_ApiAttIsr;
 CApiAttIni    g_ApiAttIni;
@@ -60,6 +64,8 @@ static CApiDef* g_ApiList[] =
 		&g_ApiCreSem,
 		&g_ApiCreFlg,
 		&g_ApiCreDtq,
+		&g_ApiCreMbx,
+		&g_ApiCreMpf,
 		&g_ApiCreCyc,
 		&g_ApiAttIsr,
 		&g_ApiAttIni,
@@ -189,12 +195,12 @@ void WriteIdFile(FILE* fp)
 
 	/* ヘッダ出力 */
 	fputs(
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"/*  HOS-V4  kernel configuration                                            */\n"
 		"/*    kernel object ID definition                                           */\n"
 		"/*                                                                          */\n"
 		"/*                                   Copyright (C) 2002 by Ryuji Fuchikami  */\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"\n\n"
 		"#ifndef __HOS_V4__kernel_cfg_h__\n"
 		"#define __HOS_V4__kernel_cfg_h__\n"
@@ -212,9 +218,9 @@ void WriteIdFile(FILE* fp)
 		"\n\n\n"
 		"#endif\t/* __HOS_V4__kernel_cfg_h__ */\n"
 		"\n\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"/*  Copyright (C) 2002 by Ryuji Fuchikami                                   */\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		, fp);
 }
 
@@ -226,12 +232,12 @@ void WriteCfgFile(FILE* fp)
 
 	/* ヘッダ出力 */
 	fputs(
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"/*  HOS-V4  kernel configuration                                            */\n"
 		"/*    kernel object create and initialize                                   */\n"
 		"/*                                                                          */\n"
 		"/*                                   Copyright (C) 2002 by Ryuji Fuchikami  */\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"\n\n"
 		"#include \"kernel.h\"\n"
 		"#include \"kernel_id.h\"\n"
@@ -279,9 +285,9 @@ void WriteCfgFile(FILE* fp)
 	// フッタ出力
 	fputs(
 		"\n\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		"/*  Copyright (C) 2002 by Ryuji Fuchikami                                   */\n"
-		"/* ======================================================================== */\n"
+		"/* ------------------------------------------------------------------------ */\n"
 		, fp);
 }
 

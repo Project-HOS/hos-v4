@@ -10,10 +10,6 @@
 
 
 
-SYSTIM kernel_systim;			/* システム時刻 */
-UW     kernel_tic_cnt = 0;		/* タイムティック用カウンタ */
-
-
 /* タイムティックの供給 */
 ER isig_tim(void)
 {
@@ -22,14 +18,19 @@ ER isig_tim(void)
     INT    i;
 
 	/* 加算するタイムティックを算出 */
-	/* 例えば 10/3 ms 周期なら 4, 3, 3, 4, 3, 3... とカウントしていく */
-	if ( kernel_tic_cnt++ < kernel_tic_mod )
+	/* 例えば 10/3 ms 周期なら 3, 3, 4, 3, 3, 4, ... とカウントしていく */
+	kernel_tic_cnt--;
+	if ( kernel_tic_cnt < kernel_tic_mod )
 	{
 		tic = kernel_tic_div + 1;	/* 割り切れない分を補正 */
 	}
 	else
 	{
 		tic = kernel_tic_div;
+	}
+	if ( kernel_tic_cnt == 0 )
+	{
+		kernel_tic_cnt = kernel_tic_deno;
 	}
 
 	mknl_loc_sys();		/* システムのロック */
@@ -68,6 +69,11 @@ ER isig_tim(void)
 				cyccb_rom = cyccb_ram->cyccbrom;
 				cyccb_rom->cychdr(cyccb_rom->exinf);				
 			}
+			else
+			{
+				cyccb_ram->lefttim -= tic;
+			}
+			
 		}
 	}
 

@@ -25,6 +25,7 @@ KNLSEMDIR  = $(KERNELDIR)\sem
 KNLFLGDIR  = $(KERNELDIR)\flg
 KNLDTQDIR  = $(KERNELDIR)\dtq
 KNLMBXDIR  = $(KERNELDIR)\mbx
+KNLMPFDIR  = $(KERNELDIR)\mpf
 KNLTIMDIR  = $(KERNELDIR)\tim
 KNLSYSDIR  = $(KERNELDIR)\sys
 KNLINTDIR  = $(KERNELDIR)\int
@@ -58,7 +59,7 @@ INCS = $(INCDIR)\itron.h \
        $(INCPACDIR)\hospac.h \
 
 # オブジェクトファイル
-OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimask.o \
+OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        mknlsys.o mknltsk.o mknlque.o mknltout.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
        ini_tsk.o cre_tsk.o acre_tsk.o act_tsk.o can_act.o \
@@ -69,8 +70,12 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimask.o \
        ini_sem.o sig_sem.o wai_sem.o pol_sem.o twai_sem.o \
        ini_flg.o set_flg.o clr_flg.o wai_flg.o pol_flg.o \
        twai_flg.o chk_flg.o \
-       snd_dtq.o psnd_dtq.o rcv_dtq.o snd_mbx.o rcv_mbx.o \
-       set_tim.o get_tim.o isig_tim.o sta_cyc.o stp_cyc.o \
+       snd_dtq.o psnd_dtq.o tsnd_dtq.o fsnd_dtq.o \
+       rcv_dtq.o prcv_dtq.o trcv_dtq.o \
+       snd_mbx.o rcv_mbx.o prcv_mbx.o trcv_mbx.o \
+       ini_mpf.o get_mpf.o pget_mpf.o rel_mpf.o \
+       ini_tim.o isig_tim.o set_tim.o get_tim.o \
+       ini_cyc.o sta_cyc.o stp_cyc.o \
        get_tid.o loc_cpu.o unl_cpu.o dis_dsp.o ena_dsp.o \
        sns_ctx.o sns_loc.o sns_dsp.o sns_dpn.o exe_int.o
 
@@ -95,8 +100,8 @@ pacirq.o: $(PACDIR)\pacirq.s
 pacfiq.o: $(PACDIR)\pacfiq.s
 	$(ASM) $(AFLAGS) $(PACDIR)\pacfiq.s
 
-pacimask.o: $(PACDIR)\pacimask.c $(INCS)
-	$(CC) $(CFLAGS) $(PACDIR)\pacimask.c
+pacimsk.o: $(PACDIR)\pacimsk.c $(INCS)
+	$(CC) $(CFLAGS) $(PACDIR)\pacimsk.c
 
 
 # μカーネル
@@ -239,8 +244,20 @@ snd_dtq.o: $(KNLDTQDIR)\snd_dtq.c $(INCS)
 psnd_dtq.o: $(KNLDTQDIR)\psnd_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\psnd_dtq.c
 
+tsnd_dtq.o: $(KNLDTQDIR)\tsnd_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\tsnd_dtq.c
+
+fsnd_dtq.o: $(KNLDTQDIR)\fsnd_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\fsnd_dtq.c
+
 rcv_dtq.o: $(KNLDTQDIR)\rcv_dtq.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLDTQDIR)\rcv_dtq.c
+
+prcv_dtq.o: $(KNLDTQDIR)\prcv_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\prcv_dtq.c
+
+trcv_dtq.o: $(KNLDTQDIR)\trcv_dtq.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLDTQDIR)\trcv_dtq.c
 
 
 # メールボックス
@@ -250,8 +267,31 @@ snd_mbx.o: $(KNLMBXDIR)\snd_mbx.c $(INCS)
 rcv_mbx.o: $(KNLMBXDIR)\rcv_mbx.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMBXDIR)\rcv_mbx.c
 
+prcv_mbx.o: $(KNLMBXDIR)\prcv_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\prcv_mbx.c
+
+trcv_mbx.o: $(KNLMBXDIR)\trcv_mbx.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMBXDIR)\trcv_mbx.c
+
+
+# 固定長メモリプール
+ini_mpf.o: $(KNLMPFDIR)\ini_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\ini_mpf.c
+
+get_mpf.o: $(KNLMPFDIR)\get_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\get_mpf.c
+
+pget_mpf.o: $(KNLMPFDIR)\pget_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\pget_mpf.c
+
+rel_mpf.o: $(KNLMPFDIR)\rel_mpf.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPFDIR)\rel_mpf.c
+
 
 # 時間管理
+ini_tim.o: $(KNLTIMDIR)\ini_tim.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_tim.c
+
 set_tim.o: $(KNLTIMDIR)\set_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\set_tim.c
 
@@ -260,6 +300,9 @@ get_tim.o: $(KNLTIMDIR)\get_tim.c $(INCS)
 
 isig_tim.o: $(KNLTIMDIR)\isig_tim.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\isig_tim.c
+
+ini_cyc.o: $(KNLTIMDIR)\ini_cyc.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLTIMDIR)\ini_cyc.c
 
 sta_cyc.o: $(KNLTIMDIR)\sta_cyc.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLTIMDIR)\sta_cyc.c

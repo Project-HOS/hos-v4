@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*    ITRONカーネル タスク管理機能                                          */
+/*    ITRONカーネル タスク例外処理機能                                      */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -10,42 +10,19 @@
 
 
 
-/* タスクの生成(ID番号自動割付け) */
-ER_ID acre_tsk(
-		const T_CTSK *pk_ctsk)	/* タスク生成情報を入れたパケットへのポインタ */
+/* タスク例外処理禁止状態の参照 */
+BOOL sns_tex(void)
 {
-	ID tskid;
-	ER ercd;
-
+	BOOL state;
+	
 	mknl_loc_sys();	/* システムのロック */
 
-	/* 空きIDの検索 */
-	for ( tskid = kernel_tcb_cnt; tskid >= TMIN_TSKID; tskid++ )
-	{
-		if ( KERNEL_TSKID_TO_TCB_RAM(tskid) == NULL )
-		{
-			break;
-		}
-	}
-	if ( tskid < TMIN_TSKID )
-	{
-		mknl_unl_sys();		/* システムのロック解除 */
-		return E_NOID;		/* ID番号不足 */
-	}
-	
-	/* タスクの生成 */
-	ercd = kernel_cre_tsk(tskid, pk_ctsk);
+	state = mknl_sns_tex();		/* タスク例外処理禁止状態の参照 */
 
 	mknl_unl_sys();	/* システムのロック解除 */
 
-	if ( ercd != E_OK )
-	{
-		return (ER_ID)ercd;	/* エラー発生 */
-	}
-
-	return (ER_ID)tskid;		/* 成功 */
+	return state;
 }
-
 
 
 /* ------------------------------------------------------------------------ */

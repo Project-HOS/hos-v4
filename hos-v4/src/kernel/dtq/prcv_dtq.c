@@ -54,10 +54,10 @@ ER prcv_dtq(
 			mknl_del_tmout(mtcb);						/* タイムアウト解除 */
 			*p_data = mtcb->data;						/* データを取り出し */
 			mknl_wup_tsk(mtcb, E_OK);					/* タスクの待ち解除 */
-
-			/* タスクディスパッチの実行 */
-			mknl_exe_dsp();
-		
+			
+			mknl_exe_dsp();		/* タスクディスパッチの実行 */
+			mknl_exe_tex();		/* 例外処理の実行 */
+			
 			ercd = E_OK;
 		}
 		else
@@ -81,7 +81,7 @@ ER prcv_dtq(
 		if ( mtcb!= NULL )
 		{
 			UINT tail;
-
+			
 			/* データキュー末尾にデータを格納 */
 			tail = dtqcb_ram->head + dtqcb_ram->datacnt - 1;
 			if ( tail >= dtqcb_rom->dtqcnt )
@@ -89,13 +89,13 @@ ER prcv_dtq(
 				tail -= dtqcb_rom->dtqcnt;
 			}
 			dtqcb_rom->dtq[tail] = mtcb->data;
-
+			
 			mknl_del_que(mtcb);			/* 待ち行列から削除 */
 			mknl_del_tmout(mtcb);		/* タイムアウト解除 */
 			mknl_wup_tsk(mtcb, E_OK);	/* タスクの待ち解除 */
-
-			/* タスクディスパッチの実行 */
-			mknl_exe_dsp();
+			
+			mknl_exe_dsp();		/* タスクディスパッチの実行 */
+			mknl_exe_tex();		/* 例外処理の実行 */
 		}
 		else
 		{

@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
 /*  HOS-V4                                                                  */
-/*    ITRONカーネル タスク制御                                              */
+/*    ITRONカーネル タスク付属同期機能                                      */
 /*                                                                          */
 /*                              Copyright (C) 1998-2002 by Ryuji Fuchikami  */
 /* ------------------------------------------------------------------------ */
@@ -53,21 +53,21 @@ ER tslp_tsk(
 		mknl_unl_sys();		/* システムのロック解除 */
 		return E_TMOUT;
 	}
-
+	
 	/* 待ち状態に設定 */
 	 mknl_wai_tsk(&tcb_ram->mtcb, TTW_SLP);
-
+	
 	/* タイムアウト待ち行列に追加 */
 	if ( tmout != TMO_FEVR )
 	{
 		mknl_add_tmout(&tcb_ram->mtcb, (RELTIM)tmout);
 	}
 	
-	/* タスクディスパッチの実行 */
-	ercd = (ER)mknl_exe_dsp();
-
+	ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチの実行 */
+	mknl_exe_tex();				/* 例外処理の実行 */
+	
 	mknl_unl_sys();	/* システムのロック解除 */
-
+	
 	return ercd;
 }
 

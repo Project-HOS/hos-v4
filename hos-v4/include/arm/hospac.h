@@ -47,7 +47,7 @@ extern "C" {
 /*        グローバル変数宣言          */
 /* ---------------------------------- */
 
-extern UW hospac_arm_imask;		/* 割り込みマスク */
+extern UW hospac_arm_imsk;		/* 割り込みマスク */
 
 
 
@@ -66,8 +66,6 @@ void hospac_cre_ctx_asm(T_HOSPAC_CTXINF *pk_ctxinf,
 #define hospac_del_ctx(pk_ctxinf)					/* 実行コンテキストの削除 */
 void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 						T_HOSPAC_CTXINF *pk_nxt_ctxinf);	/* 実行コンテキストの切替 */
-void hospac_set_tex(T_HOSPAC_CTXINF *pk_pre_ctxinf,
-					void (*exp)(TEXPTN), TEXPTN rasptn);	/* 例外処理実行設定 */
 
 #define hospac_idle()				/* アイドル時処理 */
 
@@ -79,8 +77,8 @@ void  hos_arm_end_fiq(void);		/* FIQ割り込み処理終了（ユーザー作成関数） */
 
 
 /* ARM固有 割り込み管理機構 */
-ER    chg_imask(IMASK imask);		/* 割り込みマスク指定 */
-ER    get_imask(IMASK *p_imask);	/* 割り込みマスクの参照 */
+ER    chg_imsk(IMASK imsk);			/* 割り込みマスク指定 */
+ER    get_imsk(IMASK *p_imsk);		/* 割り込みマスクの参照 */
 
 
 

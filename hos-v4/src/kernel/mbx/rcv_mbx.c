@@ -61,7 +61,7 @@ ER rcv_mbx(
 		/* メールボックスが空なら待ちに入る */
 		mtcb = mknl_get_run_tsk();
 		mknl_wai_tsk(mtcb, TTW_MBX);
-		if ( mbxcb_ram->mbxrom->mbxatr & TA_TPRI )
+		if ( mbxcb_ram->mbxcbrom->mbxatr & TA_TPRI )
 		{
 			mknl_adp_que(&mbxcb_ram->que, mtcb);	/* タスク優先度順に追加 */
 		}
@@ -69,15 +69,16 @@ ER rcv_mbx(
 		{
 			mknl_add_que(&mbxcb_ram->que, mtcb);	/* FIFO順に追加 */
 		}
-
-		/* タスクディスパッチの実行 */
-		ercd = (ER)mknl_exe_dsp();
+		
+		ercd = (ER)mknl_exe_dsp();		/* タスクディスパッチの実行 */
 		
 		/* 成功したら受信データを格納 */
 		if ( ercd == E_OK )
 		{
 			*pk_msg = (T_MSG *)mtcb->data;
 		}
+		
+		mknl_exe_tex();		/* 例外処理の実行 */
 	}
 
 	mknl_unl_sys();	/* システムのロック解除 */

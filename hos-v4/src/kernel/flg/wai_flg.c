@@ -89,10 +89,9 @@ ER wai_flg(
 		/* 条件を満たしていなければ待ちに入る */
 		flgcb_ram->mtcb = mknl_get_run_tsk();
 		mknl_wai_tsk(flgcb_ram->mtcb, TTW_FLG);
-
-		/* タスクディスパッチ実行 */
-		ercd = (ER)mknl_exe_dsp();
-
+		
+		ercd = (ER)mknl_exe_dsp();	/* タスクディスパッチ実行 */
+		
 		/* 条件を満たして解除されたのなら */
 		if ( ercd == E_OK )
 		{
@@ -103,10 +102,12 @@ ER wai_flg(
 				flgcb_ram->flgptn = 0;		/* クリア属性があればクリア */
 			}		
 		}
+		
+		mknl_exe_tex();		/* 例外処理の実行 */
 	}
-
+	
 	mknl_unl_sys();	/* システムのロック解除 */
-
+	
 	return ercd;
 }
 

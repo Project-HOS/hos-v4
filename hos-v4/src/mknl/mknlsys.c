@@ -28,7 +28,7 @@ void mknl_ini_sys(void)
 /* スタートアップルーチンの開始処理 */
 void mknl_sta_startup(void)
 {
-	mknl_ctx_stat = TSS_INDP | TSS_DINT;	/* 割り込み禁止でタスク独立部に設定 */
+	mknl_ctx_stat = MKNL_TSS_INDP | MKNL_TSS_DINT;	/* 割り込み禁止でタスク独立部に設定 */
 }
 
 
@@ -37,7 +37,7 @@ void mknl_ext_startup(void)
 {						
 	T_MKNL_TCB *mtcb;
 
-	mknl_ctx_stat = TSS_TSK;	/* タスク部に設定 */
+	mknl_ctx_stat = MKNL_TSS_TSK;	/* タスク部に設定 */
 
 	/* 最高優先度の実行可能タスクを探す */
 	mtcb = mknl_srh_top();
