@@ -48,6 +48,9 @@ int CApiDefExc::AutoId(void)
 // API§Œ≤Ú¿œ
 int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blExMax = false;
+	static bool blExMin = false;
+
 	if ( strcmp(pszApiName, "DEF_EXC") == 0 )
 	{
 		return AddParams(pszParams);
@@ -55,6 +58,13 @@ int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MAX_EXCNO") == 0 )
 	{
 		int iExcNo;
+
+		if ( blExMax == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+		blExMax = true;
+
 		if ( (iExcNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;
@@ -68,6 +78,13 @@ int CApiDefExc::AnalyzeApi(const char* pszApiName, const char* pszParams)
 	else if ( strcmp(pszApiName, "HOS_MIN_EXCNO") == 0 )
 	{
 		int iExcNo;
+
+		if ( blExMin == true )
+		{
+			return CFG_ERR_MULTIDEF;
+		}
+		blExMin = true;
+
 		if ( (iExcNo = atoi(pszParams)) < 0 )
 		{
 			return CFG_ERR_PARAM;

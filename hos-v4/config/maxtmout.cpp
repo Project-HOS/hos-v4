@@ -37,11 +37,19 @@ CApiMaxTimout::~CApiMaxTimout()
 // APIの解析
 int CApiMaxTimout::AnalyzeApi(const char* pszApiName, const char* pszParams)
 {
+	static bool blEx = false;
+
 	// API名チェック
 	if ( strcmp(pszApiName, "HOS_MAX_TIMOUT") != 0 )
 	{
 		return CFG_ERR_NOPROC;
 	}
+
+	if ( blEx == true )
+	{
+		return CFG_ERR_MULTIDEF;
+	}
+	blEx = true;
 
 	if ( atoi(pszParams) <= 0 )
 	{
