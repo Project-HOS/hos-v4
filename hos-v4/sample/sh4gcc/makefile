@@ -55,7 +55,7 @@ sh7750.o: sh7750.c sh7750.h
 kernel_cfg.o: kernel_cfg.c $(INCS)
 	$(CC) $(CFLAGS) kernel_cfg.c -o kernel_cfg.o
 
-kernel_cfg.c kernel_id.h: system.cfg
+kernel_cfg.c kernel_id.h: system.cfg sh4.cfg
 	$(CPP) $(CPPFLAGS) system.cfg | $(HOSCFG) -
 
 clean:
