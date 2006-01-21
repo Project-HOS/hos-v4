@@ -1,5 +1,6 @@
 OUTPUT_FORMAT("coff-h8300")
-OUTPUT_ARCH(h8300h)
+OUTPUT_ARCH(h8300hn)
+/* OUTPUT_ARCH(h8300h) gcc 3.2 or earlier */
 ENTRY("_startup")
 MEMORY
 {

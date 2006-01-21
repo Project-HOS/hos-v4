@@ -7,9 +7,11 @@
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
-
+#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3)
+				.h8300hn
+#else
 				.h8300h
-
+#endif
 
 
 				.text

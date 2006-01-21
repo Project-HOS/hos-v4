@@ -2,13 +2,16 @@
 /*  Hyper Operating System V4                                               */
 /*    割り込みハンドラ  Hitachi H8/300H 用                                  */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2003 by Project HOS  */
+/*                                  Copyright (C) 1998-2006 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
 
-				.h8300h
-
+#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3)
+					.h8300hn
+#else
+					.h8300h
+#endif
 
 				.text
 				.align 2
@@ -245,5 +248,5 @@ mul_int:
 
 
 /* -------------------------------------------------------------------------*/
-/*  Copyright (C) 1998-2003 by Project HOS                                  */
+/*  Copyright (C) 1998-2006 by Project HOS                                  */
 /* -------------------------------------------------------------------------*/

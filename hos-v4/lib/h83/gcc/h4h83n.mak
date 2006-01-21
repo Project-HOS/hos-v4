@@ -37,7 +37,7 @@ KNLINTDIR  = $(KERNELDIR)/int
 
 # ¥Ä¡¼¥ë
 CC     = h8300-hms-gcc
-ASM    = h8300-hms-gcc
+ASM    = h8300-hms-gcc  -x assembler-with-cpp
 LIBR   = h8300-hms-ar
 RANLIB = h8300-hms-ranlib
 
