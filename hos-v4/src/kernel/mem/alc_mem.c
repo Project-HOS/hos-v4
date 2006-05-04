@@ -18,6 +18,7 @@ VP kernel_alc_mem(
 {
 	T_KERNEL_MEM_BLK *mblk;
 	T_KERNEL_MEM_BLK *mblk_next;
+	T_KERNEL_MEM_BLK *mblk_next2;
 	
 	/* ヒープの存在チェック */
 	if ( kernel_mem_base == NULL )
@@ -38,11 +39,13 @@ VP kernel_alc_mem(
 			if ( mblk->size - size > MEMBLKSIZE + MEMBLK_ALIGN )
 			{
 				/* ブロックを分割する */
-				mblk_next = (T_KERNEL_MEM_BLK *)((UB *)mblk + MEMBLKSIZE + size);
-				mblk_next->prev = mblk;
-				mblk_next->size = mblk->size - size - MEMBLKSIZE;
-				mblk_next->flag = MEMBLK_FREE;
-				mblk->size      = size;
+				mblk_next  = (T_KERNEL_MEM_BLK *)((UB *)mblk + MEMBLKSIZE + size);
+				mblk_next2 = (T_KERNEL_MEM_BLK *)((UB *)mblk + MEMBLKSIZE + mblk->size);
+				mblk_next->prev  = mblk;
+				mblk_next->size  = mblk->size - size - MEMBLKSIZE;
+				mblk_next->flag  = MEMBLK_FREE;
+				mblk_next2->prev = mblk_next;
+				mblk->size       = size;
 			}
 			mblk->flag = MEMBLK_USING;
 			

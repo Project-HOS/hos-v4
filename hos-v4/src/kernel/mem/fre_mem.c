@@ -54,7 +54,7 @@ void kernel_fre_mem(VP ptr)
 		mblktmp = mblk->prev;
 		if ( mblktmp->flag == MEMBLK_FREE )
 		{
-			/* 前の無ロックが未使用なら結合する */
+			/* 前のブロックが未使用なら結合する */
 			mblknext = (T_KERNEL_MEM_BLK *)((UB *)mblk + mblk->size + MEMBLKSIZE);
 			mblknext->prev = mblktmp;
 			mblktmp->size += mblk->size + MEMBLKSIZE;
