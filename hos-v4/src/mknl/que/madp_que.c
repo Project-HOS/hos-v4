@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*  μカーネル キュー操作                                                   */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2006 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -16,8 +16,8 @@ void mknl_adp_que(
 		T_MKNL_QUE *que,	/* 追加するキュー */
 		T_MKNL_TCB *mtcb)	/* 追加するタスク */
 {
-	T_MKNL_TCB *mtcb_head;
-	T_MKNL_TCB *mtcb_tail;
+	T_MKNL_TCB *mtcb_next;
+	T_MKNL_TCB *mtcb_prev;
 	
 	mtcb->que = que;
 	if ( que->head == NULL )
@@ -29,30 +29,34 @@ void mknl_adp_que(
 	}
 	else
 	{
-		mtcb_head = que->head;
-		mtcb_tail = mtcb_head->prev;
+		/* 挿入位置をキューを先頭から検索 */
+		mtcb_next = que->head;
 		do {
-			/* キューを末尾から検索 */
-			if ( mtcb->tskpri >= mtcb_tail->tskpri )
+			/* 自分より低優先のタスクがあれば挿入位置検出完了 */
+			if ( mtcb_next->tskpri > mtcb->tskpri )
 			{
-				/* 自分より優先度が高いタスクがあればその後ろに挿入 */
-				mtcb->next      = mtcb_tail;
-				mtcb->prev      = mtcb_tail->prev;
-				mtcb_tail->prev = mtcb;
-
-				return;
+				if ( mtcb_next == que->head )	/* 挿入位置が先頭なら */
+				{
+					mtcb_prev = mtcb_next->prev;
+					que->head = mtcb;
+				}
+				break;
 			}
-		} while ( mtcb_tail != mtcb_head );
 
-		/* 自分より優先度が高いタスクが無ければ先頭に挿入 */
-		mtcb->next      = mtcb_head;
-		mtcb->prev      = mtcb_head->prev;
-		mtcb_tail->prev = mtcb;
-		que->head       = mtcb;
+			/* 次に進む */
+			mtcb_prev = mtcb_next;
+			mtcb_next = mtcb_next->next;
+		} while ( mtcb_next != que->head );
+		
+		/* タスクをキューに挿入 */
+		mtcb->next      = mtcb_next;
+		mtcb->prev      = mtcb_prev;
+		mtcb_next->prev = mtcb;
+		mtcb_prev->next = mtcb;
 	}
 }
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2006 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */
