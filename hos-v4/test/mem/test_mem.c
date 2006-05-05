@@ -282,13 +282,11 @@ int test_mem(void)
 	test_mem_ptr[5] = test_mem_alc(15);
 	TEST_ASSERT(test_mem_ptr[0] != NULL);
 	test_mem_fre(test_mem_ptr[4]);
-
 	test_mem_sub();
-
 	test_mem_fre(test_mem_ptr[5]);
-
-
 	TEST_ASSERT(test_mem_check_heap());
+	
+	
 	
 	return TRUE;
 }

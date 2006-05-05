@@ -15,7 +15,6 @@
 ER stp_cyc(
 		ID cycid)	/* 動作停止対象のアラームハンドラのID番号 */
 {
-	const T_KERNEL_CYCCB_ROM *cyccb_rom;
 	T_KERNEL_CYCCB_RAM *cyccb_ram;
 
 	/* ID のチェック */
