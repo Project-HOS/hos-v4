@@ -74,6 +74,7 @@ INCS = $(INCDIR)\win\hospac.h \
 OBJS = $(OBJSDIR)\pacint.obj \
        $(OBJSDIR)\hospac.obj \
        $(OBJSDIR)\mini_sys.obj \
+       $(OBJSDIR)\mexe_sys.obj \
        $(OBJSDIR)\midl_lop.obj \
        $(OBJSDIR)\msta_stu.obj \
        $(OBJSDIR)\mext_stu.obj \
@@ -257,6 +258,7 @@ $(OBJSDIR)\hospac.obj: $(PACDIR)\hospac.c $(INCS)
 
 # μカーネル システム制御
 $(OBJSDIR)\mini_sys.obj: $(MKNLSYSDIR)\mini_sys.c $(INCS)
+$(OBJSDIR)\mexe_sys.obj: $(MKNLSYSDIR)\mexe_sys.c $(INCS)
 $(OBJSDIR)\midl_lop.obj: $(MKNLSYSDIR)\midl_lop.c $(INCS)
 $(OBJSDIR)\msta_stu.obj: $(MKNLSYSDIR)\msta_stu.c $(INCS)
 $(OBJSDIR)\mext_stu.obj: $(MKNLSYSDIR)\mext_stu.c $(INCS)

@@ -75,7 +75,7 @@ INCS = $(INCDIR)\itron.h \
 # オブジェクトファイル
 OBJS = pacini.obj pacint.obj pacctx.obj \
        chg_imsk.obj get_imsk.obj fchg_imk.obj fget_imk.obj \
-       mini_sys.obj midl_lop.obj msta_stu.obj mext_stu.obj \
+       mini_sys.obj mexe_sys.obj midl_lop.obj msta_stu.obj mext_stu.obj \
        msta_tsk.obj mter_tsk.obj mchg_pri.obj mrot_rdq.obj \
        mwai_tsk.obj mwup_tsk.obj msus_tsk.obj mrsm_tsk.obj \
        mexe_dsp.obj mdly_dsp.obj msrh_top.obj \
@@ -153,6 +153,9 @@ fget_imk.obj: $(PACDIR)\fget_imk.c
 # μカーネル システム制御
 mini_sys.obj: $(MKNLSYSDIR)\mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mini_sys.c
+
+mexe_sys.obj: $(MKNLSYSDIR)\mexe_sys.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)\mexe_sys.c
 
 midl_lop.obj: $(MKNLSYSDIR)\midl_lop.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)\midl_lop.c
