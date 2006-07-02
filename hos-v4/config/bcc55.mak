@@ -40,6 +40,7 @@ OBJS = hos4cfg.obj \
        credtq.obj \
        crembx.obj \
        crempf.obj \
+       crempl.obj \
        crembf.obj \
        timtic.obj \
        crecyc.obj \

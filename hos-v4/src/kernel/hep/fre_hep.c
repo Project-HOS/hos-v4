@@ -12,7 +12,7 @@
 
 
 /** メモリの解放 */
-void _kernel_fre_hep(
+void kernel_fre_hep(
 		T_KERNEL_HEPCB *pk_hepcb,
 		VP             ptr)
 {

@@ -175,9 +175,8 @@ void  CApiCreMpl::WriteCfgDef(FILE* fp)
 		{
 			fprintf(
 				fp,
-				"\t\t{(ATR)(%s), (UINT)(%s), ",
-				m_pParamPacks[i]->GetParam(CREMPL_MPLATR),
-				m_pParamPacks[i]->GetParam(CREMPL_MPLSZ));
+				"\t\t{(ATR)(%s), ",
+				m_pParamPacks[i]->GetParam(CREMPL_MPLATR));
 
 			pszParam = m_pParamPacks[i]->GetParam(CREMPL_MPL);
 			if ( strcmp(pszParam, "NULL") == 0 )

@@ -133,6 +133,10 @@ SOURCE=..\..\..\include\knl_flg.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\include\knl_hep.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\include\knl_hos.h
 # End Source File
 # Begin Source File
@@ -154,6 +158,10 @@ SOURCE=..\..\..\include\knl_mem.h
 # Begin Source File
 
 SOURCE=..\..\..\include\knl_mpf.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\include\knl_mpl.h
 # End Source File
 # Begin Source File
 
@@ -751,6 +759,66 @@ SOURCE=..\..\..\src\kernel\alm\sta_alm.c
 SOURCE=..\..\..\src\kernel\alm\stp_alm.c
 # End Source File
 # End Group
+# Begin Group "hep"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\hep\alc_hep.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\hep\cre_hep.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\hep\fre_hep.c
+# End Source File
+# End Group
+# Begin Group "mpl"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\acre_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\cre_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\del_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\get_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\ini_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\kcre_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\pget_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\ref_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\rel_mpl.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\kernel\mpl\tget_mpl.c
+# End Source File
+# End Group
 # End Group
 # Begin Group "mknl"
 
@@ -814,6 +882,10 @@ SOURCE=..\..\..\src\mknl\tsk\mwup_tsk.c
 # Begin Group "msys"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\..\src\mknl\sys\mexe_sys.c
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\mknl\sys\mext_stu.c

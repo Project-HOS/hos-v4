@@ -13,7 +13,7 @@
 
 
 /* メモリヒープを生成 */
-void _kernel_cre_hep(
+void kernel_cre_hep(
 		T_KERNEL_HEPCB *pk_hepcb,
 		void           *p_base,
 		SIZE           size)

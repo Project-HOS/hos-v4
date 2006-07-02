@@ -14,9 +14,9 @@
 #include "itron.h"
 
 
-#define KERNEL_HEP_MEMALIGN		32			/**< %jp{メモリアライメント} */
-#define KERNEL_HEP_USING			0x1234		/**< %jp{使用中} */
-#define KERNEL_HEP_FREE			0xabcd		/**< %jp{未使用} */
+#define KERNEL_HEP_MEMALIGN		32			/* メモリアライメント */
+#define KERNEL_HEP_USING		0x1234		/* 使用中 */
+#define KERNEL_HEP_FREE			0xabcd		/* 未使用 */
 
 
 
@@ -27,17 +27,17 @@
 /** %jp{ヒープメモリブロック} */
 typedef struct kernel_t_hepblk
 {
-	struct kernel_t_hepblk* prev;	/**< %jp{前のブロック} */
-	SIZE   size;					/**< %jp{ブロックのサイズ} */
-	INT    flag;					/**< %jp{使用中フラグ} */
+	struct kernel_t_hepblk* prev;	/* 前のブロック */
+	SIZE   size;					/* ブロックのサイズ */
+	INT    flag;					/* 使用中フラグ */
 } T_KERNEL_HEPBLK;
 
 
 /** %jp{ヒープ制御ブロック} */
 typedef struct kernel_t_hepcb
 {
-	T_KERNEL_HEPBLK *base;			/**< %jp{カーネル用メモリ先頭ブロックのアドレス} */
-	SIZE            heapsz;			/**< %jp{カーネル用メモリサイズ} */
+	T_KERNEL_HEPBLK *base;			/* カーネル用メモリ先頭ブロックのアドレス */
+	SIZE            heapsz;			/* カーネル用メモリサイズ */
 } T_KERNEL_HEPCB;
 
 
@@ -49,11 +49,11 @@ typedef struct kernel_t_hepcb
 extern "C" {
 #endif
 
-void    kernel_cre_hep(T_KERNEL_HEPCB *pk_hepcb, void *p_base, SIZE size);	/**< %jp{メモリヒープを生成} */
-#define kernel_del_hep(pk_hepcb)	do {} while(0)								/**< %jp{メモリヒープを削除} */
-VP      kernel_alc_hep(T_KERNEL_HEPCB *pk_hepcb, SIZE size);					/**< %jp{メモリの割り当て} */
-void    kernel_fre_hep(T_KERNEL_HEPCB *pk_hepcb, VP ptr);						/**< %jp{メモリの解放} */
-#define kernel_alg_hep(size)		KERNEL_HEP_ALIGNED(size)					/**< %jp{メモリサイズのアライメントを合わせる} */
+void    kernel_cre_hep(T_KERNEL_HEPCB *pk_hepcb, void *p_base, SIZE size);	/* メモリヒープを生成 */
+#define kernel_del_hep(pk_hepcb)	do {} while(0)							/* メモリヒープを削除 */
+VP      kernel_alc_hep(T_KERNEL_HEPCB *pk_hepcb, SIZE size);				/* メモリの割り当て */
+void    kernel_fre_hep(T_KERNEL_HEPCB *pk_hepcb, VP ptr);					/* メモリの解放 */
+#define kernel_alg_hep(size)		KERNEL_HEP_ALIGNED(size)				/* メモリサイズのアライメントを合わせる */
 
 #ifdef __cplusplus
 }

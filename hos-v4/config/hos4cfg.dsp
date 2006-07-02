@@ -1,24 +1,24 @@
 # Microsoft Developer Studio Project File - Name="hos4cfg" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** •ÒW‚µ‚È‚¢‚Å‚­‚¾‚³‚¢ **
+# ** ÊÔ½¸¤·¤Ê¤¤¤Ç¤¯¤À¤µ¤¤ **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
 
 CFG=hos4cfg - Win32 Debug
-!MESSAGE ‚±‚ê‚Í—LŒø‚ÈÒ²¸Ì§²Ù‚Å‚Í‚ ‚è‚Ü‚¹‚ñB ‚±‚ÌÌßÛ¼Şª¸Ä‚ğËŞÙÄŞ‚·‚é‚½‚ß‚É‚Í NMAKE ‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
-!MESSAGE [Ò²¸Ì§²Ù‚Ì´¸½Îß°Ä] ºÏİÄŞ‚ğg—p‚µ‚ÄÀs‚µ‚Ä‚­‚¾‚³‚¢
+!MESSAGE ¤³¤ì¤ÏÍ­¸ú¤ÊÒ²¸Ì§²Ù¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£ ¤³¤ÎÌßÛ¼Şª¸Ä¤òËŞÙÄŞ¤¹¤ë¤¿¤á¤Ë¤Ï NMAKE ¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£
+!MESSAGE [Ò²¸Ì§²Ù¤Î´¸½Îß°Ä] ºÏİÄŞ¤ò»ÈÍÑ¤·¤Æ¼Â¹Ô¤·¤Æ¤¯¤À¤µ¤¤
 !MESSAGE 
 !MESSAGE NMAKE /f "hos4cfg.mak".
 !MESSAGE 
-!MESSAGE NMAKE ‚ÌÀs‚É\¬‚ğw’è‚Å‚«‚Ü‚·
-!MESSAGE ºÏİÄŞ ×²İã‚ÅÏ¸Û‚Ìİ’è‚ğ’è‹`‚µ‚Ü‚·B—á:
+!MESSAGE NMAKE ¤Î¼Â¹Ô»ş¤Ë¹½À®¤ò»ØÄê¤Ç¤­¤Ş¤¹
+!MESSAGE ºÏİÄŞ ×²İ¾å¤ÇÏ¸Û¤ÎÀßÄê¤òÄêµÁ¤·¤Ş¤¹¡£Îã:
 !MESSAGE 
 !MESSAGE NMAKE /f "hos4cfg.mak" CFG="hos4cfg - Win32 Debug"
 !MESSAGE 
-!MESSAGE ‘I‘ğ‰Â”\‚ÈËŞÙÄŞ Ó°ÄŞ:
+!MESSAGE ÁªÂò²ÄÇ½¤ÊËŞÙÄŞ Ó°ÄŞ:
 !MESSAGE 
-!MESSAGE "hos4cfg - Win32 Release" ("Win32 (x86) Console Application" —p)
-!MESSAGE "hos4cfg - Win32 Debug" ("Win32 (x86) Console Application" —p)
+!MESSAGE "hos4cfg - Win32 Release" ("Win32 (x86) Console Application" ÍÑ)
+!MESSAGE "hos4cfg - Win32 Debug" ("Win32 (x86) Console Application" ÍÑ)
 !MESSAGE 
 
 # Begin Project
@@ -133,6 +133,10 @@ SOURCE=.\crempf.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\crempl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\cresem.cpp
 # End Source File
 # Begin Source File
@@ -238,6 +242,10 @@ SOURCE=.\crembx.h
 # Begin Source File
 
 SOURCE=.\crempf.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\crempl.h
 # End Source File
 # Begin Source File
 

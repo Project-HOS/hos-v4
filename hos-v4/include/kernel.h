@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    カーネル依存情報定義ヘッダ                                            */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2006 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -24,6 +24,7 @@
 #include "knl_mbx.h"
 #include "knl_mbf.h"
 #include "knl_mpf.h"
+#include "knl_mpl.h"
 #include "knl_tim.h"
 #include "knl_cyc.h"
 #include "knl_alm.h"
@@ -37,5 +38,5 @@
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2006 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */
