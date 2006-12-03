@@ -20,7 +20,7 @@
 /*            マクロ定義                   */
 /* --------------------------------------- */
 /* サイズアライメント */
-#define TSZ_ALIGNED(size)	(((size) + MEMBLK_ALIGN - 1) & ~(MEMBLK_ALIGN - 1))
+#define TSZ_ALIGNED(size)	(((size) + KERNEL_HEP_MEMALIGN - 1) & ~(KERNEL_HEP_MEMALIGN - 1))
 
 
 
