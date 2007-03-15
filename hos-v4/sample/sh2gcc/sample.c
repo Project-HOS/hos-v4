@@ -29,7 +29,7 @@
 void SetLed(INT id);		/* 対応のLED点灯 */
 void ResetLed(INT id);		/* 対応LDEの消灯 */
 
-
+int led = 0;
 
 /* メイン関数 */
 int main()
@@ -52,10 +52,10 @@ void SampleInitialize(VP_INT exinf)
 {
 	/* タスク起動 */
 	act_tsk(TSKID_PHILOSOPHER1);
-	act_tsk(TSKID_PHILOSOPHER2);
-	act_tsk(TSKID_PHILOSOPHER3);
-	act_tsk(TSKID_PHILOSOPHER4);
-	act_tsk(TSKID_PHILOSOPHER5);
+	act_tsk(TSKID_PHILOSOPHER1);
+	act_tsk(TSKID_PHILOSOPHER1);
+	act_tsk(TSKID_PHILOSOPHER1);
+//	act_tsk(TSKID_PHILOSOPHER1);
 }
 
 
@@ -64,6 +64,14 @@ void PhilosopherTask(VP_INT exinf)
 {
 	INT id;
 	INT i;
+	
+	*SH_PEDR = ~led;
+	led++;
+	ext_tsk();
+	
+	*SH_PEDR = 0xaaaa;
+	for ( ; ; )
+		;
 	
 	id = (INT)exinf;
 	
