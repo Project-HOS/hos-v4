@@ -41,6 +41,9 @@
 #elif defined(__i386__)	/* i386-elf-gcc */
 #include "ia32/hospac.h"
 
+#elif defined(__mips__) /* mips-elf-gcc */
+#include "mips/hospac.h"
+
 #else
 
 #include "hospac.h"		/* 識別できない場合はインクルードパスの指定を期待する */
