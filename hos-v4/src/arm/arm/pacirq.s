@@ -13,6 +13,7 @@
 
 
 				AREA	inthdr_code, CODE, READONLY
+				CODE32
 
 				EXPORT	_HOS_IrqHandler
 

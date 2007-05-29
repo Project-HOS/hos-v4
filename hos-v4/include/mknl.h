@@ -117,6 +117,7 @@ extern "C" {
 void    mknl_ini_sys(void);									/* μカーネルシステムの初期化 */
 void    mknl_sta_startup(void);								/* スタートアップルーチンの開始処理 */
 void    mknl_ext_startup(void);								/* スタートアップルーチンの終了処理 */
+void    mknl_exe_sys(FP exec, VP_INT exinf);				/* */
 void    mknl_idl_loop(void);								/* アイドルループ */
 
 /* タスク制御 */

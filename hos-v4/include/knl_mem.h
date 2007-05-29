@@ -12,17 +12,7 @@
 
 
 #include "knl_hos.h"
-
-
-/* ------------------------------------------ */
-/*                  定数定義                  */
-/* ------------------------------------------ */
-
-/* カーネルメモリ管理定数 */
-#define MEMBLK_ALIGN	sizeof(VP)	/* メモリアライメント */
-
-#define MEMBLK_USING	0x1234		/* 使用中 */
-#define MEMBLK_FREE		0xabcd		/* 未使用 */
+#include "knl_hep.h"
 
 
 
@@ -30,23 +20,7 @@
 /*            マクロ定義                   */
 /* --------------------------------------- */
 /* サイズアライメント */
-#define TSZ_ALIGNED(size)	(((size) + MEMBLK_ALIGN - 1) & ~(MEMBLK_ALIGN - 1))
-
-
-/* ------------------------------------------ */
-/*                 型定義                     */
-/* ------------------------------------------ */
-
-/* カーネルメモリ管理ブロック */
-typedef struct t_kernel_mem_blk
-{
-	struct t_kernel_mem_blk* prev;		/* 前のブロック */
-	SIZE   size;						/* ブロックのサイズ */
-	INT    flag;						/* 使用中フラグ */
-} T_KERNEL_MEM_BLK;
-
-/* カーネルメモリ管理ブロックサイズ */
-#define MEMBLKSIZE	TSZ_ALIGNED(sizeof(T_KERNEL_MEM_BLK))
+#define TSZ_ALIGNED(size)	(((size) + KERNEL_HEP_MEMALIGN - 1) & ~(KERNEL_HEP_MEMALIGN - 1))
 
 
 
@@ -55,8 +29,7 @@ typedef struct t_kernel_mem_blk
 /* ---------------------------------- */
 
 /* カーネルメモリ管理 */
-extern T_KERNEL_MEM_BLK *kernel_mem_base;	/* カーネル用メモリ先頭ブロックのアドレス */
-extern SIZE             kernel_mem_size;	/* カーネル用メモリサイズ */
+extern T_KERNEL_HEPCB kernel_mem_hep;		/* カーネル用メモリヒープ */
 
 
 

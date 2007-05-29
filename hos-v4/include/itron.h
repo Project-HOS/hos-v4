@@ -205,6 +205,7 @@ typedef INT		INTNO;		/* 割り込み番号 */
 #define TMIN_MBXID	1			/* メールボックスタスクのID番号の最小値 */
 #define TMIN_MBFID	1			/* メッセージバッファのID番号の最小値 */
 #define TMIN_MPFID	1			/* 固定長メモリプールのID番号の最小値 */
+#define TMIN_MPLID	1			/* 可変長メモリプールのID番号の最小値 */
 #define TMIN_CYCID	1			/* 周期ハンドラのID番号の最小値 */
 #define TMIN_ALMID	1			/* アラームハンドラのID番号の最小値 */
 #define TMIN_ISRID	1			/* 割り込みサービスルーチンのID番号の最小値 */

@@ -22,6 +22,7 @@ MKNLTMODIR = $(MKNLDIR)/tmout
 KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
 KNLMEMDIR  = $(KERNELDIR)/mem
+KNLHEPDIR  = $(KERNELDIR)/hep
 KNLTSKDIR  = $(KERNELDIR)/tsk
 KNLSEMDIR  = $(KERNELDIR)/sem
 KNLFLGDIR  = $(KERNELDIR)/flg
@@ -29,6 +30,7 @@ KNLDTQDIR  = $(KERNELDIR)/dtq
 KNLMBXDIR  = $(KERNELDIR)/mbx
 KNLMBFDIR  = $(KERNELDIR)/mbf
 KNLMPFDIR  = $(KERNELDIR)/mpf
+KNLMPLDIR  = $(KERNELDIR)/mpl
 KNLTIMDIR  = $(KERNELDIR)/tim
 KNLCYCDIR  = $(KERNELDIR)/cyc
 KNLALMDIR  = $(KERNELDIR)/alm
@@ -60,12 +62,14 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
        $(INCDIR)/knl_mem.h \
+       $(INCDIR)/knl_hep.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \
        $(INCDIR)/knl_flg.h \
        $(INCDIR)/knl_dtq.h \
        $(INCDIR)/knl_mbx.h \
        $(INCDIR)/knl_mpf.h \
+       $(INCDIR)/knl_mpl.h \
        $(INCDIR)/knl_mbf.h \
        $(INCDIR)/knl_tim.h \
        $(INCDIR)/knl_sys.h \
@@ -76,7 +80,7 @@ INCS = $(INCDIR)/itron.h \
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o pacimsk.o \
-       mini_sys.o midl_lop.o msta_stu.o mext_stu.o \
+       mini_sys.o mexe_sys.o midl_lop.o msta_stu.o mext_stu.o \
        msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
@@ -106,6 +110,8 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        rcv_mbf.o prcv_mbf.o trcv_mbf.o krcv_mbf.o ref_mbf.o \
        ini_mpf.o cre_mpf.o acre_mpf.o kcre_mpf.o del_mpf.o \
        get_mpf.o pget_mpf.o tget_mpf.o rel_mpf.o ref_mpf.o \
+       ini_mpl.o cre_mpl.o acre_mpl.o kcre_mpl.o del_mpl.o \
+       get_mpl.o pget_mpl.o tget_mpl.o rel_mpl.o ref_mpl.o \
        ini_tim.o isig_tim.o set_tim.o get_tim.o \
        add_tml.o rmv_tml.o \
        ini_cyc.o cyc_hdr.o sta_cyc.o stp_cyc.o \
@@ -139,6 +145,9 @@ pacimsk.o: $(PACDIR)/pacimsk.c
 # μカーネル システム制御
 mini_sys.o: $(MKNLSYSDIR)/mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mini_sys.c
+
+mexe_sys.o: $(MKNLSYSDIR)/mexe_sys.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mexe_sys.c
 
 midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
@@ -236,6 +245,17 @@ alc_mem.o: $(KNLMEMDIR)/alc_mem.c $(INCS)
 
 fre_mem.o: $(KNLMEMDIR)/fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_mem.c 
+
+
+# ヒープメモリ
+cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_hep.c 
 
 
 # タスク
@@ -535,6 +555,38 @@ rel_mpf.o: $(KNLMPFDIR)/rel_mpf.c $(INCS)
 
 ref_mpf.o: $(KNLMPFDIR)/ref_mpf.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMPFDIR)/ref_mpf.c
+
+
+# 可変長メモリプール
+ini_mpl.o: $(KNLMPLDIR)/ini_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/ini_mpl.c
+
+cre_mpl.o: $(KNLMPLDIR)/cre_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/cre_mpl.c
+
+acre_mpl.o: $(KNLMPLDIR)/acre_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/acre_mpl.c
+
+kcre_mpl.o: $(KNLMPLDIR)/kcre_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/kcre_mpl.c
+
+del_mpl.o: $(KNLMPLDIR)/del_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/del_mpl.c
+
+get_mpl.o: $(KNLMPLDIR)/get_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/get_mpl.c
+
+pget_mpl.o: $(KNLMPLDIR)/pget_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/pget_mpl.c
+
+tget_mpl.o: $(KNLMPLDIR)/tget_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/tget_mpl.c
+
+rel_mpl.o: $(KNLMPLDIR)/rel_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/rel_mpl.c
+
+ref_mpl.o: $(KNLMPLDIR)/ref_mpl.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMPLDIR)/ref_mpl.c
 
 
 # 時間管理

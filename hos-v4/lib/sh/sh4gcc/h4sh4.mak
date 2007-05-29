@@ -1,6 +1,6 @@
 # --------------------------------------------------------------------------- 
 #  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
-#   ライブラリメイクファイル SH2 gcc用                                        
+#   ライブラリメイクファイル SH4 gcc用                                        
 #                                                                             
 #                                     Copyright (C) 1998-2002 by Project HOS  
 #                                     http://sourceforge.jp/projects/hos/     
@@ -13,7 +13,7 @@ HOSROOT    = ../../..
 INCDIR     = $(HOSROOT)/include
 SRCDIR     = $(HOSROOT)/src
 PACDIR     = $(SRCDIR)/sh
-PACASMDIR  = $(PACDIR)/sh2gcc
+PACASMDIR  = $(PACDIR)/sh4gcc
 MKNLDIR    = $(SRCDIR)/mknl
 MKNLSYSDIR = $(MKNLDIR)/sys
 MKNLTSKDIR = $(MKNLDIR)/tsk
@@ -44,12 +44,12 @@ RANLIB = sh-hms-ranlib
 
 
 # オプション
-CFLAGS = -c -O2 -m2 -D_HOS_ERCHK_LEVEL=0 -I$(INCDIR)
-AFLAGS = -c
+CFLAGS = -c -Wall -O2 -m4-single-only -ml -I$(INCDIR) -pipe
+AFLAGS = -c -m4-single-only -ml
 
 
 # ターゲット
-TARGET  = libh4sh2e0.a
+TARGET  = libh4sh4.a
 
 
 #インクルードファイル
@@ -122,7 +122,6 @@ OBJS = pacctx.o pacint.o pacimsk.o \
 $(TARGET): $(OBJS)
 	$(LIBR) rc $(TARGET) $(OBJS)
 	$(RANLIB) $(TARGET)
-	rm -f $(OBJS)
 
 
 # プロセッサ依存

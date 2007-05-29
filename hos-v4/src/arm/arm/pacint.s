@@ -12,6 +12,7 @@
 
 
 				AREA	inthdr_code, CODE, READONLY
+				CODE32
 
 				EXPORT	_HOS_UndefinedHandler
 				EXPORT  _HOS_SwiHandler

@@ -41,6 +41,7 @@ OBJS = hos4cfg.o \
        credtq.o \
        crembx.o \
        crempf.o \
+       crempl.o \
        crembf.o \
        timtic.o \
        crecyc.o \
