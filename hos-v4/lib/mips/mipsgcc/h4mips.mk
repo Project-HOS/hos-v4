@@ -20,6 +20,7 @@ MKNLTMODIR = $(MKNLDIR)/tmout
 KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
 KNLMEMDIR  = $(KERNELDIR)/mem
+KNLHEPDIR  = $(KERNELDIR)/hep
 KNLTSKDIR  = $(KERNELDIR)/tsk
 KNLSEMDIR  = $(KERNELDIR)/sem
 KNLFLGDIR  = $(KERNELDIR)/flg
@@ -71,7 +72,7 @@ INCS = $(INCDIR)/itron.h \
 
 # オブジェクトファイル
 OBJS = pacctx.o pacint.o \
-       mini_sys.o midl_lop.o msta_stu.o mext_stu.o \
+       mini_sys.o mexe_sys.o midl_lop.o msta_stu.o mext_stu.o \
        msta_tsk.o mter_tsk.o mchg_pri.o mrot_rdq.o \
        mwai_tsk.o mwup_tsk.o msus_tsk.o mrsm_tsk.o \
        mexe_dsp.o mdly_dsp.o msrh_top.o \
@@ -80,6 +81,7 @@ OBJS = pacctx.o pacint.o \
        mrot_que.o mclr_que.o \
        mtic_tmo.o madd_tmo.o mrmv_tmo.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
+       cre_hep.o alc_hep.o fre_hep.o \
        ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
        act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
        ter_tsk.o chg_pri.o get_pri.o ref_tst.o \
@@ -135,6 +137,9 @@ hospac.o: $(PACDIR)/hospac.c
 # μカーネル システム制御
 mini_sys.o: $(MKNLSYSDIR)/mini_sys.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mini_sys.c
+
+mexe_sys.o: $(MKNLSYSDIR)/mexe_sys.c $(INCS)
+	$(CC) $(CFLAGS) $(MKNLSYSDIR)/mexe_sys.c
 
 midl_lop.o: $(MKNLSYSDIR)/midl_lop.c $(INCS)
 	$(CC) $(CFLAGS) $(MKNLSYSDIR)/midl_lop.c
@@ -233,6 +238,15 @@ alc_mem.o: $(KNLMEMDIR)/alc_mem.c $(INCS)
 fre_mem.o: $(KNLMEMDIR)/fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_mem.c 
 
+# ヒープメモリ
+cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/fre_hep.c 
 
 # タスク
 ini_tsk.o: $(KNLTSKDIR)/ini_tsk.c $(INCS)
