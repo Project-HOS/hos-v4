@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Hyper Operating System V4  サンプルプログラム
  *
- *                                      Copyright (C) 1998-2002 by Project HOS
+ *                                      Copyright (C) 1998-2007 by Project HOS
  *                                      http://sourceforge.jp/projects/hos/
  *******************************************************************************/
 #ifndef __SAMPLE_H__

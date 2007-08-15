@@ -6,7 +6,7 @@
  *      Task1       1       Task2からのsig_sem()により起動
  *      Task2       2       1[s]おきの周期タイマにより起動
  *
- *                                      Copyright (C) 1998-2002 by Project HOS
+ *                                      Copyright (C) 1998-2007 by Project HOS
  *                                      http://sourceforge.jp/projects/hos/
  *******************************************************************************/
 
@@ -96,4 +96,3 @@ sample_cycle_handler (VP_INT exinf)
 {
     iwup_tsk (TSKID_SAMPLE_2);
 }
-

@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  サンプルプログラム                           */
 /*   OS用タイマ                                                             */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -24,6 +24,6 @@ void ostim_hdr(VP_INT exinf);		/* OSタイマ用ハンドラ */
 
 
 /* ------------------------------------------------------------------------ */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */

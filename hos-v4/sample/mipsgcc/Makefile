@@ -44,6 +44,6 @@ clean:
 	rm -f $(TARGET) *.out *.o *.map kernel_id.h kernel_cfg.c *~
 
 # ------------------------------------------------------------------------
-#                                  Copyright (C) 1998-2002 by Project HOS
+#                                  Copyright (C) 1998-2007 by Project HOS
 #                                  http://sourceforge.jp/projects/hos/
 # ------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 /* ------------------------------------------------------------------------ */
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
-/*    プロセッサ抽象化コンポーネント (MIPS用)                           */
+/*    プロセッサ抽象化コンポーネント (MIPS用)                               */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 #ifndef __HOS_V4__MIPS__hospac_h__
@@ -48,5 +48,5 @@ void hospac_swi_ctx(T_HOSPAC_CTXINF *pk_pre_ctxinf,
 #endif	/* __HOS_V4__MIPS__hospac_h__ */
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2007 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */

@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  サンプルプログラム                           */
 /*  OS タイマ                                                               */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 #include "semb1200a/ux_signal.h"
@@ -34,6 +34,6 @@ void ostim_hdr(VP_INT exinf)
 }
 
 /* ------------------------------------------------------------------------ */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
