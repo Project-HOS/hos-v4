@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-#  Hyper Operating System V4  ƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€                      
+#  Hyper Operating System V4  ¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à                      
 #                                                                     
 #                                  Copyright (C) 1998-2007 by Project HOS
 #                                  http://sourceforge.jp/projects/hos/

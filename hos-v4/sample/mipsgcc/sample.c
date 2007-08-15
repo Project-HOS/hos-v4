@@ -1,10 +1,10 @@
 /*******************************************************************************
- * Hyper Operating System V4  ƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€
+ * Hyper Operating System V4  ¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à
  *
- *  Šeƒ^ƒXƒN‚Ì‹N“®‚Æƒ^ƒXƒN–¼‚ğƒVƒŠƒAƒ‹ƒRƒ“ƒ\[ƒ‹‚Ö•\¦‚·‚éƒvƒƒOƒ‰ƒ€
- *      ƒ^ƒXƒN–¼    —Dæ“x  ‹N“®ğŒ
- *      Task1       1       Task2‚©‚ç‚Ìsig_sem()‚É‚æ‚è‹N“®
- *      Task2       2       1[s]‚¨‚«‚ÌüŠúƒ^ƒCƒ}‚É‚æ‚è‹N“®
+ *  ³Æ¥¿¥¹¥¯¤Îµ¯Æ°»ş¹ï¤È¥¿¥¹¥¯Ì¾¤ò¥·¥ê¥¢¥ë¥³¥ó¥½¡¼¥ë¤ØÉ½¼¨¤¹¤ë¥×¥í¥°¥é¥à
+ *      ¥¿¥¹¥¯Ì¾    Í¥ÀèÅÙ  µ¯Æ°¾ò·ï
+ *      Task1       1       Task2¤«¤é¤Îsig_sem()¤Ë¤è¤êµ¯Æ°
+ *      Task2       2       1[s]¤ª¤­¤Î¼ş´ü¥¿¥¤¥Ş¤Ë¤è¤êµ¯Æ°
  *
  *                                      Copyright (C) 1998-2007 by Project HOS
  *                                      http://sourceforge.jp/projects/hos/
@@ -17,19 +17,19 @@
 #include "sample.h"
 
 /**
- *  mainŠÖ”
+ *  main´Ø¿ô
  */
 int
 main(void)
 {
-	/* HOS-V4 ‚ÌŠJn */
+	/* HOS-V4 ¤Î³«»Ï */
 	sta_hos();
 	return 0;
 }
 
 /**
- *  ‰Šú‰»ŠÖ”
- *  ƒ^ƒXƒN‚Ì‹N“®‚ğs‚¤
+ *  ½é´ü²½´Ø¿ô
+ *  ¥¿¥¹¥¯¤Îµ¯Æ°¤ò¹Ô¤¦
  */
 void
 sample_init (VP_INT exinf)
@@ -37,14 +37,14 @@ sample_init (VP_INT exinf)
     act_tsk (TSKID_SAMPLE_1);
     act_tsk (TSKID_SAMPLE_2);
 
-    /* üŠúƒ^ƒCƒ}‚Ì‹N“® */
+    /* ¼ş´ü¥¿¥¤¥Ş¤Îµ¯Æ° */
     sta_cyc (CYCID_SAMPLE_1);
 }
 
 /**
- *  ƒTƒ“ƒvƒ‹ƒ^ƒXƒN1
- *  - ƒ^ƒXƒN2‚ªƒZƒ}ƒtƒH‚ğ‰ğœ‚·‚é‚Ü‚Å‘Ò‚Â
- *  - Œ»İ‚Æƒ^ƒXƒN–¼‚ğ•\¦
+ *  ¥µ¥ó¥×¥ë¥¿¥¹¥¯1
+ *  - ¥¿¥¹¥¯2¤¬¥»¥Ş¥Õ¥©¤ò²ò½ü¤¹¤ë¤Ş¤ÇÂÔ¤Ä
+ *  - ¸½ºß»ş¹ï¤È¥¿¥¹¥¯Ì¾¤òÉ½¼¨
  */
 void
 sample_task_1 (VP_INT exinf)
@@ -56,10 +56,10 @@ sample_task_1 (VP_INT exinf)
 }
 
 /**
- *  ƒTƒ“ƒvƒ‹ƒ^ƒXƒN2
- *  - 1[s]‚ÌŠÔsleep‚·‚é
- *  - ƒZƒ}ƒtƒH‚ğ‰ğœ
- *  - Œ»İ‚Æƒ^ƒXƒN–¼‚ğ•\¦
+ *  ¥µ¥ó¥×¥ë¥¿¥¹¥¯2
+ *  - 1[s]¤Î´Ösleep¤¹¤ë
+ *  - ¥»¥Ş¥Õ¥©¤ò²ò½ü
+ *  - ¸½ºß»ş¹ï¤È¥¿¥¹¥¯Ì¾¤òÉ½¼¨
  */
 void
 sample_task_2 (VP_INT exinf)
@@ -72,7 +72,7 @@ sample_task_2 (VP_INT exinf)
 }
 
 /**
- *  Œ»İ‚Æƒ^ƒXƒNno‚ğ•\¦‚·‚é
+ *  ¸½ºß»ş¹ï¤È¥¿¥¹¥¯no¤òÉ½¼¨¤¹¤ë
  */
 void
 sample_print (int no)

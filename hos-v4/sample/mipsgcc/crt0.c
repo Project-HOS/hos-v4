@@ -1,7 +1,7 @@
 #include <semb1200a/semb1200a.h>
 #include "semb1200a/ux_signal.h"
 
-// $B%-%c%C%7%e$rIT;HMQ$K$9$k(B
+// •≠•„•√•∑•Â§Ú…‘ª»Õ—§À§π§Î
 void
 cache_off (void)
 {
@@ -50,20 +50,20 @@ _start1( void )
     extern  char    _erdata[], _data[], _edata[];
     extern  char    _fbss[], _end[];
 
-    // DATA$BNN0h$N%3%T!<(B
+    // DATAŒŒ∞Ë§Œ•≥•‘°º
     memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
-    // FBSS$BNN0h$N=i4|2=(B
+    // FBSSŒŒ∞Ë§ŒΩÈ¥¸≤Ω
     memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
-    // $B%-%c%C%7%eIT;HMQ$r;n$9(B
+    // •≠•„•√•∑•Â…‘ª»Õ—§ÚªÓ§π
     cache_off ();
 
     //uart1_putc ('1');
-    // $B3d$j9~$_%O%s%I%i$NEPO?!JL5M}LpM}%3%T!<!K(B
-    // $B0lHLNc30%"%I%l%9(B($B%-%c%C%7%e$J$7!K(B
+    // ≥‰§Íπ˛§ﬂ•œ•Û•…•È§Œ≈–œø° ÃµÕ˝ÃÕ˝•≥•‘°º°À
+    // ∞Ï»ÃŒ„≥∞•¢•…•Ï•π(•≠•„•√•∑•Â§ §∑°À
     p = (int*)0xA0000180;
     for (i=0; i<400; i++) {
         p[i] = *((int *)int_handler + i);
     }
-    // $B%a%$%s%k!<%A%s$N8F$S=P$7(B
+    // •·•§•Û•Î°º•¡•Û§Œ∏∆§”Ω–§∑
     main();
 }

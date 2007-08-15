@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  ГTГУГvГЛГvГНГOГЙГА                           */
-/*  OS Г^ГCГ}                                                               */
+/*  Hyper Operating System V4  е╡еєе╫еые╫еэе░ещер                           */
+/*  OS е┐еде▐                                                               */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -10,12 +10,12 @@
 #include "kernel_id.h"
 #include "ostimer.h"
 
-// CPUГNГНГbГNВ╠1/2В┼ГJГEГУГg
+// CPUепеэе├епд╬1/2д╟ележеєе╚
 // 300000 / (600000000 / 2) = 0.001
-// 600MHzВ╠ПъНЗБA1ms = 300000
+// 600MHzд╬╛ь╣чбв1ms = 300000
 #define COMPARE  (300000)
 
-/* OSЧpГ^ГCГ}ПЙК·Й╗ */
+/* OS═╤е┐еде▐╜щ┤№▓╜ */
 void ostim_init(VP_INT exinf)
 {
 	SET_CP0_COUNT (0);
@@ -23,13 +23,13 @@ void ostim_init(VP_INT exinf)
 	SET_CP0_STATUS (IE_IRQ5);
 }
 
-/* OSГ^ГCГ}ЧpГnГУГhГЙ */
+/* OSе┐еде▐═╤е╧еєе╔ещ */
 void ostim_hdr(VP_INT exinf)
 {
-    /* ГJГEГУГ^ГМГWГXГ^В╠ГNГКГA */
+    /* ележеєе┐еье╕е╣е┐д╬епеъев */
 	SET_CP0_COUNT (0);
 	SET_CP0_COMPARE (COMPARE);
-    /* Г^ГCГАГeГBГbГNВ╠ЛЯЛЛ */
+    /* е┐едере╞еге├епд╬╢б╡ы */
     isig_tim();
 }
 

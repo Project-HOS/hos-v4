@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  ƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€                           */
-/*   OS—pƒ^ƒCƒ}                                                             */
+/*  Hyper Operating System V4  ¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à                           */
+/*   OSÍÑ¥¿¥¤¥Ş                                                             */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2007 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -13,8 +13,8 @@
 extern "C" {
 #endif
 
-void ostim_init(VP_INT exinf);		/* OS—pƒ^ƒCƒ}‰Šú‰» */
-void ostim_hdr(VP_INT exinf);		/* OSƒ^ƒCƒ}—pƒnƒ“ƒhƒ‰ */
+void ostim_init(VP_INT exinf);		/* OSÍÑ¥¿¥¤¥Ş½é´ü²½ */
+void ostim_hdr(VP_INT exinf);		/* OS¥¿¥¤¥ŞÍÑ¥Ï¥ó¥É¥é */
 
 #ifdef __cplusplus
 }
