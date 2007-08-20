@@ -238,13 +238,13 @@ sta_hos.o: $(KNLHOSDIR)/sta_hos.c $(INCS)
 
 # ヒープメモリ
 cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/cre_hep.c
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/cre_hep.c
 
 alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/alc_hep.c
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/alc_hep.c
 
 fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_hep.c 
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/fre_hep.c 
 
 
 # カーネルメモリ管理
