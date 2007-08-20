@@ -25,6 +25,7 @@ MKNLTSKDIR = $(MKNLDIR)\tsk
 MKNLQUEDIR = $(MKNLDIR)\que
 MKNLTMODIR = $(MKNLDIR)\tmout
 KNLHOSDIR  = $(KERNELDIR)\hos
+KNLHEPDIR  = $(KERNELDIR)\hep
 KNLMEMDIR  = $(KERNELDIR)\mem
 KNLTSKDIR  = $(KERNELDIR)\tsk
 KNLSEMDIR  = $(KERNELDIR)\sem
@@ -87,6 +88,7 @@ OBJS = pacctx.o pacint.o pacirq.o pacfiq.o pacimsk.o \
        mrot_que.o mclr_que.o \
        mtic_tmo.o madd_tmo.o mrmv_tmo.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
+       cre_hep.o alc_hep.o fre_hep.o \
        ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
        act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
        ter_tsk.o chg_pri.o get_pri.o ref_tst.o \
@@ -235,6 +237,17 @@ mrmv_tmo.o: $(MKNLTMODIR)\mrmv_tmo.c $(INCS)
 # HOS 固有
 sta_hos.o: $(KNLHOSDIR)\sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)\sta_hos.c
+
+
+# メモリヒープ
+cre_hep.o: $(KNLHEPDIR)\cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)\cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)\alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)\alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)\fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)\fre_hep.c 
 
 
 # カーネルメモリ管理
