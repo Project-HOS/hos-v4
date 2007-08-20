@@ -21,6 +21,7 @@ MKNLQUEDIR = $(MKNLDIR)/que
 MKNLTMODIR = $(MKNLDIR)/tmout
 KERNELDIR  = $(SRCDIR)/kernel
 KNLHOSDIR  = $(KERNELDIR)/hos
+KNLHEPDIR  = $(KERNELDIR)/hep
 KNLMEMDIR  = $(KERNELDIR)/mem
 KNLTSKDIR  = $(KERNELDIR)/tsk
 KNLSEMDIR  = $(KERNELDIR)/sem
@@ -59,6 +60,7 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
+       $(INCDIR)/knl_hep.h \
        $(INCDIR)/knl_mem.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \
@@ -228,6 +230,17 @@ mrmv_tmo.o: $(MKNLTMODIR)/mrmv_tmo.c $(INCS)
 # カーネル固有
 sta_hos.o: $(KNLHOSDIR)/sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)/sta_hos.c
+
+
+# メモリヒープ
+cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/fre_hep.c 
 
 
 # カーネルメモリ管理

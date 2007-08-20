@@ -39,6 +39,10 @@
 
 #include "../../../src/kernel/hos/sta_hos.c"
 
+#include "../../../src/kernel/hep/cre_hep.c"
+#include "../../../src/kernel/hep/alc_hep.c"
+#include "../../../src/kernel/hep/fre_hep.c"
+
 #include "../../../src/kernel/mem/ini_mem.c"
 #include "../../../src/kernel/mem/alc_mem.c"
 #include "../../../src/kernel/mem/fre_mem.c"

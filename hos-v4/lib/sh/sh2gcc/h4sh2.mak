@@ -89,6 +89,7 @@ OBJS = pacctx.o pacint.o pacimsk.o \
        mrot_que.o mclr_que.o \
        mtic_tmo.o madd_tmo.o mrmv_tmo.o \
        sta_hos.o ini_mem.o alc_mem.o fre_mem.o \
+       cre_hep.o alc_hep.o fre_hep.o \
        ini_tsk.o cre_tsk.o acre_tsk.o kcre_tsk.o del_tsk.o \
        act_tsk.o can_act.o sta_tsk.o ext_tsk.o exd_tsk.o \
        ter_tsk.o chg_pri.o get_pri.o ref_tst.o \
@@ -235,6 +236,16 @@ mrmv_tmo.o: $(MKNLTMODIR)/mrmv_tmo.c $(INCS)
 sta_hos.o: $(KNLHOSDIR)/sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)/sta_hos.c
 
+# ヒープメモリ
+cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_hep.c 
+
 
 # カーネルメモリ管理
 ini_mem.o: $(KNLMEMDIR)/ini_mem.c $(INCS)
@@ -245,17 +256,6 @@ alc_mem.o: $(KNLMEMDIR)/alc_mem.c $(INCS)
 
 fre_mem.o: $(KNLMEMDIR)/fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_mem.c 
-
-
-# ヒープメモリ
-cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/cre_hep.c
-
-alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/alc_hep.c
-
-fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_hep.c 
 
 
 # タスク

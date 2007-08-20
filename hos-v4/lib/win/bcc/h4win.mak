@@ -21,6 +21,7 @@ MKNLTSKDIR = $(MKNLDIR)\tsk
 MKNLQUEDIR = $(MKNLDIR)\que
 MKNLTMODIR = $(MKNLDIR)\tmout
 KNLHOSDIR  = $(KERNELDIR)\hos
+KNLHEPDIR  = $(KERNELDIR)\hep
 KNLMEMDIR  = $(KERNELDIR)\mem
 KNLTSKDIR  = $(KERNELDIR)\tsk
 KNLSEMDIR  = $(KERNELDIR)\sem
@@ -55,6 +56,7 @@ INCS = $(INCDIR)\win\hospac.h \
        $(INCDIR)\mknl.h \
        $(INCDIR)\kernel.h \
        $(INCDIR)\knl_hos.h \
+       $(INCDIR)\knl_hep.h \
        $(INCDIR)\knl_mem.h \
        $(INCDIR)\knl_tsk.h \
        $(INCDIR)\knl_sem.h \
@@ -101,6 +103,9 @@ OBJS = $(OBJSDIR)\pacint.obj \
        $(OBJSDIR)\madd_tmo.obj \
        $(OBJSDIR)\mrmv_tmo.obj \
        $(OBJSDIR)\sta_hos.obj \
+       $(OBJSDIR)\cre_hep.obj \
+       $(OBJSDIR)\alc_hep.obj \
+       $(OBJSDIR)\fre_hep.obj \
        $(OBJSDIR)\ini_mem.obj \
        $(OBJSDIR)\alc_mem.obj \
        $(OBJSDIR)\fre_mem.obj \
@@ -293,6 +298,11 @@ $(OBJSDIR)\mrmv_tmo.obj: $(MKNLTMODIR)\mrmv_tmo.c $(INCS)
 
 # HOS 固有
 $(OBJSDIR)\sta_hos.obj: $(KNLHOSDIR)\sta_hos.c $(INCS)
+
+# メモリヒープ
+$(OBJSDIR)\cre_hep.obj: $(KNLHEPDIR)\cre_hep.c $(INCS)
+$(OBJSDIR)\alc_hep.obj: $(KNLHEPDIR)\alc_hep.c $(INCS)
+$(OBJSDIR)\fre_hep.obj: $(KNLHEPDIR)\fre_hep.c $(INCS)
 
 # カーネルメモリ管理
 $(OBJSDIR)\ini_mem.obj: $(KNLMEMDIR)\ini_mem.c $(INCS)

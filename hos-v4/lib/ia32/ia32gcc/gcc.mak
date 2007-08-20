@@ -61,6 +61,7 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
+       $(INCDIR)/knl_hep.h \
        $(INCDIR)/knl_mem.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \

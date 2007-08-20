@@ -55,6 +55,7 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/mknl.h \
        $(INCDIR)/kernel.h \
        $(INCDIR)/knl_hos.h \
+       $(INCDIR)/knl_hep.h \
        $(INCDIR)/knl_mem.h \
        $(INCDIR)/knl_tsk.h \
        $(INCDIR)/knl_sem.h \
@@ -228,6 +229,17 @@ sta_hos.o: $(KNLHOSDIR)/sta_hos.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLHOSDIR)/sta_hos.c
 
 
+# ヒープメモリ
+cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/cre_hep.c
+
+alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/alc_hep.c
+
+fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
+	$(CC) $(CFLAGS) $(KNLHEPDIR)/fre_hep.c 
+
+
 # カーネルメモリ管理
 ini_mem.o: $(KNLMEMDIR)/ini_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMEMDIR)/ini_mem.c
@@ -238,15 +250,6 @@ alc_mem.o: $(KNLMEMDIR)/alc_mem.c $(INCS)
 fre_mem.o: $(KNLMEMDIR)/fre_mem.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLMEMDIR)/fre_mem.c 
 
-# ヒープメモリ
-cre_hep.o: $(KNLHEPDIR)/cre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHEPDIR)/cre_hep.c
-
-alc_hep.o: $(KNLHEPDIR)/alc_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHEPDIR)/alc_hep.c
-
-fre_hep.o: $(KNLHEPDIR)/fre_hep.c $(INCS)
-	$(CC) $(CFLAGS) $(KNLHEPDIR)/fre_hep.c 
 
 # タスク
 ini_tsk.o: $(KNLTSKDIR)/ini_tsk.c $(INCS)
