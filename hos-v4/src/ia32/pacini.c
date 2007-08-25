@@ -142,22 +142,10 @@ setup_segments(void)
   /*  データセグメント  */
   define_region(&gdt[2], 0x0, 0xfffff, DATA_SEG_TYPE, KERNEL_PRIV);
 
-  /*  フラグの消去
-   */
-  asm("pushl $2\n\t"
-      "popf");
-  /*   Global Description Tableの読み込み  */
-  asm("movl %0, %%eax\n\t"
-      "lgdt (%%eax)\n\t"
-      "ljmp $0x8,$next\n\t"
-      "next:\n\t"
-      "movw $0x10,%%ax\n\t"
-      "movw %%ax, %%ds\n\t"
-      "movw %%ax, %%es\n\t"
-      "movw %%ax,%%fs\n\t"
-      "movw %%ax,%%gs\n\t"
-      "movw %%ax, %%ss\n\t"
-      :/* no output  */:"g"(&gdtr):"%eax");
+  init_eflags(); /*  フラグの消去  */
+
+  load_gdtr(gdtr); /*  Global Description Tableの読み込み  */
+
   /*
    *  例外用セグメント定義
    */

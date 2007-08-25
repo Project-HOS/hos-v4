@@ -74,11 +74,13 @@ INCS = $(INCDIR)/itron.h \
        $(INCDIR)/knl_sys.h \
        $(INCDIR)/knl_int.h \
        $(INCDIR)/knl_exc.h \
-       $(INCDIR)/ia32/descriptor.h \
-       $(INCDIR)/ia32/hosexp.h     \
-       $(INCDIR)/ia32/hospac.h     \
-       $(INCDIR)/ia32/ioport.h     \
-       $(INCDIR)/ia32/linkage.h    \
+       $(INCDIR)/ia32/ia32gcc/descriptor.h \
+       $(INCDIR)/ia32/ia32gcc/hosexp.h     \
+       $(INCDIR)/ia32/ia32gcc/idle.h       \
+       $(INCDIR)/ia32/ia32gcc/ioport.h     \
+       $(INCDIR)/ia32/ia32gcc/linkage.h    \
+       $(INCDIR)/ia32/ia32gcc/switch.h     \
+       $(INCDIR)/ia32/hospac.h             \
        $(INCDIR)/ia32/pic.h
 
 

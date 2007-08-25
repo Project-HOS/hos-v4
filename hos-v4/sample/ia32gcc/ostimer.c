@@ -6,7 +6,7 @@
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 #include "kernel.h"
-#include "ia32/ioport.h"
+#include "ia32/ia32gcc/ioport.h"
 #include "ostimer.h"
 /* OS用タイマ初期化 */
 void ostim_init(VP_INT exinf)

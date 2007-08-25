@@ -7,10 +7,17 @@
 /* ------------------------------------------------------------------------ */
 #ifndef __HOS_V4__IA32__hospac_h__
 #define __HOS_V4__IA32__hospac_h__
-#include "pic.h"         /*  割込みコントローラ関連処理  */
-#include "ioport.h"      /*  I/O ポート関連処理  */
-#include "hosexp.h"      /*  割り込み例外関連定義  */
-#include "descriptor.h"  /*  IA32ディスクリプタ関連定義  */
+#include "pic.h"                 /*  割込みコントローラ関連処理  */
+#if defined(__GNUC__ ) 
+#include "ia32gcc/linkage.h"     /*  gcc 固有リンケージ定義  */
+#include "ia32gcc/ioport.h"      /*  I/O ポート関連処理  */
+#include "ia32gcc/hosexp.h"      /*  割り込み例外関連定義  */
+#include "ia32gcc/descriptor.h"  /*  IA32ディスクリプタ関連定義  */
+#include "ia32gcc/switch.h"  /*  IA32ディスクリプタ関連定義  */
+#include "ia32gcc/idle.h"    /*  IA32アイドル処理関連定義  */
+#else
+#error "IA32 port can not support your compiler."
+#endif  /*  __GNUC__  */
 #include "itron.h"
 
 
@@ -32,51 +39,6 @@ typedef struct t_hos_pac_ctxinf
 /* ------------------------------------------ */
 #define MAX_IRQ_NR  16  /*  外部割込みの最大数  */
 
-/*  タスクスイッチング  */
-#define __hos_pac_ia32_do_task_switch(current_p, next_p) \
-	__asm__ __volatile__(                            \
-        "pushfl     \n\t"                                \
-        "pushl %%ebx\n\t"                                \
-        "pushl %%esi\n\t"                                \
-        "pushl %%edi\n\t"                                \
-        "pushl %%ebp\n\t"                                \
-	"pushl $1f\n\t"                                  \
-	"movl %%esp, (%0)\n\t" /* update stack val */    \
-	"movl (%1), %%esp\n\t" /* get next  */           \
-	"ret\n\t"                                        \
-        "1:\tpopl %%ebp\n\t"                             \
-        "popl %%edi\n\t"                                 \
-        "popl %%esi\n\t"                                 \
-        "popl %%ebx\n\t"                                 \
-        "popfl\n\t"                                      \
-	: /* no output */                                \
-	: "r" (current_p), "r" (next_p):"memory" )
-
-
-/*  コンテキスト積み込み  */
-#define __hos_pac_ia32_prep_ini_stack(spp, start_func,finalizer,arg)  \
-	  do{                                                         \
-          __asm__ __volatile__("subl $0xc,(%0)\n\t"                   \
-                               "movl (%0),%%ecx\n\t"                     \
-                               "movl %1,(%%ecx)\n\t"   /* func  */       \
-                               "movl %2,4(%%ecx)\n\t"   /* ext_tsk  */   \
-                               "movl %3,8(%%ecx)\n\t"   /* arg */        \
-                               :/* No input */                           \
-			       :"r"(spp),                                \
-			        "r"(start_func),"r"(finalizer),"r"(arg)  \
-                               :"ecx");                                  \
-          }while(0)
-
-#define hospac_del_ctx(pk_ctxinf)	/* 実行コンテキストの削除 */
-
-/*  アイドル時処理 
- *  電力消費低減のためにhlt命令を発行
- */
-#define hospac_idle()	__asm__ __volatile__("hlt\n\t")  
-
-#define hospac_dis_int()  __asm__ __volatile__("cli\n\t")  /* 割り込み禁止 */
-
-#define hospac_ena_int()  __asm__ __volatile__("sti\n\t")  /* 割り込み許可 */
 
 /* ------------------------------------------ */
 /*                関数宣言                    */

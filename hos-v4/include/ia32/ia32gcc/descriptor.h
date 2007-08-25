@@ -189,6 +189,27 @@ typedef struct _gate_desc{
                       :"g"(&idtr)          \
                       :"%eax")
 
+/*  フラグの消去  */
+#define init_eflags() do {                   \
+   __asm__ __volatile__("pushl $2\n\t"       \
+			"popf");             \
+  } while(0)
+
+/*  Global Description Tableの読み込み  */
+#define load_gdtr(gdtr) do {                 \
+   __asm__ __volatile__("movl %0, %%eax\n\t" \
+      "lgdt (%%eax)\n\t"                     \
+      "ljmp $0x8,$next\n\t"                  \
+      "next:\n\t"                            \
+      "movw $0x10,%%ax\n\t"                  \
+      "movw %%ax, %%ds\n\t"                  \
+      "movw %%ax, %%es\n\t"                  \
+      "movw %%ax,%%fs\n\t"                   \
+      "movw %%ax,%%gs\n\t"                   \
+      "movw %%ax, %%ss\n\t"                  \
+     :/* no output  */:"g"(&(gdtr)):"%eax"); \
+  } while (0)
+
 #endif  /*  __HOS_V4__IA32__descriptor_h__  */
 /* ------------------------------------------------------------------------ */
 /*  Copyright (C) 1998-2002 by Project HOS                                  */

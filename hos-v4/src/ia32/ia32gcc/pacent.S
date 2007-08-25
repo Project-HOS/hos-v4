@@ -6,7 +6,10 @@
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 #define ASM 1
-#include "hosexp.h"
+#include "ia32gcc/linkage.h"     /*  gcc 固有リンケージ定義  */
+#include "ia32gcc/hosexp.h"
+#include "pic.h"     /*  gcc 固有リンケージ定義  */
+	
 .bss
 ALIGN
 WVAR(_kernel_ia32__intrcnt)
