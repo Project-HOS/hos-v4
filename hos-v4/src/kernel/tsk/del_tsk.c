@@ -54,8 +54,9 @@ ER_ID del_tsk(
 
 	/* タスクコントロールブロックテーブルから登録解除 */
 	KERNEL_TSKID_TO_TCB_RAM(tskid) = NULL;
-
-
+	
+	mknl_unl_sys();		/* システムのロック解除 */
+	
 	return E_OK;		/* 成功 */
 }
 
