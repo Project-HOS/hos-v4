@@ -29,8 +29,8 @@ void mknl_exe_sys(
 	mknl_exe_sys_exec = exec;
 	
 	/* アイドルコンテキストをシステムタスクとして一時利用 */
-	hospac_del_ctx(&mknl_idlctx);												/* アイドルコンテキストを破棄 */
-	hospac_cre_ctx(&mknl_idlctx, exinf, exec, mknl_idl_stksz, mknl_idl_stk);	/* アイドルタスク生成 */
+	hospac_del_ctx(&mknl_idlctx);															/* アイドルコンテキストを破棄 */
+	hospac_cre_ctx(&mknl_idlctx, exinf, mknl_exe_sys_start, mknl_idl_stksz, mknl_idl_stk);	/* アイドルタスク生成 */
 	
 	/* タスクコンテキストスイッチ実行 */
 	mknl_run_mtcb = NULL;
