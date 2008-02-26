@@ -82,7 +82,7 @@ ER kernel_cre_mpl(
 	mplcb_ram->mplcb_rom = mplcb_rom;
 	mplcb_rom->mplatr    = pk_cmpl->mplatr;
 	mplcb_rom->mplsz     = pk_cmpl->mplsz;
-	mplcb_rom->mpl       = pk_cmpl->mpl;
+	mplcb_rom->mpl       = mpl;
 
 	/* ヒープ生成 */
 	kernel_cre_hep(&mplcb_ram->hep, mplcb_rom->mpl, mplcb_rom->mplsz);
