@@ -28,7 +28,8 @@ ER kernel_cre_mbf(
 	T_KERNEL_MBFCB     *mbfcb;
 	T_KERNEL_MBFCB_RAM *mbfcb_ram;
 	T_KERNEL_MBFCB_ROM *mbfcb_rom;
-
+	VP                 mbf;
+	
 	/* パラメーターチェック */
 #ifdef HOS_ERCHK_E_RSATR
 	if ( pk_cmbf->mbfatr & ~(TA_TFIFO | TA_TPRI) )
@@ -36,14 +37,28 @@ ER kernel_cre_mbf(
 		return E_RSATR;
 	}
 #endif
-
+	
 	/* メッセージバッファ用メモリの確保 */
-	mbfcb = (T_KERNEL_MBFCB *)kernel_alc_mem(sizeof(T_KERNEL_MBFCB));
-	if ( mbfcb == NULL )
+	if ( pk_cmbf->mbf == NULL )
 	{
-		return E_NOMEM;		/* メモリ不足 */
+		mbfcb = (T_KERNEL_MBFCB *)kernel_alc_mem(sizeof(T_KERNEL_MBFCB) + pk_cmbf->mbfsz);
+		if ( mbfcb == NULL )
+		{
+			return E_NOMEM;		/* メモリ不足 */
+		}
+		mbf = (VP)((VB *)mbfcb + pk_cmbf->mbfsz);
+	}
+	else
+	{
+		mbfcb = (T_KERNEL_MBFCB *)kernel_alc_mem(sizeof(T_KERNEL_MBFCB));
+		if ( mbfcb == NULL )
+		{
+			return E_NOMEM;		/* メモリ不足 */
+		}
+		mbf = pk_cmbf->mbf;
 	}
 
+	
 	/* メッセージバッファの設定 */
 	mbfcb_ram = &mbfcb->mbfcb_ram;
 	mbfcb_rom = &mbfcb->mbfcb_rom;
@@ -56,8 +71,8 @@ ER kernel_cre_mbf(
 	mbfcb_rom->mbfatr    = pk_cmbf->mbfatr;
 	mbfcb_rom->maxmsz    = pk_cmbf->maxmsz;
 	mbfcb_rom->mbfsz     = pk_cmbf->mbfsz;
-	mbfcb_rom->mbf       = pk_cmbf->mbf;
-
+	mbfcb_rom->mbf       = mbf;
+	
 	/* 管理テーブルへ追加 */
 	KERNEL_MBFID_TO_MBFCB_RAM(mbfid) = mbfcb_ram;
 
