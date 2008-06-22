@@ -1,25 +1,25 @@
 /*******************************************************************************
  *
- *  MIPS$B%W%m%;%C%5%l%8%9%?Dj5A(B
+ *  ¥×¥í¥»¥Ã¥µ¥ì¥¸¥¹¥¿ÄêµÁ
  *
- *                                  Copyright (C) 1998-2002 by Project HOS
+ *                                  Copyright (C) 1998-2008 by Project HOS
  *                                  http://sourceforge.jp/projects/hos/
  *******************************************************************************/
 
-/**
- *  CPU$B%3%"$N$N%l%8%9%?HV9fDj5A(B
- */
-#define zero    $00
-#define at      $01
-#define v0      $02
-#define v1      $03
-#define a0      $04
-#define a1      $05
-#define a2      $06
-#define a3      $07
+/***************************************
+ *  CPU¥³¥¢¤Î¤Î¥ì¥¸¥¹¥¿ÈÖ¹æÄêµÁ
+ ***************************************/
+#define zero    $0
+#define at      $1
+#define v0      $2
+#define v1      $3
+#define a0      $4
+#define a1      $5
+#define a2      $6
+#define a3      $7
 
-#define t0      $08
-#define t1      $09
+#define t0      $8
+#define t1      $9
 #define t2      $10
 #define t3      $11
 #define t4      $12
@@ -45,9 +45,9 @@
 #define fp      $30
 #define ra      $31
 
-/**
- *  $B%3%W%m%;%C%5(B0$B$N%l%8%9%?HV9fDj5A(B
- */
+/***************************************
+ *  ¥³¥×¥í¥»¥Ã¥µ0¤Î¥ì¥¸¥¹¥¿ÈÖ¹æÄêµÁ
+ ***************************************/
 #define CP0_INDEX       $0
 #define CP0_RANDOM      $1
 #define CP0_ENTRYLO0    $2
@@ -81,3 +81,232 @@
 #define CP0_TAGHI       $29
 #define CP0_ERROREPC    $30
 #define CP0_DESAVE      $31
+
+/***************************************
+ *  ¥ì¥¸¥¹¥¿ÂàÈò¥Þ¥¯¥í
+ ***************************************/
+
+.macro	pushall
+		move	k0, sp			/* ¿­Ä¥Á°¤Î¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿¤òÂàÈò */
+		subu	sp, sp, 288		/* ¥¹¥¿¥Ã¥¯¥Õ¥ì¡¼¥à³ÎÊÝ¡Ê4*72=288¥Ð¥¤¥È¡Ë*/
+		sw		k0, 29*4(sp)	// sp
+
+		.set	push
+		.set	noat
+		sw		$1, 1*4(sp)
+		.set	pop
+
+		sw		v1, 3*4(sp)
+		mfc0	v1, CP0_STATUS
+		sw		v0, 2*4(sp)
+		sw		v1, 36*4(sp)	// STATUS
+		sw		a0,  4*4(sp)
+		mfc0	v1, CP0_CAUSE
+		sw		a1,  5*4(sp)
+		sw		v1, 37*4(sp)	// CAUSE
+		sw		a2,  6*4(sp)
+		mfc0	v1, CP0_EPC
+		sw		a3,  7*4(sp)
+		sw		v1, 34*4(sp)	// EPC
+		sw		t0,  8*4(sp)
+		sw		t1,  9*4(sp)
+		sw		t2, 10*4(sp)
+		sw		t3, 11*4(sp)
+		sw		t4, 12*4(sp)
+		sw		t5, 13*4(sp)
+		sw		t6, 14*4(sp)
+		sw		t7, 15*4(sp)
+		sw		t8, 24*4(sp)
+		sw		t9, 25*4(sp)
+		sw		s0, 16*4(sp)
+		sw		s1, 17*4(sp)
+		sw		s2, 18*4(sp)
+		sw		s3, 19*4(sp)
+		sw		s4, 20*4(sp)
+		sw		s5, 21*4(sp)
+		sw		s6, 22*4(sp)
+		sw		s7, 23*4(sp)
+	//	sw		k0, 26*4(sp)
+		sw		k1, 27*4(sp)
+	//	sw		gp, 28*4(sp)
+		mflo	v0
+		mfhi	v1
+		sw		fp, 30*4(sp)	/*	É¬Í×¤Ê¤·¡©	*/
+		sw		ra, 31*4(sp)
+		sw		v0, 32*4(sp)	// lo
+		sw		v1, 33*4(sp)	// hi
+#if 1
+		swc1	$0,  38*4(sp)
+		swc1	$1,  39*4(sp)
+		swc1	$2,  40*4(sp)
+		swc1	$3,  41*4(sp)
+		swc1	$4,  42*4(sp)
+		swc1	$5,  43*4(sp)
+		swc1	$6,  44*4(sp)
+		swc1	$7,  45*4(sp)
+		swc1	$8,  46*4(sp)
+		swc1	$9,  47*4(sp)
+		swc1	$10, 48*4(sp)
+		swc1	$11, 49*4(sp)
+		swc1	$12, 50*4(sp)
+		swc1	$13, 51*4(sp)
+		swc1	$14, 52*4(sp)
+		swc1	$15, 53*4(sp)
+		swc1	$16, 54*4(sp)
+		swc1	$17, 55*4(sp)
+		swc1	$18, 56*4(sp)
+		swc1	$19, 57*4(sp)
+		swc1	$20, 58*4(sp)
+		swc1	$21, 59*4(sp)
+		swc1	$22, 60*4(sp)
+		swc1	$23, 61*4(sp)
+		swc1	$24, 62*4(sp)
+		swc1	$25, 63*4(sp)
+		swc1	$26, 64*4(sp)
+		swc1	$27, 65*4(sp)
+		swc1	$28, 66*4(sp)
+		swc1	$29, 67*4(sp)
+		swc1	$30, 68*4(sp)
+		swc1	$31, 69*4(sp)
+		cfc1	$12, $25
+		sw		$12, 70*4(sp)
+#else	// sp ¤Î²¼°Ì3bit¤¬ 0 ¤Ç¤¢¤ë¤Ê¤é»È¤¨¤ë
+		sdc1	$0,  38*4(sp)
+		sdc1	$2,  40*4(sp)
+		sdc1	$4,  42*4(sp)
+		sdc1	$6,  44*4(sp)
+		sdc1	$8,  46*4(sp)
+		sdc1	$10, 48*4(sp)
+		sdc1	$12, 50*4(sp)
+		sdc1	$14, 52*4(sp)
+		sdc1	$16, 54*4(sp)
+		sdc1	$18, 56*4(sp)
+		sdc1	$20, 58*4(sp)
+		sdc1	$22, 60*4(sp)
+		sdc1	$24, 62*4(sp)
+		sdc1	$26, 64*4(sp)
+		sdc1	$28, 66*4(sp)
+		sdc1	$30, 68*4(sp)
+		cfc1	$12, $25
+		sw		$12, 70*4(sp)
+#endif
+.endm
+/***************************************
+ *  ¥ì¥¸¥¹¥¿Éüµ¢¥Þ¥¯¥í
+ ***************************************/
+.macro	popall
+		.set	push
+		.set	reorder
+		mfc0	t0, CP0_STATUS
+		.set	pop
+		ori		t0, 0x1F
+		xori	t0, 0x1F
+		mtc0	t0, CP0_STATUS
+		li		v1, 0xFF00
+		and		t0, v1
+		lw		v0,   4*36(sp)	// STATUS
+		nor		v1, $0, v1
+		and		v0, v1
+		or		v0, t0
+		mtc0	v0, CP0_STATUS
+		lw		v1,  4*34(sp)	// EPC
+		mtc0	v1, CP0_EPC
+
+		.set	push
+		.set	noat
+		lw		$1,   4*1(sp)
+		.set	pop
+
+		lw		t8, 32*4(sp)	// lo
+		lw		t9, 33*4(sp)	// hi
+		lw		v0,  2*4(sp)
+		lw		v1,  3*4(sp)
+		mtlo	t8
+		mthi	t9
+		lw		a0,  4*4(sp)
+		lw		a1,  5*4(sp)
+		lw		a2,  6*4(sp)
+		lw		a3,  7*4(sp)
+		lw		t0,  8*4(sp)
+		lw		t1,  9*4(sp)
+		lw		t2, 10*4(sp)
+		lw		t3, 11*4(sp)
+		lw		t4, 12*4(sp)
+		lw		t5, 13*4(sp)
+		lw		t6, 14*4(sp)
+		lw		t7, 15*4(sp)
+		lw		t8, 24*4(sp)
+		lw		t9, 25*4(sp)
+		lw		s0, 16*4(sp)
+		lw		s1, 17*4(sp)
+		lw		s2, 18*4(sp)
+		lw		s3, 19*4(sp)
+		lw		s4, 20*4(sp)
+		lw		s5, 21*4(sp)
+		lw		s6, 22*4(sp)
+		lw		s7, 23*4(sp)
+	//	lw		k0, 26*4(sp)
+		lw		k1, 27*4(sp)
+	//	lw		gp, 28*4(sp)
+		lw		fp, 30*4(sp)	/* É¬Í×¤Ê¤·¡©	*/
+		lw		ra, 31*4(sp)
+#if 1
+		lwc1	$0,  38*4(sp)
+		lwc1	$1,  39*4(sp)
+		lwc1	$2,  40*4(sp)
+		lwc1	$3,  41*4(sp)
+		lwc1	$4,  42*4(sp)
+		lwc1	$5,  43*4(sp)
+		lwc1	$6,  44*4(sp)
+		lwc1	$7,  45*4(sp)
+		lwc1	$8,  46*4(sp)
+		lwc1	$9,  47*4(sp)
+		lwc1	$10, 48*4(sp)
+		lwc1	$11, 49*4(sp)
+		lwc1	$12, 50*4(sp)
+		lwc1	$13, 51*4(sp)
+		lwc1	$14, 52*4(sp)
+		lwc1	$15, 53*4(sp)
+		lwc1	$16, 54*4(sp)
+		lwc1	$17, 55*4(sp)
+		lwc1	$18, 56*4(sp)
+		lwc1	$19, 57*4(sp)
+		lwc1	$20, 58*4(sp)
+		lwc1	$21, 59*4(sp)
+		lwc1	$22, 60*4(sp)
+		lwc1	$23, 61*4(sp)
+		lwc1	$24, 62*4(sp)
+		lwc1	$25, 63*4(sp)
+		lwc1	$26, 64*4(sp)
+		lwc1	$27, 65*4(sp)
+		lwc1	$28, 66*4(sp)
+		lwc1	$29, 67*4(sp)
+		lwc1	$30, 68*4(sp)
+		lwc1	$31, 69*4(sp)
+		lw		$12, 70*4(sp)
+		ctc1	$25, $12
+#else	// sp ¤Î²¼°Ì3bit¤¬ 0 ¤Ç¤¢¤ë¤Ê¤é»È¤¨¤ë
+		ldc1	$0,  38*4(sp)
+		ldc1	$2,  40*4(sp)
+		ldc1	$4,  42*4(sp)
+		ldc1	$6,  44*4(sp)
+		ldc1	$8,  46*4(sp)
+		ldc1	$10, 48*4(sp)
+		ldc1	$12, 50*4(sp)
+		ldc1	$14, 52*4(sp)
+		ldc1	$16, 54*4(sp)
+		ldc1	$18, 56*4(sp)
+		ldc1	$20, 58*4(sp)
+		ldc1	$22, 60*4(sp)
+		ldc1	$24, 62*4(sp)
+		ldc1	$26, 64*4(sp)
+		ldc1	$28, 66*4(sp)
+		ldc1	$30, 68*4(sp)
+		lw		$12, 70*4(sp)
+		ctc1	$25, $12
+#endif
+		lw		sp, 29*4(sp)			/* ¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿¤ÎÉüµ¢ */
+.endm
+/* ------------------------------------------------------------------------ */
+/*  Copyright (C) 1998-2008 by Project HOS                                  */
+/* ------------------------------------------------------------------------ */

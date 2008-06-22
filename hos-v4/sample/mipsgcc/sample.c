@@ -15,6 +15,7 @@
 #include "kernel.h"
 #include "kernel_id.h"
 #include "sample.h"
+#include	<math.h>
 
 /**
  *  main関数
@@ -34,11 +35,11 @@ main(void)
 void
 sample_init (VP_INT exinf)
 {
-    act_tsk (TSKID_SAMPLE_1);
-    act_tsk (TSKID_SAMPLE_2);
+	act_tsk (TSKID_SAMPLE_1);
+	act_tsk (TSKID_SAMPLE_2);
 
-    /* 周期タイマの起動 */
-    sta_cyc (CYCID_SAMPLE_1);
+	/* 周期タイマの起動 */
+	sta_cyc (CYCID_SAMPLE_1);
 }
 
 /**
@@ -49,10 +50,10 @@ sample_init (VP_INT exinf)
 void
 sample_task_1 (VP_INT exinf)
 {
-    for (;;) {
-        wai_sem (SEMID_SAMPLE_1);
-        sample_print (1);
-    }
+	for (;;) {
+		wai_sem (SEMID_SAMPLE_1);
+		sample_print (1);
+	}
 }
 
 /**
@@ -61,14 +62,23 @@ sample_task_1 (VP_INT exinf)
  *  - セマフォを解除
  *  - 現在時刻とタスク名を表示
  */
+
+float	b;
+double	c;
+
 void
 sample_task_2 (VP_INT exinf)
 {
-    for (;;){
-        slp_tsk ();
-        sig_sem (SEMID_SAMPLE_1);
-        sample_print (2);
-    }
+	static float	a = 0.0f;
+
+	for (;;){
+		slp_tsk ();
+		sig_sem (SEMID_SAMPLE_1);
+		a += 0.1f;
+		b = sinf( a / 3.14f );
+		c = sin( (double)a / 3.14 );
+		sample_print (2);
+	}
 }
 
 /**
@@ -77,22 +87,31 @@ sample_task_2 (VP_INT exinf)
 void
 sample_print (int no)
 {
-    SYSTIM st;
+	SYSTIM st;
 
-    get_tim (&st);
+	get_tim (&st);
 
-    uart1_putc ('0'+ (st.ltime / 10000) % 10);
-    uart1_putc ('0'+ (st.ltime / 1000) % 10);
-    uart1_putc ('0'+ (st.ltime / 100) % 10);
-    uart1_putc ('0'+ (st.ltime / 10) % 10);
-    uart1_putc ('0'+ (st.ltime / 1) % 10);
-    uart1_puts (":Task ");
-    uart1_putc ('0'+no);
-    uart1_puts ("\n\r");
+	uart1_putc ('0'+ (st.ltime / 10000) % 10);
+	uart1_putc ('0'+ (st.ltime / 1000) % 10);
+	uart1_putc ('0'+ (st.ltime / 100) % 10);
+	uart1_putc ('0'+ (st.ltime / 10) % 10);
+	uart1_putc ('0'+ (st.ltime / 1) % 10);
+	uart1_puts (":Task ");
+	uart1_putc ('0'+no);
+
+	if( no == 2 ) {
+		uart1_putc( ' ' );
+		uart1_outval( (int)(b * 10000.0f) );
+		uart1_putc( ' ' );
+		uart1_outval( (int)(c * 10000.0) );
+		uart1_putc( ' ' );
+	}
+
+	uart1_puts ("\n\r");
 }
 
 void
 sample_cycle_handler (VP_INT exinf)
 {
-    iwup_tsk (TSKID_SAMPLE_2);
+	iwup_tsk (TSKID_SAMPLE_2);
 }

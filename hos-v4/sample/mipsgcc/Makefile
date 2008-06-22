@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-#  Hyper Operating System V4  •µ•Û•◊•Î•◊•Ì•∞•È•‡                      
+#  Hyper Operating System V4  ÉTÉìÉvÉãÉvÉçÉOÉâÉÄ                      
 #                                                                     
 #                                  Copyright (C) 1998-2007 by Project HOS
 #                                  http://sourceforge.jp/projects/hos/
@@ -17,17 +17,17 @@ TARGET = sample.bin
 LIBDIR = ../../lib/mips/mipsgcc
 INCDIR = ../../include
 
-CFLAGS = -c -O2 -mips4 -EL -Wall -I$(INCDIR) -I/usr/local/mipsel-semb-elf/include
-AFLAGS = -c -mips4 -EL -Wall -pipe
+CFLAGS = -c -O2 -march=vr5500 -EL -Wall -I$(INCDIR) -I/usr/local/mipsel-semb-elf/include
+AFLAGS = -c -march=vr5500 -EL -Wall -pipe
 LDSCRIPT = semb1200a-rom.ld
-LFLAGS = -mips4 -mrelax -nostartfiles -L$(LIBDIR) -Wl,-v,-t,-Map,sample.map,-T${LDSCRIPT}
-LDSTART1 = -Wl,--section-start,.text=0x9FC80000,-Map,sample.map
+LFLAGS = -march=vr5500 -mrelax -nostartfiles -L$(LIBDIR) -Wl,-v,-Map,sample.map,-T${LDSCRIPT}
+LDSTART1 = -Wl,--section-start,.text=0x9FD00000,-Map,sample.map
 
 CFGFLAGS = -E -x c -Wall  -I$(INCDIR) -pipe
 
 INCS = kernel_id.h
 OBJS = crt0.o kernel_cfg.o sample.o ostimer.o 
-LIBS = -lh4mips -lsemb
+LIBS = -lsemb -lh4mips -lm
 
 all: $(TARGET)
 

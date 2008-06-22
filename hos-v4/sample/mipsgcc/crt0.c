@@ -1,69 +1,84 @@
-#include <semb1200a/semb1200a.h>
-#include "semb1200a/ux_signal.h"
+#include	<semb1200a/semb1200a.h>
+#include	<semb1200a/ux_signal.h>
+#include	<string.h>
 
-// キャッシュを不使用にする
-void
-cache_off (void)
-{
-	unsigned long	tmp;
-    unsigned long   off = 0x00000010;
-    unsigned long   mask =0x00000038;
-
-	tmp = read_32bit_cp0_register( CP0_ENTRYLO0);
-	tmp &= ~mask;
-    tmp |= off;
-	write_32bit_cp0_register( CP0_ENTRYLO0, tmp );
-
-	tmp = read_32bit_cp0_register( CP0_ENTRYLO1);
-	tmp &= ~mask;
-    tmp |= off;
-	write_32bit_cp0_register( CP0_ENTRYLO1, tmp );
-}
+#define		INT_ADDRESS		(0xA0000180)
+#define		INT_HANDLER		(0xA0000800)
 
 /*
  *  crt0.c for SEMB1200A
  */
-#if 1
-// $29: stack pointer
-// $28: gp (?)
-asm( "  .text\n"
-     "  .align      2\n"
-     "  .global     _start      \n"
-     "  .ent        _start      \n"
-     "_start:               \n"
-     "  la  $29,    _stack_init \n"
-     "  la  $28,    _gp     \n"
-     "  j   _start1         \n"
-     "  .end    _start          \n" );
-#endif
+asm("	.text						\n"
+	"	.align	4					\n"
+	"	.global	_start				\n"
+	"	.ent	_start				\n"
+	"_start:						\n"
+	"	la		$29, _stack_init	\n"
+	"	la		$28, _gp			\n"
+	"	mfc0	$2,  $12			\n"
+	"	lui		$3,  0x0400			\n"
+	"	not		$3					\n"
+	"	and		$2,  $3				\n"
+	"	mtc0	$2,  $12			\n"
+	"	nop							\n"
+	"	nop							\n"
+	"	j		_start1				\n"
+	"	nop							\n"
+	"	.end	_start				\n" );
 
-#include    <string.h>
-
-extern int main (void);
-extern void int_handler (void);
-
-void
-_start1( void )
+/*
+ *  cache (8byte)
+ */
+#define	cache8(fadrs)	({						\
+			register int __adrs;				\
+			__asm__ __volatile__ (				\
+				"li		%0,"STR(fadrs)"\n\t"	\
+				"cache	4,0(%0)\n\t"			\
+				"cache	4,1(%0)\n\t"			\
+				"cache	4,2(%0)\n\t"			\
+				"cache	4,3(%0)\n\t"			\
+				"cache	4,4(%0)\n\t"			\
+				"cache	4,5(%0)\n\t"			\
+				"cache	4,6(%0)\n\t"			\
+				"cache	4,7(%0)\n\t"			\
+				"nop"							\
+				: "=r" (__adrs));				\
+		})
+/*
+ *  inline memcpy(), memset()
+ */
+void	__crt0_memcpy(
+	char	*dst,
+	char	*src,
+	int		len
+)
 {
-    int i;
-    volatile int *p;
-    extern  char    _erdata[], _data[], _edata[];
-    extern  char    _fbss[], _end[];
+	while( len-- > 0 ) {
+		*dst++ = *src++;
+	}
+}
+void	__crt0_memset(
+	char	*des,
+	int		c,
+	int		len
+)
+{
+	while( len-- > 0 ) {
+		*des++ = (char)c;
+	}
+}
+void	_start1( void )
+{
+	extern	int		main( void );
+	extern	char	inthdl[], einthdl[], inthdljp[];
+	extern	char	_erdata[], _data[], _edata[];
+	extern	char	_fbss[], _end[];
 
-    // DATA領域のコピー
-    memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
-    // FBSS領域の初期化
-    memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
-    // キャッシュ不使用を試す
-    cache_off ();
+	__crt0_memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
+	__crt0_memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
 
-    //uart1_putc ('1');
-    // 割り込みハンドラの登録（無理矢理コピー）
-    // 一般例外アドレス(キャッシュなし）
-    p = (int*)0xA0000180;
-    for (i=0; i<400; i++) {
-        p[i] = *((int *)int_handler + i);
-    }
-    // メインルーチンの呼び出し
-    main();
+	__crt0_memcpy( (char*)INT_HANDLER, inthdl, (size_t)einthdl - (size_t)inthdl );
+	__crt0_memcpy( (char*)INT_ADDRESS, inthdljp, 8 );
+	cache8( INT_ADDRESS );
+	main();
 }

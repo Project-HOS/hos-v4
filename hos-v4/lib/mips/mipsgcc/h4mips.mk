@@ -2,7 +2,7 @@
 #  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                     
 #   ライブラリメイクファイル MIPS3互換コア用
 #                                                                             
-#                                     Copyright (C) 1998-2007 by Project HOS  
+#                                     Copyright (C) 1998-2008 by Project HOS  
 #                                     http://sourceforge.jp/projects/hos/     
 # --------------------------------------------------------------------------- 
 
@@ -42,8 +42,8 @@ LIBR   = mipsel-semb-elf-ar
 RANLIB = mipsel-semb-elf-ranlib
 
 # オプション
-CFLAGS = -c -O2 -mips4 -EL -Wall -I$(INCDIR) 
-AFLAGS = -c -mips4 -EL
+CFLAGS = -c -march=vr5500 -EL -O2 -Wall -I$(INCDIR)
+AFLAGS = -c -march=vr5500 -EL
 
 # ターゲット
 TARGET  = libh4mips.a
@@ -659,7 +659,9 @@ clean:
 	rm -f $(OBJS) *~
 	rm -f $(TARGET)
 
+install:
+	cp libh4mips.a /usr/local/mipsel-semb-elf/lib
 
 # -----------------------------------------------------------------------------
-#  Copyright (C) 1998-2007 by Project HOS                                      
+#  Copyright (C) 1998-2008 by Project HOS                                      
 # -----------------------------------------------------------------------------
