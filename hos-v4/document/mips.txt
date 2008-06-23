@@ -1,77 +1,80 @@
 ------------------------------------------------------------------------------
-  Hyper Operating System V4  ¦ÌITRON4.0»ÅÍÍ Real-Time OS                      
-    MIPS4(gcc)ÍÑ ¥É¥­¥å¥á¥ó¥È                                                 
+  Hyper Operating System V4  ƒÊITRON4.0Žd—l Real-Time OS                      
+    MIPS4(gcc)—p ƒhƒLƒ…ƒƒ“ƒg                                                 
                                                                               
                                        Copyright (C) 1998-2008 by Project HOS 
                                        http://sourceforge.jp/projects/hos/    
 ------------------------------------------------------------------------------
 
 
-1. ³µÍ×
+1. ŠT—v
 
-  ËÜ¥É¥­¥å¥á¥ó¥È¤Ï Hyper Operating System V4¡Ê°Ê²¼ HOS-V4¡Ë¤ÎMIPS¥³¥¢
-  ¤Î¸ÇÍ­ÉôÊ¬¤Ë¤Ä¤¤¤Æ¤ÎÀâÌÀ¤òµ­ºÜ¤·¤Þ¤¹¡£
+  –{ƒhƒLƒ…ƒƒ“ƒg‚Í Hyper Operating System V4iˆÈ‰º HOS-V4j‚ÌMIPSƒRƒA
+  ‚ÌŒÅ—L•”•ª‚É‚Â‚¢‚Ä‚Ìà–¾‚ð‹LÚ‚µ‚Ü‚·B
 
-2. Æ°ºî´Ä¶­¤È¤½¤Î¹½ÃÛ
+2. “®ìŠÂ‹«‚Æ‚»‚Ì\’z
 
-2.1 CPU¥Ü¡¼¥É
+2.1 CPUƒ{[ƒh
 
-Æ°ºî³ÎÇ§¤¬¤µ¤ì¤Æ¤¤¤ëCPU¥Ü¡¼¥É¤Ï¡¢°Ê²¼¤Î¤â¤Î¤Ç¤¹¡£
+“®ìŠm”F‚ª‚³‚ê‚Ä‚¢‚éCPUƒ{[ƒh‚ÍAˆÈ‰º‚Ì‚à‚Ì‚Å‚·B
 
-- ¥·¥Þ¥Õ¥¸ÅÅµ¡ SEMB1200A
+- ƒVƒ}ƒtƒW“d‹@ SEMB1200A
   (http://www.shimafuji.co.jp/semb1200a/index.html)
 
-2.2 ³«È¯´Ä¶­
+2.2 ŠJ”­ŠÂ‹«
 
-cygwin¾å¤ÇÆ°ºî¤¹¤ëgcc¥¯¥í¥¹¥³¥ó¥Ñ¥¤¥é¤ÇÆ°ºî³ÎÇ§¤·¤Æ¤¤¤Þ¤¹¡£¾Ü¤·¤¯¤Ï¡¢
-sugi3ÍÍ¤Î¥Ú¡¼¥¸(http://home.r07.itscom.net/robin/)¤ò»²¹Í¤Ë¤·¤Æ¤¯¤À¤µ¤¤¡£
-¥¯¥í¥¹¥³¥ó¥Ñ¥¤¥é¤Î¥Ð¥¤¥Ê¥ê¤Ç¤ÎÇÛÉÛ¤â¹Ô¤Ã¤Æ¤é¤Ã¤·¤ã¤ë¤Î¤Ç¡¢»ý¤Ã¤Æ¤­¤ÆÅ¸
-³«¤¹¤ì¤Ð¤½¤Î¤Þ¤Þ¤Ç¤­¤Þ¤¹¡£
+cygwinã‚Å“®ì‚·‚égccƒNƒƒXƒRƒ“ƒpƒCƒ‰‚Å“®ìŠm”F‚µ‚Ä‚¢‚Ü‚·BÚ‚µ‚­‚ÍA
+sugi3—l‚Ìƒy[ƒW(http://home.r07.itscom.net/robin/)‚ðŽQl‚É‚µ‚Ä‚­‚¾‚³‚¢B
+ƒNƒƒXƒRƒ“ƒpƒCƒ‰‚ÌƒoƒCƒiƒŠ‚Å‚Ì”z•z‚às‚Á‚Ä‚ç‚Á‚µ‚á‚é‚Ì‚ÅAŽ‚Á‚Ä‚«‚Ä“W
+ŠJ‚·‚ê‚Î‚»‚Ì‚Ü‚Ü‚Å‚«‚Ü‚·B
 
-¤Þ¤¿¡¢¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à¤ò¥³¥ó¥Ñ¥¤¥ë¤¹¤ë¤Ë¤Ï¡¢²¼µ­¤Ç¸ø³«¤·¤Æ¤¤¤ë
-SEMB1200AÍÑ¥é¥¤¥Ö¥é¥ê¤¬É¬Í×¤Ç¤¹¡£
+‚»‚Ì‘¼AMinGW+MSYSŠÂ‹«‚Å‚àŠÂ‹«‚ðÝ’è‚·‚é‚±‚Æ‚Å“®ì‚·‚é‚±‚Æ‚ðŠm”F‚µ‚Ä
+‚¢‚Ü‚·B
+
+‚Ü‚½AƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€‚ðƒRƒ“ƒpƒCƒ‹‚·‚é‚É‚ÍA‰º‹L‚ÅŒöŠJ‚µ‚Ä‚¢‚é
+SEMB1200A—pƒ‰ƒCƒuƒ‰ƒŠ‚ª•K—v‚Å‚·B
 (http://hw001.gate01.com/n-okada/robo-semb1200a.htm)
 
-HOS¥é¥¤¥Ö¥é¥ê¼«ÂÎ¤Î¥³¥ó¥Ñ¥¤¥ë¤Ë¤Ï¡¢SEMB1200AÍÑ¥é¥¤¥Ö¥é¥ê¤ÏÉÔÍ×¤Ç¤¹¡£
+HOSƒ‰ƒCƒuƒ‰ƒŠŽ©‘Ì‚ÌƒRƒ“ƒpƒCƒ‹‚É‚ÍASEMB1200A—pƒ‰ƒCƒuƒ‰ƒŠ‚Í•s—v‚Å‚·B
 
-2.3 HOS¤Î¥³¥ó¥Ñ¥¤¥ë
+2.3 HOS‚ÌƒRƒ“ƒpƒCƒ‹
 
-- ¤Þ¤º hos4cfg.exe ¤ÎÀ¸À®¤¬É¬Í×¤Ç¤¹¤Î¤Ç¡¢hos-v4/config ¤Ë°ÜÆ°¤·¤Þ¤¹¡£
+- ‚Ü‚¸ hos4cfg.exe ‚Ì¶¬‚ª•K—v‚Å‚·‚Ì‚ÅAhos-v4/config ‚ÉˆÚ“®‚µ‚Ü‚·B
 
-- make -f gcc.mak ¤ò¼Â¹Ô¤·¤Þ¤¹¡£¡¡¤½¤ÎºÝ¡¢gcc, g++ ¤¬É¬Í×¤Ç¤¹¡£
+- make -f gcc.mak ‚ðŽÀs‚µ‚Ü‚·B@‚»‚ÌÛAgcc, g++ ‚ª•K—v‚Å‚·B
 
-- hos-v4/lib/mips/mipsgcc/¤Ë°ÜÆ°¤·¤Þ¤¹¡£
+- hos-v4/lib/mips/mipsgcc/‚ÉˆÚ“®‚µ‚Ü‚·B
 
-- h4mipsgcc.mk¤ò¥³¥ó¥Ñ¥¤¥é¤Ë¤¢¤ï¤»¤ÆÊÑ¹¹¤·¤Þ¤¹¡£
-  mipsel-semb-elf ¤Î´Ä¶­¤Ç¤¢¤ì¤Ð½¤Àµ¤ÏÉÔÍ×¤«¤â¤·¤ì¤Þ¤»¤ó¡£
+- h4mipsgcc.mk‚ðƒRƒ“ƒpƒCƒ‰‚É‚ ‚í‚¹‚Ä•ÏX‚µ‚Ü‚·B
+  mipsel-semb-elf ‚ÌŠÂ‹«‚Å‚ ‚ê‚ÎC³‚Í•s—v‚©‚à‚µ‚ê‚Ü‚¹‚ñB
 
-- make -f h4mipsgcc.mk¤È¤·¤Æmake¤·¤Þ¤¹¡£
+- make -f h4mipsgcc.mk‚Æ‚µ‚Ämake‚µ‚Ü‚·B
 
-- libh4mips.a¤¬À¸À®¤µ¤ì¤Þ¤¹¡£
+- libh4mips.a‚ª¶¬‚³‚ê‚Ü‚·B
 
-- make -f h4mipsgcc.mk install ¤ò¼Â¹Ô¤·¤Þ¤¹¡£
-  /usr/local/mipsel-semb-elf/lib ¤Ë libh4mips.a ¤¬¥³¥Ô¡¼¤µ¤ì¤Þ¤¹¡£
+- make -f h4mipsgcc.mk install ‚ðŽÀs‚µ‚Ü‚·B
+  /usr/local/mipsel-semb-elf/lib ‚É libh4mips.a ‚ªƒRƒs[‚³‚ê‚Ü‚·B
 
-2.4 ¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à¤Î¥³¥ó¥Ñ¥¤¥ë
+2.4 ƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€‚ÌƒRƒ“ƒpƒCƒ‹
 
-SEMB1200A¤ÇÆ°¤¯¤â¤Î¤Ë¤Ê¤Ã¤Æ¤¤¤Þ¤¹¡£Àµ¤·¤¯Æ°ºî¤¹¤ë¤È¡¢¥·¥ê¥¢¥ë¥³¥ó¥½¡¼
-¥ë¤Ë»þ¹ï¤Èµ¯Æ°¥¿¥¹¥¯Ì¾¤ò°ìÄê»þ´Ö¤ª¤­¤ËÉ½¼¨¤·¤Ä¤Å¤±¤Þ¤¹¡£
+SEMB1200A‚Å“®‚­‚à‚Ì‚É‚È‚Á‚Ä‚¢‚Ü‚·B³‚µ‚­“®ì‚·‚é‚ÆAƒVƒŠƒAƒ‹ƒRƒ“ƒ\[
+ƒ‹‚ÉŽž‚Æ‹N“®ƒ^ƒXƒN–¼‚ðˆê’èŽžŠÔ‚¨‚«‚É•\Ž¦‚µ‚Â‚Ã‚¯‚Ü‚·B
 
-- hos-v4/sample/mipsgcc/¤Ë°ÜÆ°¤·¤Þ¤¹¡£
+- hos-v4/sample/mipsgcc/‚ÉˆÚ“®‚µ‚Ü‚·B
 
-- Makefile¤ò³«È¯´Ä¶­¤Ë¤¢¤ï¤»¤ÆÊÑ¹¹¤·¤Þ¤¹¡£
+- Makefile‚ðŠJ”­ŠÂ‹«‚É‚ ‚í‚¹‚Ä•ÏX‚µ‚Ü‚·B
 
-- make¤·¤Þ¤¹¡£
+- make‚µ‚Ü‚·B
 
-- À¸À®¤µ¤ì¤¿sample.bin¤òWindowsÉÕÂ°¤Î¥Ï¥¤¥Ñ¡¼¥¿¡¼¥ß¥Ê¥ë¤ÇSEMB1200A¤Ë¥À
-  ¥¦¥ó¥í¡¼¥É¤·¡¢¼Â¹Ô¤·¤Þ¤¹¡£¾Ü¤·¤¯¤Ï¡¢SEMB1200A¤Î¥Þ¥Ë¥å¥¢¥ë¤ò»²¾È¤·¤Æ
-  ¤¯¤À¤µ¤¤¡£
+- ¶¬‚³‚ê‚½sample.bin‚ðWindows•t‘®‚ÌƒnƒCƒp[ƒ^[ƒ~ƒiƒ‹‚ÅSEMB1200A‚Éƒ_
+  ƒEƒ“ƒ[ƒh‚µAŽÀs‚µ‚Ü‚·BÚ‚µ‚­‚ÍASEMB1200A‚Ìƒ}ƒjƒ…ƒAƒ‹‚ðŽQÆ‚µ‚Ä
+  ‚­‚¾‚³‚¢B
 
-3 Îã³°½èÍý¡Ê³ä¤ê¹þ¤ß¤ò´Þ¤à¡Ë¤Ë¤Ä¤¤¤Æ
+3 —áŠOˆ—iŠ„‚èž‚Ý‚ðŠÜ‚Þj‚É‚Â‚¢‚Ä
 
-Ãí°Õ¡ª
-¡û¥¿¥¤¥Þ³ä¤ê¹þ¤ß¤·¤¿¥µ¥Ý¡¼¥È¤·¤Æ¤¤¤Þ¤»¤ó¡£
-¡ûÂ¿½Å³ä¤ê¹þ¤ß¤Ï¤Þ¤À¼ÂÁõ¤·¤Æ¤¤¤Þ¤»¤ó¡£
+’ˆÓI
+›ƒ^ƒCƒ}Š„‚èž‚Ý‚µ‚½ƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚¹‚ñB
+›‘½dŠ„‚èž‚Ý‚Í‚Ü‚¾ŽÀ‘•‚µ‚Ä‚¢‚Ü‚¹‚ñB
 
 ------------------------------------------------------------------------------
  Copyright (C) 1998-2008 by Project HOS                                       
