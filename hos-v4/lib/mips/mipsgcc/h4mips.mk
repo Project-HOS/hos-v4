@@ -43,7 +43,7 @@ RANLIB = mipsel-semb-elf-ranlib
 
 # オプション
 CFLAGS = -c -march=vr5500 -EL -O2 -Wall -I$(INCDIR)
-AFLAGS = -c -march=vr5500 -EL
+AFLAGS = -c -march=vr5500 -EL -I$(INCDIR)
 
 # ターゲット
 TARGET  = libh4mips.a

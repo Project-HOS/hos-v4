@@ -3,6 +3,7 @@
 #include	<string.h>
 
 #define		INT_ADDRESS		(0xA0000180)
+#define		INT_VECTOR		(0xA0000600)
 #define		INT_HANDLER		(0xA0000800)
 
 /*
@@ -77,6 +78,7 @@ void	_start1( void )
 	__crt0_memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
 	__crt0_memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
 
+	__crt0_memset( (char*)INT_VECTOR, 0, INT_HANDLER-INT_VECTOR );
 	__crt0_memcpy( (char*)INT_HANDLER, inthdl, (size_t)einthdl - (size_t)inthdl );
 	__crt0_memcpy( (char*)INT_ADDRESS, inthdljp, 8 );
 	cache8( INT_ADDRESS );

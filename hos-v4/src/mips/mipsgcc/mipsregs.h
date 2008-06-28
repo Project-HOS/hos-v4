@@ -87,27 +87,34 @@
  ***************************************/
 
 .macro	pushall
-		move	k0, sp			/* 伸張前のスタックポインタを退避 */
-		subu	sp, sp, 288		/* スタックフレーム確保（4*72=288バイト）*/
-		sw		k0, 29*4(sp)	// sp
-
+#if 0	// k0 レジスタは壊れる
+		move	k0, sp			# 伸張前のスタックポインタを退避
+		subu	sp, sp, 288		# スタックフレーム確保（4*72=288バイト）
+		sw		k0, 29*4(sp)	# sp
+#else	// k0 レジスタも退避する
+		subu	sp, sp, 288		# スタックフレーム確保 (4*72=288バイト)
+		sw		k0, 26*4(sp)
+		move	k0, sp
+		addu	k0, k0, 288
+		sw		k0, 29*4(sp)	# 伸張前のスタックポインタを退避
+#endif
 		.set	push
 		.set	noat
 		sw		$1, 1*4(sp)
 		.set	pop
 
-		sw		v1, 3*4(sp)
+		sw		v1,  3*4(sp)
 		mfc0	v1, CP0_STATUS
-		sw		v0, 2*4(sp)
-		sw		v1, 36*4(sp)	// STATUS
+		sw		v0,  2*4(sp)
+		sw		v1, 36*4(sp)	# STATUS
 		sw		a0,  4*4(sp)
 		mfc0	v1, CP0_CAUSE
 		sw		a1,  5*4(sp)
-		sw		v1, 37*4(sp)	// CAUSE
+		sw		v1, 37*4(sp)	# CAUSE
 		sw		a2,  6*4(sp)
 		mfc0	v1, CP0_EPC
 		sw		a3,  7*4(sp)
-		sw		v1, 34*4(sp)	// EPC
+		sw		v1, 34*4(sp)	# EPC
 		sw		t0,  8*4(sp)
 		sw		t1,  9*4(sp)
 		sw		t2, 10*4(sp)
@@ -126,15 +133,14 @@
 		sw		s5, 21*4(sp)
 		sw		s6, 22*4(sp)
 		sw		s7, 23*4(sp)
-	//	sw		k0, 26*4(sp)
 		sw		k1, 27*4(sp)
 	//	sw		gp, 28*4(sp)
 		mflo	v0
 		mfhi	v1
-		sw		fp, 30*4(sp)	/*	必要なし？	*/
+		sw		fp, 30*4(sp)	# 必要なし？
 		sw		ra, 31*4(sp)
-		sw		v0, 32*4(sp)	// lo
-		sw		v1, 33*4(sp)	// hi
+		sw		v0, 32*4(sp)	# lo
+		sw		v1, 33*4(sp)	# hi
 #if 1
 		swc1	$0,  38*4(sp)
 		swc1	$1,  39*4(sp)
@@ -204,12 +210,12 @@
 		mtc0	t0, CP0_STATUS
 		li		v1, 0xFF00
 		and		t0, v1
-		lw		v0,   4*36(sp)	// STATUS
+		lw		v0,   4*36(sp)	# STATUS
 		nor		v1, $0, v1
 		and		v0, v1
 		or		v0, t0
 		mtc0	v0, CP0_STATUS
-		lw		v1,  4*34(sp)	// EPC
+		lw		v1,  4*34(sp)	# EPC
 		mtc0	v1, CP0_EPC
 
 		.set	push
@@ -217,8 +223,8 @@
 		lw		$1,   4*1(sp)
 		.set	pop
 
-		lw		t8, 32*4(sp)	// lo
-		lw		t9, 33*4(sp)	// hi
+		lw		t8, 32*4(sp)	# lo
+		lw		t9, 33*4(sp)	# hi
 		lw		v0,  2*4(sp)
 		lw		v1,  3*4(sp)
 		mtlo	t8
@@ -245,10 +251,10 @@
 		lw		s5, 21*4(sp)
 		lw		s6, 22*4(sp)
 		lw		s7, 23*4(sp)
-	//	lw		k0, 26*4(sp)
+		lw		k0, 26*4(sp)
 		lw		k1, 27*4(sp)
 	//	lw		gp, 28*4(sp)
-		lw		fp, 30*4(sp)	/* 必要なし？	*/
+		lw		fp, 30*4(sp)	# 必要なし？
 		lw		ra, 31*4(sp)
 #if 1
 		lwc1	$0,  38*4(sp)
@@ -305,7 +311,7 @@
 		lw		$12, 70*4(sp)
 		ctc1	$25, $12
 #endif
-		lw		sp, 29*4(sp)			/* スタックポインタの復帰 */
+		lw		sp, 29*4(sp)	# スタックポインタの復帰
 .endm
 /* ------------------------------------------------------------------------ */
 /*  Copyright (C) 1998-2008 by Project HOS                                  */
