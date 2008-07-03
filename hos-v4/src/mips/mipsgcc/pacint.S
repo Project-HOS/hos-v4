@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  ƒÊITRON4.0d—l Real-Time OS                  */
-/*    ƒvƒƒZƒbƒT’ŠÛ‰»ƒRƒ“ƒ|[ƒlƒ“ƒg (MIPS3ŒİŠ·ƒRƒA—p)                      */
-/*    Š„‚è‚İƒnƒ“ƒhƒ‰                                                      */
+/*  Hyper Operating System V4  ¦ÌITRON4.0»ÅÍÍ Real-Time OS                  */
+/*    ¥×¥í¥»¥Ã¥µÃê¾İ²½¥³¥ó¥İ¡¼¥Í¥ó¥È (MIPS3¸ß´¹¥³¥¢ÍÑ)                      */
+/*    ³ä¤ê¹ş¤ß¥Ï¥ó¥É¥é                                                      */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2008 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
@@ -9,22 +9,22 @@
 #include "mipsregs.h"
 #include "mips/vect.h"
 
-		.global int_handler				# Š„‚è‚İƒnƒ“ƒhƒ‰
-		.global inthdl					# crt0.c —p
-		.global einthdl					# crt0.c —p
-		.global inthdljp				# crt0.c —p
+		.global int_handler				# ³ä¤ê¹ş¤ß¥Ï¥ó¥É¥é
+		.global inthdl					# crt0.c ÍÑ
+		.global einthdl					# crt0.c ÍÑ
+		.global inthdljp				# crt0.c ÍÑ
 # **************************************************************************
-# *  Š„‚è‚İƒnƒ“ƒhƒ‰ (0x80000800 ‚Ö crt0.c ‚É‚ÄƒRƒs[‚³‚ê‚éj
-# *  “à•”‚ÅŠ„‚è‚İ—vˆö‚ğ”»’è‚µ‚Ä“o˜^‚µ‚½ƒnƒ“ƒhƒ‰‚ğŒÄ‚Ño‚·B
-# *  Œ»İ‚Íƒ^ƒCƒ}Š„‚è‚İ‚µ‚©ƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B
+# *  ³ä¤ê¹ş¤ß¥Ï¥ó¥É¥é (0x80000800 ¤Ø crt0.c ¤Ë¤Æ¥³¥Ô¡¼¤µ¤ì¤ë¡Ë
+# *  ÆâÉô¤Ç³ä¤ê¹ş¤ßÍ×°ø¤òÈ½Äê¤·¤ÆÅĞÏ¿¤·¤¿¥Ï¥ó¥É¥é¤ò¸Æ¤Ó½Ğ¤¹¡£
+# *  ¸½ºß¤Ï¥¿¥¤¥Ş³ä¤ê¹ş¤ß¤·¤«¥µ¥İ¡¼¥È¤·¤Æ¤¤¤Ê¤¤¡£
 # **************************************************************************
 		.text
 		.align	4
 int_handler:
 inthdl:
-		pushall							# ƒŒƒWƒXƒ^‘Ş”ğ
+		pushall							# ¥ì¥¸¥¹¥¿ÂàÈò
 #
-#	—áŠO“à—e‚ÌŠm”F‚Æ•ªŠò
+#	Îã³°ÆâÍÆ¤Î³ÎÇ§¤ÈÊ¬´ô
 #
 		.set noreorder
 		mfc0	k0, CP0_CAUSE
@@ -46,106 +46,106 @@ inthdl:
 		andi	k1, k0, (1 << 8)
 		bnez	k1, _irq_ip0
 		nop
-	# ExcCode “à‚Ìˆ—
+	# ExcCode Æâ¤Î½èÍı
 		srl		k0, k0, 2
-		andi	k0, k0, 0x001F			# ExcCode ‚Ì‚İæ‚èo‚·
-	#	1 	Mod 	TLB•ÏX—áŠO
+		andi	k0, k0, 0x001F			# ExcCode ¤Î¤ß¼è¤ê½Ğ¤¹
+	#	1 	Mod 	TLBÊÑ¹¹Îã³°
 		slti	k1, k0, 1
 		beq		k1, $0, _exccode_1
 		nop
-	#	2 	TLBL 	TLB•sˆê’v—áŠOiƒ[ƒh‚Ü‚½‚Í–½—ßƒtƒFƒbƒ`)
+	#	2 	TLBL 	TLBÉÔ°ìÃ×Îã³°¡Ê¥í¡¼¥É¤Ş¤¿¤ÏÌ¿Îá¥Õ¥§¥Ã¥Á)
 		slti	k1, k0, 2
 		beq		k1, $0, _exccode_2
 		nop
-	#	3 	TLBS 	TLB•sˆê’v—áŠOiƒXƒgƒAj
+	#	3 	TLBS 	TLBÉÔ°ìÃ×Îã³°¡Ê¥¹¥È¥¢¡Ë
 		slti	k1, k0, 3
 		beq		k1, $0, _exccode_3
 		nop
-	#	4 	AdEL 	ƒAƒhƒŒƒXEƒGƒ‰[—áŠOiƒ[ƒh‚Ü‚½‚Í–½—ßƒtƒFƒbƒ`j
+	#	4 	AdEL 	¥¢¥É¥ì¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥í¡¼¥É¤Ş¤¿¤ÏÌ¿Îá¥Õ¥§¥Ã¥Á¡Ë
 		slti	k1, k0, 4
 		beq		k1, $0, _exccode_4
 		nop
-	#	5 	AdES 	ƒAƒhƒŒƒXEƒGƒ‰[—áŠOiƒXƒgƒAj
+	#	5 	AdES 	¥¢¥É¥ì¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥¹¥È¥¢¡Ë
 		slti	k1, k0, 5
 		beq		k1, $0, _exccode_5
 		nop
-	#	6 	IBE 	ƒoƒXEƒGƒ‰[—áŠOi–½—ßƒtƒFƒbƒ`j
+	#	6 	IBE 	¥Ğ¥¹¡¦¥¨¥é¡¼Îã³°¡ÊÌ¿Îá¥Õ¥§¥Ã¥Á¡Ë
 	#	slti	k1, k0, 6
 	#	beq		k1, $0, _exccode_6
 	#	nop
-	#	7 	DBE 	ƒoƒXEƒGƒ‰[—áŠOiƒf[ƒ^‚Ìƒ[ƒh‚Ü‚½‚ÍƒXƒgƒAj
+	#	7 	DBE 	¥Ğ¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥Ç¡¼¥¿¤Î¥í¡¼¥É¤Ş¤¿¤Ï¥¹¥È¥¢¡Ë
 	#	slti	k1, k0, 7
 	#	beq		k1, $0, _exccode_7
 	#	nop
-	#	8 	Sys 	ƒVƒXƒeƒ€EƒR[ƒ‹—áŠO
+	#	8 	Sys 	¥·¥¹¥Æ¥à¡¦¥³¡¼¥ëÎã³°
 		slti	k1, k0, 8
 		beq		k1, $0, _exccode_8
 		nop
-	#	9 	Bp		ƒuƒŒ[ƒNƒ|ƒCƒ“ƒg—áŠO
+	#	9 	Bp		¥Ö¥ì¡¼¥¯¥İ¥¤¥ó¥ÈÎã³°
 		slti	k1, k0, 9
 		beq		k1, $0, _exccode_9
 		nop
-	#	10 	RI		—\–ñ–½—ß—áŠO
+	#	10 	RI		Í½ÌóÌ¿ÎáÎã³°
 		slti	k1, k0, 10
 		beq		k1, $0, _exccode_10
 		nop
-	#	11 	CpU		ƒRƒvƒƒZƒbƒTg—p•s‰Â—áŠO
+	#	11 	CpU		¥³¥×¥í¥»¥Ã¥µ»ÈÍÑÉÔ²ÄÎã³°
 		slti	k1, k0, 11
 		beq		k1, $0, _exccode_11
 		nop
-	#	12 	Ov		‰‰ZƒI[ƒoƒtƒ[—áŠO
+	#	12 	Ov		±é»»¥ª¡¼¥Ğ¥Õ¥í¡¼Îã³°
 		slti	k1, k0, 12
 		beq		k1, $0, _exccode_12
 		nop
-	#	13 	Tr		ƒgƒ‰ƒbƒv—áŠO
+	#	13 	Tr		¥È¥é¥Ã¥×Îã³°
 		slti	k1, k0, 13
 		beq		k1, $0, _exccode_13
 		nop
-	#	15 	FPE 	•‚“®¬”“_—áŠO
+	#	15 	FPE 	ÉâÆ°¾®¿ôÅÀÎã³°
 		slti	k1, k0, 15
 		beq		k1, $0, _exccode_15
 		nop
-	#	23 	Watch 	ƒEƒHƒbƒ`—áŠO
+	#	23 	Watch 	¥¦¥©¥Ã¥ÁÎã³°
 		slti	k1, k0, 23
 		beq		k1, $0, _exccode_23
 		nop
-	# ‚±‚±‚É‚Í—ˆ‚È‚¢‚Í‚¸BBB
+	# ¤³¤³¤Ë¤ÏÍè¤Ê¤¤¤Ï¤º¡£¡£¡£
 		beql	$0, $0, _ret_from_irq
 		nop
 		.set	reorder
 #
-#	IP7 —áŠOˆ— (HOS‚Ìƒ^ƒXƒNØ‚è‘Ö‚¦)
+#	IP7 Îã³°½èÍı (HOS¤Î¥¿¥¹¥¯ÀÚ¤êÂØ¤¨)
 #
 _irq_ip7:
-		# ƒXƒ^ƒbƒN‚Ì‘Ş”ğ
+		# ¥¹¥¿¥Ã¥¯¤ÎÂàÈò
 		la		k0, kernel_int_ssp
 		sw		sp, (k0)
 		la		k0, kernel_int_sp
 		lw		sp, (k0)
-		# Š„‚è‚İŠJnˆ—ŒÄ‚Ño‚µ
+		# ³ä¤ê¹ş¤ß³«»Ï½èÍı¸Æ¤Ó½Ğ¤·
 		la		k0, kernel_sta_int
 		jal		k0
 		nop
-		# Š„‚è‚İ”Ô†‚ğˆø”‚µ‚ÄÀsˆ—ŒÄ‚Ño‚µ
+		# ³ä¤ê¹ş¤ßÈÖ¹æ¤ò°ú¿ô¤·¤Æ¼Â¹Ô½èÍı¸Æ¤Ó½Ğ¤·
 		la		k0, kernel_exe_int
-		li		a0, 1					# Š„‚İƒxƒNƒ^”Ô† (—vŒŸ“¢)
+		li		a0, 1					# ³ä¹ş¤ß¥Ù¥¯¥¿ÈÖ¹æ (Í×¸¡Æ¤)
 		jal		k0
 		nop
-		# ƒXƒ^ƒbƒN‚Ì•œ‹A
+		# ¥¹¥¿¥Ã¥¯¤ÎÉüµ¢
 		la		k0, kernel_int_ssp
 		lw		sp, (k0)
-		# IE=0, EXL=0‚ÉƒZƒbƒgiŠ„‚è‚İ‚Í‹Ö~‚Ì‚Ü‚Ü)
+		# IE=0, EXL=0¤Ë¥»¥Ã¥È¡Ê³ä¤ê¹ş¤ß¤Ï¶Ø»ß¤Î¤Ş¤Ş)
 		mfc0	k0, CP0_STATUS
 		nop
 		la		k1, 0xF1FFFFF8			# ERL=0,IE=0,EXL=0
 		and		k0, k1, k0
 		mtc0	k0, CP0_STATUS
 		nop
-		# Š„‚è‚İI—¹ˆ—ŒÄ‚Ño‚µ
+		# ³ä¤ê¹ş¤ß½ªÎ»½èÍı¸Æ¤Ó½Ğ¤·
 		la		k0, kernel_end_int
 		jal		k0
 		nop
-		# IE=1, EXL=1‚ÉƒZƒbƒgiŠ„‚è‚İ‚Í‹Ö~‚Ì‚Ü‚Ü)
+		# IE=1, EXL=1¤Ë¥»¥Ã¥È¡Ê³ä¤ê¹ş¤ß¤Ï¶Ø»ß¤Î¤Ş¤Ş)
 		mfc0	k0, CP0_STATUS
 		nop
 		la		k1, 0xF1FFFFFB
@@ -154,11 +154,11 @@ _irq_ip7:
 		or		k0, k1, k0
 		mtc0	k0, CP0_STATUS
 		nop
-		# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+		# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	IP2 —áŠOˆ— (ŠO•”Š„‚İ)
+#	IP2 Îã³°½èÍı (³°Éô³ä¹ş¤ß)
 #
 _irq_ip2:
 		li		k0, 0x80000000
@@ -167,10 +167,10 @@ _irq_ip2:
 		nop
 		jal		k1
 		nop
-		# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+		# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 		beql	$0, $0, _ret_from_irq
 		nop
-		# Š„‚İ“à—e‚É‰‚¶‚ÄƒxƒNƒ^”Ô†–ˆ‚É•ªŠò‚ğÀ{
+		# ³ä¹ş¤ßÆâÍÆ¤Ë±ş¤¸¤Æ¥Ù¥¯¥¿ÈÖ¹æËè¤ËÊ¬´ô¤ò¼Â»Ü
 _irq_ip2_main:
 		li		k0, 0xB8800000
 		sh		$0, 0x0B2C(k0)			# io_out16(INTC_INT_ACK,0)
@@ -181,248 +181,248 @@ _irq_ip2_main:
 		beq		k1, $0, _ip2_int7
 		nop
 	#
-	#	INT9(FPGA) Š„‚İ
+	#	INT9(FPGA) ³ä¹ş¤ß
 	#
-	#	‚±‚±‚Í SEMB1200A“Æ©d—l (FPGA‚©‚ç‚ÌŠO•”Š„‚İ)
-	#	‡@ ŠO•”FPGA‚ÌPWMƒ†ƒjƒbƒg‚É‚æ‚éŠ„‚İ”­¶‚Ìˆ—B
-	#	’ˆÓjŠ„‚İ‰Šú‰»‚ÍƒŒƒxƒ‹”»’èiƒGƒbƒa‚Å‚Í‚È‚¢j
+	#	¤³¤³¤Ï SEMB1200AÆÈ¼«»ÅÍÍ (FPGA¤«¤é¤Î³°Éô³ä¹ş¤ß)
+	#	­¡ ³°ÉôFPGA¤ÎPWM¥æ¥Ë¥Ã¥È¤Ë¤è¤ë³ä¹ş¤ßÈ¯À¸»ş¤Î½èÍı¡£
+	#	Ãí°Õ¡Ë³ä¹ş¤ß½é´ü²½¤Ï¥ì¥Ù¥ëÈ½Äê¡Ê¥¨¥Ã¥Â¤Ç¤Ï¤Ê¤¤¡Ë
 	#	 e.g.; io_out16(INTC_INT_MASK, 0x0100);
 	#	       io_out16(INTC_CH9_LEVEL, 15);
 	#
 _ip2_int9_pwm0:
-	# FPGA PWM0 Š„‚İ
+	# FPGA PWM0 ³ä¹ş¤ß
 		li		k0, 0xBE000000			# CS5
 		lhu		k1, 0xA6(k0)			# k1 = pwm_unit_get(0,SEMB1200_PWM_INT_STAT2)
 		beq		k1, $0, _ip2_int9_pwm1
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_PWM0(k0)
 		beq		k1, $0, _end_int9_pwm0
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# PWM0 Š„‚İI—¹
+	# PWM0 ³ä¹ş¤ß½ªÎ»
 _end_int9_pwm0:
 		li		k0, 0xBE000000			# CS5
 		ori		k1, $0, 1				# k1 = 1
 		sh		k1, 0xAA(k0)			# pwm_unit_set(0,SEMB1200_PWM_INT_PEND2,1);
-	# FPGA PWM1 Š„‚İ
+	# FPGA PWM1 ³ä¹ş¤ß
 _ip2_int9_pwm1:
 		li		k0, 0xBE000000			# CS5
 		lhu		k1, 0xB6(k0)			# k1 = pwm_unit_get(1,SEMB1200_PWM_INT_STAT2)
 		beq		k1, $0, _ip2_int9_pwm2
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_PWM1(k0)
 		beq		k1, $0, _end_int9_pwm1
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# PWM1 Š„‚İI—¹
+	# PWM1 ³ä¹ş¤ß½ªÎ»
 _end_int9_pwm1:
 		li		k0, 0xBE000000			# CS5
 		ori		k1, $0, 1				# k1 = 1
 		sh		k1, 0xBA(k0)			# pwm_unit_set(1,SEMB1200_PWM_INT_PEND2,1);
-	# FPGA PWM2 Š„‚İ
+	# FPGA PWM2 ³ä¹ş¤ß
 _ip2_int9_pwm2:
 		li		k0, 0xBE000000			# CS5
 		lhu		k1, 0xC6(k0)			# k1 = pwm_unit_get(2,SEMB1200_PWM_INT_STAT2)
 		beq		k1, $0, _ip2_int9_pwm3
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_PWM2(k0)
 		beq		k1, $0, _end_int9_pwm2
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# PWM2 Š„‚İI—¹
+	# PWM2 ³ä¹ş¤ß½ªÎ»
 _end_int9_pwm2:
 		li		k0, 0xBE000000			# CS5
 		ori		k1, $0, 1				# k1 = 1
 		sh		k1, 0xCA(k0)			# pwm_unit_set(2,SEMB1200_PWM_INT_PEND2,1);
-	# FPGA PWM3 Š„‚İ
+	# FPGA PWM3 ³ä¹ş¤ß
 _ip2_int9_pwm3:
 		li		k0, 0xBE000000			# CS5
 		lhu		k1, 0xD6(k0)			# k1 = pwm_unit_get(3,SEMB1200_PWM_INT_STAT2)
 		beq		k1, $0, _ip2_int9_uart3_0
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_PWM3(k0)
 		beq		k1, $0, _end_int9_pwm3
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# PWM3 Š„‚İI—¹
+	# PWM3 ³ä¹ş¤ß½ªÎ»
 _end_int9_pwm3:
 		li		k0, 0xBE000000			# CS5
 		ori		k1, $0, 1				# k1 = 1
 		sh		k1, 0xDA(k0)			# pwm_unit_set(3,SEMB1200_PWM_INT_PEND2,1);
 	#
-	#	‡A ŠO•”FPGA‚ÌUART3ƒ†ƒjƒbƒg‚É‚æ‚éŠ„‚İ”­¶‚Ìˆ—B
+	#	­¢ ³°ÉôFPGA¤ÎUART3¥æ¥Ë¥Ã¥È¤Ë¤è¤ë³ä¹ş¤ßÈ¯À¸»ş¤Î½èÍı¡£
 	#
 _ip2_int9_uart3_0:
-	# FPGA UART3_0 Š„‚İ
+	# FPGA UART3_0 ³ä¹ş¤ß
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 0)
 		beq		k1, $0, _ip2_int9_uart3_1
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART30(k0)
 		beq		k1, $0, _end_int9_uart30
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_0 Š„‚İI—¹
+	# UART3_0 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart30:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 0)		# k1 = 1 << 0
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 0))
-	# FPGA UART3_1 Š„‚İ
+	# FPGA UART3_1 ³ä¹ş¤ß
 _ip2_int9_uart3_1:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 1)
 		beq		k1, $0, _ip2_int9_uart3_2
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART31(k0)
 		beq		k1, $0, _end_int9_uart31
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_1 Š„‚İI—¹
+	# UART3_1 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart31:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 1)		# k1 = 1 << 1
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 1))
-	# FPGA UART3_2 Š„‚İ
+	# FPGA UART3_2 ³ä¹ş¤ß
 _ip2_int9_uart3_2:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 2)
 		beq		k1, $0, _ip2_int9_uart3_3
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART32(k0)
 		beq		k1, $0, _end_int9_uart32
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_2 Š„‚İI—¹
+	# UART3_2 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart32:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 2)		# k1 = 1 << 2
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 2))
-	# FPGA UART3_3 Š„‚İ
+	# FPGA UART3_3 ³ä¹ş¤ß
 _ip2_int9_uart3_3:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 3)
 		beq		k1, $0, _ip2_int9_uart3_4
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART33(k0)
 		beq		k1, $0, _end_int9_uart33
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_3 Š„‚İI—¹
+	# UART3_3 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart33:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 3)		# k1 = 1 << 3
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 3))
-	# FPGA UART3_4 Š„‚İ
+	# FPGA UART3_4 ³ä¹ş¤ß
 _ip2_int9_uart3_4:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 4)
 		beq		k1, $0, _ip2_int9_uart3_5
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART34(k0)
 		beq		k1, $0, _end_int9_uart34
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_4 Š„‚İI—¹
+	# UART3_4 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart34:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 4)		# k1 = 1 << 4
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 4))
-	# FPGA UART3_5 Š„‚İ
+	# FPGA UART3_5 ³ä¹ş¤ß
 _ip2_int9_uart3_5:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 5)
 		beq		k1, $0, _ip2_int9_uart3_6
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART35(k0)
 		beq		k1, $0, _end_int9_uart35
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_5 Š„‚İI—¹
+	# UART3_5 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart35:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 5))
-	# FPGA UART3_6 Š„‚İ
+	# FPGA UART3_6 ³ä¹ş¤ß
 _ip2_int9_uart3_6:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 6)
 		beq		k1, $0, _ip2_int9_uart3_7
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART36(k0)
 		beq		k1, $0, _end_int9_uart36
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_6 Š„‚İI—¹
+	# UART3_6 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart36:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 6)		# k1 = 1 << 6
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 6))
-	# FPGA UART3_7 Š„‚İ
+	# FPGA UART3_7 ³ä¹ş¤ß
 _ip2_int9_uart3_7:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		lhu		k1, 2(k0)				# k1 = io_in16(UART3_INTSTS)
 		andi	k1, k1, (1 << 7)
 		beq		k1, $0, _end_ip2_int9
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART37(k0)
 		beq		k1, $0, _end_int9_uart37
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART3_7 Š„‚İI—¹
+	# UART3_7 ³ä¹ş¤ß½ªÎ»
 _end_int9_uart37:
 		li		k0, 0xBE020000			# CS5 + 0x00020000
 		ori		k1, $0, (1 << 7)		# k1 = 1 << 7
 		sh		k1, 2(k0)				# io_out16(UART3_INTSTS, (1 << 7))
-	# INT9(FPGA) Š„‚İˆ—‚ÌI—¹ˆ—
-_end_ip2_int9:							# INT9 Š„‚İƒNƒŠƒA
+	# INT9(FPGA) ³ä¹ş¤ß½èÍı¤Î½ªÎ»½èÍı
+_end_ip2_int9:							# INT9 ³ä¹ş¤ß¥¯¥ê¥¢
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 8)
 		sh		k1, 0x0B24(k0)			# io_out16(INTC_INT_PENDING,(1<<8))
 	#
-	#	INT7(TC#4`#7) Š„‚İ
+	#	INT7(TC#4¡Á#7) ³ä¹ş¤ß
 	#
 _ip2_int7:
 		li		k0, 0xB8800000
@@ -430,89 +430,89 @@ _ip2_int7:
 		andi	k1, k1, (1<< 6)
 		beq		k1, $0, _ip2_int6
 		nop
-	# TC#7 Š„‚İ
-_ip2_int7_tc7:							# TC#7 Š„‚İŠm”F
+	# TC#7 ³ä¹ş¤ß
+_ip2_int7_tc7:							# TC#7 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0AA0(k0)			# k1 = io_in16( TC7_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC7 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC7 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int7_tc6
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC7(k0)
 		beq		k1, $0, _end_int7_tc7
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#7 Š„‚İI—¹
+	# TC#7 ³ä¹ş¤ß½ªÎ»
 _end_int7_tc7:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0AA0(k0)			# INTCONT ƒNƒŠƒA
-	# TC#6 Š„‚İ
-_ip2_int7_tc6:							# TC#6 Š„‚İŠm”F
+		sh		k1, 0x0AA0(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#6 ³ä¹ş¤ß
+_ip2_int7_tc6:							# TC#6 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A90(k0)			# k1 = io_in16( TC6_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC6 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC6 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int7_tc5
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC6(k0)
 		beq		k1, $0, _end_int7_tc6
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#6 Š„‚İI—¹
+	# TC#6 ³ä¹ş¤ß½ªÎ»
 _end_int7_tc6:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A90(k0)			# INTCONT ƒNƒŠƒA
-	# TC#5 Š„‚İ
-_ip2_int7_tc5:							# TC#5 Š„‚İŠm”F
+		sh		k1, 0x0A90(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#5 ³ä¹ş¤ß
+_ip2_int7_tc5:							# TC#5 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A80(k0)			# k1 = io_in16( TC5_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC5 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC5 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int7_tc4
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC5(k0)
 		beq		k1, $0, _end_int7_tc5
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#5 Š„‚İI—¹
+	# TC#5 ³ä¹ş¤ß½ªÎ»
 _end_int7_tc5:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A80(k0)			# INTCONT ƒNƒŠƒA
-	# TC#4 Š„‚İ
-_ip2_int7_tc4:							# TC#4 Š„‚İŠm”F
+		sh		k1, 0x0A80(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#4 ³ä¹ş¤ß
+_ip2_int7_tc4:							# TC#4 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A70(k0)			# k1 = io_in16( TC6_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC4 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC4 ³ä¹ş¤ß ?
 		beq		k1, $0, _end_ip2_int7
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC4(k0)
 		beq		k1, $0, _end_int7_tc4
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#4 Š„‚İI—¹
+	# TC#4 ³ä¹ş¤ß½ªÎ»
 _end_int7_tc4:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A70(k0)			# INTCONT ƒNƒŠƒA
-	# INT7(TC#4`#7) Š„‚İˆ—‚ÌI—¹ˆ—
-_end_ip2_int7:							# INT7 Š„‚İƒNƒŠƒA
+		sh		k1, 0x0A70(k0)			# INTCONT ¥¯¥ê¥¢
+	# INT7(TC#4¡Á#7) ³ä¹ş¤ß½èÍı¤Î½ªÎ»½èÍı
+_end_ip2_int7:							# INT7 ³ä¹ş¤ß¥¯¥ê¥¢
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 6)
 		sh		k1, 0x0B24(k0)			# io_out16(INTC_INT_PENDING,(1<<6))
 	#
-	#	INT6(TC#0`#3) Š„‚İ
+	#	INT6(TC#0¡Á#3) ³ä¹ş¤ß
 	#
 _ip2_int6:
 		li		k0, 0xB8800000
@@ -520,89 +520,89 @@ _ip2_int6:
 		andi	k1, k1, (1<< 5)
 		beq		k1, $0, _ip2_int5
 		nop
-	# TC#3 Š„‚İ
-_ip2_int6_tc3:							# TC#3 Š„‚İŠm”F
+	# TC#3 ³ä¹ş¤ß
+_ip2_int6_tc3:							# TC#3 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A60(k0)			# k1 = io_in16( TC3_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC3 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC3 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int6_tc2
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC3(k0)
 		beq		k1, $0, _end_int6_tc3
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#3 Š„‚İI—¹
+	# TC#3 ³ä¹ş¤ß½ªÎ»
 _end_int6_tc3:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A60(k0)			# INTCONT ƒNƒŠƒA
-	# TC#2 Š„‚İ
-_ip2_int6_tc2:							# TC#2 Š„‚İŠm”F
+		sh		k1, 0x0A60(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#2 ³ä¹ş¤ß
+_ip2_int6_tc2:							# TC#2 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A50(k0)			# k1 = io_in16( TC2_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC2 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC2 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int6_tc1
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC2(k0)
 		beq		k1, $0, _end_int6_tc2
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#2 Š„‚İI—¹
+	# TC#2 ³ä¹ş¤ß½ªÎ»
 _end_int6_tc2:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A50(k0)			# INTCONT ƒNƒŠƒA
-	# TC#1 Š„‚İ
-_ip2_int6_tc1:							# TC#1 Š„‚İŠm”F
+		sh		k1, 0x0A50(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#1 ³ä¹ş¤ß
+_ip2_int6_tc1:							# TC#1 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A40(k0)			# k1 = io_in16( TC1_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC1 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC1 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int6_tc0
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC1(k0)
 		beq		k1, $0, _end_int6_tc1
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#1 Š„‚İI—¹
+	# TC#1 ³ä¹ş¤ß½ªÎ»
 _end_int6_tc1:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A40(k0)			# INTCONT ƒNƒŠƒA
-	# TC#0 Š„‚İ
-_ip2_int6_tc0:							# TC#0 Š„‚İŠm”F
+		sh		k1, 0x0A40(k0)			# INTCONT ¥¯¥ê¥¢
+	# TC#0 ³ä¹ş¤ß
+_ip2_int6_tc0:							# TC#0 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0A30(k0)			# k1 = io_in16( TC0_STS );
-		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC0 Š„‚İ ?
+		andi	k1, k1, (1 << 5)		# INTC_TIMER_TC0 ³ä¹ş¤ß ?
 		beq		k1, $0, _end_ip2_int6
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_TC0(k0)
 		beq		k1, $0, _end_int6_tc0
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# TC#0 Š„‚İI—¹
+	# TC#0 ³ä¹ş¤ß½ªÎ»
 _end_int6_tc0:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)		# k1 = 1 << 5
-		sh		k1, 0x0A30(k0)			# INTCONT ƒNƒŠƒA
-	# INT6(TC#0`#3) Š„‚İˆ—‚ÌI—¹ˆ—
-_end_ip2_int6:							# INT6 Š„‚İƒNƒŠƒA
+		sh		k1, 0x0A30(k0)			# INTCONT ¥¯¥ê¥¢
+	# INT6(TC#0¡Á#3) ³ä¹ş¤ß½èÍı¤Î½ªÎ»½èÍı
+_end_ip2_int6:							# INT6 ³ä¹ş¤ß¥¯¥ê¥¢
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 5)
 		sh		k1, 0x0B24(k0)			# io_out16(INTC_INT_PENDING,(1<<5))
 	#
-	#	INT5(CSI, UART1, UART2) Š„‚İ
+	#	INT5(CSI, UART1, UART2) ³ä¹ş¤ß
 	#
 _ip2_int5:
 		li		k0, 0xB8800000
@@ -610,420 +610,420 @@ _ip2_int5:
 		andi	k1, k1, (1<< 4)
 		beq		k1, $0, _ret_irq_ip2
 		nop
-	# CSI Š„‚İ
-_ip2_int5_csi:							# CSI Š„‚İŠm”F
+	# CSI ³ä¹ş¤ß
+_ip2_int5_csi:							# CSI ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C92(k0)			# k1 = io_in16( CSI_INTREG );
-		andi	k1, k1, (1 << 15)		# CSI‘—óMŠ®—¹Š„‚İ ?
+		andi	k1, k1, (1 << 15)		# CSIÁ÷¼õ¿®´°Î»³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_csi_empty
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_CSI(k0)
 		beq		k1, $0, _end_int5_csi
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# CSI Š„‚İI—¹
+	# CSI ³ä¹ş¤ß½ªÎ»
 _end_int5_csi:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 15)		# k1 = 1 << 15
-		sh		k1, 0x0C92(k0)			# INTCONT ƒNƒŠƒA
-	# CSI ‘—MƒGƒ“ƒvƒeƒBŠ„‚İ
-_ip2_int5_csi_empty:					# CSI ‘—MƒGƒ“ƒvƒeƒBŠ„‚İŠm”F
+		sh		k1, 0x0C92(k0)			# INTCONT ¥¯¥ê¥¢
+	# CSI Á÷¿®¥¨¥ó¥×¥Æ¥£³ä¹ş¤ß
+_ip2_int5_csi_empty:					# CSI Á÷¿®¥¨¥ó¥×¥Æ¥£³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C92(k0)			# k1 = io_in16( CSI_INTREG );
-		andi	k1, k1, (1 << 8)		# CSI ‘—MƒGƒ“ƒvƒeƒBŠ„‚İ ?
+		andi	k1, k1, (1 << 8)		# CSI Á÷¿®¥¨¥ó¥×¥Æ¥£³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_csi_overflow
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_CSIEMP(k0)
 		beq		k1, $0, _end_int5_csiemp
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# CSI ‘—MƒGƒ“ƒvƒeƒBŠ„‚İI—¹
+	# CSI Á÷¿®¥¨¥ó¥×¥Æ¥£³ä¹ş¤ß½ªÎ»
 _end_int5_csiemp:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 8)		# k1 = 1 << 8
-		sh		k1, 0x0C92(k0)			# INTCONT ƒNƒŠƒA
-	# CSI óMƒI[ƒo[ƒtƒ[Š„‚İ
-_ip2_int5_csi_overflow:					# CSI óMƒI[ƒo[ƒtƒ[Š„‚İŠm”F
+		sh		k1, 0x0C92(k0)			# INTCONT ¥¯¥ê¥¢
+	# CSI ¼õ¿®¥ª¡¼¥Ğ¡¼¥Õ¥í¡¼³ä¹ş¤ß
+_ip2_int5_csi_overflow:					# CSI ¼õ¿®¥ª¡¼¥Ğ¡¼¥Õ¥í¡¼³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C92(k0)			# k1 = io_in16( CSI_INTREG );
-		andi	k1, k1, (1 << 0)		# CSI óMƒI[ƒo[ƒtƒ[Š„‚İ ?
+		andi	k1, k1, (1 << 0)		# CSI ¼õ¿®¥ª¡¼¥Ğ¡¼¥Õ¥í¡¼³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_csi_overflow
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_CSIOVF(k0)
 		beq		k1, $0, _end_int5_csiovf
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# CSI óMƒI[ƒo[ƒtƒ[Š„‚İI—¹
+	# CSI ¼õ¿®¥ª¡¼¥Ğ¡¼¥Õ¥í¡¼³ä¹ş¤ß½ªÎ»
 _end_int5_csiovf:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 0)		# k1 = 1 << 0
-		sh		k1, 0x0C92(k0)			# INTCONT ƒNƒŠƒA
-	# UART1 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İ
-_ip2_int5_uart1_timeout:				# UART1 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İŠm”F
+		sh		k1, 0x0C92(k0)			# INTCONT ¥¯¥ê¥¢
+	# UART1 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß
+_ip2_int5_uart1_timeout:				# UART1 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C04(k0)			# k1 = io_in16( UART_1IIR );
-		andi	k1, k1, (1 << 3)		# UART1 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İ ?
+		andi	k1, k1, (1 << 3)		# UART1 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_uart1
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART1TO(k0)
 		beq		k1, $0, _end_int5_uart1to
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART1 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İI—¹
+	# UART1 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß½ªÎ»
 _end_int5_uart1to:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 3)		# k1 = 1 << 3
-		sh		k1, 0x0C04(k0)			# INTCONT ƒNƒŠƒA
-	# UART1 Š„‚İ
-_ip2_int5_uart1:						# UART1 Š„‚İŠm”F
+		sh		k1, 0x0C04(k0)			# INTCONT ¥¯¥ê¥¢
+	# UART1 ³ä¹ş¤ß
+_ip2_int5_uart1:						# UART1 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C04(k0)			# k1 = io_in16( UART_1IIR );
-		andi	k1, k1, (1 << 0)		# UART1 Š„‚İ ?
+		andi	k1, k1, (1 << 0)		# UART1 ³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_uart1
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART1(k0)
 		beq		k1, $0, _end_int5_uart1
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART1 Š„‚İI—¹
+	# UART1 ³ä¹ş¤ß½ªÎ»
 _end_int5_uart1:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 0)		# k1 = 1 << 0
-		sh		k1, 0x0C04(k0)			# INTCONT ƒNƒŠƒA
-	# UART2 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İ
-_ip2_int5_uart2_timeout:				# UART2 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İŠm”F
+		sh		k1, 0x0C04(k0)			# INTCONT ¥¯¥ê¥¢
+	# UART2 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß
+_ip2_int5_uart2_timeout:				# UART2 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C44(k0)			# k1 = io_in16( UART_2IIR );
-		andi	k1, k1, (1 << 3)		# UART2 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İ ?
+		andi	k1, k1, (1 << 3)		# UART2 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß ?
 		beq		k1, $0, _ip2_int5_uart2
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART2TO(k0)
 		beq		k1, $0, _end_int5_uart2to
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART2 ƒ^ƒCƒ€ƒAƒEƒgŠ„‚İI—¹
+	# UART2 ¥¿¥¤¥à¥¢¥¦¥È³ä¹ş¤ß½ªÎ»
 _end_int5_uart2to:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 3)		# k1 = 1 << 3
-		sh		k1, 0x0C44(k0)			# INTCONT ƒNƒŠƒA
-	# UART2 Š„‚İ
-_ip2_int5_uart2:						# UART2 Š„‚İŠm”F
+		sh		k1, 0x0C44(k0)			# INTCONT ¥¯¥ê¥¢
+	# UART2 ³ä¹ş¤ß
+_ip2_int5_uart2:						# UART2 ³ä¹ş¤ß³ÎÇ§
 		li		k0, 0xB8800000
 		lhu		k1, 0x0C44(k0)			# k1 = io_in16( UART_2IIR );
-		andi	k1, k1, (1 << 0)		# UART2 Š„‚İ ?
+		andi	k1, k1, (1 << 0)		# UART2 ³ä¹ş¤ß ?
 		beq		k1, $0, _end_ip2_int5
 		nop
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_UART2(k0)
 		beq		k1, $0, _end_int5_uart2
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# UART2 Š„‚İI—¹
+	# UART2 ³ä¹ş¤ß½ªÎ»
 _end_int5_uart2:
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 0)		# k1 = 1 << 0
-		sh		k1, 0x0C44(k0)			# INTCONT ƒNƒŠƒA
-	# INT5(CSI,UART1,UART2) Š„‚İˆ—‚ÌI—¹ˆ—
-_end_ip2_int5:							# INT5 Š„‚İƒNƒŠƒA
+		sh		k1, 0x0C44(k0)			# INTCONT ¥¯¥ê¥¢
+	# INT5(CSI,UART1,UART2) ³ä¹ş¤ß½èÍı¤Î½ªÎ»½èÍı
+_end_ip2_int5:							# INT5 ³ä¹ş¤ß¥¯¥ê¥¢
 		li		k0, 0xB8800000
 		ori		k1, $0, (1 << 4)
 		sh		k1, 0x0B24(k0)			# io_out16(INTC_INT_PENDING,(1<<4))
-	# IP2 Š„‚İˆ—‚ÌI—¹ˆ—
+	# IP2 ³ä¹ş¤ß½èÍı¤Î½ªÎ»½èÍı
 _ret_irq_ip2:
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 		li		k0, 0xB8800000
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	IP1 —áŠOˆ— (ƒ\ƒtƒgƒEƒFƒAŠ„‚İ‚P)
+#	IP1 Îã³°½èÍı (¥½¥Õ¥È¥¦¥§¥¢³ä¹ş¤ß£±)
 #
 _irq_ip1:
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_IP1(k0)
-		beql	k1, $0, _ret_from_irq	# ˆ—‚µ‚Ä‚¢‚È‚¢ê‡‚Í‚»‚Ì‚Ü‚Ü•œ‹A
+		beql	k1, $0, _ret_from_irq	# ½èÍı¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¤Ï¤½¤Î¤Ş¤ŞÉüµ¢
 		nop
 		jal		k1
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	IP0 —áŠOˆ— (ƒ\ƒtƒgƒEƒFƒAŠ„‚İ‚O)
+#	IP0 Îã³°½èÍı (¥½¥Õ¥È¥¦¥§¥¢³ä¹ş¤ß£°)
 #
 _irq_ip0:
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_IP0(k0)
-		beql	k1, $0, _ret_from_irq	# ˆ—‚µ‚Ä‚¢‚È‚¢ê‡‚Í‚»‚Ì‚Ü‚Ü•œ‹A
+		beql	k1, $0, _ret_from_irq	# ½èÍı¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¤Ï¤½¤Î¤Ş¤ŞÉüµ¢
 		nop
 		jal		k1
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 1 —áŠOˆ—
-#		1 	Mod 	TLB•ÏX—áŠO
+#	ExcCode 1 Îã³°½èÍı
+#		1 	Mod 	TLBÊÑ¹¹Îã³°
 #
 _exccode_1:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode1(k0)
 		beq		k1, $0, _end_exccode_1
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_1:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 2 —áŠOˆ—
-#		2 	TLBL 	TLB•sˆê’v—áŠOiƒ[ƒh‚Ü‚½‚Í–½—ßƒtƒFƒbƒ`)
+#	ExcCode 2 Îã³°½èÍı
+#		2 	TLBL 	TLBÉÔ°ìÃ×Îã³°¡Ê¥í¡¼¥É¤Ş¤¿¤ÏÌ¿Îá¥Õ¥§¥Ã¥Á)
 #
 _exccode_2:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode2(k0)
 		beq		k1, $0, _end_exccode_2
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_2:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 3 —áŠOˆ—
-#		3 	TLBS 	TLB•sˆê’v—áŠOiƒXƒgƒAj
+#	ExcCode 3 Îã³°½èÍı
+#		3 	TLBS 	TLBÉÔ°ìÃ×Îã³°¡Ê¥¹¥È¥¢¡Ë
 #
 _exccode_3:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode3(k0)
 		beq		k1, $0, _end_exccode_3
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_3:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 4 —áŠOˆ—
-#		4 	AdEL 	ƒAƒhƒŒƒXEƒGƒ‰[—áŠOiƒ[ƒh‚Ü‚½‚Í–½—ßƒtƒFƒbƒ`j
+#	ExcCode 4 Îã³°½èÍı
+#		4 	AdEL 	¥¢¥É¥ì¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥í¡¼¥É¤Ş¤¿¤ÏÌ¿Îá¥Õ¥§¥Ã¥Á¡Ë
 #
 _exccode_4:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode4(k0)
 		beq		k1, $0, _end_exccode_4
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_4:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 5 —áŠOˆ—
-#		5 	AdES 	ƒAƒhƒŒƒXEƒGƒ‰[—áŠOiƒXƒgƒAj
+#	ExcCode 5 Îã³°½èÍı
+#		5 	AdES 	¥¢¥É¥ì¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥¹¥È¥¢¡Ë
 #
 _exccode_5:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode5(k0)
 		beq		k1, $0, _end_exccode_5
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_5:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 6 —áŠOˆ—
-#		6 	IBE 	ƒoƒXEƒGƒ‰[—áŠOi–½—ßƒtƒFƒbƒ`j
+#	ExcCode 6 Îã³°½èÍı
+#		6 	IBE 	¥Ğ¥¹¡¦¥¨¥é¡¼Îã³°¡ÊÌ¿Îá¥Õ¥§¥Ã¥Á¡Ë
 #
 #_exccode_6:
-#	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+#	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 #
-#	# ExcCode 6 I—¹
-#	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+#	# ExcCode 6 ½ªÎ»
+#	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 #		beql	$0, $0, _ret_from_irq
 #		nop
 #
-#	ExcCode 7 —áŠOˆ—
-#		7 	DBE 	ƒoƒXEƒGƒ‰[—áŠOiƒf[ƒ^‚Ìƒ[ƒh‚Ü‚½‚ÍƒXƒgƒAj
+#	ExcCode 7 Îã³°½èÍı
+#		7 	DBE 	¥Ğ¥¹¡¦¥¨¥é¡¼Îã³°¡Ê¥Ç¡¼¥¿¤Î¥í¡¼¥É¤Ş¤¿¤Ï¥¹¥È¥¢¡Ë
 #
 #_exccode_7:
-#	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+#	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 #
-#	# ExcCode 7 I—¹
-#	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+#	# ExcCode 7 ½ªÎ»
+#	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 #		beql	$0, $0, _ret_from_irq
 #		nop
 #
-#	ExcCode 8 —áŠOˆ—
-#		8 	Sys 	ƒVƒXƒeƒ€EƒR[ƒ‹—áŠO
+#	ExcCode 8 Îã³°½èÍı
+#		8 	Sys 	¥·¥¹¥Æ¥à¡¦¥³¡¼¥ëÎã³°
 #
 _exccode_8:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode8(k0)
 		beq		k1, $0, _end_exccode_8
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_8:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 9 —áŠOˆ—
-#		9 	Bp		ƒuƒŒ[ƒNƒ|ƒCƒ“ƒg—áŠO
+#	ExcCode 9 Îã³°½èÍı
+#		9 	Bp		¥Ö¥ì¡¼¥¯¥İ¥¤¥ó¥ÈÎã³°
 #
 _exccode_9:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode8(k0)
 		beq		k1, $0, _end_exccode_8
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_9:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 10 —áŠOˆ—
-#		10 	RI		—\–ñ–½—ß—áŠO
+#	ExcCode 10 Îã³°½èÍı
+#		10 	RI		Í½ÌóÌ¿ÎáÎã³°
 #
 _exccode_10:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode10(k0)
 		beq		k1, $0, _end_exccode_10
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_10:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 11 —áŠOˆ—
-#		11 	CpU		ƒRƒvƒƒZƒbƒTg—p•s‰Â—áŠO
+#	ExcCode 11 Îã³°½èÍı
+#		11 	CpU		¥³¥×¥í¥»¥Ã¥µ»ÈÍÑÉÔ²ÄÎã³°
 #
 _exccode_11:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode11(k0)
 		beq		k1, $0, _end_exccode_11
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_11:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 12 —áŠOˆ—
-#		12 	Ov		‰‰ZƒI[ƒoƒtƒ[—áŠO
+#	ExcCode 12 Îã³°½èÍı
+#		12 	Ov		±é»»¥ª¡¼¥Ğ¥Õ¥í¡¼Îã³°
 #
 _exccode_12:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode11(k0)
 		beq		k1, $0, _end_exccode_11
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_12:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 13 —áŠOˆ—
-#		13 	Tr		ƒgƒ‰ƒbƒv—áŠO
+#	ExcCode 13 Îã³°½èÍı
+#		13 	Tr		¥È¥é¥Ã¥×Îã³°
 #
 _exccode_13:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode11(k0)
 		beq		k1, $0, _end_exccode_11
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_13:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 15 —áŠOˆ—
-#		15 	FPE 	•‚“®¬”“_—áŠO
+#	ExcCode 15 Îã³°½èÍı
+#		15 	FPE 	ÉâÆ°¾®¿ôÅÀÎã³°
 #
 _exccode_15:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode11(k0)
 		beq		k1, $0, _end_exccode_11
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_15:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-#	ExcCode 23 —áŠOˆ—
-#		23 	Watch 	ƒEƒHƒbƒ`—áŠO
+#	ExcCode 23 Îã³°½èÍı
+#		23 	Watch 	¥¦¥©¥Ã¥ÁÎã³°
 #
 _exccode_23:
-	# ƒxƒNƒ^”Ô†‚©‚çŒÄ‚Ño‚µæƒAƒhƒŒƒX‚ğæ“¾
+	# ¥Ù¥¯¥¿ÈÖ¹æ¤«¤é¸Æ¤Ó½Ğ¤·Àè¥¢¥É¥ì¥¹¤ò¼èÆÀ
 		li		k0, 0x80000000
 		lw		k1, HOS_VA_ExcCode23(k0)
 		beq		k1, $0, _end_exccode_23
 		nop
-		jal		k1						# w’èƒAƒhƒŒƒX‚ğŒÄ‚Ño‚·
+		jal		k1						# »ØÄê¥¢¥É¥ì¥¹¤ò¸Æ¤Ó½Ğ¤¹
 		nop
-	# ƒŒƒWƒXƒ^•œ‹AŒã eret ‚Ö
+	# ¥ì¥¸¥¹¥¿Éüµ¢¸å eret ¤Ø
 _end_exccode_23:
 		beql	$0, $0, _ret_from_irq
 		nop
 #
-# ƒŒƒWƒXƒ^•œ‹Aˆ—‚Æ eret
+# ¥ì¥¸¥¹¥¿Éüµ¢½èÍı¤È eret
 #
 _ret_from_irq:
-		popall							# ƒŒƒWƒXƒ^•œ‹A
+		popall							# ¥ì¥¸¥¹¥¿Éüµ¢
 		eret
 einthdl:
 # **************************************************************************
-# *  0x80000180‚Ì—áŠOˆ—”­¶‚Éinthdl‚Öˆ—‚ğˆÚs‚·‚é‚½‚ß‚Ì×H
-# *  crt0.c ‚É‚ÄƒWƒƒƒ“ƒv–½—ß‚ğƒRƒs[‚µÀŒ»‚·‚éB
+# *  0x80000180¤ÎÎã³°½èÍıÈ¯À¸»ş¤Ëinthdl¤Ø½èÍı¤ò°Ü¹Ô¤¹¤ë¤¿¤á¤ÎºÙ¹©
+# *  crt0.c ¤Ë¤Æ¥¸¥ã¥ó¥×Ì¿Îá¤ò¥³¥Ô¡¼¤·¼Â¸½¤¹¤ë¡£
 # **************************************************************************
 		.text
 		.align	4
-inthdljp:								# 0x80000180 ‚ÖƒRƒs[(crt0.c‚É‚Ä)
+inthdljp:								# 0x80000180 ¤Ø¥³¥Ô¡¼(crt0.c¤Ë¤Æ)
 		j		0x80000800
 		nop
 /* ------------------------------------------------------------------------ */

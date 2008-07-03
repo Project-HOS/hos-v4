@@ -1,182 +1,213 @@
 ------------------------------------------------------------------------------
-  Hyper Operating System V4  ƒÊITRON4.0Žd—l Real-Time OS                      
-    MIPS4(gcc)—p ƒhƒLƒ…ƒƒ“ƒg                                                 
+  Hyper Operating System V4  ¦ÌITRON4.0»ÅÍÍ Real-Time OS                      
+    MIPS4(gcc)ÍÑ ¥É¥­¥å¥á¥ó¥È                                                 
                                                                               
                                        Copyright (C) 1998-2008 by Project HOS 
                                        http://sourceforge.jp/projects/hos/    
 ------------------------------------------------------------------------------
 
-1. ŠT—v
+1. ³µÍ×
 
-  –{ƒhƒLƒ…ƒƒ“ƒg‚Í Hyper Operating System V4iˆÈ‰º HOS-V4j‚ÌMIPSƒRƒA
-  ‚ÌŒÅ—L•”•ª‚É‚Â‚¢‚Ä‚Ìà–¾‚ð‹LÚ‚µ‚Ü‚·B
-  “Á‚ÉAƒVƒ}ƒtƒW“d‹@ SEMB1200A —p‚Éƒ`ƒ…[ƒjƒ“ƒO‚ðs‚Á‚Ä‚¢‚Ü‚·‚Ì‚ÅA
-  ‘¼‚Ì»•i‚Å“K—p‚·‚éê‡‚ÍAˆê•”‹@”\‚ªŽg‚¦‚È‚¢ê‡‚ª‚ ‚è‚Ü‚·B
+  ËÜ¥É¥­¥å¥á¥ó¥È¤Ï Hyper Operating System V4¡Ê°Ê²¼ HOS-V4¡Ë¤ÎMIPS¥³¥¢
+  ¤Î¸ÇÍ­ÉôÊ¬¤Ë¤Ä¤¤¤Æ¤ÎÀâÌÀ¤òµ­ºÜ¤·¤Þ¤¹¡£
+  ÆÃ¤Ë¡¢¥·¥Þ¥Õ¥¸ÅÅµ¡ SEMB1200A ÍÑ¤Ë¥Á¥å¡¼¥Ë¥ó¥°¤ò¹Ô¤Ã¤Æ¤¤¤Þ¤¹¤Î¤Ç¡¢
+  Â¾¤ÎÀ½ÉÊ¤ÇÅ¬ÍÑ¤¹¤ë¾ì¹ç¤Ï¡¢°ìÉôµ¡Ç½¤¬»È¤¨¤Ê¤¤¾ì¹ç¤¬¤¢¤ê¤Þ¤¹¡£
 
-2. “®ìŠÂ‹«‚Æ‚»‚Ì\’z
+2. Æ°ºî´Ä¶­¤È¤½¤Î¹½ÃÛ
 
-2.1 CPUƒ{[ƒh
+2.1 CPU¥Ü¡¼¥É
 
-“®ìŠm”F‚ª‚³‚ê‚Ä‚¢‚éCPUƒ{[ƒh‚ÍAˆÈ‰º‚Ì‚à‚Ì‚Å‚·B
+Æ°ºî³ÎÇ§¤¬¤µ¤ì¤Æ¤¤¤ëCPU¥Ü¡¼¥É¤Ï¡¢°Ê²¼¤Î¤â¤Î¤Ç¤¹¡£
 
-- ƒVƒ}ƒtƒW“d‹@ SEMB1200A
+- ¥·¥Þ¥Õ¥¸ÅÅµ¡ SEMB1200A
   (http://www.shimafuji.co.jp/semb1200a/index.html)
 
-2.2 ŠJ”­ŠÂ‹«
+2.2 ³«È¯´Ä¶­
 
-cygwinã‚Å“®ì‚·‚égccƒNƒƒXƒRƒ“ƒpƒCƒ‰‚Å“®ìŠm”F‚µ‚Ä‚¢‚Ü‚·BÚ‚µ‚­‚ÍA
-sugi3—l‚Ìƒy[ƒW(http://home.r07.itscom.net/robin/)‚ðŽQl‚É‚µ‚Ä‚­‚¾‚³‚¢B
-ƒNƒƒXƒRƒ“ƒpƒCƒ‰‚ÌƒoƒCƒiƒŠ‚Å‚Ì”z•z‚às‚Á‚Ä‚ç‚Á‚µ‚á‚é‚Ì‚ÅAŽ‚Á‚Ä‚«‚Ä“W
-ŠJ‚·‚ê‚Î‚»‚Ì‚Ü‚Ü‚Å‚«‚Ü‚·B
+cygwin¾å¤ÇÆ°ºî¤¹¤ëgcc¥¯¥í¥¹¥³¥ó¥Ñ¥¤¥é¤ÇÆ°ºî³ÎÇ§¤·¤Æ¤¤¤Þ¤¹¡£¾Ü¤·¤¯¤Ï¡¢
+sugi3ÍÍ¤Î¥Ú¡¼¥¸(http://home.r07.itscom.net/robin/)¤ò»²¹Í¤Ë¤·¤Æ¤¯¤À¤µ¤¤¡£
+¥¯¥í¥¹¥³¥ó¥Ñ¥¤¥é¤Î¥Ð¥¤¥Ê¥ê¤Ç¤ÎÇÛÉÛ¤â¹Ô¤Ã¤Æ¤é¤Ã¤·¤ã¤ë¤Î¤Ç¡¢»ý¤Ã¤Æ¤­¤ÆÅ¸
+³«¤¹¤ì¤Ð¤½¤Î¤Þ¤Þ¤Ç¤­¤Þ¤¹¡£
 
-‚»‚Ì‘¼AMinGW+MSYSŠÂ‹«‚Å‚àŠÂ‹«‚ðÝ’è‚·‚é‚±‚Æ‚Å“®ì‚·‚é‚±‚Æ‚ðŠm”F‚µ‚Ä
-‚¢‚Ü‚·B
+¤½¤ÎÂ¾¡¢MinGW+MSYS´Ä¶­¤Ç¤â´Ä¶­¤òÀßÄê¤¹¤ë¤³¤È¤ÇÆ°ºî¤¹¤ë¤³¤È¤ò³ÎÇ§¤·¤Æ
+¤¤¤Þ¤¹¡£
 
-‚Ü‚½AƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€‚ðƒRƒ“ƒpƒCƒ‹‚·‚é‚É‚ÍA‰º‹L‚ÅŒöŠJ‚µ‚Ä‚¢‚é
-SEMB1200A—pƒ‰ƒCƒuƒ‰ƒŠ‚ª•K—v‚Å‚·B
+¤Þ¤¿¡¢¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à¤ò¥³¥ó¥Ñ¥¤¥ë¤¹¤ë¤Ë¤Ï¡¢²¼µ­¤Ç¸ø³«¤·¤Æ¤¤¤ë
+SEMB1200AÍÑ¥é¥¤¥Ö¥é¥ê¤¬É¬Í×¤Ç¤¹¡£
 (http://hw001.gate01.com/n-okada/robo-semb1200a.htm)
 
-HOSƒ‰ƒCƒuƒ‰ƒŠŽ©‘Ì‚ÌƒRƒ“ƒpƒCƒ‹‚É‚ÍASEMB1200A—pƒ‰ƒCƒuƒ‰ƒŠ‚Í•s—v‚Å‚·B
+HOS¥é¥¤¥Ö¥é¥ê¼«ÂÎ¤Î¥³¥ó¥Ñ¥¤¥ë¤Ë¤Ï¡¢SEMB1200AÍÑ¥é¥¤¥Ö¥é¥ê¤ÏÉÔÍ×¤Ç¤¹¡£
 
-2.3 HOS‚ÌƒRƒ“ƒpƒCƒ‹
+2.3 HOS¤Î¥³¥ó¥Ñ¥¤¥ë
 
-2.3.1 HOS-v4‹¤’Ê (hos4cfg.txtŽQÆ)
-- ‚Ü‚¸ hos4cfg.exe ‚Ì¶¬‚ª•K—v‚Å‚·‚Ì‚ÅAhos-v4/config ‚ÉˆÚ“®‚µ‚Ü‚·B
+2.3.1 HOS-v4¶¦ÄÌ (hos4cfg.txt»²¾È)
+- ¤Þ¤º hos4cfg.exe ¤ÎÀ¸À®¤¬É¬Í×¤Ç¤¹¤Î¤Ç¡¢hos-v4/config ¤Ë°ÜÆ°¤·¤Þ¤¹¡£
 
-- make -f gcc.mak ‚ðŽÀs‚µ‚Ü‚·B@‚»‚ÌÛAgcc, g++ ‚ª•K—v‚Å‚·B
+- make -f gcc.mak ¤ò¼Â¹Ô¤·¤Þ¤¹¡£¡¡¤½¤ÎºÝ¡¢gcc, g++ ¤¬É¬Í×¤Ç¤¹¡£
 
-2.3.2 MIPSŒÅ—L•”
-- hos-v4/lib/mips/mipsgcc/‚ÉˆÚ“®‚µ‚Ü‚·B
+2.3.2 MIPS¸ÇÍ­Éô
+- hos-v4/lib/mips/mipsgcc/¤Ë°ÜÆ°¤·¤Þ¤¹¡£
 
-- h4mipsgcc.mk‚ðƒRƒ“ƒpƒCƒ‰‚É‚ ‚í‚¹‚Ä•ÏX‚µ‚Ü‚·B
-  mipsel-semb-elf ‚ÌŠÂ‹«‚Å‚ ‚ê‚ÎC³‚Í•s—v‚©‚à‚µ‚ê‚Ü‚¹‚ñB
+- h4mipsgcc.mk¤ò¥³¥ó¥Ñ¥¤¥é¤Ë¤¢¤ï¤»¤ÆÊÑ¹¹¤·¤Þ¤¹¡£
+  mipsel-semb-elf ¤Î´Ä¶­¤Ç¤¢¤ì¤Ð½¤Àµ¤ÏÉÔÍ×¤«¤â¤·¤ì¤Þ¤»¤ó¡£
 
-- make -f h4mipsgcc.mk‚Æ‚µ‚Ämake‚µ‚Ü‚·B
+- make -f h4mipsgcc.mk¤È¤·¤Æmake¤·¤Þ¤¹¡£
 
-- libh4mips.a‚ª¶¬‚³‚ê‚Ü‚·B
+- libh4mips.a¤¬À¸À®¤µ¤ì¤Þ¤¹¡£
 
-- make -f h4mipsgcc.mk install ‚ðŽÀs‚µ‚Ü‚·B
-  /usr/local/mipsel-semb-elf/lib ‚É libh4mips.a ‚ªƒRƒs[‚³‚ê‚Ü‚·B
+- make -f h4mipsgcc.mk install ¤ò¼Â¹Ô¤·¤Þ¤¹¡£
+  /usr/local/mipsel-semb-elf/lib ¤Ë libh4mips.a ¤¬¥³¥Ô¡¼¤µ¤ì¤Þ¤¹¡£
 
-2.4 ƒTƒ“ƒvƒ‹ƒvƒƒOƒ‰ƒ€‚ÌƒRƒ“ƒpƒCƒ‹
+2.4 ¥µ¥ó¥×¥ë¥×¥í¥°¥é¥à¤Î¥³¥ó¥Ñ¥¤¥ë
 
-SEMB1200A‚Å“®‚­‚à‚Ì‚É‚È‚Á‚Ä‚¢‚Ü‚·B³‚µ‚­“®ì‚·‚é‚ÆAƒVƒŠƒAƒ‹ƒRƒ“ƒ\[
-ƒ‹‚ÉŽž‚Æ‹N“®ƒ^ƒXƒN–¼‚ðˆê’èŽžŠÔ‚¨‚«‚É•\Ž¦‚µ‚Â‚Ã‚¯‚Ü‚·B
+SEMB1200A¤ÇÆ°¤¯¤â¤Î¤Ë¤Ê¤Ã¤Æ¤¤¤Þ¤¹¡£Àµ¤·¤¯Æ°ºî¤¹¤ë¤È¡¢¥·¥ê¥¢¥ë¥³¥ó¥½¡¼
+¥ë¤Ë»þ¹ï¤Èµ¯Æ°¥¿¥¹¥¯Ì¾¤ò°ìÄê»þ´Ö¤ª¤­¤ËÉ½¼¨¤·¤Ä¤Å¤±¤Þ¤¹¡£
 
-- hos-v4/sample/mipsgcc/‚ÉˆÚ“®‚µ‚Ü‚·B
+- hos-v4/sample/mipsgcc/¤Ë°ÜÆ°¤·¤Þ¤¹¡£
 
-- Makefile‚ðŠJ”­ŠÂ‹«‚É‚ ‚í‚¹‚Ä•ÏX‚µ‚Ü‚·B
+- Makefile¤ò³«È¯´Ä¶­¤Ë¤¢¤ï¤»¤ÆÊÑ¹¹¤·¤Þ¤¹¡£
 
-- make‚µ‚Ü‚·B
+- make¤·¤Þ¤¹¡£
 
-- ¶¬‚³‚ê‚½sample.bin‚ðWindows•t‘®‚ÌƒnƒCƒp[ƒ^[ƒ~ƒiƒ‹‚ÅSEMB1200A‚Éƒ_
-  ƒEƒ“ƒ[ƒh‚µAŽÀs‚µ‚Ü‚·BÚ‚µ‚­‚ÍASEMB1200A‚Ìƒ}ƒjƒ…ƒAƒ‹‚ðŽQÆ‚µ‚Ä
-  ‚­‚¾‚³‚¢B
+- À¸À®¤µ¤ì¤¿sample.bin¤òWindowsÉÕÂ°¤Î¥Ï¥¤¥Ñ¡¼¥¿¡¼¥ß¥Ê¥ë¤ÇSEMB1200A¤Ë¥À
+  ¥¦¥ó¥í¡¼¥É¤·¡¢¼Â¹Ô¤·¤Þ¤¹¡£¾Ü¤·¤¯¤Ï¡¢SEMB1200A¤Î¥Þ¥Ë¥å¥¢¥ë¤ò»²¾È¤·¤Æ
+  ¤¯¤À¤µ¤¤¡£
 
-3. ƒƒ‚ƒŠƒ}ƒbƒv(0x80000000-0x8007FFFF)
+3. ¥á¥â¥ê¥Þ¥Ã¥×(0x80000000-0x8007FFFF)
 
-                                              ƒxƒNƒ^”Ô†
+                                              ¥Ù¥¯¥¿ÈÖ¹æ
      0x80000000 +-------------------------------+
-                |   SEMB1200A ƒVƒXƒeƒ€—Ìˆæ      |
+                |   SEMB1200A ¥·¥¹¥Æ¥àÎÎ°è      |
      0x80000600 +-------------------------------+
                 |                               |   0
-                |    Š„ž‚ÝƒxƒNƒ^—Ìˆæ           |   |
+                |    ³ä¹þ¤ß¥Ù¥¯¥¿ÎÎ°è           |   |
                 |                               |  127
      0x80000800 +-------------------------------+
-                |   HOS ƒVƒXƒeƒ€—Ìˆæ            |
+                |   HOS ¥·¥¹¥Æ¥àÎÎ°è            |
      0x80002000 +-------------------------------+
-                |   ƒ†[ƒU—Ìˆæ                  |
+                |   ¥æ¡¼¥¶ÎÎ°è                  |
                 |                               |
-                |   ƒXƒ^ƒbƒN—Ìˆæ                |
+                |   ¥¹¥¿¥Ã¥¯ÎÎ°è                |
      0x8007FFFF +-------------------------------+
 
-4 —áŠOˆ—iŠ„ž‚Ý‚ðŠÜ‚Þj‚É‚Â‚¢‚Ä
+4 Îã³°½èÍý¡Ê³ä¹þ¤ß¤ò´Þ¤à¡Ë¤Ë¤Ä¤¤¤Æ
 
-’ˆÓI
-@›‘½dŠ„‚èž‚Ý‚Í–¢Šm”F‚Å‚·B
+Ãí°Õ¡ª
+¡¡¡ûÂ¿½Å³ä¤ê¹þ¤ß¤ÏÌ¤³ÎÇ§¤Ç¤¹¡£
 
-4.1 Š„ž‚ÝƒxƒNƒ^”Ô†ˆê——
+4.1 ³ä¹þ¤ß¥Ù¥¯¥¿ÈÖ¹æ°ìÍ÷
 
-     ƒAƒhƒŒƒX   Š„ž‚Ý’è‹`”Ô†  —vˆö            “à—e
+¡¡³ä¹þ¤ßÄêµÁÈÖ¹æ 0¡Á63 ¤ò mips ÈÆÍÑ¤È¤·¡¢64¡Á111 ¤ò CPU°ÍÂ¸¡¢
+¡¡112¡Á127 ¤òCPUÅëºÜ¥Ü¡¼¥É°ÍÂ¸¤È¤·¤Þ¤¹¡£
+¡¡¸½ºß¡¢ÁÛÄê¤·¤Æ¤¤¤ëCPU¤ª¤è¤ÓCPUÅëºÜ¥Ü¡¼¥É¤Ï°Ê²¼¤ÎÄÌ¤ê¤Ç¤¹¡£
+¡¡¡¡CPU
+¡¡¡¡¡¡¡¡VR9721(NEC¥¨¥ì¥¯¥È¥í¥Ë¥¯¥¹À½),
+¡¡¡¡¡¡¡¡UX1200E(¥·¥Þ¥Õ¥¸ÅÅµ¡¡õNEC¥¨¥ì¥¯¥È¥í¥Ë¥¯¥¹À½)
+¡¡¡¡CPUÅëºÜ¥Ü¡¼¥É
+¡¡¡¡¡¡¡¡SEMB1200A¡Ê¥·¥Þ¥Õ¥¸ÅÅµ¡À½¡Ë
+
+     ¥¢¥É¥ì¥¹   ³ä¹þ¤ßÄêµÁÈÖ¹æ  Í×°ø            ÆâÍÆ
      ----------------------------------------------------------------------
-     0x80000600         0       --              ƒfƒtƒH[ƒ‹ƒgƒnƒ“ƒhƒ‰
-     0x80000604         1       --              NMIEƒ\ƒtƒgƒŠƒZƒbƒg—áŠO
-     0x80000608         2       --              TLB •sˆê’v—áŠO
-     0x8000060C         3       --              XTLB •sˆê’v—áŠO
-     0x80000610         4       --              ƒLƒƒƒbƒVƒ…ƒGƒ‰[—áŠO
-     0x80000614         5       ExcCode 0       (—\–ñ)
-     0x80000618         6       ExcCode 1       TLB •ÏX—áŠO
-     0x8000061C         7       ExcCode 2       TLB •sˆê’v(ƒ[ƒh)—áŠO
-     0x80000620         8       ExcCode 3       TLB •sˆê’v(ƒXƒgƒA)—áŠO
-     0x80000624         9       ExcCode 4       ƒAƒhƒŒƒXƒGƒ‰[(ƒ[ƒh)—áŠO
-     0x80000628         10      ExcCode 5       ƒAƒhƒŒƒXƒGƒ‰[(ƒXƒgƒA)—áŠO
-     0x8000062C         11      ExcCode 6       (—\–ñ)
-     0x80000630         12      ExcCode 7       (—\–ñ)
-     0x80000634         13      ExcCode 8       ƒVƒXƒeƒ€ƒR[ƒ‹—áŠO
-     0x80000638         14      ExcCode 9       ƒuƒŒ[ƒNƒ|ƒCƒ“ƒg—áŠO
-     0x8000063C         15      ExcCode 10      —\–ñ–½—ß—áŠO
-     0x80000640         16      ExcCode 11      ƒRƒvƒƒZƒbƒTŽg—p•s‰Â—áŠO
-     0x80000644         17      ExcCode 12      ‰‰ŽZƒI[ƒo[ƒtƒ[—áŠO
-     0x80000648         18      ExcCode 13      ƒgƒ‰ƒbƒv—áŠO
-     0x8000064C         19      ExcCode 14      (—\–ñ)
-     0x80000650         20      ExcCode 15      •‚“®¬”“_—áŠO
-     0x80000654         21      ExcCode 16      (—\–ñ)
-     0x80000658         22      ExcCode 17      (—\–ñ)
-     0x8000065C         23      ExcCode 18      (—\–ñ)
-     0x80000660         24      ExcCode 19      (—\–ñ)
-     0x80000664         25      ExcCode 20      (—\–ñ)
-     0x80000668         26      ExcCode 21      (—\–ñ)
-     0x8000066C         27      ExcCode 22      (—\–ñ)
-     0x80000670         28      ExcCode 23      ƒEƒHƒbƒ`ƒ|ƒCƒ“ƒg
-     0x80000674         29      ExcCode 24      (—\–ñ)
-     0x80000678         30      ExcCode 25      (—\–ñ)
-     0x8000067C         31      ExcCode 26      (—\–ñ)
-     0x80000680         32      ExcCode 27      (—\–ñ)
-     0x80000684         33      ExcCode 28      (—\–ñ)
-     0x80000688         34      ExcCode 29      (—\–ñ)
-     0x8000068C         35      ExcCode 30      (—\–ñ)
-     0x80000690         36      ExcCode 31      (—\–ñ)
-     0x80000694         37      SYSCALL         (—\–ñ)
-     0x80000698         38      IP7             CP0 Š„ž‚ÝiHOS“à•”ê—pj
-     0x8000069C         39      IP6             (—\–ñ)
-     0x800006A0         40      IP5             (—\–ñ)
-     0x800006A4         41      IP4             (—\–ñ)
-     0x800006A8         42      IP3             (—\–ñ)
-     0x800006AC         43      IP2             ŠO•”Š„ž‚Ý
-     0x800006B0         44      IP1             ƒ\ƒtƒgƒEƒFƒAŠ„ž‚Ý‚P
-     0x800006B4         45      IP0             ƒ\ƒtƒgƒEƒFƒAŠ„ž‚Ý‚O
-     0x800006B8         46      PWM0            PWM0 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006BC         47      PWM1            PWM1 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006C0         48      PWM2            PWM2 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006C4         49      PWM3            PWM3 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006C8         50      UART30          UART3_0 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006CC         51      UART31          UART3_1 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006D0         52      UART32          UART3_2 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006D4         53      UART33          UART3_3 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006D8         54      UART34          UART3_4 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006DC         55      UART35          UART3_5 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006E0         56      UART36          UART3_6 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006E4         57      UART37          UART3_7 Š„ž‚Ý(SEMB1200AŠg’£)
-     0x800006E8         58      TC7             TC#7 Š„ž‚Ý
-     0x800006EC         59      TC6             TC#6 Š„ž‚Ý
-     0x800006F0         60      TC5             TC#5 Š„ž‚Ý
-     0x800006F4         61      TC4             TC#4 Š„ž‚Ý
-     0x800006F8         62      TC3             TC#3 Š„ž‚Ý
-     0x800006FC         63      TC2             TC#2 Š„ž‚Ý
-     0x80000700         64      TC1             TC#1 Š„ž‚Ý
-     0x80000704         65      TC0             TC#0 Š„ž‚Ý
-     0x80000708         66      CSI             CSI Š„ž‚Ý
-     0x8000070C         67      CSIEMP          CSI ƒGƒ“ƒvƒeƒBŠ„ž‚Ý
-     0x80000710         68      CSIOVF          CSI ƒI[ƒo[ƒtƒ[Š„ž‚Ý
-     0x80000714         69      UART1TO         UART1 ƒ^ƒCƒ€ƒI[ƒo[Š„ž‚Ý
-     0x80000718         70      UART1           UART1 Š„ž‚Ý
-     0x8000071C         71      UART2TO         UART2 ƒ^ƒCƒ€ƒI[ƒo[Š„ž‚Ý
-     0x80000720         72      UART2           UART2 Š„ž‚Ý
-     0x80000724         73      -               (—\–ñ)
-     0x80000728         74      -               (—\–ñ)
-     0x8000072C         75      -               (—\–ñ)
+     0x80000600         0       --              ¥Ç¥Õ¥©¡¼¥ë¥È¥Ï¥ó¥É¥é
+     0x80000604         1       --              NMI¡¦¥½¥Õ¥È¥ê¥»¥Ã¥ÈÎã³°
+     0x80000608         2       --              TLB ÉÔ°ìÃ×Îã³°
+     0x8000060C         3       --              XTLB ÉÔ°ìÃ×Îã³°
+     0x80000610         4       --              ¥­¥ã¥Ã¥·¥å¥¨¥é¡¼Îã³°
+     0x80000614         5       ExcCode 0       (Í½Ìó)
+     0x80000618         6       ExcCode 1       TLB ÊÑ¹¹Îã³°
+     0x8000061C         7       ExcCode 2       TLB ÉÔ°ìÃ×(¥í¡¼¥É)Îã³°
+     0x80000620         8       ExcCode 3       TLB ÉÔ°ìÃ×(¥¹¥È¥¢)Îã³°
+     0x80000624         9       ExcCode 4       ¥¢¥É¥ì¥¹¥¨¥é¡¼(¥í¡¼¥É)Îã³°
+     0x80000628         10      ExcCode 5       ¥¢¥É¥ì¥¹¥¨¥é¡¼(¥¹¥È¥¢)Îã³°
+     0x8000062C         11      ExcCode 6       (Í½Ìó)
+     0x80000630         12      ExcCode 7       (Í½Ìó)
+     0x80000634         13      ExcCode 8       ¥·¥¹¥Æ¥à¥³¡¼¥ëÎã³°
+     0x80000638         14      ExcCode 9       ¥Ö¥ì¡¼¥¯¥Ý¥¤¥ó¥ÈÎã³°
+     0x8000063C         15      ExcCode 10      Í½ÌóÌ¿ÎáÎã³°
+     0x80000640         16      ExcCode 11      ¥³¥×¥í¥»¥Ã¥µ»ÈÍÑÉÔ²ÄÎã³°
+     0x80000644         17      ExcCode 12      ±é»»¥ª¡¼¥Ð¡¼¥Õ¥í¡¼Îã³°
+     0x80000648         18      ExcCode 13      ¥È¥é¥Ã¥×Îã³°
+     0x8000064C         19      ExcCode 14      (Í½Ìó)
+     0x80000650         20      ExcCode 15      ÉâÆ°¾®¿ôÅÀÎã³°
+     0x80000654         21      ExcCode 16      (Í½Ìó)
+     0x80000658         22      ExcCode 17      (Í½Ìó)
+     0x8000065C         23      ExcCode 18      (Í½Ìó)
+     0x80000660         24      ExcCode 19      (Í½Ìó)
+     0x80000664         25      ExcCode 20      (Í½Ìó)
+     0x80000668         26      ExcCode 21      (Í½Ìó)
+     0x8000066C         27      ExcCode 22      (Í½Ìó)
+     0x80000670         28      ExcCode 23      ¥¦¥©¥Ã¥Á¥Ý¥¤¥ó¥È
+     0x80000674         29      ExcCode 24      (Í½Ìó)
+     0x80000678         30      ExcCode 25      (Í½Ìó)
+     0x8000067C         31      ExcCode 26      (Í½Ìó)
+     0x80000680         32      ExcCode 27      (Í½Ìó)
+     0x80000684         33      ExcCode 28      (Í½Ìó)
+     0x80000688         34      ExcCode 29      (Í½Ìó)
+     0x8000068C         35      ExcCode 30      (Í½Ìó)
+     0x80000690         36      ExcCode 31      (Í½Ìó)
+     0x80000694         37      IP7             CP0 ³ä¹þ¤ß¡ÊHOSÆâÉôÀìÍÑ¡Ë
+     0x80000698         38      IP6             (Í½Ìó)
+     0x8000069C         39      IP5             (Í½Ìó)
+     0x800006A0         40      IP4             (Í½Ìó)
+     0x800006A4         41      IP3             (Í½Ìó)
+     0x800006A8         42      IP2             ³°Éô³ä¹þ¤ß
+     0x800006AC         43      IP1             ¥½¥Õ¥È¥¦¥§¥¢³ä¹þ¤ß£±
+     0x800006B0         44      IP0             ¥½¥Õ¥È¥¦¥§¥¢³ä¹þ¤ß£°
+     0x800006B4         45      SYSCALL         (Í½Ìó)
+     0x800006B8         46      -               (Í½Ìó)
+     0x800006BC         47      -               (Í½Ìó)
+     0x800006C0         48      -               (Í½Ìó)
+     0x800006C4         49      -               (Í½Ìó)
+     0x800006C8         50      -               (Í½Ìó)
+     0x800006CC         51      -               (Í½Ìó)
+     0x800006D0         52      -               (Í½Ìó)
+     0x800006D4         53      -               (Í½Ìó)
+     0x800006D8         54      -               (Í½Ìó)
+     0x800006DC         55      -               (Í½Ìó)
+     0x800006E0         56      -               (Í½Ìó)
+     0x800006E4         57      -               (Í½Ìó)
+     0x800006E8         58      -               (Í½Ìó)
+     0x800006EC         59      -               (Í½Ìó)
+     0x800006F0         60      -               (Í½Ìó)
+     0x800006F4         61      -               (Í½Ìó)
+     0x800006F8         62      -               (Í½Ìó)
+     0x800006FC         63      -               (Í½Ìó)
         ...
-     0x800007FC         127     -               (—\–ñ)
+     0x80000700         64      TC7             TC#7 ³ä¹þ¤ß
+     0x80000704         65      TC6             TC#6 ³ä¹þ¤ß
+     0x80000708         66      TC5             TC#5 ³ä¹þ¤ß
+     0x8000070C         67      TC4             TC#4 ³ä¹þ¤ß
+     0x80000710         68      TC3             TC#3 ³ä¹þ¤ß
+     0x80000714         69      TC2             TC#2 ³ä¹þ¤ß
+     0x80000718         70      TC1             TC#1 ³ä¹þ¤ß
+     0x8000071C         71      TC0             TC#0 ³ä¹þ¤ß
+     0x80000720         72      CSI             CSI ³ä¹þ¤ß
+     0x80000724         73      CSIEMP          CSI ¥¨¥ó¥×¥Æ¥£³ä¹þ¤ß
+     0x80000728         74      CSIOVF          CSI ¥ª¡¼¥Ð¡¼¥Õ¥í¡¼³ä¹þ¤ß
+     0x8000072C         75      UART1TO         UART1 ¥¿¥¤¥à¥ª¡¼¥Ð¡¼³ä¹þ¤ß
+     0x80000730         76      UART1           UART1 ³ä¹þ¤ß
+     0x80000734         77      UART2TO         UART2 ¥¿¥¤¥à¥ª¡¼¥Ð¡¼³ä¹þ¤ß
+     0x80000738         78      UART2           UART2 ³ä¹þ¤ß
+     0x8000073C         79      -               (Í½Ìó)
+     0x80000740         80      -               (Í½Ìó)
+     0x80000744         81      -               (Í½Ìó)
+        ...
+     0x800007C0         112     PWM0            PWM0 ³ä¹þ¤ß
+     0x800007C4         113     PWM1            PWM1 ³ä¹þ¤ß
+     0x800007C8         114     PWM2            PWM2 ³ä¹þ¤ß
+     0x800007CC         115     PWM3            PWM3 ³ä¹þ¤ß
+     0x800007D0         116     UART30          UART3_0 ³ä¹þ¤ß
+     0x800007D4         117     UART31          UART3_1 ³ä¹þ¤ß
+     0x800007D8         118     UART32          UART3_2 ³ä¹þ¤ß
+     0x800007DC         119     UART33          UART3_3 ³ä¹þ¤ß
+     0x800007E0         120     UART34          UART3_4 ³ä¹þ¤ß
+     0x800007E4         121     UART35          UART3_5 ³ä¹þ¤ß
+     0x800007E8         122     UART36          UART3_6 ³ä¹þ¤ß
+     0x800007EC         123     UART37          UART3_7 ³ä¹þ¤ß
+     0x800007F0         124     -               (Í½Ìó)
+     0x800007F4         125     -               (Í½Ìó)
+     0x800007F8         126     -               (Í½Ìó)
+     0x800007FC         127     -               (Í½Ìó)
 
 ------------------------------------------------------------------------------
  Copyright (C) 1998-2008 by Project HOS                                       

@@ -1,101 +1,101 @@
 /* ------------------------------------------------------------------------ */
-/*  Hyper Operating System V4  ƒÊITRON4.0Žd—l Real-Time OS                  */
-/*    ƒvƒƒZƒbƒT’ŠÛ‰»ƒRƒ“ƒ|[ƒlƒ“ƒg (MIPS4ŒÝŠ·ƒRƒA—p)                      */
+/*  Hyper Operating System V4  ¦ÌITRON4.0»ÅÍÍ Real-Time OS                  */
+/*    ¥×¥í¥»¥Ã¥µÃê¾Ý²½¥³¥ó¥Ý¡¼¥Í¥ó¥È (MIPS4¸ß´¹¥³¥¢ÍÑ)                      */
 /*                                                                          */
 /*                                  Copyright (C) 1998-2008 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 #include "mipsregs.h"
 
-		.global hospac_dis_int				/* Š„‚èž‚Ý‹ÖŽ~					*/
-		.global hospac_ena_int				/* Š„‚èž‚Ý‹–‰Â					*/
-		.global hospac_cre_ctx_asm			/* ŽÀsƒRƒ“ƒeƒLƒXƒg‚Ìì¬		*/
-		.global hospac_swi_ctx				/* ŽÀsƒRƒ“ƒeƒLƒXƒg‚ÌØ‘Ö		*/
+		.global hospac_dis_int				/* ³ä¤ê¹þ¤ß¶Ø»ß					*/
+		.global hospac_ena_int				/* ³ä¤ê¹þ¤ßµö²Ä					*/
+		.global hospac_cre_ctx_asm			/* ¼Â¹Ô¥³¥ó¥Æ¥­¥¹¥È¤ÎºîÀ®		*/
+		.global hospac_swi_ctx				/* ¼Â¹Ô¥³¥ó¥Æ¥­¥¹¥È¤ÎÀÚÂØ		*/
 /***********************************************************************
- *  Š„‚èž‚Ý‹ÖŽ~
+ *  ³ä¤ê¹þ¤ß¶Ø»ß
  *  void hospac_dis_int(void)
  ***********************************************************************/
-/* ƒXƒe[ƒ^ƒXEƒŒƒWƒXƒ^‚ÌIEƒrƒbƒg‚ð0‚É‚·‚é */
+/* ¥¹¥Æ¡¼¥¿¥¹¡¦¥ì¥¸¥¹¥¿¤ÎIE¥Ó¥Ã¥È¤ò0¤Ë¤¹¤ë */
 		.text
 		.align	4
 hospac_dis_int:
-		mfc0	t0, CP0_STATUS			/* CP0ƒŒƒWƒXƒ^‚ðƒ[ƒh */
+		mfc0	t0, CP0_STATUS			/* CP0¥ì¥¸¥¹¥¿¤ò¥í¡¼¥É */
 		nop
 		la		t1, 0xF1FFFFF8			/* ERL=0,IE=0,EXL=0 */
 		and		t0, t1, t0
-		mtc0	t0, CP0_STATUS			/* CP0ƒŒƒWƒXƒ^‚ðƒXƒgƒA */
+		mtc0	t0, CP0_STATUS			/* CP0¥ì¥¸¥¹¥¿¤ò¥¹¥È¥¢ */
 		nop
 		jr		ra
 		nop
 /***********************************************************************
- *  Š„‚èž‚Ý‹–‰Â
+ *  ³ä¤ê¹þ¤ßµö²Ä
  *  void hospac_ena_int(void)
  ***********************************************************************/
-/* ƒXƒe[ƒ^ƒXEƒŒƒWƒXƒ^‚ÌIEƒrƒbƒg‚ð1‚É‚·‚é */
+/* ¥¹¥Æ¡¼¥¿¥¹¡¦¥ì¥¸¥¹¥¿¤ÎIE¥Ó¥Ã¥È¤ò1¤Ë¤¹¤ë */
 		.text
 		.align	4
 hospac_ena_int:
-		mfc0	t0, CP0_STATUS			/* CP0ƒŒƒWƒXƒ^‚ðƒ[ƒh */
+		mfc0	t0, CP0_STATUS			/* CP0¥ì¥¸¥¹¥¿¤ò¥í¡¼¥É */
 		nop
 		la		t1, 0xF1FFFFFB
 		and		t0, t1, t0				/* ERL=0 */
 		la		t1, 0x00000001			/* IE=1 */
 		or		t0, t1, t0
-		mtc0	t0, CP0_STATUS			/* CP0ƒŒƒWƒXƒ^‚ðƒXƒgƒA */
+		mtc0	t0, CP0_STATUS			/* CP0¥ì¥¸¥¹¥¿¤ò¥¹¥È¥¢ */
 		nop
 		jr		ra
 		nop
 /***********************************************************************
- *  ŽÀsƒRƒ“ƒeƒLƒXƒgƒGƒ“ƒgƒŠ[ƒAƒhƒŒƒX
+ *  ¼Â¹Ô¥³¥ó¥Æ¥­¥¹¥È¥¨¥ó¥È¥ê¡¼¥¢¥É¥ì¥¹
  ***********************************************************************/
 		.text
 		.align	4
 ctx_entry:
-		j		a1						/* ŽÀsƒAƒhƒŒƒXa1‚ÉƒWƒƒƒ“ƒvBa0‚ªŽÀsŽžƒpƒ‰ƒ[ƒ^ */
+		j		a1						/* ¼Â¹Ô¥¢¥É¥ì¥¹a1¤Ë¥¸¥ã¥ó¥×¡£a0¤¬¼Â¹Ô»þ¥Ñ¥é¥á¡¼¥¿ */
 		nop
 /***********************************************************************
- *  ŽÀsƒRƒ“ƒeƒLƒXƒg‚Ìì¬
+ *  ¼Â¹Ô¥³¥ó¥Æ¥­¥¹¥È¤ÎºîÀ®
  *  void hospac_cre_ctx_asm(
- *  	 T_HOSPAC_CTXINF *pk_ctxinf,    ì¬‚·‚éƒRƒ“ƒeƒLƒXƒg
- *  	 VP     sp,                     ƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^
- *  	 void   (*task)(VP_INT),        ŽÀsƒAƒhƒŒƒX
- *  	 VP_INT exinf)                  ŽÀsŽžƒpƒ‰ƒ[ƒ^
+ *  	 T_HOSPAC_CTXINF *pk_ctxinf,    ºîÀ®¤¹¤ë¥³¥ó¥Æ¥­¥¹¥È
+ *  	 VP     sp,                     ¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿
+ *  	 void   (*task)(VP_INT),        ¼Â¹Ô¥¢¥É¥ì¥¹
+ *  	 VP_INT exinf)                  ¼Â¹Ô»þ¥Ñ¥é¥á¡¼¥¿
  ***********************************************************************/
 		.text
 		.align	4
 hospac_cre_ctx_asm:
-		move	k0, a1                  /* ƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^‚ð‘Þ”ð */
-		subu	a1, a1, 288             /* ƒXƒ^ƒbƒN‚ÌL’£i4*72=288ƒoƒCƒgj*/
-	//	sw		a2,  5*4(a1)            /* ŽÀsƒAƒhƒŒƒX‚ÌŠi”[ */
-		sw		a3,  4*4(a1)            /* ŽÀsƒpƒ‰ƒ[ƒ^‚ÌŠi”[ */
-		sw		k0, 29*4(a1)            /* ƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^‚ÌÝ’è */
+		move	k0, a1                  /* ¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿¤òÂàÈò */
+		subu	a1, a1, 288             /* ¥¹¥¿¥Ã¥¯¤Î¿­Ä¥¡Ê4*72=288¥Ð¥¤¥È¡Ë*/
+	//	sw		a2,  5*4(a1)            /* ¼Â¹Ô¥¢¥É¥ì¥¹¤Î³ÊÇ¼ */
+		sw		a3,  4*4(a1)            /* ¼Â¹Ô¥Ñ¥é¥á¡¼¥¿¤Î³ÊÇ¼ */
+		sw		k0, 29*4(a1)            /* ¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿¤ÎÀßÄê */
 #if 0
-		la		k0, ctx_entry           /* ŽÀsƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg‚ðƒŠƒ^[ƒ“ƒAƒhƒŒƒX‚ÉÝ’è */
+		la		k0, ctx_entry           /* ¼Â¹Ô¥¨¥ó¥È¥ê¥Ý¥¤¥ó¥È¤ò¥ê¥¿¡¼¥ó¥¢¥É¥ì¥¹¤ËÀßÄê */
 		sw		k0, 31*4(a1)
 #else
 		sw		a2, 31*4(a1)
 #endif
-		mfc0	k0, CP0_STATUS          /* CP0_STATUS‚ð‘Þ”ð */
+		mfc0	k0, CP0_STATUS          /* CP0_STATUS¤òÂàÈò */
 		nop
 		sw		k0, 36*4(a1)
 		nop
-		sw		a1, (a0)                /* ƒRƒ“ƒeƒLƒXƒg‚ÌƒXƒ^ƒbƒNƒ|ƒCƒ“ƒ^•Û‘¶ */
-		jr		ra                      /* ŒÄ‚Ño‚µŒ³‚Ö‹A‚é */
+		sw		a1, (a0)                /* ¥³¥ó¥Æ¥­¥¹¥È¤Î¥¹¥¿¥Ã¥¯¥Ý¥¤¥ó¥¿ÊÝÂ¸ */
+		jr		ra                      /* ¸Æ¤Ó½Ð¤·¸µ¤Øµ¢¤ë */
 		nop
 /***********************************************************************
- *  ŽÀsƒRƒ“ƒeƒLƒXƒg‚ÌØ‘Ö
+ *  ¼Â¹Ô¥³¥ó¥Æ¥­¥¹¥È¤ÎÀÚÂØ
  *  void hospac_swi_ctx(
- *  	T_HOSPAC_CTXINF *pk_pre_ctxinf, Œ»Ý‚ÌƒRƒ“ƒeƒLƒXƒg‚Ì•Û‘¶æ
- *  	T_HOSPAC_CTXINF *pk_nxt_ctxinf) Ø‚è‘Ö‚¦‚éƒRƒ“ƒeƒLƒXƒg
+ *  	T_HOSPAC_CTXINF *pk_pre_ctxinf, ¸½ºß¤Î¥³¥ó¥Æ¥­¥¹¥È¤ÎÊÝÂ¸Àè
+ *  	T_HOSPAC_CTXINF *pk_nxt_ctxinf) ÀÚ¤êÂØ¤¨¤ë¥³¥ó¥Æ¥­¥¹¥È
  ***********************************************************************/
 		.text
 		.align	4
 hospac_swi_ctx:
-		pushall							/* ƒŒƒWƒXƒ^‘Þ”ð				*/
-		sw		sp, (a0)				/* sp‚ðŠÇ——Ìˆæ‚Ö‘Þ”ð		*/
-		lw		sp, (a1)				/* ŠÇ——Ìˆæ‚©‚çsp‚ð•œ‹A		*/
-		popall							/* ƒŒƒWƒXƒ^•œ‹A				*/
-		jr		ra						/* ƒRƒ“ƒeƒLƒXƒg‚ÖƒWƒƒƒ“ƒv	*/
+		pushall							/* ¥ì¥¸¥¹¥¿ÂàÈò				*/
+		sw		sp, (a0)				/* sp¤ò´ÉÍýÎÎ°è¤ØÂàÈò		*/
+		lw		sp, (a1)				/* ´ÉÍýÎÎ°è¤«¤ésp¤òÉüµ¢		*/
+		popall							/* ¥ì¥¸¥¹¥¿Éüµ¢				*/
+		jr		ra						/* ¥³¥ó¥Æ¥­¥¹¥È¤Ø¥¸¥ã¥ó¥×	*/
 		nop
 /* ------------------------------------------------------------------------ */
 /*  Copyright (C) 1998-2008 by Project HOS                                  */
