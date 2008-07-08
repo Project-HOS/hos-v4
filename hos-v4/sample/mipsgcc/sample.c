@@ -11,11 +11,11 @@
  *******************************************************************************/
 
 #include <semb1200a/semb1200a.h>
-#include "semb1200a/ux_signal.h"
 #include "kernel.h"
 #include "kernel_id.h"
 #include "sample.h"
-#include	<math.h>
+#include "irq_sample.h"
+#include <math.h>
 
 /**
  *  main関数
@@ -63,20 +63,18 @@ sample_task_1 (VP_INT exinf)
  *  - 現在時刻とタスク名を表示
  */
 
-float	b;
-double	c;
+double	b;
 
 void
 sample_task_2 (VP_INT exinf)
 {
-	static float	a = 0.0f;
+	static double	a = 0.0;
 
 	for (;;){
 		slp_tsk ();
 		sig_sem (SEMID_SAMPLE_1);
 		a += 0.1f;
-		b = sinf( a / 3.14f );
-		c = sin( (double)a / 3.14 );
+		b = sin( a / M_PI );
 		sample_print (2);
 	}
 }
@@ -101,12 +99,11 @@ sample_print (int no)
 
 	if( no == 2 ) {
 		uart1_putc( ' ' );
-		uart1_outval( (int)(b * 10000.0f) );
+		uart1_outval( flag_tc0 );
 		uart1_putc( ' ' );
-		uart1_outval( (int)(c * 10000.0) );
+		uart1_outval( (int)(b * 10000.0) );
 		uart1_putc( ' ' );
 	}
-
 	uart1_puts ("\n\r");
 }
 

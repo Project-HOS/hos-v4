@@ -82,5 +82,6 @@ void	_start1( void )
 	__crt0_memcpy( (char*)INT_HANDLER, inthdl, (size_t)einthdl - (size_t)inthdl );
 	__crt0_memcpy( (char*)INT_ADDRESS, inthdljp, 8 );
 	cache8( INT_ADDRESS );
+
 	main();
 }
