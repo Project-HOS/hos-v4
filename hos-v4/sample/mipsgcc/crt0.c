@@ -48,7 +48,7 @@ asm("	.text						\n"
 /*
  *  inline memcpy(), memset()
  */
-void	__crt0_memcpy(
+void	_hos_crt0_memcpy(
 	char	*dst,
 	char	*src,
 	int		len
@@ -58,7 +58,7 @@ void	__crt0_memcpy(
 		*dst++ = *src++;
 	}
 }
-void	__crt0_memset(
+void	_hos_crt0_memset(
 	char	*des,
 	int		c,
 	int		len
@@ -75,12 +75,12 @@ void	_start1( void )
 	extern	char	_erdata[], _data[], _edata[];
 	extern	char	_fbss[], _end[];
 
-	__crt0_memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
-	__crt0_memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
+	_hos_crt0_memcpy( _data, _erdata, (size_t)_edata - (size_t)_data );
+	_hos_crt0_memset( _fbss, 0, (size_t)_end - (size_t)_fbss );
 
-	__crt0_memset( (char*)INT_VECTOR, 0, INT_HANDLER-INT_VECTOR );
-	__crt0_memcpy( (char*)INT_HANDLER, inthdl, (size_t)einthdl - (size_t)inthdl );
-	__crt0_memcpy( (char*)INT_ADDRESS, inthdljp, 8 );
+	_hos_crt0_memset( (char*)INT_VECTOR, 0, INT_HANDLER-INT_VECTOR );
+	_hos_crt0_memcpy( (char*)INT_HANDLER, inthdl, (size_t)einthdl - (size_t)inthdl );
+	_hos_crt0_memcpy( (char*)INT_ADDRESS, inthdljp, 8 );
 	cache8( INT_ADDRESS );
 
 	main();

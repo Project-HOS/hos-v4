@@ -64,20 +64,20 @@ ctx_entry:
 		.text
 		.align	4
 hospac_cre_ctx_asm:
-		move	k0, a1                  /* スタックポインタを退避 */
+		move	t8, a1                  /* スタックポインタを退避 */
 		subu	a1, a1, 288             /* スタックの伸張（4*72=288バイト）*/
 	//	sw		a2,  5*4(a1)            /* 実行アドレスの格納 */
 		sw		a3,  4*4(a1)            /* 実行パラメータの格納 */
-		sw		k0, 29*4(a1)            /* スタックポインタの設定 */
+		sw		t8, 29*4(a1)            /* スタックポインタの設定 */
 #if 0
-		la		k0, ctx_entry           /* 実行エントリポイントをリターンアドレスに設定 */
-		sw		k0, 31*4(a1)
+		la		t8, ctx_entry           /* 実行エントリポイントをリターンアドレスに設定 */
+		sw		t8, 31*4(a1)
 #else
 		sw		a2, 31*4(a1)
 #endif
-		mfc0	k0, CP0_STATUS          /* CP0_STATUSを退避 */
+		mfc0	t8, CP0_STATUS          /* CP0_STATUSを退避 */
 		nop
-		sw		k0, 36*4(a1)
+		sw		t8, 36*4(a1)
 		nop
 		sw		a1, (a0)                /* コンテキストのスタックポインタ保存 */
 		jr		ra                      /* 呼び出し元へ帰る */

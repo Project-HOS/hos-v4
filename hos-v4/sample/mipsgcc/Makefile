@@ -19,9 +19,9 @@ INCDIR = ../../include
 
 CFLAGS = -c -O2 -march=vr5500 -EL -Wall -I$(INCDIR) -I/usr/mipsel-semb-elf/include -I/usr/local/mipsel-semb-elf/include
 AFLAGS = -c -march=vr5500 -EL -Wall -pipe
-LDSCRIPT = semb1200a-rom.ld
+LDSCRIPT = semb1200a-hos.ld
 LFLAGS = -march=vr5500 -mrelax -nostartfiles -L$(LIBDIR) -Wl,-v,-Map,sample.map,-T${LDSCRIPT}
-LDSTART1 = -Wl,--section-start,.text=0x9FD00000,-Map,sample.map
+LDSTART1 = -Wl,--section-start,.text=0x9FD80000,-Map,sample.map
 
 CFGFLAGS = -E -x c -Wall  -I$(INCDIR) -pipe
 

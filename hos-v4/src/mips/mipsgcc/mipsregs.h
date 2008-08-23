@@ -141,7 +141,7 @@
 		sw		ra, 31*4(sp)
 		sw		v0, 32*4(sp)	# lo
 		sw		v1, 33*4(sp)	# hi
-#if 1
+#if 0
 		swc1	$0,  38*4(sp)
 		swc1	$1,  39*4(sp)
 		swc1	$2,  40*4(sp)
@@ -210,12 +210,12 @@
 		mtc0	t0, CP0_STATUS
 		li		v1, 0xFF00
 		and		t0, v1
-		lw		v0,   4*36(sp)	# STATUS
+		lw		v0, 36*4(sp)	# STATUS
 		nor		v1, $0, v1
 		and		v0, v1
 		or		v0, t0
 		mtc0	v0, CP0_STATUS
-		lw		v1,  4*34(sp)	# EPC
+		lw		v1, 34*4(sp)	# EPC
 		mtc0	v1, CP0_EPC
 
 		.set	push
@@ -256,7 +256,7 @@
 	//	lw		gp, 28*4(sp)
 		lw		fp, 30*4(sp)	# 必要なし？
 		lw		ra, 31*4(sp)
-#if 1
+#if 0
 		lwc1	$0,  38*4(sp)
 		lwc1	$1,  39*4(sp)
 		lwc1	$2,  40*4(sp)

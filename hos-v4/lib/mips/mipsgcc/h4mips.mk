@@ -42,7 +42,7 @@ LIBR   = mipsel-semb-elf-ar
 RANLIB = mipsel-semb-elf-ranlib
 
 # オプション
-CFLAGS = -c -march=vr5500 -EL -O2 -Wall -I$(INCDIR) -I/usr/mipsel-semb-elf/include -I/usr/local/mipsel-semb-elf/include
+CFLAGS = -c -march=vr5500 -EL -O2 -Wall -I$(INCDIR) -I/usr/local/mipsel-semb-elf/include
 AFLAGS = -c -march=vr5500 -EL -I$(INCDIR)
 
 # ターゲット
@@ -660,7 +660,7 @@ clean:
 	rm -f $(TARGET)
 
 install:
-	cp libh4mips.a /usr/mipsel-semb-elf/lib
+	cp libh4mips.a /usr/local/mipsel-semb-elf/lib
 
 # -----------------------------------------------------------------------------
 #  Copyright (C) 1998-2008 by Project HOS                                      

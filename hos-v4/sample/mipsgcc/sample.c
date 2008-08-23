@@ -37,6 +37,7 @@ sample_init (VP_INT exinf)
 {
 	act_tsk (TSKID_SAMPLE_1);
 	act_tsk (TSKID_SAMPLE_2);
+	act_tsk (TSKID_SAMPLE_3);
 
 	/* 周期タイマの起動 */
 	sta_cyc (CYCID_SAMPLE_1);
@@ -76,6 +77,19 @@ sample_task_2 (VP_INT exinf)
 		a += 0.1f;
 		b = sin( a / M_PI );
 		sample_print (2);
+	}
+}
+
+void
+sample_task_3 (VP_INT exinf)
+{
+	volatile double	a = 0.0, c;
+
+	for (;;){
+		a += 0.1f;
+		c = cos( a / M_PI );
+		uart1_putc( '.' );
+		dly_tsk(100);
 	}
 }
 

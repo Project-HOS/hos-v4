@@ -17,6 +17,9 @@ void
 sample_task_2 (VP_INT exinf);
 
 void
+sample_task_3 (VP_INT exinf);
+
+void
 sample_print (int no);
 
 void
