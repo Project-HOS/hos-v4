@@ -1,0 +1,14 @@
+crtE.o
+-cpu
+F3716
+-D
+C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.dir
+ostimer.o
+sample.o
+kernel_cfg.o
+inthdr.o
+-lh4v850es
+-lm
+-lc
+-lr
+"C:\Program Files\NEC Electronics Tools\CA850\W3.20\lib850\r32\rompcrt.o"
