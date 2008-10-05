@@ -4,10 +4,10 @@ FrameX=4
 FrameY=162
 FrameCX=1103
 FrameCY=793
-OpenFile1=ProjectWindow
-PrjPos=0,0,860,0,213
-OpenFile2=OutputWindow
+OpenFile1=OutputWindow
 OutputPos=0,0,285,211,1276
+OpenFile2=ProjectWindow
+PrjPos=0,0,860,0,213
 ActivePRJ=sample.prj
 [ProjectWindow]
 ProjectWindowDispType=0

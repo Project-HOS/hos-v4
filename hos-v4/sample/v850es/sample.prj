@@ -22,8 +22,6 @@ DebSymReset=0
 MuitiLoad=0
 LoadPrjNum=0
 CheckVersion=CA850|W3.20
-[Options.RAMMAP]
-MrRangeEdit=1
 [Options.CA850]
 Version=W3.20  [24 Aug 2007]
 Define0=DEBUG;__V850ES__
@@ -133,3 +131,5 @@ Before1=copy system.cfg system.c
 Before2="c:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\ca850.exe" -Xcxxcom -P system.c
 Before3=hos4cfg.exe system.i
 Before4=del system.c system.i
+[Options.RAMMAP]
+MrRangeEdit=1
