@@ -156,7 +156,7 @@ void    mknl_exe_tex(void);									/* タスク例外処理の実行 */
 															/* タスク例外処理禁止状態の参照 */
 
 void    kernel_tex_entry(void);								/* タスク例外処理エントリーポイント(カーネル側で用意すること) */
-	
+
 
 /* システム制御 */
 #define mknl_loc_sys()	\

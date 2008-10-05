@@ -14,7 +14,7 @@
 
 #if defined(__CC_ARM) || defined(__arm__)	/* ARMコンパイラ */
 
-#include "arm/hospac.h"	
+#include "arm/hospac.h"
 
 #elif defined(__CPU__)	/* 日立H8コンパイラ */
 
@@ -43,6 +43,9 @@
 
 #elif defined(__mips__) /* mips-elf-gcc */
 #include "mips/hospac.h"
+
+#elif defined(__V850ES__) /* v850es-ca850 */
+#include "v850es/hospac.h"
 
 #else
 
