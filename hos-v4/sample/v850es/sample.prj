@@ -22,32 +22,6 @@ DebSymReset=0
 MuitiLoad=0
 LoadPrjNum=0
 CheckVersion=CA850|W3.20
-[Options.CA850]
-Version=W3.20  [24 Aug 2007]
-Define0=DEBUG;__V850ES__
-AsmSrc=1
-CxxCom=1
-ProEpiRuntime=2
-Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
-Optimize=o
-DebugInfo=0
-BuildMode=0
-[Options.CA850 1]
-Define0=DEBUG;__V850ES__
-CxxCom=1
-Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
-Optimize=o
-DebugInfo=0
-[Options.AS850]
-Version=W3.60  [20 Jul 2007]
-Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
-[Options.AS850 1]
-DebugInfo=0
-Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
-[Options.AS850 1 StartUp]
-DebugInfo=0
-[Options.AS850 1 RompCrt]
-DebugInfo=0
 [Options.SF850]
 Version=W2.10  [28 Jun 2007]
 Romp=1
@@ -131,5 +105,31 @@ Before1=copy system.cfg system.c
 Before2="c:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\ca850.exe" -Xcxxcom -P system.c
 Before3=hos4cfg.exe system.i
 Before4=del system.c system.i
+[Options.CA850]
+Version=W3.20  [24 Aug 2007]
+Define0=DEBUG;__V850ES__
+AsmSrc=1
+CxxCom=1
+ProEpiRuntime=2
+Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
+Optimize=o
+DebugInfo=0
+BuildMode=0
+[Options.CA850 1]
+Define0=DEBUG;__V850ES__
+CxxCom=1
+Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
+Optimize=o
+DebugInfo=0
+[Options.AS850]
+Version=W3.60  [20 Jul 2007]
+Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
+[Options.AS850 1]
+DebugInfo=0
+Include0=C:\cygwin\home\n-okada\hos\hos-v4\include
+[Options.AS850 1 StartUp]
+DebugInfo=0
+[Options.AS850 1 RompCrt]
+DebugInfo=0
 [Options.RAMMAP]
 MrRangeEdit=1

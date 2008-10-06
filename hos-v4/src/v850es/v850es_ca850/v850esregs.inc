@@ -49,7 +49,7 @@
 	.set	pt_dbpc,	160		-- 40*4	-- 例外/デバッグ・トラップ時状態退避レジスタ
 	.set	pt_dbpsw,	164		-- 41*4	-- 例外/デバッグ・トラップ時状態退避レジスタ
 	.set	pt_ctbp,	168		-- 42*4	-- CALLTベースポインタ
-	.set	pt_ssf,		172		-- 43*4	-- スタックフレームサイズ (40*4=160バイト)
+	.set	pt_ssf,		172		-- 43*4	-- スタックフレームサイズ (43*4=172バイト)
 	.set	pt_sp,		pt_r3	--  3*4	-- 12
 	.set	pt_ep,		pt_r30	-- 30*4	-- 120
 	.set	pt_lp,		pt_r31	-- 31*4	-- 124
@@ -122,16 +122,20 @@
 		sst.w	r12, pt_r12[ep]
 		sst.w	r13, pt_r13[ep]
 		sst.w	r14, pt_r14[ep]
+	.ifndef	_reg22_						-- -reg22 モード時は実施しない
 		sst.w	r15, pt_r15[ep]
 		sst.w	r16, pt_r16[ep]
+	.ifndef	_reg26_						-- -reg26 モード時は実施しない
 		sst.w	r17, pt_r17[ep]
 		sst.w	r18, pt_r18[ep]
 		sst.w	r19, pt_r19[ep]
 		sst.w	r20, pt_r20[ep]
 		sst.w	r21, pt_r21[ep]
 		sst.w	r22, pt_r22[ep]
+	.endif								-- -reg26 モードここまで
 		sst.w	r23, pt_r23[ep]
 		sst.w	r24, pt_r24[ep]
+	.endif								-- -reg22 モードここまで
 		sst.w	r25, pt_r25[ep]
 		sst.w	r26, pt_r26[ep]
 		sst.w	r27, pt_r27[ep]
@@ -163,16 +167,20 @@
 		sld.w	pt_r12[ep], r12
 		sld.w	pt_r13[ep], r13
 		sld.w	pt_r14[ep], r14
+	.ifndef	_reg22_						-- -reg22 モード時は実施しない
 		sld.w	pt_r15[ep], r15
 		sld.w	pt_r16[ep], r16
+	.ifndef	_reg26_						-- -reg26 モード時は実施しない
 		sld.w	pt_r17[ep], r17
 		sld.w	pt_r18[ep], r18
 		sld.w	pt_r19[ep], r19
 		sld.w	pt_r20[ep], r20
 		sld.w	pt_r21[ep], r21
 		sld.w	pt_r22[ep], r22
+	.endif								-- -reg26 モードここまで
 		sld.w	pt_r23[ep], r23
 		sld.w	pt_r24[ep], r24
+	.endif								-- -reg22 モードここまで
 		sld.w	pt_r25[ep], r25
 		sld.w	pt_r26[ep], r26
 		sld.w	pt_r27[ep], r27

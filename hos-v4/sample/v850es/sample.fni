@@ -17,6 +17,4 @@ sample_task_1,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,146
 sample_task_2,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,157
 sample_init,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,168
 sample_cycle_handler,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,175
-kernel_cfg_init,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,248
-kernel_cfg_start,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,279
 

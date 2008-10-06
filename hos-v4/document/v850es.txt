@@ -102,12 +102,12 @@ libh4v850es.a のライブラリ生成には、MSYS や Cygwin などの環境が必要です。
 - PM+ のプロジェクト生成時に 22 もしくは 26 レジスタモードを選ぶ。
 
 - libh4v850es.a の生成用 Makefile の CFLAGS に -reg22 もしくは -reg26 を
-　指定する。
-
-- src/v850es/v850es_ca850/v850esregs.inc にて、
+　指定する。　指定することで、
+　1) 各 .o ファイルが -reg22, -reg26 モードで生成される。
+　2) src/v850es/v850es_ca850/v850esregs.inc において、
 　　-reg22 の場合、r15-r24のレジスタに対する ssw, sld を
 　　-reg26 の場合、r17-r22のレジスタに対する ssw, sld を
-　それぞれをコメントアウトする。
+　それぞれを実施しないようになる。
 
 - libh4v850es.a を生成し、
 　　-reg22 の場合、$(TOOLDIR)/lib850/r22 に

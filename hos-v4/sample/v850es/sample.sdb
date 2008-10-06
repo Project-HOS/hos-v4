@@ -13,7 +13,7 @@ T=48e86284
 3=sample.h
 4=..\..\..\..\..\..\..\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdio.h
 [kernel_cfg.c]
-T=48e874c7
+T=48e9dc4f
 1=..\..\include\kernel.h
 2=kernel_id.h
 3=sample.h
@@ -162,7 +162,7 @@ T=3ebd1918
 T=3e243cac
 1=..\..\include\knl_hos.h
 [kernel_id.h]
-T=48e874c7
+T=48e9dc4f
 [ostimer.h]
 T=48dcd695
 [..\..\..\..\..\..\..\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdio.h]
