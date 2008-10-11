@@ -1,7 +1,7 @@
 [SrcFileName]
 C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\ostimer.c,1223189107
 C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,1223189124
-C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,1223193799
+C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,1223285839
 C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\inthdr.S,1223190391
 
 [Function]
@@ -17,4 +17,6 @@ sample_task_1,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,146
 sample_task_2,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,157
 sample_init,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,168
 sample_cycle_handler,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.c,175
+kernel_cfg_init,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,248
+kernel_cfg_start,C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_cfg.c,279
 

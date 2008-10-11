@@ -51,9 +51,9 @@ CFLAGS = -cpu F3716 -I$(INCDIR) -D__V850ES__ -c -Xcxxcom -Xpro_epi_runtime=off -
 AFLAGS = -cpu F3716 -I $(INCDIR)
 
 # ターゲット
-LIB22  = r22/libh4v850es.a
-LIB26  = r26/libh4v850es.a
-LIB32  = r32/libh4v850es.a
+LIB22 = r22\libh4v850es.a
+LIB26 = r26\libh4v850es.a
+LIB32 = r32\libh4v850es.a
 
 all:	$(LIB22) $(LIB26) $(LIB32)
 
@@ -125,35 +125,35 @@ OBJS = mini_sys.o mexe_sys.o midl_lop.o msta_stu.o mext_stu.o \
 
 # ライブラリ生成
 $(LIB22): r22/pacctx.o r22/pacint.o $(OBJS)
-	$(LIBR) r $(LIB22) r22/pacctx.o r22/pacint.o $(OBJS)
+	$(LIBR) r $(LIB22) *.o r22/pacctx.o r22/pacint.o
 
 $(LIB26): r26/pacctx.o r26/pacint.o $(OBJS)
-	$(LIBR) r $(LIB26) r26/pacctx.o r26/pacint.o $(OBJS)
+	$(LIBR) r $(LIB26) *.o r26/pacctx.o r26/pacint.o
 
 $(LIB32): r32/pacctx.o r32/pacint.o $(OBJS)
-	$(LIBR) r $(LIB32) r32/pacctx.o r32/pacint.o $(OBJS)
+	$(LIBR) r $(LIB32) *.o r32/pacctx.o r32/pacint.o
 
 # プロセッサ依存
 r22/pacctx.o: $(PACASMDIR)/pacctx.S
 	mkdir r22
-	$(ASM) $(AFLAGS) -D_reg22_ -o r22/pacctx.o $(PACASMDIR)/pacctx.S
+	$(ASM) $(AFLAGS) -D_reg22_ -o r22\pacctx.o $(PACASMDIR)/pacctx.S
 
 r26/pacctx.o: $(PACASMDIR)/pacctx.S
 	mkdir r26
-	$(ASM) $(AFLAGS) -D_reg26_ -o r26/pacctx.o $(PACASMDIR)/pacctx.S
+	$(ASM) $(AFLAGS) -D_reg26_ -o r26\pacctx.o $(PACASMDIR)/pacctx.S
 
 r32/pacctx.o: $(PACASMDIR)/pacctx.S
 	mkdir r32
-	$(ASM) $(AFLAGS) -D_reg32_ -o r32/pacctx.o $(PACASMDIR)/pacctx.S
+	$(ASM) $(AFLAGS) -D_reg32_ -o r32\pacctx.o $(PACASMDIR)/pacctx.S
 
 r22/pacint.o: $(PACASMDIR)/pacint.S
-	$(ASM) $(AFLAGS) -D_reg22_ -o r22/pacint.o $(PACASMDIR)/pacint.S
+	$(ASM) $(AFLAGS) -D_reg22_ -o r22\pacint.o $(PACASMDIR)/pacint.S
 
 r26/pacint.o: $(PACASMDIR)/pacint.S
-	$(ASM) $(AFLAGS) -D_reg26_ -o r26/pacint.o $(PACASMDIR)/pacint.S
+	$(ASM) $(AFLAGS) -D_reg26_ -o r26\pacint.o $(PACASMDIR)/pacint.S
 
 r32/pacint.o: $(PACASMDIR)/pacint.S
-	$(ASM) $(AFLAGS) -D_reg32_ -o r32/pacint.o $(PACASMDIR)/pacint.S
+	$(ASM) $(AFLAGS) -D_reg32_ -o r32\pacint.o $(PACASMDIR)/pacint.S
 
 pacimsk.o: $(PACDIR)/pacimsk.c
 	$(CC) $(CFLAGS) $(PACDIR)/pacimsk.c
@@ -683,15 +683,19 @@ ref_ver.o: $(KNLSYSDIR)/ref_ver.c $(INCS)
 	$(CC) $(CFLAGS) $(KNLSYSDIR)/ref_ver.c
 
 clean:
-	rm -f $(OBJS) *~
-	rm -rf r22
-	rm -rf r26
-	rm -rf r32
+	del *.o
+	del r22\*.o
+	del r26\*.o
+	del r32\*.o
+	del $(LIB22) $(LIB26) $(LIB32)
+	rmdir r22
+	rmdir r26
+	rmdir r32
 
 install:
-	cp $(LIB22) $(TOOLDIR)/lib850/r22
-	cp $(LIB26) $(TOOLDIR)/lib850/r26
-	cp $(LIB32) $(TOOLDIR)/lib850/r32
+	copy $(LIB22) $(TOOLDIR)\lib850\r22
+	copy $(LIB26) $(TOOLDIR)\lib850\r26
+	copy $(LIB32) $(TOOLDIR)\lib850\r32
 
 #	-------------------------------------------------------------------------
 #		Copyright (C) 1998-2008 by Project HOS

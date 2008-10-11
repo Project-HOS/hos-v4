@@ -1,9 +1,9 @@
 // ---------------------------------------------------------------------------
-//  Hyper Operating System V4  コンフィギュレーター
-//    メインルーチン
-//
-//                                    Copyright (C) 1998-2002 by Project HOS
-//                                    http://sourceforge.jp/projects/hos/
+//  Hyper Operating System V4  コンフィギュレーター                           
+//    メインルーチン                                                          
+//                                                                            
+//                                    Copyright (C) 1998-2002 by Project HOS  
+//                                    http://sourceforge.jp/projects/hos/     
 // ---------------------------------------------------------------------------
 
 
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 			if ( i >= argc )
 			{
 				fprintf(stderr, "option error \"-c\"\n");
-							   PrintUsage();
+                               PrintUsage();
 				return 1;
 			}
 			s_szCfgFile = argv[i];
@@ -130,22 +130,22 @@ int main(int argc, char *argv[])
 			if ( i >= argc )
 			{
 				fprintf(stderr, "option error \"-i\"\n");
-							   PrintUsage();
+                               PrintUsage();
 				return 1;
 			}
 			s_szIdFile = argv[i];
 		}
-			   else if ( strcmp(argv[i], "-help") == 0 )
-			   {
-					   PrintUsage();
-					   return 0;
-			   }
-			   else if ( argv[i][0] == '-' && argv[i][1] != '\0' )
-			   {
-					   fprintf(stderr, "unknown option \"%s\"\n", argv[i]);
-					   PrintUsage();
-					   return 1;
-			   }
+               else if ( strcmp(argv[i], "-help") == 0 )
+               {
+                       PrintUsage();
+                       return 0;
+               }
+               else if ( argv[i][0] == '-' && argv[i][1] != '\0' )
+               {
+                       fprintf(stderr, "unknown option \"%s\"\n", argv[i]);
+                       PrintUsage();
+                       return 1;
+               }
 		else
 		{
 			if ( s_szPhysicalInputFile != NULL )
@@ -171,10 +171,10 @@ int main(int argc, char *argv[])
 	}
 	else if ( (fpInput = fopen(s_szPhysicalInputFile, "r")) == NULL )
 	{
-			   fprintf(stderr, "could not open file \"%s\"\n", s_szPhysicalInputFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szPhysicalInputFile);
 		return 1;
 	}
-
+	
 	// コンフィギュレーションファイル読み込み
 	iErr = ReadConfigFile(fpInput) != 0;
 	fclose(fpInput);
@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
 	// ID 定義ファイルオープン
 	if ( (fpId = fopen(s_szIdFile, "w")) == NULL )
 	{
-			   fprintf(stderr, "could not open file \"%s\"\n", s_szIdFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szIdFile);
 		return 1;
 	}
 
@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 	// Cfgファイルオープン
 	if ( (fpCfg = fopen(s_szCfgFile, "w")) == NULL )
 	{
-			   fprintf(stderr, "could not open file \"%s\"\n", s_szCfgFile);
+               fprintf(stderr, "could not open file \"%s\"\n", s_szCfgFile);
 		return 1;
 	}
 
@@ -233,7 +233,7 @@ int ReadConfigFile(FILE* fpConfig)
 		// 読み込みエラーチェック
 		if ( iErr != CFG_ERR_OK )
 		{
-					   fprintf(stderr, "%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					read.GetLogicalInputFile(),
 					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
@@ -243,7 +243,7 @@ int ReadConfigFile(FILE* fpConfig)
 		iErr = CAnalyze::SplitState(szApiName, szParams, szState);
 		if ( iErr != CFG_ERR_OK )
 		{
-					   fprintf(stderr, "%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					read.GetLogicalInputFile(),
 					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
@@ -263,7 +263,7 @@ int ReadConfigFile(FILE* fpConfig)
 		}
 		if ( iErr != CFG_ERR_OK )
 		{
-					   fprintf(stderr, "%s line(%d) : %s\n",
+                       fprintf(stderr, "%s line(%d) : %s\n",
 					read.GetLogicalInputFile(),
 					read.GetLogicalLineNum(), GetErrMessage(iErr));
 			return 1;
@@ -327,6 +327,7 @@ void WriteCfgFile(FILE* fp)
 		"#include \"kernel.h\"\n"
 		"#include \"%s\"\n"
 		, s_szIdFile);
+
 	// ID 定義ファイル出力
 	for ( i = 0; i < API_COUNT; i++ )
 	{
@@ -378,17 +379,17 @@ void WriteCfgFile(FILE* fp)
 // 使い方表示
 void PrintUsage(void)
 {
-	   fprintf(stderr,
-			   "usage: hos4cfg [options] [input-file]\n"
-			   "options are:\n"
-			   "   -i FILE    specify auto-assginment headerfile (default: " DEFAULT_IDFILE ")\n"
-			   "   -c FILE    specify kernel configuration file  (default: " DEFAULT_CFGFILE ")\n"
-			   "   -help      show this help\n"
-			   "\n"
-			   "input-file (default: " DEFAULT_INPUTFILE ")\n");
+       fprintf(stderr,
+               "usage: hos4cfg [options] [input-file]\n"
+               "options are:\n"
+               "   -i FILE    specify auto-assginment headerfile (default: " DEFAULT_IDFILE ")\n"
+               "   -c FILE    specify kernel configuration file  (default: " DEFAULT_CFGFILE ")\n"
+               "   -help      show this help\n"
+               "\n"
+               "input-file (default: " DEFAULT_INPUTFILE ")\n");
 }
 
 
 // ---------------------------------------------------------------------------
-//  Copyright (C) 1998-2002 by Project HOS
+//  Copyright (C) 1998-2002 by Project HOS                                    
 // ---------------------------------------------------------------------------
