@@ -9,7 +9,7 @@
 #									http://sourceforge.jp/projects/hos/
 # ---------------------------------------------------------------------------
 
-TOOLDIR= "C:\Program Files\NEC Electronics Tools\CA850\W3.20"
+TOOLDIR= "C:\Program Files\NEC Electronics Tools\CA850\W3.30"
 
 # パス定義
 HOSROOT    = ../../..
