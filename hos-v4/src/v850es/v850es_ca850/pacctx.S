@@ -28,8 +28,10 @@ _hospac_cre_ctx_asm:
 		st.w	r7, pt_r6[r10]			-- r6退避場所に、実行パラメータ r7 を格納
 		st.w	r8, pt_lp[r10]			-- lp(r31)退避場所に、taskアドレスを格納
 		st.w	r9, pt_sp[r10]			-- sp(r3)退避場所に、伸長前のスタックポインタを格納
-	.if 0	-- debug
+	.if 1	-- debug
 		st.w	r0, pt_eipsw[r10]		-- 割込み時状態退避レジスタeipsw は、0 とする。
+	.endif
+	.if 0	-- debug
 		st.w	r0, pt_psw[r10]			-- プログラムステートワードは、0 とする。
 	.endif
 	.if 0	-- debug

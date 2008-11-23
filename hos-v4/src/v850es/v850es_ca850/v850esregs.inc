@@ -73,7 +73,7 @@
 .macro	pushall
 		st.w	r10, pt_r10-pt_ssf[sp]	-- r10 を最初に退避
 		stsr	psw, r10				-- プログラムステートワード
-		andi	0b00011111, r10, r10
+--		andi	0b00011111, r10, r10
 		st.w	r10, pt_psw-pt_ssf[sp]
 		st.w	ep, pt_ep-pt_ssf[sp]	-- ep(r30) レジスタを最初に退避
 		addi	-pt_ssf, sp, ep			-- ep(r30) レジスタにスタックフレーム設定
@@ -216,7 +216,7 @@
 		sld.w	pt_ctbp[ep], r10
 		ldsr	r10, ctbp				-- CALLTベースポインタ
 	.endif
-	.if 0
+	.if 1
 		sld.w	pt_psw[ep], r10
 		ldsr	r10, psw				-- プログラムステートワード
 	.endif
