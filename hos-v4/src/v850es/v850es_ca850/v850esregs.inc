@@ -73,27 +73,27 @@
 .macro	pushall
 		st.w	r10, pt_r10-pt_ssf[sp]	-- r10 を最初に退避
 		stsr	psw, r10				-- プログラムステートワード
---		andi	0b00011111, r10, r10
+#		andi	0b00011111, r10, r10
 		st.w	r10, pt_psw-pt_ssf[sp]
 		st.w	ep, pt_ep-pt_ssf[sp]	-- ep(r30) レジスタを最初に退避
 		addi	-pt_ssf, sp, ep			-- ep(r30) レジスタにスタックフレーム設定
-	.if 0
+	.if 1
 		stsr	eipc, r10				-- 割込み時状態退避レジスタ
 		sst.w	r10, pt_eipc[ep]
 	.endif
-	.if 0
+	.if 1
 		stsr	eipsw, r10				-- 割込み時状態退避レジスタ
 		sst.w	r10, pt_eipsw[ep]
 	.endif
-	.if 0
+	.if 1
 		stsr	fepc, r10				-- NMI 割込状態退避レジスタ
 		sst.w	r10, pt_fepc[ep]
 	.endif
-	.if 0
+	.if 1
 		stsr	fepsw, r10				-- NMI 割込状態退避レジスタ
 		sst.w	r10, pt_fepsw[ep]
 	.endif
-	.if 0
+	.if 1
 		stsr	ecr, r10				-- 割込み要因レジスタ
 		sst.w	r10, pt_ecr[ep]
 	.endif
@@ -101,7 +101,7 @@
 		sst.w	r10, pt_ctpc[ep]
 		stsr	ctpsw, r10				-- CALLT実行時状態退避レジスタ
 		sst.w	r10, pt_ctpsw[ep]
-	.if 0
+	.if 1
 		stsr	ctbp, r10				-- CALLTベースポインタ
 		sst.w	r10, pt_ctbp[ep]
 	.endif
@@ -188,11 +188,11 @@
 		sld.w	pt_r29[ep], r29
 #		sld.w	pt_r30[ep], r30			-- ep(r30) 最後に退避
 		sld.w	pt_r31[ep], r31			-- lp(r31)
-	.if 0
+	.if 1
 		sld.w	pt_eipc[ep], r10
 		ldsr	r10, eipc				-- 割込み時状態退避レジスタ
 	.endif
-	.if 0
+	.if 1
 		sld.w	pt_eipsw[ep], r10
 		ldsr	r10, eipsw				-- 割込み時状態退避レジスタ
 	.endif
@@ -204,7 +204,7 @@
 		sld.w	pt_fepsw[ep], r10
 		ldsr	r10, fepsw				-- NMI 割込状態退避レジスタ
 	.endif
-	.if 0
+	.if 1
 		sld.w	pt_ecr[ep], r10
 		ldsr	r10, ecr				-- 割込み要因レジスタ
 	.endif

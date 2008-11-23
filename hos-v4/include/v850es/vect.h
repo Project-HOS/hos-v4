@@ -8,7 +8,7 @@
 #ifndef	__HOSv4_V850ES_vect_h__
 #define	__HOSv4_V850ES_vect_h__
 
-#define	HOS_VN_INTLV1		(8)
+#define	HOS_VN_INTLVI		(8)
 #define	HOS_VN_INTP0		(9)
 #define	HOS_VN_INTP1		(10)
 #define	HOS_VN_INTP2		(11)
@@ -61,7 +61,7 @@
 #define	HOS_VN_INTDMA2		(58)
 #define	HOS_VN_INTDMA3		(59)
 #define	HOS_VN_INTKR		(60)
-#define	HOS_VN_INTWT1		(61)
+#define	HOS_VN_INTWTI		(61)
 #define	HOS_VN_INTWT		(62)
 #define	HOS_VN_MAXINTNO		(63)
 

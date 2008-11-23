@@ -5,7 +5,7 @@
 #									http://sourceforge.jp/projects/hos/
 #	************************************************************************
 
-#	.set	HOS_VN_INTLV1,		8
+	.set	HOS_VN_INTLVI,		8
 	.set	HOS_VN_INTP0,		9
 	.set	HOS_VN_INTP1,		10
 	.set	HOS_VN_INTP2,		11
@@ -58,7 +58,7 @@
 	.set	HOS_VN_INTDMA2,		58
 	.set	HOS_VN_INTDMA3,		59
 	.set	HOS_VN_INTKR,		60
-#	.set	HOS_VN_INTWT1,		61
+	.set	HOS_VN_INTWTI,		61
 	.set	HOS_VN_INTWT,		62
 	.set	HOS_VN_MAXINTNO,	63
 
