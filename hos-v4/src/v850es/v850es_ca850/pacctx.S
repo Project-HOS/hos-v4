@@ -31,7 +31,7 @@ _hospac_cre_ctx_asm:
 	.if 1	-- debug
 		st.w	r0, pt_eipsw[r10]		-- 割込み時状態退避レジスタeipsw は、0 とする。
 	.endif
-	.if 0	-- debug
+	.if 1	-- debug
 		st.w	r0, pt_psw[r10]			-- プログラムステートワードは、0 とする。
 	.endif
 	.if 0	-- debug
