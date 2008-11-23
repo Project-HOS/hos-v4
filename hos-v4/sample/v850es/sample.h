@@ -25,9 +25,24 @@ void
 sample_task_2 (VP_INT exinf);
 
 void
-sample_print (int no);
+sample_print (int no, int d);
 
 void
 sample_cycle_handler (VP_INT exinf);
+
+void
+tmp_init (VP_INT exinf);
+
+void
+testtask0 (VP_INT exinf);
+
+void
+testtask1 (VP_INT exinf);
+
+void
+testtask2 (VP_INT exinf);
+
+void
+testtask3 (VP_INT exinf);
 
 #endif /* __SAMPLE_H__ */

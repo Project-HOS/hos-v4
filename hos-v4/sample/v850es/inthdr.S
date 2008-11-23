@@ -13,9 +13,9 @@
 #			割込み番号は include/v850es/vectasm.inc と vect.h で定義（同一）
 #	************************************************************************
 	.text
-#	.section	"INTLV1"
-#		mov		HOS_VN_INTLV1, r2		-- 8
-#		jr		_int_handler
+	.section	"INTLVI"
+		mov		HOS_VN_INTLVI, r2		-- 8
+		jr		_int_handler
 	.section	"INTP0"
 		mov		HOS_VN_INTP0, r2		-- 9
 		jr		_int_handler
@@ -172,9 +172,9 @@
 	.section	"INTKR"
 		mov		HOS_VN_INTKR, r2		-- 60
 		jr		_int_handler
-#	.section	"INTWT1"
-#		mov		HOS_VN_INTWT1, r2		-- 61
-#		jr		_int_handler
+	.section	"INTWTI"
+		mov		HOS_VN_INTWTI, r2		-- 61
+		jr		_int_handler
 	.section	"INTWT"
 		mov		HOS_VN_INTWT, r2		-- 62
 		jr		_int_handler
@@ -182,3 +182,4 @@
 #	------------------------------------------------------------------------
 #		Copyright (C) 1998-2008 by Project HOS
 #	------------------------------------------------------------------------
+

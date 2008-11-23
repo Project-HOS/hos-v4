@@ -15,6 +15,7 @@ extern "C" {
 
 void	ostim_init( VP_INT exinf );		/* OS用タイマ初期化 */
 void	ostim_hdr( VP_INT exinf );		/* OSタイマ用ハンドラ */
+void	wdt_hdr( VP_INT exinf );		/* WDT用ハンドラ */
 
 #ifdef __cplusplus
 }

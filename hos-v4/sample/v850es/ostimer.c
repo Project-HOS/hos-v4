@@ -11,6 +11,45 @@
 #include	"kernel_id.h"
 #include	"ostimer.h"
 #include	<stdio.h>
+
+#if 1	// 1 == WDTI をOSタイマにする。 0 == TMM をOSタイマにする。
+/*
+ *	OS用タイマ初期化
+ *		INTWTI, INTWT を使用しています。
+ *		include/v850es/vect.h と vectasm.inc にてベクタ番号を定義しています。
+ */
+void	ostim_init(VP_INT exinf)
+{
+	WTM		= 0x00;					/* WT ストップ								*/
+	PRSM0	= 0x00;					/* fBRG=fx(5MHz, 200nsec.)					*/
+	PRSCM0	= 0x4D;					/* プリスケーラレジスタ = 5MHz/32.768kHz/2	*/
+	WTIC	= 0x47;					/* 割込みレベル 7							*/
+	WTIIC	= 0x41;					/* 割込みレベル 1							*/
+	WTM		|= 0x08;				/* 時計用フラグのセット 2^5/fBRG			*/
+	WTM		|= 0x90;				/* インタバルタイマプリスケーラ 2^5/fBRG	*/
+	BGCE0	= 1;					/* 時計タイマ動作許可						*/
+	WTIF	= 0;					/* WTIF クリア								*/
+	WTMK	= 1;					/* WT 割込み禁止							*/
+	WTIIF	= 0;					/* WTIIF クリア								*/
+	WTIMK	= 0;					/* WTI 割込み許可							*/
+	WTM		|= 0x03;
+}
+void	wdt_hdr(VP_INT exinf)
+{
+	WTIF	= 0;					/* WTIF クリア								*/
+}
+/*
+ *	OSタイマ用ハンドラ
+ */
+void	ostim_hdr(VP_INT exinf)
+{
+	WTIIF	= 0;					/* WTIIF クリア								*/
+	isig_tim();						/* タイムティックの供給						*/
+#ifdef	DEBUG
+	PCT.6 ^= 1;						/* LED1反転	(Interface付録基板用)			*/
+#endif
+}
+#else
 /*
  *	OS用タイマ初期化
  *		INTTM0 カウンタを使用しています。
@@ -35,6 +74,7 @@ void	ostim_hdr(VP_INT exinf)
 	PCT.6 ^= 1;						/* LED1反転	(Interface付録基板用)			*/
 #endif
 }
+#endif
 /*	---------------------------------------------------------------------------	*/
 /*										Copyright (C) 1998-2008 by Project HOS	*/
 /*										http://sourceforge.jp/projects/hos/		*/

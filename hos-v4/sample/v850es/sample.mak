@@ -4,16 +4,16 @@
 TITLE = sample
 DEVFILE = C:\Program Files\NEC Electronics Tools\DEV\DF3716.800
 PROJDIR = C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es
-TOOLDIR = C:\Program Files\NEC Electronics Tools\PM+\V6.31\BIN
+TOOLDIR = C:\Program Files\NEC Electronics Tools\PM+\V6.31\bin
 WORKDIR = C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es
 DEBUG = 
 
-CC	= "C:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\ca850.exe"
+CC	= "C:\Program Files\NEC Electronics Tools\CA850\W3.30\bin\ca850.exe"
 CFLAGS	= -cpu F3716 -IC:\cygwin\home\n-okada\hos\hos-v4\include -DDEBUG -D__V850ES__ -Fs -Xcxxcom -Xpro_epi_runtime=off -Xr
-AS	= "C:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\as850.exe"
+AS	= "C:\Program Files\NEC Electronics Tools\CA850\W3.30\bin\as850.exe"
 ASFLAGS	= -cpu F3716 -I C:\cygwin\home\n-okada\hos\hos-v4\include -g
-LD	= "C:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\ld850.exe"
-LIBDIR	= C:\Program Files\NEC Electronics Tools\CA850\W3.20\lib850\r32
+LD	= "C:\Program Files\NEC Electronics Tools\CA850\W3.30\bin\ld850.exe"
+LIBDIR	= C:\Program Files\NEC Electronics Tools\CA850\W3.30\lib850\r32
 STARTUP	= crtE.o
 DEP_STARTUP = 
 LINKDIR	= C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.dir
@@ -24,10 +24,10 @@ LIBRARY	= "$(LIBDIR)\libh4v850es.a" \
 	  "$(LIBDIR)\libr.a"
 ROMPCRT	= "$(LIBDIR)\rompcrt.o"
 LDLIBS	= -lh4v850es -lm -lc -lr $(ROMPCRT)
-ROMP	= "C:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\romp850.exe"
+ROMP	= "C:\Program Files\NEC Electronics Tools\CA850\W3.30\bin\romp850.exe"
 RPFLAGS	= 
-HX	= "C:\Program Files\NEC Electronics Tools\CA850\W3.20\bin\hx850.exe"
-HXFLAGS	= -o romp.hex
+HX	= "C:\Program Files\NEC Electronics Tools\CA850\W3.30\bin\hx850.exe"
+HXFLAGS	= -o a.hex
 
 OBJS = ostimer.o  \
 	sample.o  \
@@ -36,7 +36,7 @@ OBJS = ostimer.o  \
 
 DEP_ostimer_c = C:\cygwin\home\n-okada\hos\hos-v4\include\kernel.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\knl_hos.h \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stddef.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stddef.h" \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\itron.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\mknl.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\hosdenv.h \
@@ -74,12 +74,12 @@ DEP_ostimer_c = C:\cygwin\home\n-okada\hos\hos-v4\include\kernel.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\knl_exc.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_id.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\ostimer.h \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdio.h" \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdarg.h"
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stdio.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stdarg.h"
 
 DEP_sample_c = C:\cygwin\home\n-okada\hos\hos-v4\include\kernel.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\knl_hos.h \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stddef.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stddef.h" \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\itron.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\mknl.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\hosdenv.h \
@@ -117,12 +117,13 @@ DEP_sample_c = C:\cygwin\home\n-okada\hos\hos-v4\include\kernel.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\knl_exc.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\kernel_id.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\sample\v850es\sample.h \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdio.h" \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stdarg.h"
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stdio.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stdarg.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\math.h"
 
 DEP_kernel_cfg_c = C:\cygwin\home\n-okada\hos\hos-v4\include\kernel.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\knl_hos.h \
-	"C:\Program Files\NEC Electronics Tools\CA850\W3.20\inc850\stddef.h" \
+	"C:\Program Files\NEC Electronics Tools\CA850\W3.30\inc850\stddef.h" \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\itron.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\mknl.h \
 	C:\cygwin\home\n-okada\hos\hos-v4\include\hosdenv.h \
