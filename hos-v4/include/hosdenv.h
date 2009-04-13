@@ -2,7 +2,7 @@
 /*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
 /*    環境依存情報判別                                                      */
 /*                                                                          */
-/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  Copyright (C) 1998-2009 by Project HOS  */
 /*                                  http://sourceforge.jp/projects/hos/     */
 /* ------------------------------------------------------------------------ */
 
@@ -47,6 +47,9 @@
 #elif defined(__V850ES__) /* v850es-ca850 */
 #include "v850es/hospac.h"
 
+#elif defined(__K0R__) /* cc78k0r */
+#include "78k0r/hospac.h"
+
 #else
 
 #include "hospac.h"		/* 識別できない場合はインクルードパスの指定を期待する */
@@ -59,5 +62,5 @@
 
 
 /* ------------------------------------------------------------------------ */
-/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/*  Copyright (C) 1998-2009 by Project HOS                                  */
 /* ------------------------------------------------------------------------ */
