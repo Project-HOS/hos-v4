@@ -1,0 +1,44 @@
+create libh478k0r.lib
+add libh478k0r.lib pacctx.rel pacint.rel &
+mini_sys.rel mexe_sys.rel midl_lop.rel msta_stu.rel mext_stu.rel &
+msta_tsk.rel mter_tsk.rel mchg_pri.rel mrot_rdq.rel &
+mwai_tsk.rel mwup_tsk.rel msus_tsk.rel mrsm_tsk.rel &
+mexe_dsp.rel mdly_dsp.rel msrh_top.rel &
+mras_tex.rel mexe_tex.rel &
+madd_que.rel madf_que.rel madp_que.rel mrmv_que.rel &
+mrot_que.rel mclr_que.rel &
+mtic_tmo.rel madd_tmo.rel mrmv_tmo.rel &
+sta_hos.rel ini_mem.rel alc_mem.rel fre_mem.rel &
+cre_hep.rel alc_hep.rel fre_hep.rel &
+ini_tsk.rel cre_tsk.rel acre_tsk.rel kcre_tsk.rel del_tsk.rel &
+act_tsk.rel can_act.rel sta_tsk.rel ext_tsk.rel exd_tsk.rel &
+ter_tsk.rel chg_pri.rel get_pri.rel ref_tst.rel &
+slp_tsk.rel tslp_tsk.rel wup_tsk.rel can_wup.rel rel_wai.rel &
+sus_tsk.rel rsm_tsk.rel frsm_tsk.rel dly_tsk.rel &
+ras_tex.rel ktex_ent.rel dis_tex.rel ena_tex.rel sns_tex.rel &
+ini_sem.rel cre_sem.rel acre_sem.rel kcre_sem.rel del_sem.rel &
+sig_sem.rel wai_sem.rel pol_sem.rel twai_sem.rel ref_sem.rel &
+ini_flg.rel cre_flg.rel acre_flg.rel kcre_flg.rel del_flg.rel &
+set_flg.rel clr_flg.rel wai_flg.rel pol_flg.rel &
+twai_flg.rel chk_flg.rel ref_flg.rel &
+cre_dtq.rel acre_dtq.rel kcre_dtq.rel del_dtq.rel &
+snd_dtq.rel psnd_dtq.rel tsnd_dtq.rel fsnd_dtq.rel &
+rcv_dtq.rel prcv_dtq.rel trcv_dtq.rel ref_dtq.rel &
+cre_mbx.rel acre_mbx.rel kcre_mbx.rel del_mbx.rel &
+snd_mbx.rel rcv_mbx.rel prcv_mbx.rel trcv_mbx.rel ref_mbx.rel &
+ini_mbf.rel cre_mbf.rel acre_mbf.rel kcre_mbf.rel del_mbf.rel &
+snd_mbf.rel psnd_mbf.rel tsnd_mbf.rel ksnd_mbf.rel &
+rcv_mbf.rel prcv_mbf.rel trcv_mbf.rel krcv_mbf.rel ref_mbf.rel &
+ini_mpf.rel cre_mpf.rel acre_mpf.rel kcre_mpf.rel del_mpf.rel &
+get_mpf.rel pget_mpf.rel tget_mpf.rel rel_mpf.rel ref_mpf.rel &
+ini_tim.rel isig_tim.rel set_tim.rel get_tim.rel &
+add_tml.rel rmv_tml.rel &
+ini_cyc.rel cyc_hdr.rel sta_cyc.rel stp_cyc.rel &
+cre_cyc.rel acre_cyc.rel kcre_cyc.rel del_cyc.rel &
+ini_alm.rel alm_hdr.rel sta_alm.rel stp_alm.rel &
+ram_int.rel exe_int.rel &
+get_tid.rel kget_tid.rel rot_rdq.rel &
+loc_cpu.rel unl_cpu.rel dis_dsp.rel ena_dsp.rel &
+sns_ctx.rel sns_loc.rel sns_dsp.rel sns_dpn.rel &
+ref_ver.rel
+exit
