@@ -13,3 +13,4 @@
 # history file, or a subset as needed (ie `TMAR' logs all write operations)
 #LogHistory=TOFEWGCMAR
 UseNewInfoFmtStrings=yesLockDir=/var/lock/cvs/hos
+LockDir=/var/lock/cvs/hos
