@@ -187,7 +187,7 @@ void  CApiCreMpf::WriteCfgDef(FILE* fp)
 			{
 				fprintf(
 					fp,
-					"(SIZE)sizeof(kernel_mpf%d_heap), (VP)kernel_mpf%d_heap},\n",
+					"(SIZE)sizeof(kernel_mpf%d_heap[0]), (VP)kernel_mpf%d_heap},\n",
 					m_iId[i],
 					m_iId[i]);
 			}
