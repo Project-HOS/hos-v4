@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
-//  Hyper Operating System V4  コンフィギュレーター                           
-//    CRE_MPF API の処理                                                      
+//  Hyper Operating System V4  コンフィギュレーター
+//    CRE_MPF API の処理
 //                                                                            
 //                                    Copyright (C) 1998-2003 by Project HOS  
 //                                    http://sourceforge.jp/projects/hos/     
@@ -187,7 +187,7 @@ void  CApiCreMpf::WriteCfgDef(FILE* fp)
 			{
 				fprintf(
 					fp,
-					"(SIZE)sizeof(kernel_mpf%d_heap[0]), (VP)kernel_mpf%d_heap},\n",
+					"(SIZE)sizeof(kernel_mpf%d_heap), (VP)kernel_mpf%d_heap},\n",
 					m_iId[i],
 					m_iId[i]);
 			}
