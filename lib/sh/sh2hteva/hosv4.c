@@ -1,0 +1,161 @@
+/* ------------------------------------------------------------------------ */
+/*  Hyper Operating System V4  μITRON4.0仕様 Real-Time OS                  */
+/*    全ソース結合用ファイル (日立 評価版 Cコンパイラ 用)                   */
+/*                                                                          */
+/*                                  Copyright (C) 1998-2002 by Project HOS  */
+/*                                  http://sourceforge.jp/projects/hos/     */
+/* ------------------------------------------------------------------------ */
+
+
+#include "../../../src/sh/pacimsk.c"
+
+#include "../../../src/mknl/sys/mini_sys.c"
+#include "../../../src/mknl/sys/msta_stu.c"
+#include "../../../src/mknl/sys/mext_stu.c"
+
+#include "../../../src/mknl/tsk/msta_tsk.c"
+#include "../../../src/mknl/tsk/mext_tsk.c"
+#include "../../../src/mknl/tsk/mchg_pri.c"
+#include "../../../src/mknl/tsk/mrot_rdq.c"
+#include "../../../src/mknl/tsk/mwai_tsk.c"
+#include "../../../src/mknl/tsk/mwup_tsk.c"
+#include "../../../src/mknl/tsk/msus_tsk.c"
+#include "../../../src/mknl/tsk/mrsm_tsk.c"
+#include "../../../src/mknl/tsk/mexe_dsp.c"
+#include "../../../src/mknl/tsk/mdly_dsp.c"
+#include "../../../src/mknl/tsk/msrh_top.c"
+#include "../../../src/mknl/tsk/mras_tex.c"
+#include "../../../src/mknl/tsk/mexe_tex.c"
+
+#include "../../../src/mknl/que/madd_que.c"
+#include "../../../src/mknl/que/madf_que.c"
+#include "../../../src/mknl/que/madp_que.c"
+#include "../../../src/mknl/que/mrmv_que.c"
+#include "../../../src/mknl/que/mrot_que.c"
+
+#include "../../../src/mknl/tmout/mtic_tmo.c"
+#include "../../../src/mknl/tmout/madd_tmo.c"
+#include "../../../src/mknl/tmout/mrmv_tmo.c"
+
+#include "../../../src/kernel/hos/sta_hos.c"
+
+#include "../../../src/kernel/hep/cre_hep.c"
+#include "../../../src/kernel/hep/alc_hep.c"
+#include "../../../src/kernel/hep/fre_hep.c"
+
+#include "../../../src/kernel/mem/ini_mem.c"
+#include "../../../src/kernel/mem/alc_mem.c"
+#include "../../../src/kernel/mem/fre_mem.c"
+
+#include "../../../src/kernel/tsk/ini_tsk.c"
+#include "../../../src/kernel/tsk/cre_tsk.c"
+#include "../../../src/kernel/tsk/acre_tsk.c"
+#include "../../../src/kernel/tsk/kcre_tsk.c"
+#include "../../../src/kernel/tsk/del_tsk.c"
+#include "../../../src/kernel/tsk/act_tsk.c"
+#include "../../../src/kernel/tsk/can_act.c"
+#include "../../../src/kernel/tsk/sta_tsk.c"
+#include "../../../src/kernel/tsk/ext_tsk.c"
+#include "../../../src/kernel/tsk/exd_tsk.c"
+#include "../../../src/kernel/tsk/ter_tsk.c"
+#include "../../../src/kernel/tsk/chg_pri.c"
+#include "../../../src/kernel/tsk/get_pri.c"
+#include "../../../src/kernel/tsk/ref_tst.c"
+#include "../../../src/kernel/tsk/slp_tsk.c"
+#include "../../../src/kernel/tsk/tslp_tsk.c"
+#include "../../../src/kernel/tsk/wup_tsk.c"
+#include "../../../src/kernel/tsk/can_wup.c"
+#include "../../../src/kernel/tsk/rel_wai.c"
+#include "../../../src/kernel/tsk/sus_tsk.c"
+#include "../../../src/kernel/tsk/rsm_tsk.c"
+#include "../../../src/kernel/tsk/frsm_tsk.c"
+#include "../../../src/kernel/tsk/dly_tsk.c"
+#include "../../../src/kernel/tsk/ktex_ent.c"
+#include "../../../src/kernel/tsk/ras_tex.c"
+#include "../../../src/kernel/tsk/dis_tex.c"
+#include "../../../src/kernel/tsk/ena_tex.c"
+#include "../../../src/kernel/tsk/sns_tex.c"
+
+#include "../../../src/kernel/sem/ini_sem.c"
+#include "../../../src/kernel/sem/cre_sem.c"
+#include "../../../src/kernel/sem/acre_sem.c"
+#include "../../../src/kernel/sem/kcre_sem.c"
+#include "../../../src/kernel/sem/del_sem.c"
+#include "../../../src/kernel/sem/sig_sem.c"
+#include "../../../src/kernel/sem/wai_sem.c"
+#include "../../../src/kernel/sem/pol_sem.c"
+#include "../../../src/kernel/sem/twai_sem.c"
+#include "../../../src/kernel/sem/ref_sem.c"
+
+#include "../../../src/kernel/flg/ini_flg.c"
+#include "../../../src/kernel/flg/cre_flg.c"
+#include "../../../src/kernel/flg/acre_flg.c"
+#include "../../../src/kernel/flg/kcre_flg.c"
+#include "../../../src/kernel/flg/del_flg.c"
+#include "../../../src/kernel/flg/set_flg.c"
+#include "../../../src/kernel/flg/clr_flg.c"
+#include "../../../src/kernel/flg/wai_flg.c"
+#include "../../../src/kernel/flg/pol_flg.c"
+#include "../../../src/kernel/flg/twai_flg.c"
+#include "../../../src/kernel/flg/chk_flg.c"
+
+#include "../../../src/kernel/dtq/cre_dtq.c"
+#include "../../../src/kernel/dtq/acre_dtq.c"
+#include "../../../src/kernel/dtq/kcre_dtq.c"
+#include "../../../src/kernel/dtq/del_dtq.c"
+#include "../../../src/kernel/dtq/snd_dtq.c"
+#include "../../../src/kernel/dtq/psnd_dtq.c"
+#include "../../../src/kernel/dtq/tsnd_dtq.c"
+#include "../../../src/kernel/dtq/fsnd_dtq.c"
+#include "../../../src/kernel/dtq/rcv_dtq.c"
+#include "../../../src/kernel/dtq/prcv_dtq.c"
+#include "../../../src/kernel/dtq/trcv_dtq.c"
+
+#include "../../../src/kernel/mbx/cre_mbx.c"
+#include "../../../src/kernel/mbx/acre_mbx.c"
+#include "../../../src/kernel/mbx/kcre_mbx.c"
+#include "../../../src/kernel/mbx/del_mbx.c"
+#include "../../../src/kernel/mbx/snd_mbx.c"
+#include "../../../src/kernel/mbx/rcv_mbx.c"
+#include "../../../src/kernel/mbx/prcv_mbx.c"
+#include "../../../src/kernel/mbx/trcv_mbx.c"
+
+#include "../../../src/kernel/mpf/ini_mpf.c"
+#include "../../../src/kernel/mpf/cre_mpf.c"
+#include "../../../src/kernel/mpf/acre_mpf.c"
+#include "../../../src/kernel/mpf/kcre_mpf.c"
+#include "../../../src/kernel/mpf/del_mpf.c"
+#include "../../../src/kernel/mpf/get_mpf.c"
+#include "../../../src/kernel/mpf/pget_mpf.c"
+#include "../../../src/kernel/mpf/tget_mpf.c"
+#include "../../../src/kernel/mpf/rel_mpf.c"
+
+#include "../../../src/kernel/tim/ini_tim.c"
+#include "../../../src/kernel/tim/isig_tim.c"
+#include "../../../src/kernel/tim/set_tim.c"
+#include "../../../src/kernel/tim/get_tim.c"
+#include "../../../src/kernel/tim/ini_cyc.c"
+#include "../../../src/kernel/tim/sta_cyc.c"
+#include "../../../src/kernel/tim/stp_cyc.c"
+
+#include "../../../src/kernel/int/ram_int.c"
+#include "../../../src/kernel/int/exe_int.c"
+
+#include "../../../src/kernel/sys/get_tid.c"
+#include "../../../src/kernel/sys/kget_tid.c"
+#include "../../../src/kernel/sys/rot_rdq.c"
+#include "../../../src/kernel/sys/loc_cpu.c"
+#include "../../../src/kernel/sys/unl_cpu.c"
+#include "../../../src/kernel/sys/dis_dsp.c"
+#include "../../../src/kernel/sys/ena_dsp.c"
+#include "../../../src/kernel/sys/sns_ctx.c"
+#include "../../../src/kernel/sys/sns_loc.c"
+#include "../../../src/kernel/sys/sns_dsp.c"
+#include "../../../src/kernel/sys/sns_dpn.c"
+#include "../../../src/kernel/sys/ref_ver.c"
+
+
+
+/* ------------------------------------------------------------------------ */
+/*  Copyright (C) 1998-2002 by Project HOS                                  */
+/* ------------------------------------------------------------------------ */
