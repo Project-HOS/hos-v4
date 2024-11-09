@@ -84,7 +84,7 @@ int CAnalyze::SearchChar(char* pszBuf, const char* &pszText, char c)
 		blEsc = false;
 
 		// '\' チェック
-		if ( *pszBuf == '\\' )
+		if ( *pszText == '\\' )
 		{
 			*pszBuf++ = *pszText++;
 			blEsc = true;
@@ -92,7 +92,7 @@ int CAnalyze::SearchChar(char* pszBuf, const char* &pszText, char c)
 		}
 
 		// 文字列開始チェック
-		if ( !blText && *pszText == '\"' || *pszText == '\'' )
+		if ( !blText && (*pszText == '\"' || *pszText == '\'') )
 		{
 			cDelimiter = *pszText;
 			*pszBuf++ = *pszText++;
